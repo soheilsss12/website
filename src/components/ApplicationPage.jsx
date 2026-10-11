@@ -10,7 +10,6 @@ import {
   FolderOpen,
   LockKeyhole,
   ShieldCheck,
-  Sparkles,
   Upload,
   UserRound,
 } from 'lucide-react';
@@ -18,10 +17,10 @@ import { industries, stageOptions, valuePillars } from '../data/siteContent.js';
 import CrystalMark from './CrystalMark.jsx';
 
 const steps = [
-  { title: 'اطلاعات تماس', short: 'تماس' },
-  { title: 'ایده و محصول', short: 'محصول' },
-  { title: 'نیاز سرمایه', short: 'سرمایه' },
-  { title: 'مدارک و تأیید', short: 'مدارک' },
+  { title: 'اطلاعات تماس', short: 'تماس', detail: 'راه ارتباطی با تیم شما' },
+  { title: 'ایده و محصول', short: 'محصول', detail: 'مسئله، راهکار و مرحله‌ی رشد' },
+  { title: 'نیاز سرمایه', short: 'سرمایه', detail: 'مبلغ و برنامه‌ی مصرف سرمایه' },
+  { title: 'مدارک و تأیید', short: 'مدارک', detail: 'پیچ‌دک، لینک‌ها و تأیید نهایی' },
 ];
 
 const initialForm = {
@@ -177,21 +176,27 @@ export default function ApplicationPage() {
       </section>
 
       <section className="application-area" id="application-form">
-        <div className="application-intro">
-          <span className="eyebrow">فرم چندمرحله‌ای</span>
-          <h2>شناخت اولیه‌ی<br /><em>تیم شما</em></h2>
-          <p>با پاسخ‌های روشن و کوتاه شروع کنید؛ در صورت تناسب، اطلاعات تکمیلی در مرحله‌ی بعد دریافت می‌شود</p>
-          <div className="application-privacy-note"><LockKeyhole size={17} /><span>اطلاعات این پیش‌نمایش به سرور ارسال یا ذخیره نمی‌شود</span></div>
-          <div className="application-side-stats">
-            <span><strong>۰۴</strong><small>مرحله‌ی کوتاه</small></span>
-            <span><strong>۰۱</strong><small>مسیر روشن</small></span>
+        <aside className="application-intro" aria-labelledby="application-panel-title">
+          <span className="eyebrow"><span className="application-intro-index">پ / ۰۲</span> مسیر ثبت درخواست</span>
+          <div className="application-intro-copy">
+            <h2 id="application-panel-title">درخواست سرمایه<br /><em>برای قدم بعدی</em></h2>
+            <p>اطلاعات اصلی تیم و محصول را در چهار گام ثبت کنید؛ هر بخش فقط روی یک موضوع تمرکز دارد</p>
           </div>
-        </div>
+          <ol className="application-side-steps" aria-label="چهار مرحله‌ی درخواست">
+            {steps.map((item, index) => (
+              <li className={`application-side-step ${index === step ? 'is-current' : ''} ${index < step ? 'is-complete' : ''}`} key={item.short} aria-current={index === step ? 'step' : undefined}>
+                <span className="application-side-step-number">{index < step ? <Check size={14} /> : new Intl.NumberFormat('fa-IR').format(index + 1)}</span>
+                <span className="application-side-step-copy"><strong>{item.title}</strong><small>{item.detail}</small></span>
+              </li>
+            ))}
+          </ol>
+          <div className="application-privacy-note"><LockKeyhole size={17} /><span>این پیش‌نمایش اطلاعات را ارسال یا ذخیره نمی‌کند</span></div>
+        </aside>
 
         <div className="application-card">
           {!submitted ? (
             <>
-              <div className="application-progress" aria-label={`مرحله‌ی ${step + 1} از ${steps.length}`}>
+              <div className="application-progress" role="group" aria-label={`مرحله‌ی ${new Intl.NumberFormat('fa-IR').format(step + 1)} از ${new Intl.NumberFormat('fa-IR').format(steps.length)}`}>
                 {steps.map((item, index) => (
                   <button type="button" className={`progress-step ${index === step ? 'is-current' : ''} ${index < step ? 'is-complete' : ''}`} key={item.short} onClick={() => index < step && setStep(index)} disabled={index > step} aria-current={index === step ? 'step' : undefined} aria-label={`مرحله‌ی ${new Intl.NumberFormat('fa-IR').format(index + 1)}: ${item.title}`}>
                     <span className="progress-number">{index < step ? <Check size={14} /> : new Intl.NumberFormat('fa-IR').format(index + 1)}</span>
@@ -289,7 +294,7 @@ export default function ApplicationPage() {
         <div className="site-container applicant-portal-layout">
           <div className="applicant-portal-intro">
             <span className="eyebrow"><UserRound size={14} /> فضای متقاضیان</span>
-            <h2>درخواستت را<br /><em>از همین‌جا پیگیری کن</em></h2>
+            <h2>درخواست خود را<br /><em>پیگیری کنید</em></h2>
             <p>پس از راه‌اندازی سامانه، ورود با شماره‌ی موبایل امکان مشاهده‌ی وضعیت، ویرایش اطلاعات، تکمیل مدارک و دریافت پیام‌ها را فراهم می‌کند</p>
             <div className="portal-security-note"><LockKeyhole size={16} /><span>ورود امن و کد یک‌بارمصرف در این طرح به سرویس احراز هویت متصل نیست</span></div>
           </div>
@@ -301,19 +306,20 @@ export default function ApplicationPage() {
               <button type="submit" className="button button-lime">{portalRequested ? 'ورود نمایشی' : 'درخواست کد ورود'} <ArrowLeft size={15} /></button>
             </form>
             {portalMessage && <div className="portal-demo-message" role="status">{portalMessage}</div>}
-            <div className="portal-features-grid">
-              <div><Check size={14} /><span>وضعیت درخواست</span><small>پس از اتصال سامانه</small></div>
-              <div><UserRound size={14} /><span>ویرایش اطلاعات</span><small>پس از اتصال سامانه</small></div>
-              <div><FolderOpen size={14} /><span>مدارک و فرم‌های تکمیلی</span><small>پس از اتصال سامانه</small></div>
-              <div><Bell size={14} /><span>پیام‌ها و اعلان‌ها</span><small>پس از اتصال سامانه</small></div>
+            <div className="portal-feature-list" role="list" aria-label="امکانات فضای متقاضیان پس از راه‌اندازی">
+              <span role="listitem"><Check size={15} /> مشاهده‌ی وضعیت</span>
+              <span role="listitem"><UserRound size={15} /> ویرایش اطلاعات</span>
+              <span role="listitem"><FolderOpen size={15} /> تکمیل مدارک</span>
+              <span role="listitem"><Bell size={15} /> دریافت پیام‌ها</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="apply-support-row">
-        <div className="apply-support-card"><span className="support-card-icon"><CircleHelp size={21} /></span><span><small>به راهنمایی نیاز دارید؟</small><strong>پرسش‌های پرتکرار متقاضیان</strong></span><a href={homeHref('faq')} aria-label="رفتن به پرسش‌های پرتکرار"><ArrowUpLeft size={18} /></a></div>
-        <div className="apply-support-card"><span className="support-card-icon"><Sparkles size={21} /></span><span><small>پیش از ثبت نهایی</small><strong>اطلاعیه‌ی رسمی کمپین را بخوانید</strong></span><a href="#campaign-criteria" aria-label="رفتن به شرایط کمپین"><ArrowUpLeft size={18} /></a></div>
+      <section className="apply-support-row" aria-label="راهنمایی پیش از درخواست">
+        <span className="apply-support-prompt"><CircleHelp size={18} /> برای تصمیم‌گیری آگاهانه، راهنما را ببینید</span>
+        <a href={homeHref('faq')} className="apply-support-link">پرسش‌های پرتکرار <ArrowUpLeft size={16} /></a>
+        <a href="#campaign-criteria" className="apply-support-link">اطلاعیه‌ی دوره <ArrowUpLeft size={16} /></a>
       </section>
 
       <footer className="apply-footer"><BrandLink href={rootHref} /><span>پارس · سرمایه‌گذاری جسورانه</span><a href={homeHref('privacy')}>حریم خصوصی و محرمانگی</a><span>پیش‌نمایش فرم · بدون ارسال اطلاعات</span></footer>

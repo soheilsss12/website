@@ -4,6 +4,7 @@ import path from 'node:path';
 import { randomUUID, timingSafeEqual } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { configureEnvironmentAdmin, openDatabase } from './db.js';
+import { validateRuntimeEnvironment } from './config.js';
 import { enqueueAdminNotification, mailConfiguration, startEmailOutboxWorker } from './mailer.js';
 import { newOpaqueToken, parseCookies, sha256, verifyPassword } from './security.js';
 import { InputError, validateApplication, validateContact, validateStatus } from './validation.js';
@@ -38,6 +39,7 @@ const contentTypes = new Map([
   ['.woff2', 'font/woff2'],
 ]);
 
+validateRuntimeEnvironment();
 mkdirSync(UPLOAD_DIR, { recursive: true, mode: 0o700 });
 const db = openDatabase(path.join(DATA_DIR, 'pars.sqlite'));
 configureEnvironmentAdmin(db, {

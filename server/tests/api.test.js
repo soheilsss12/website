@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
 import { createServer as createNetServer } from 'node:net';
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { mkdtemp, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { after, test } from 'node:test';
+import { validateRuntimeEnvironment } from '../config.js';
 import { hashPassword, verifyPassword } from '../security.js';
 import { validateApplication, validateContact } from '../validation.js';
 
@@ -35,6 +36,42 @@ test('password hashing and form validation reject malformed input', () => {
 
   assert.throws(() => validateContact({ name: 'Test', contact: 'bad', topic: 'همکاری', message: 'Hello' }));
   assert.throws(() => validateApplication({ fullName: 'Test', agreed: false }));
+});
+
+test('production configuration requires durable, same-origin admin settings and complete optional email settings', () => {
+  const production = {
+    NODE_ENV: 'production',
+    DATA_DIR: '/data',
+    PUBLIC_ORIGIN: 'https://site.example',
+    ADMIN_USERNAME: 'pars-admin',
+    ADMIN_PASSWORD: 'x'.repeat(32),
+  };
+
+  assert.doesNotThrow(() => validateRuntimeEnvironment(production));
+  assert.throws(() => validateRuntimeEnvironment({ ...production, DATA_DIR: 'relative-data' }), /absolute path/);
+  assert.throws(() => validateRuntimeEnvironment({ ...production, PUBLIC_ORIGIN: 'http://site.example' }), /HTTPS origin/);
+  assert.throws(() => validateRuntimeEnvironment({ ...production, ADMIN_NOTIFICATION_EMAIL: 'admin@example.com' }), /Set all email environment variables/);
+  assert.doesNotThrow(() => validateRuntimeEnvironment({ ...production, ADMIN_NOTIFICATION_EMAIL: 'admin@example.com', EMAIL_FROM: 'PARS <noreply@example.com>', RESEND_API_KEY: 'test-key' }));
+  assert.doesNotThrow(() => validateRuntimeEnvironment({ NODE_ENV: 'development' }));
+});
+
+test('production server refuses to start before database initialization without required settings', () => {
+  const result = spawnSync(process.execPath, ['server/index.js'], {
+    cwd: root,
+    env: {
+      ...process.env,
+      NODE_ENV: 'production',
+      DATA_DIR: path.join(os.tmpdir(), 'pars-production-missing-config'),
+      PUBLIC_ORIGIN: '',
+      ADMIN_USERNAME: '',
+      ADMIN_PASSWORD: '',
+      PORT: '0',
+    },
+    encoding: 'utf8',
+    timeout: 5000,
+  });
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /Production startup requires these environment variables/);
 });
 
 function freePort() {

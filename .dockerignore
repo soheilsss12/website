@@ -1,0 +1,14 @@
+.git
+.github
+node_modules
+dist
+coverage
+.vite
+.env
+.env.*
+server/data
+server/private-decks
+*.log
+.DS_Store
+.review
+image-search

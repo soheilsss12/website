@@ -263,8 +263,8 @@ export function HeroSection() {
             setDialoguePhase('ready');
           }
         }
-      }, 38);
-    }, 180));
+      }, 32);
+    }, 120));
 
     return clearSequence;
   }, [activePrompt, dialogueStep, isMotionReduced]);

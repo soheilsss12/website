@@ -4,6 +4,7 @@ import CrystalMark from './CrystalMark.jsx';
 
 const FACET_COLORS = ['#d6ff74', '#9bf0bc', '#53cbb0', '#e7ffd0', '#378f79', '#b5e9a6', '#67dac1', '#7abf9a', '#def5a9', '#3b9c86'];
 const ENVIRONMENT_URL = `${import.meta.env.BASE_URL}crystal-environment.jpg`;
+const CRYSTAL_SPIN_SPEED = 0.24;
 
 function createFacetColors(geometry) {
   const positions = geometry.getAttribute('position');
@@ -344,13 +345,21 @@ export default function CrystalIcosahedron({ active, interactionRef }) {
       const delta = lastTimestamp ? Math.min((timestamp - lastTimestamp) / 1000, 0.05) : 0;
       lastTimestamp = timestamp;
       elapsed += delta;
-      const pointerEase = 1 - Math.exp(-24 * delta);
-      pointer.x += (pointer.targetX - pointer.x) * pointerEase;
-      pointer.y += (pointer.targetY - pointer.y) * pointerEase;
+      const targetYaw = pointer.targetX * 0.78;
+      const targetPitch = pointer.targetY * 0.58;
+      const yawDistance = targetYaw - pointer.x;
+      const pitchDistance = targetPitch - pointer.y;
+      const pointerDistance = Math.hypot(yawDistance, pitchDistance);
+      const pointerStep = CRYSTAL_SPIN_SPEED * delta;
+      if (pointerDistance > 0 && pointerStep > 0) {
+        const stepRatio = Math.min(1, pointerStep / pointerDistance);
+        pointer.x += yawDistance * stepRatio;
+        pointer.y += pitchDistance * stepRatio;
+      }
 
       const idleTurn = reducedMotion ? 0 : elapsed;
-      crystalRig.rotation.y = 0.18 + idleTurn * 0.24 + pointer.x * 0.78;
-      crystalRig.rotation.x = -0.13 + pointer.y * 0.58 + (reducedMotion ? 0 : Math.sin(elapsed * 0.55) * 0.025);
+      crystalRig.rotation.y = 0.18 + idleTurn * CRYSTAL_SPIN_SPEED + pointer.x;
+      crystalRig.rotation.x = -0.13 + pointer.y + (reducedMotion ? 0 : Math.sin(elapsed * 0.55) * 0.025);
       crystalRig.rotation.z = 0.03 + pointer.x * 0.08;
       innerRig.rotation.y = (reducedMotion ? 0 : -elapsed * 0.18) + pointer.x * 0.12;
       innerRig.rotation.x = reducedMotion ? 0 : Math.sin(elapsed * 0.38) * 0.06;
@@ -358,7 +367,7 @@ export default function CrystalIcosahedron({ active, interactionRef }) {
       if (coreGlow && !reducedMotion) coreGlow.material.opacity = 0.52 + Math.sin(elapsed * 1.8) * 0.06;
 
       renderer.render(scene, camera);
-      const pointerIsSettling = Math.abs(pointer.targetX - pointer.x) > 0.001 || Math.abs(pointer.targetY - pointer.y) > 0.001;
+      const pointerIsSettling = pointerDistance > 0.001;
       if (!reducedMotion || pointerIsSettling) frameId = window.requestAnimationFrame(renderFrame);
     };
     const start = () => {

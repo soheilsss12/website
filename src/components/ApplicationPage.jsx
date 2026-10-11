@@ -9,11 +9,13 @@ import {
   FileUp,
   FolderOpen,
   LockKeyhole,
+  LoaderCircle,
   ShieldCheck,
   Upload,
   UserRound,
 } from 'lucide-react';
 import { industries, stageOptions, valuePillars } from '../data/siteContent.js';
+import { apiFetch } from '../lib/api.js';
 import CrystalMark from './CrystalMark.jsx';
 
 const steps = [
@@ -24,11 +26,23 @@ const steps = [
 ];
 
 const initialForm = {
-  fullName: '', role: '', mobile: '', verificationCode: '', email: '', city: '',
+  fullName: '', role: '', mobile: '', email: '', city: '',
   projectName: '', website: '', stage: '', industry: '', oneLiner: '', description: '',
   fundingReason: '', amount: '', useOfFunds: '', traction: '', teamSize: '', previousInvestors: '',
   deckName: '', links: '', agreed: false,
 };
+
+const MAX_DECK_BYTES = 20 * 1024 * 1024;
+
+async function fileToBase64(file) {
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const chunkSize = 0x8000;
+  let binary = '';
+  for (let offset = 0; offset < bytes.length; offset += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(offset, offset + chunkSize));
+  }
+  return window.btoa(binary);
+}
 
 const requiredFields = [
   ['fullName', 'role', 'mobile', 'email', 'city'],
@@ -82,6 +96,11 @@ export default function ApplicationPage() {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  const [deckFile, setDeckFile] = useState(null);
+  const [uploadError, setUploadError] = useState('');
+  const [submissionError, setSubmissionError] = useState('');
+  const [submissionBusy, setSubmissionBusy] = useState(false);
+  const [submissionReceipt, setSubmissionReceipt] = useState(null);
   const [portalPhone, setPortalPhone] = useState('');
   const [portalCode, setPortalCode] = useState('');
   const [portalMessage, setPortalMessage] = useState('');
@@ -90,9 +109,10 @@ export default function ApplicationPage() {
   const update = (key, value) => {
     setForm((current) => ({ ...current, [key]: value }));
     setErrors((current) => current.filter((error) => error !== key));
+    setSubmissionError('');
   };
 
-  const goNext = (event) => {
+  const goNext = async (event) => {
     event.preventDefault();
     const missing = requiredFields[step].filter((key) => key === 'agreed' ? !form.agreed : !String(form[key] || '').trim());
     if (missing.length) {
@@ -101,13 +121,44 @@ export default function ApplicationPage() {
       return;
     }
     setErrors([]);
-    if (step < steps.length - 1) setStep((current) => current + 1);
-    else setSubmitted(true);
+    setSubmissionError('');
+    if (step < steps.length - 1) {
+      setStep((current) => current + 1);
+      return;
+    }
+
+    setSubmissionBusy(true);
+    try {
+      const deck = deckFile
+        ? { name: deckFile.name, mimeType: 'application/pdf', dataBase64: await fileToBase64(deckFile) }
+        : null;
+      const { data } = await apiFetch('/api/applications', {
+        method: 'POST',
+        body: JSON.stringify({ ...form, deck, companyWebsite: '' }),
+      });
+      if (!data?.stored || !data?.reference) throw new Error('پاسخ ثبت درخواست معتبر نیست؛ درخواست ثبت‌شده تلقی نمی‌شود.');
+      setSubmissionReceipt(data);
+      setSubmitted(true);
+    } catch (error) {
+      setSubmissionError(error?.message || 'اتصال به سامانه برقرار نشد؛ اطلاعات شما ثبت نشده است.');
+    } finally {
+      setSubmissionBusy(false);
+    }
   };
 
   const saveUploadName = (event) => {
     const file = event.target.files?.[0];
-    if (file) update('deckName', file.name);
+    if (!file) return;
+    if (!/\.pdf$/i.test(file.name) || file.size > MAX_DECK_BYTES) {
+      setDeckFile(null);
+      update('deckName', '');
+      setUploadError('فقط فایل PDF تا ۲۰ مگابایت پذیرفته می‌شود.');
+      event.target.value = '';
+      return;
+    }
+    setDeckFile(file);
+    setUploadError('');
+    update('deckName', file.name);
   };
 
   const requestPortalAccess = (event) => {
@@ -189,7 +240,7 @@ export default function ApplicationPage() {
               </li>
             ))}
           </ol>
-          <div className="application-privacy-note"><LockKeyhole size={17} /><span>اطلاعات این فرم به سرور ارسال یا ذخیره نمی‌شود</span></div>
+          <div className="application-privacy-note"><LockKeyhole size={17} /><span>درخواست فقط پس از پاسخ موفق سرور ثبت‌شده محسوب می‌شود</span></div>
         </aside>
 
         <div className="application-card">
@@ -255,7 +306,8 @@ export default function ApplicationPage() {
                         <span className="button button-quiet"><Upload size={14} /> انتخاب فایل</span>
                       </label>
                       <input id="deck-upload" type="file" accept=".pdf,application/pdf" onChange={saveUploadName} />
-                      <span className="upload-disclaimer">فایل انتخاب‌شده ارسال نمی‌شود</span>
+                      <span className="upload-disclaimer">فایل PDF انتخاب‌شده هنگام ثبت نهایی بارگذاری می‌شود</span>
+                      {uploadError && <span className="form-error" role="alert">{uploadError}</span>}
                     </div>
                     <Field label="لینک‌های مرتبط" name="links" value={form.links} onChange={update} type="textarea" placeholder="ویدئو، نمونه‌کار، شبکه‌ی اجتماعی و موارد دیگر" dir="ltr" />
                     <label className={`application-consent ${errors.includes('agreed') ? 'has-error' : ''}`}>
@@ -267,22 +319,25 @@ export default function ApplicationPage() {
                 )}
 
                 {errors.length > 0 && <div className="form-error" role="alert">لطفاً موارد ستاره‌دار را کامل کنید</div>}
+                {submissionError && <div className="form-error" role="alert">{submissionError}</div>}
                 <div className="application-form-actions">
                   {step > 0
-                    ? <button type="button" className="button button-quiet" onClick={() => { setStep((current) => current - 1); setErrors([]); }}><ArrowRight size={16} /> مرحله‌ی قبل</button>
-                    : <span className="form-privacy-micro"><LockKeyhole size={13} /> اطلاعات به سرور ارسال نمی‌شود</span>}
-                  <button className="button button-lime" type="submit">{step === steps.length - 1 ? 'تکمیل فرم' : 'ادامه'} <ArrowLeft size={16} /></button>
+                    ? <button type="button" className="button button-quiet" onClick={() => { setStep((current) => current - 1); setErrors([]); }} disabled={submissionBusy}><ArrowRight size={16} /> مرحله‌ی قبل</button>
+                    : <span className="form-privacy-micro"><LockKeyhole size={13} /> ثبت نهایی با تأیید سامانه</span>}
+                  <button className="button button-lime" type="submit" disabled={submissionBusy}>{submissionBusy ? <LoaderCircle size={16} className="admin-spinner" /> : null}{submissionBusy ? 'در حال ثبت…' : step === steps.length - 1 ? 'ثبت درخواست' : 'ادامه'} {!submissionBusy && <ArrowLeft size={16} />}</button>
                 </div>
               </form>
             </>
           ) : (
             <div className="application-success">
-              <div className="success-mark"><CircleHelp size={28} /></div>
-              <span className="eyebrow">فرم تکمیل شد</span>
-              <h3>اطلاعات شما<br /><em>ارسال نشده است</em></h3>
-              <p>اطلاعات واردشده فقط در همین صفحه بوده و به پارس ارسال نشده است</p>
-              <div className="demo-warning"><CircleHelp size={17} /><span>برای ثبت درخواست، اطلاعیه‌ی رسمی دوره را دنبال کنید</span></div>
-              <button type="button" className="button button-lime" onClick={() => { setSubmitted(false); setStep(0); setForm(initialForm); }}>شروع دوباره <ArrowLeft size={16} /></button>
+              <div className="success-mark"><Check size={28} /></div>
+              <span className="eyebrow">ثبت درخواست</span>
+              <h3>درخواست شما<br /><em>با موفقیت ثبت شد</em></h3>
+              <p>اطلاعات شما در سامانه ذخیره شد. ثبت درخواست به معنی پذیرش یا تضمین سرمایه‌گذاری نیست.</p>
+              <div className="application-receipt"><span>شناسه‌ی پیگیری</span><code dir="ltr">{submissionReceipt?.reference}</code></div>
+              {submissionReceipt?.notification === 'blocked' && <div className="demo-warning"><CircleHelp size={17} /><span>اعلان ایمیلی هنوز روی سرور پیکربندی نشده است.</span></div>}
+              {submissionReceipt?.notification === 'pending' && <div className="demo-warning"><CircleHelp size={17} /><span>اعلان برای تیم در صف ارسال ایمیلی قرار گرفت.</span></div>}
+              <button type="button" className="button button-lime" onClick={() => { setSubmitted(false); setStep(0); setForm(initialForm); setDeckFile(null); setUploadError(''); setSubmissionReceipt(null); setSubmissionError(''); }}>شروع دوباره <ArrowLeft size={16} /></button>
             </div>
           )}
         </div>
@@ -320,7 +375,7 @@ export default function ApplicationPage() {
         <a href="#campaign-criteria" className="apply-support-link">اطلاعیه‌ی دوره <ArrowUpLeft size={16} /></a>
       </section>
 
-      <footer className="apply-footer"><BrandLink href={rootHref} /><span>پارس · سرمایه‌گذاری خطرپذیر</span><a href={homeHref('privacy')}>حریم خصوصی و محرمانگی</a><span>اطلاعات فرم ارسال نمی‌شود</span></footer>
+      <footer className="apply-footer"><BrandLink href={rootHref} /><span>پارس · سرمایه‌گذاری خطرپذیر</span><a href={homeHref('privacy')}>حریم خصوصی و محرمانگی</a><span>ثبت نهایی فقط پس از پاسخ موفق سامانه انجام می‌شود</span></footer>
     </main>
   );
 }

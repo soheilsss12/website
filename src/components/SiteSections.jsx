@@ -28,6 +28,7 @@ import {
   WalletCards,
   X,
 } from 'lucide-react';
+import { apiFetch } from '../lib/api.js';
 import {
   articles,
   faqItems,
@@ -35,7 +36,7 @@ import {
   processSteps,
   valuePillars,
 } from '../data/siteContent.js';
-import { iranOutlinePath, iranOutlineViewBox } from '../data/iranMap.js';
+import { iranCityMarkers, iranOutlinePath, iranOutlineViewBox } from '../data/iranMap.js';
 import CrystalIcosahedron from './CrystalIcosahedron.jsx';
 import CrystalMark from './CrystalMark.jsx';
 
@@ -136,7 +137,7 @@ function HeroParsVisual() {
         <i className="hero-glass-pulse" />
       </div>
       <div className="hero-glass-panel hero-glass-panel-bottom">
-        <span className="hero-glass-number">پ / ۰۱</span>
+        <span className="hero-glass-number" aria-hidden="true"><ChartNoAxesCombined size={18} strokeWidth={1.7} /></span>
         <span><small>از ایده تا بازار</small><strong>مسیر رشد، کنار شما</strong></span>
         <ArrowUpLeft size={16} />
       </div>
@@ -420,7 +421,7 @@ export function HeroSection() {
       <div className="hero-bottomline hero-pars-bottomline site-container">
         <a href="#industries" className="hero-scroll-cue"><span><ArrowDown size={14} /></span> حوزه‌های سرمایه‌گذاری را ببینید</a>
         <span className="hero-bottomline-note">سرمایه وقتی ارزش دارد که به رشدی واقعی برسد</span>
-        <span className="hero-bottom-index">پارس / ۰۱</span>
+        <span className="hero-bottom-index">پارس</span>
       </div>
     </section>
   );
@@ -559,7 +560,7 @@ export function MapSection() {
             <div className="iran-map-scan" />
             <div className="iran-map-crosshair iran-map-crosshair-one" />
             <div className="iran-map-crosshair iran-map-crosshair-two" />
-            <svg className="iran-map iran-map-accurate" viewBox={iranOutlineViewBox} role="img" aria-label="نقشه‌ی ایران">
+            <svg className="iran-map iran-map-accurate" viewBox={iranOutlineViewBox} role="img" aria-label="نقشه‌ی ایران با چند نقطه‌ی شهری نمایشی">
               <defs>
                 <linearGradient id="iranSurface" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0" stopColor="#e5ffc0" stopOpacity=".42" />
@@ -580,6 +581,15 @@ export function MapSection() {
                 <path d="M612 338 C610 350 620 357 617 367 S623 380 620 395 M632 337 C630 350 638 361 632 371 S634 385 638 395" />
               </g>
               <path className="iran-map-outline" d={iranOutlinePath} />
+              <g className="iran-map-markers" aria-hidden="true">
+                {iranCityMarkers.map((marker) => (
+                  <g className={`iran-map-city ${marker.featured ? 'is-featured' : ''}`} key={marker.id}>
+                    <circle className="iran-map-city-pulse" cx={marker.x} cy={marker.y} r="1.1" />
+                    <circle className="iran-map-city-dot" cx={marker.x} cy={marker.y} r={marker.featured ? '0.62' : '0.43'} />
+                    <circle className="iran-map-city-core" cx={marker.x} cy={marker.y} r="0.18" />
+                  </g>
+                ))}
+              </g>
             </svg>
           </div>
         </div>
@@ -744,12 +754,49 @@ export function AboutSection() {
 }
 
 export function ContactSection() {
-  const [submitted, setSubmitted] = useState(false);
-  const submit = (event) => { event.preventDefault(); setSubmitted(true); };
+  const [submitting, setSubmitting] = useState(false);
+  const [formStatus, setFormStatus] = useState(null);
+
+  const submit = async (event) => {
+    event.preventDefault();
+    const formElement = event.currentTarget;
+    const values = new FormData(formElement);
+    setSubmitting(true);
+    setFormStatus(null);
+    try {
+      const { data } = await apiFetch('/api/contact', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: values.get('contactName'),
+          contact: values.get('contactWay'),
+          topic: values.get('contactTopic'),
+          message: values.get('contactMessage'),
+          companyWebsite: values.get('companyWebsite'),
+        }),
+      });
+      if (!data?.stored || !data?.id) throw new Error('پاسخ ثبت پیام معتبر نیست؛ پیام ثبت‌شده تلقی نمی‌شود.');
+      formElement.reset();
+      setFormStatus({ type: 'success', message: `پیام شما با شناسه‌ی ${data.id.slice(0, 8).toUpperCase()} در سامانه ثبت شد.` });
+    } catch (error) {
+      setFormStatus({ type: 'error', message: error?.message || 'اتصال به سامانه برقرار نشد؛ پیام شما ثبت نشده است.' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <section className="contact-section section-space" id="contact">
       <div className="site-container contact-layout"><div className="contact-copy"><SectionHeading index="۱۵" eyebrow="تماس با پارس" title="یک گفت‌وگوی خوب" emphasis="از این‌جا شروع می‌شود" copy="برای پرسش درباره‌ی همکاری یا رسانه، پیام بگذارید" /><div className="contact-details"><div><span className="contact-detail-icon"><Link2 size={17} /></span><span><small>ایمیل شرکت</small><strong>به‌زودی</strong></span></div><div><span className="contact-detail-icon"><MapPin size={17} /></span><span><small>نشانی و ساعت پاسخ‌گویی</small><strong>به‌زودی</strong></span></div><div><span className="contact-detail-icon"><Building2 size={17} /></span><span><small>لینکدین و رسانه‌های اجتماعی</small><strong>به‌زودی</strong></span></div></div></div>
-        <form className="contact-form" onSubmit={submit}><div className="contact-form-top"><span className="eyebrow">فرم تماس کوتاه</span><span>ارسال پیام از این فرم فعلاً فعال نیست</span></div><label><span>نام شما</span><input required name="contactName" placeholder="نام و نام خانوادگی" /></label><label><span>ایمیل یا شماره‌ی تماس</span><input required name="contactWay" dir="auto" placeholder="ایمیل یا شماره‌ای که پاسخ را دریافت کنید" /></label><label><span>موضوع پیام</span><select name="contactTopic" defaultValue="همکاری"><option>همکاری</option><option>رسانه</option><option>پرسش عمومی</option><option>پیشنهاد شراکت</option></select></label><label><span>پیام</span><textarea required name="contactMessage" rows="3" placeholder="پیام خود را بنویسید…" /></label>{submitted && <div className="form-inline-notice" role="status"><Info size={15} /> پیام شما از طریق این فرم ارسال نشده است</div>}<button type="submit" className="button button-lime">ارسال پیام <ArrowUpLeft size={15} /></button></form>
+        <form className="contact-form" onSubmit={submit}>
+          <div className="contact-form-top"><span className="eyebrow">فرم تماس کوتاه</span><span>ثبت پیام پس از پاسخ موفق سامانه</span></div>
+          <label><span>نام شما</span><input required name="contactName" maxLength={120} placeholder="نام و نام خانوادگی" /></label>
+          <label><span>ایمیل یا شماره‌ی تماس</span><input required name="contactWay" dir="auto" maxLength={254} placeholder="ایمیل یا شماره‌ای که پاسخ را دریافت کنید" /></label>
+          <label><span>موضوع پیام</span><select name="contactTopic" defaultValue="همکاری"><option>همکاری</option><option>رسانه</option><option>پرسش عمومی</option><option>پیشنهاد شراکت</option></select></label>
+          <label><span>پیام</span><textarea required name="contactMessage" rows="3" maxLength={5000} placeholder="پیام خود را بنویسید…" /></label>
+          <input className="contact-honeypot" type="text" name="companyWebsite" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+          {formStatus && <div className={formStatus.type === 'success' ? 'form-inline-notice' : 'form-inline-error'} role={formStatus.type === 'success' ? 'status' : 'alert'}><Info size={15} />{formStatus.message}</div>}
+          <button type="submit" className="button button-lime" disabled={submitting}>{submitting ? 'در حال ثبت…' : 'ارسال پیام'} <ArrowUpLeft size={15} /></button>
+        </form>
       </div>
     </section>
   );

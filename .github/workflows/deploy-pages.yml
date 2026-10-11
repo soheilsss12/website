@@ -29,6 +29,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build site
+        env:
+          VITE_API_BASE_URL: ${{ secrets.PARS_API_BASE_URL }}
         run: npm run build
       - name: Publish built files for branch-based Pages
         run: |

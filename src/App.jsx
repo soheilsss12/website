@@ -11,6 +11,7 @@ import {
   X,
 } from 'lucide-react';
 import ApplicationPage from './components/ApplicationPage.jsx';
+import AdminPage from './components/AdminPage.jsx';
 import CalculatorLab, { calculatorTools } from './components/CalculatorLab.jsx';
 import LogoOptionsPage from './components/LogoOptions.jsx';
 import CrystalMark from './components/CrystalMark.jsx';
@@ -42,7 +43,7 @@ const siteAnchors = new Set([
   'tools', 'partners', 'knowledge', 'news', 'about', 'team', 'contact', 'campaign',
 ]);
 const applyAnchors = new Set(['campaign-criteria', 'application-form', 'applicant-access']);
-const routeViews = new Set(['apply', 'terms', 'privacy', 'sitemap', 'logo-options']);
+const routeViews = new Set(['apply', 'terms', 'privacy', 'sitemap', 'logo-options', 'admin']);
 
 function resolveRoute() {
   if (window.location.hostname.toLowerCase().startsWith('apply.')) return 'apply';
@@ -140,7 +141,7 @@ function LegalPage({ type }) {
     : 'متن نهایی قوانین و مقررات به‌زودی منتشر می‌شود';
   return (
     <SubPage title={title} eyebrow={isPrivacy ? 'اعتماد و محرمانگی' : 'چارچوب همکاری'} description={description} icon={isPrivacy ? LockKeyhole : ShieldCheck}>
-      <div className="legal-preview-alert"><ShieldCheck size={19} /><span><strong>اطلاعات رسمی به‌زودی منتشر می‌شود</strong><small>{isPrivacy ? 'تا زمان فعال‌شدن سامانه‌ی درخواست، اطلاعات واردشده در فرم به سرور ارسال نمی‌شود' : 'شرایط پذیرش، سرمایه‌گذاری و همکاری فقط از مسیر اطلاعیه‌ها و توافق‌های رسمی اعلام می‌شود'}</small></span></div>
+      <div className="legal-preview-alert"><ShieldCheck size={19} /><span><strong>{isPrivacy ? 'اطلاعیه‌ی نهایی حریم خصوصی در دست تکمیل است' : 'اطلاعات رسمی به‌زودی منتشر می‌شود'}</strong><small>{isPrivacy ? 'درخواست فقط پس از پاسخ موفق API در پایگاه داده ثبت می‌شود؛ شرایط نگه‌داری و حذف داده پیش از بهره‌برداری عمومی باید در سیاست نهایی اعلام شود' : 'شرایط پذیرش، سرمایه‌گذاری و همکاری فقط از مسیر اطلاعیه‌ها و توافق‌های رسمی اعلام می‌شود'}</small></span></div>
       <a href="#contact" className="button button-dark">تماس با پارس <ArrowUpLeft size={15} /></a>
     </SubPage>
   );
@@ -201,7 +202,7 @@ export default function App() {
   useEffect(() => {
     const titles = {
       home: 'پارس | سرمایه‌گذاری خطرپذیر', apply: 'درخواست سرمایه | پارس', terms: 'قوانین و مقررات | پارس',
-      privacy: 'حریم خصوصی | پارس', sitemap: 'نقشه‌ی سایت | پارس', 'logo-options': 'گزینه‌های لوگو | پارس', 'not-found': 'صفحه پیدا نشد | پارس',
+      privacy: 'حریم خصوصی | پارس', sitemap: 'نقشه‌ی سایت | پارس', 'logo-options': 'گزینه‌های لوگو | پارس', admin: 'پنل مدیریت | پارس', 'not-found': 'صفحه پیدا نشد | پارس',
     };
     document.title = titles[route] || titles.home;
     if (route === 'apply') {
@@ -257,6 +258,7 @@ export default function App() {
   };
 
   if (route === 'apply') return <ApplicationPage />;
+  if (route === 'admin') return <AdminPage />;
   if (route === 'terms' || route === 'privacy') return <LegalPage type={route} />;
   if (route === 'sitemap') return <SiteMapPage />;
   if (route === 'logo-options') return <LogoOptionsPage />;

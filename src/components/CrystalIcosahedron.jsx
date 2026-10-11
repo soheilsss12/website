@@ -437,7 +437,7 @@ export default function CrystalIcosahedron({ active, interactionRef }) {
       ref={hostRef}
       className={`hero-crystal-object ${webglUnavailable ? 'is-fallback' : ''}`}
       role="img"
-      aria-label="کریستال سه‌بعدی بیست‌وجهی پارس با هسته‌ی نورانی؛ چرخان و واکنش‌گرا به حرکت نشانگر"
+      aria-label="کریستال سه‌بعدی پارس با هسته‌ی نورانی"
     >
       <span className="hero-crystal-glow" aria-hidden="true" />
       {webglUnavailable && <span className="hero-crystal-fallback" aria-hidden="true"><CrystalMark /></span>}

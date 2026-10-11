@@ -1,14 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  ArrowDown,
   ArrowLeft,
   ArrowUpLeft,
-  ArrowUpRight,
-  Check,
-  ChevronDown,
   CircleHelp,
   FileText,
-  Globe2,
   LockKeyhole,
   Menu,
   Network,
@@ -29,29 +24,25 @@ import {
   FinalCallout,
   FooterSection,
   HeroSection,
-  ImpactSection,
   IndustriesSection,
   KnowledgeSection,
-  LicensesSection,
   ManifestoSection,
   MapSection,
   NewsSection,
   PartnersSection,
-  PortfolioDetail,
   PortfolioSection,
   ProcessSection,
-  QuotesSection,
   StatsRibbon,
   ToolsSection,
 } from './components/SiteSections.jsx';
 import { articles, navItems } from './data/siteContent.js';
 
 const siteAnchors = new Set([
-  'home', 'manifesto', 'industries', 'benefits', 'process', 'impact', 'portfolio', 'map', 'approach', 'criteria', 'faq',
-  'tools', 'voices', 'partners', 'knowledge', 'news', 'about', 'team', 'licenses', 'contact', 'campaign',
+  'home', 'manifesto', 'industries', 'benefits', 'process', 'portfolio', 'map', 'approach', 'criteria', 'faq',
+  'tools', 'partners', 'knowledge', 'news', 'about', 'team', 'contact', 'campaign',
 ]);
 const applyAnchors = new Set(['campaign-criteria', 'application-form', 'applicant-access']);
-const routeViews = new Set(['apply', 'terms', 'privacy', 'sitemap', 'admin', 'logo-options']);
+const routeViews = new Set(['apply', 'terms', 'privacy', 'sitemap', 'logo-options']);
 
 function resolveRoute() {
   if (window.location.hostname.toLowerCase().startsWith('apply.')) return 'apply';
@@ -70,7 +61,7 @@ function BrandLockup() {
   return (
     <a className="brand-lockup" href="#home" aria-label="صفحه‌ی اصلی پارس">
       <span className="brand-symbol"><CrystalMark /></span>
-      <span className="brand-name-stack"><strong>پارس</strong><small>سرمایه‌گذاری جسورانه</small></span>
+      <span className="brand-name-stack"><strong>پارس</strong><small>سرمایه‌گذاری خطرپذیر</small></span>
     </a>
   );
 }
@@ -84,7 +75,7 @@ function SiteHeader({ menuOpen, setMenuOpen }) {
           {navItems.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}
         </nav>
         <div className="header-actions">
-          <span className="header-status"><i className="status-indicator" /> وضعیت دوره: اعلام پس از تأیید</span>
+          <span className="header-status"><i className="status-indicator" /> پذیرش دوره‌ی بعد: به‌زودی اعلام می‌شود</span>
           <a className="button button-lime header-apply" href="#apply">درخواست سرمایه <ArrowUpLeft size={15} /></a>
           <button className="menu-trigger" type="button" aria-expanded={menuOpen} aria-controls="full-menu" onClick={() => setMenuOpen(true)}>منو <Menu size={18} /></button>
         </div>
@@ -99,7 +90,7 @@ function FullMenu({ open, onClose }) {
     ['مسیر سرمایه‌گذاری', '#process'], ['پرتفوی', '#portfolio'], ['گستره‌ی جغرافیایی', '#map'],
     ['معیارهای ارزیابی', '#approach'], ['ابزارهای استارتاپ', '#tools'], ['مرکز دانش', '#knowledge'],
     ['اخبار و رویدادها', '#news'], ['درباره‌ی پارس', '#about'], ['همکاران', '#partners'],
-    ['مجوزها', '#licenses'], ['تماس با ما', '#contact'], ['گزینه‌های لوگوی پارس ایرانیان', '#logo-options'],
+    ['تماس با ما', '#contact'], ['گزینه‌های لوگوی پارس', '#logo-options'],
   ];
   useEffect(() => {
     const onEscape = (event) => { if (event.key === 'Escape') onClose(); };
@@ -111,7 +102,7 @@ function FullMenu({ open, onClose }) {
       <div className="full-menu-inner site-container">
         <div className="full-menu-head"><BrandLockup /><span className="full-menu-coordinate">ایران · سرمایه‌ی هوشمند · رشد بلندمدت</span><button type="button" className="full-menu-close" onClick={onClose}>بستن <X size={18} /></button></div>
         <div className="full-menu-body"><div className="full-menu-label"><span className="eyebrow">دسترسی سریع</span><p>از شناخت رویکرد تا شروع درخواست؛ از هرجا که هستید</p><a href="#apply" className="button button-lime" onClick={onClose}>شروع درخواست سرمایه <ArrowUpLeft size={15} /></a></div><nav className="full-menu-links" aria-label="همه‌ی بخش‌های سایت">{links.map((item, index) => <a href={item[1]} key={item[1] + item[0]} onClick={onClose}><span>{new Intl.NumberFormat('fa-IR').format(index + 1)}</span>{item[0]}<ArrowUpLeft size={17} /></a>)}</nav></div>
-        <div className="full-menu-foot"><span>پارس / سرمایه‌گذاری جسورانه</span><span>شرایط پذیرش در اطلاعیه‌ی هر دوره اعلام می‌شود</span></div>
+        <div className="full-menu-foot"><span>پارس / سرمایه‌گذاری خطرپذیر</span><span>شرایط پذیرش در اطلاعیه‌ی هر دوره اعلام می‌شود</span></div>
       </div>
     </div>
   );
@@ -123,9 +114,9 @@ function MobileApplyBar() {
 
 function SiteMapPage() {
   const groups = [
-    { title: 'درباره‌ی سرمایه‌گذاری', links: [['رویکرد ما', '#approach'], ['حوزه‌ها', '#industries'], ['مسیر سرمایه‌گذاری', '#process'], ['پرتفوی', '#portfolio']] },
+    { title: 'سرمایه‌گذاری', links: [['رویکرد ما', '#approach'], ['حوزه‌های تمرکز', '#industries'], ['حمایت‌های پارس', '#benefits'], ['مسیر سرمایه‌گذاری', '#process'], ['پرتفوی', '#portfolio'], ['محدوده‌ی جغرافیایی', '#map']] },
     { title: 'ابزار و دانش', links: [['ابزارها', '#tools'], ['مرکز دانش', '#knowledge'], ['اخبار و رویدادها', '#news']] },
-    { title: 'شرکت', links: [['درباره‌ی پارس', '#about'], ['همکاران', '#partners'], ['مجوزها', '#licenses'], ['تماس با ما', '#contact']] },
+    { title: 'درباره و ارتباط', links: [['درباره‌ی پارس', '#about'], ['همکاران', '#partners'], ['تماس با ما', '#contact']] },
   ];
   return <SubPage title="نقشه‌ی سایت" eyebrow="دسترسی روشن" description="همه‌ی مسیرهای سایت پارس در یک نگاه" icon={Network}><div className="sitemap-grid">{groups.map((group) => <div className="sitemap-group" key={group.title}><h3>{group.title}</h3>{group.links.map((link) => <a href={link[1]} key={link[0]}>{link[0]} <ArrowUpLeft size={14} /></a>)}</div>)}<div className="sitemap-group"><h3>متقاضیان</h3><a href="#apply">صفحه‌ی کمپین <ArrowUpLeft size={14} /></a><a href="#privacy">حریم خصوصی <ArrowUpLeft size={14} /></a><a href="#terms">قوانین و مقررات <ArrowUpLeft size={14} /></a></div></div></SubPage>;
 }
@@ -136,7 +127,7 @@ function SubPage({ title, eyebrow, description, icon: Icon = FileText, children 
       <header className="subpage-header site-container"><BrandLockup /><a href="#home" className="text-link"><ArrowLeft size={15} /> بازگشت به صفحه‌ی اصلی</a></header>
       <section className="subpage-hero site-container"><div className="subpage-icon"><Icon size={25} /></div><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{description}</p></section>
       <section className="subpage-content site-container">{children}</section>
-      <footer className="subpage-footer site-container"><BrandLockup /><span>پارس · سرمایه‌گذاری جسورانه</span><a href="#contact">تماس با ما</a></footer>
+      <footer className="subpage-footer site-container"><BrandLockup /><span>پارس · سرمایه‌گذاری خطرپذیر</span><a href="#contact">تماس با ما</a></footer>
     </main>
   );
 }
@@ -144,28 +135,22 @@ function SubPage({ title, eyebrow, description, icon: Icon = FileText, children 
 function LegalPage({ type }) {
   const isPrivacy = type === 'privacy';
   const title = isPrivacy ? 'حریم خصوصی و محرمانگی اطلاعات' : 'قوانین و مقررات';
-  const description = isPrivacy ? 'اطلاعات متقاضیان باید با هدف روشن، دسترسی محدود و امنیت مناسب نگهداری شود' : 'این صفحه پیش‌نویس ساختار حقوقی سایت است و پیش از انتشار نهایی به بازبینی حقوقی نیاز دارد';
-  return <SubPage title={title} eyebrow={isPrivacy ? 'اعتماد و محرمانگی' : 'چارچوب همکاری'} description={description} icon={isPrivacy ? LockKeyhole : ShieldCheck}>
-    <div className="legal-preview-alert"><ShieldCheck size={19} /><span><strong>پیش‌نویس برای بازبینی</strong><small>متن نهایی باید با رویه‌ها و مدارک حقوقی شرکت تطبیق داده شود؛ این پیش‌نمایش تعهد حقوقی ایجاد نمی‌کند</small></span></div>
-    <div className="legal-copy"><h2>{isPrivacy ? 'اطلاعات چه زمانی دریافت می‌شود؟' : 'استفاده از سایت'}</h2><p>{isPrivacy ? 'در فرم نمونه‌ی درخواست، اطلاعات تماس، معرفی محصول، نیاز سرمایه و پیوندهای تکمیلی از متقاضی پرسیده می‌شود؛ در نسخه‌ی فعلی سایت هیچ داده‌ای به سرور ارسال یا در پایگاه داده ذخیره نمی‌شود' : 'محتوای این سایت برای آشنایی اولیه با رویکرد سرمایه‌گذاری پارس طراحی شده است؛ پذیرش درخواست، مبلغ سرمایه‌گذاری، زمان‌بندی و هر نوع همکاری فقط بر اساس اطلاعیه و توافق رسمی معتبر خواهد بود'}</p><h2>{isPrivacy ? 'هدف استفاده و دسترسی' : 'درخواست سرمایه'}</h2><p>{isPrivacy ? 'در نسخه‌ی نهایی، هدف، مدت نگهداری، سطح دسترسی افراد مجاز، روش درخواست حذف اطلاعات و شیوه‌ی ارتباط برای پرسش‌های حریم خصوصی باید به‌صورت روشن اعلام شود؛ اطلاعات محرمانه‌ی کسب‌وکار نباید بدون مجوز در اختیار اشخاص ثالث قرار بگیرد' : 'ارسال فرم، به‌معنای پذیرش یا تضمین سرمایه‌گذاری نیست؛ اطلاعات مبلغ، معیارها، حوزه‌های اولویت‌دار و مهلت هر دوره در صفحه‌ی رسمی کمپین اعلام خواهد شد'}</p><h2>{isPrivacy ? 'امنیت و پیام‌رسانی' : 'اطلاعات و مسئولیت'}</h2><p>{isPrivacy ? 'اتصال کد تأیید موبایل، بارگذاری امن مدارک، رمزنگاری، گزارش دسترسی و بازه‌ی نگهداری اطلاعات، پیش از فعال‌شدن فرم واقعی باید پیاده‌سازی و مستند شوند' : 'استفاده از محاسبه‌گرها و مطالب آموزشی به‌معنای مشاوره‌ی مالی، حقوقی یا تضمین نتیجه نیست؛ کاربران باید پیش از تصمیم‌گیری از متخصصان مربوط کمک بگیرند'}</p></div>
-    <a href="#contact" className="button button-dark">تماس برای پرسش <ArrowUpLeft size={15} /></a>
-  </SubPage>;
-}
-
-function AdminPreview() {
-  const menu = ['درخواست‌ها', 'محتوا', 'پرتفوی', 'گزارش‌ها', 'کاربران و دسترسی‌ها'];
-  return <SubPage title="فضای مدیریت پارس" eyebrow="پنل داخلی · پیش‌نمایش رابط" description="ساختار پیشنهادی پنل برای مدیریت درخواست‌ها، محتوا و گزارش‌ها؛ این صفحه به سامانه‌ی واقعی یا داده‌ی متقاضیان متصل نیست" icon={ShieldCheck}>
-    <div className="admin-preview-warning"><LockKeyhole size={19} /><span><strong>محیط نمایشی، بدون داده‌ی واقعی</strong><small>برای راه‌اندازی، احراز هویت امن، نقش‌ها، ثبت رویدادها و بک‌اند اختصاصی لازم است</small></span></div>
-    <div className="admin-metric-row">{['درخواست‌های جدید', 'در حال بررسی', 'دعوت به جلسه', 'ابزارهای استفاده‌شده'].map((item) => <div key={item}><span>—</span><small>{item}</small></div>)}</div>
-    <div className="admin-dashboard-preview"><nav>{menu.map((item, index) => <span className={index === 0 ? 'is-current' : ''} key={item}>{item}<i>{index === 0 ? '۰۱' : '—'}</i></span>)}</nav><div className="admin-table-panel"><div className="admin-table-head"><h2>مدیریت درخواست‌ها</h2><span>فیلتر · وضعیت · امتیازدهی · یادداشت</span></div><div className="admin-table-row"><strong>داده‌ی نمونه نمایش داده نمی‌شود</strong><span>فهرست واقعی پس از اتصال امن سامانه</span><span>—</span></div><div className="admin-table-row"><strong>مدیریت محتوای پرتفوی، مجوزها و مقاله‌ها</strong><span>پیش‌نمایش ساختار پنل</span><span>—</span></div></div></div>
-  </SubPage>;
+  const description = isPrivacy
+    ? 'اطلاعات مربوط به حریم خصوصی به‌زودی منتشر می‌شود'
+    : 'متن نهایی قوانین و مقررات به‌زودی منتشر می‌شود';
+  return (
+    <SubPage title={title} eyebrow={isPrivacy ? 'اعتماد و محرمانگی' : 'چارچوب همکاری'} description={description} icon={isPrivacy ? LockKeyhole : ShieldCheck}>
+      <div className="legal-preview-alert"><ShieldCheck size={19} /><span><strong>اطلاعات رسمی به‌زودی منتشر می‌شود</strong><small>{isPrivacy ? 'تا زمان فعال‌شدن سامانه‌ی درخواست، اطلاعات واردشده در فرم به سرور ارسال نمی‌شود' : 'شرایط پذیرش، سرمایه‌گذاری و همکاری فقط از مسیر اطلاعیه‌ها و توافق‌های رسمی اعلام می‌شود'}</small></span></div>
+      <a href="#contact" className="button button-dark">تماس با پارس <ArrowUpLeft size={15} /></a>
+    </SubPage>
+  );
 }
 
 function NotFoundPage() {
   return <SubPage title="این مسیر را پیدا نکردیم" eyebrow="خطای ۴۰۴" description="ممکن است آدرس جابه‌جا شده باشد یا هنوز در سایت وجود نداشته باشد" icon={CircleHelp}><div className="not-found-mark">۴۰۴</div><a className="button button-lime" href="#home">بازگشت به صفحه‌ی اصلی <ArrowUpLeft size={15} /></a></SubPage>;
 }
 
-function HomePage({ onOpenTool, onOpenCase, onOpenArticle, menuOpen, setMenuOpen, cookieChoice, onSaveCookie }) {
+function HomePage({ onOpenTool, onOpenArticle, menuOpen, setMenuOpen, cookieChoice, onSaveCookie }) {
   return (
     <div className="home-page" dir="rtl">
       <SiteHeader menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
@@ -177,17 +162,14 @@ function HomePage({ onOpenTool, onOpenCase, onOpenArticle, menuOpen, setMenuOpen
         <IndustriesSection />
         <BenefitsSection />
         <ProcessSection />
-        <ImpactSection />
-        <PortfolioSection onOpenCase={onOpenCase} />
+        <PortfolioSection />
         <MapSection />
         <CriteriaSection />
         <ToolsSection onOpenTool={onOpenTool} />
-        <QuotesSection />
         <PartnersSection />
         <KnowledgeSection onOpenArticle={onOpenArticle} onOpenTool={onOpenTool} />
         <NewsSection />
         <AboutSection />
-        <LicensesSection />
         <ContactSection />
         <FinalCallout />
       </main>
@@ -202,7 +184,6 @@ export default function App() {
   const [route, setRoute] = useState(resolveRoute);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTool, setActiveTool] = useState('');
-  const [activeCase, setActiveCase] = useState(null);
   const [activeArticle, setActiveArticle] = useState(null);
   const [cookieChoice, setCookieChoice] = useState(() => {
     try { return window.localStorage.getItem('pars-cookie-choice') || ''; } catch { return ''; }
@@ -219,8 +200,8 @@ export default function App() {
 
   useEffect(() => {
     const titles = {
-      home: 'پارس | سرمایه‌گذاری جسورانه', apply: 'درخواست سرمایه | پارس', terms: 'قوانین و مقررات | پارس',
-      privacy: 'حریم خصوصی | پارس', sitemap: 'نقشه‌ی سایت | پارس', admin: 'پنل داخلی | پارس', 'logo-options': 'گزینه‌های لوگو | پارس ایرانیان', 'not-found': 'صفحه پیدا نشد | پارس',
+      home: 'پارس | سرمایه‌گذاری خطرپذیر', apply: 'درخواست سرمایه | پارس', terms: 'قوانین و مقررات | پارس',
+      privacy: 'حریم خصوصی | پارس', sitemap: 'نقشه‌ی سایت | پارس', 'logo-options': 'گزینه‌های لوگو | پارس', 'not-found': 'صفحه پیدا نشد | پارس',
     };
     document.title = titles[route] || titles.home;
     if (route === 'apply') {
@@ -256,40 +237,37 @@ export default function App() {
 
   useEffect(() => {
     const onEscape = (event) => {
-      if (event.key === 'Escape') { setActiveCase(null); setActiveArticle(null); setActiveTool(''); setMenuOpen(false); }
+      if (event.key === 'Escape') { setActiveArticle(null); setActiveTool(''); setMenuOpen(false); }
     };
     window.addEventListener('keydown', onEscape);
     return () => window.removeEventListener('keydown', onEscape);
   }, []);
 
   useEffect(() => {
-    if (!activeCase && !activeArticle && !activeTool) return undefined;
+    if (!activeArticle && !activeTool) return undefined;
     document.body.classList.add('has-modal');
     return () => document.body.classList.remove('has-modal');
-  }, [activeCase, activeArticle, activeTool]);
+  }, [activeArticle, activeTool]);
 
-  const openTool = useCallback((toolId) => { setActiveArticle(null); setActiveCase(null); setActiveTool(toolId); }, []);
-  const openArticle = useCallback((article) => { setActiveTool(''); setActiveCase(null); setActiveArticle(article); }, []);
+  const openTool = useCallback((toolId) => { setActiveArticle(null); setActiveTool(toolId); }, []);
+  const openArticle = useCallback((article) => { setActiveTool(''); setActiveArticle(article); }, []);
   const saveCookieChoice = (choice) => {
     setCookieChoice(choice);
     try { window.localStorage.setItem('pars-cookie-choice', choice); } catch { /* Consent remains for this visit. */ }
   };
-  const startApplication = () => { setActiveCase(null); setActiveArticle(null); setActiveTool(''); window.location.hash = 'apply'; };
 
   if (route === 'apply') return <ApplicationPage />;
   if (route === 'terms' || route === 'privacy') return <LegalPage type={route} />;
   if (route === 'sitemap') return <SiteMapPage />;
-  if (route === 'admin') return <AdminPreview />;
   if (route === 'logo-options') return <LogoOptionsPage />;
   if (route === 'not-found') return <NotFoundPage />;
 
   const activeToolConfig = calculatorTools.find((tool) => tool.id === activeTool);
-  const relatedArticle = activeToolConfig ? articles.find((article) => article.tool === activeToolConfig.id) || articles[0] : null;
+  const relatedArticle = activeToolConfig ? articles.find((article) => article.title === activeToolConfig.related) || articles[0] : null;
   return (
     <>
-      <HomePage onOpenTool={openTool} onOpenCase={setActiveCase} onOpenArticle={openArticle} menuOpen={menuOpen} setMenuOpen={setMenuOpen} cookieChoice={cookieChoice} onSaveCookie={saveCookieChoice} />
+      <HomePage onOpenTool={openTool} onOpenArticle={openArticle} menuOpen={menuOpen} setMenuOpen={setMenuOpen} cookieChoice={cookieChoice} onSaveCookie={saveCookieChoice} />
       {activeTool && <CalculatorLab toolId={activeTool} onClose={() => setActiveTool('')} onOpenArticle={() => openArticle(relatedArticle)} />}
-      {activeCase && <PortfolioDetail item={activeCase} onClose={() => setActiveCase(null)} onStartApplication={startApplication} />}
       {activeArticle && <ArticleDetail article={activeArticle} onClose={() => setActiveArticle(null)} onOpenTool={openTool} />}
     </>
   );

@@ -3,7 +3,7 @@ import { ArrowLeft, Check, MousePointer2, Palette } from 'lucide-react';
 import CrystalMark from './CrystalMark.jsx';
 
 const concepts = [
-  { id: 'crystal', title: 'بلور پارس', subtitle: 'هندسه‌ی دقیق، هوش شفاف', description: 'بیست وجه بلوری با برش‌های نورانی؛ نشان شاخص و آینده‌نگر برای یک شرکت هوش مصنوعی' },
+  { id: 'crystal', title: 'بلور پارس', subtitle: 'هندسه‌ی دقیق، هوش شفاف', description: 'فرمی بلوری با بازتاب‌های نور؛ نشانی هندسی و روشن برای پارس' },
   { id: 'neural', title: 'شبکه‌ی یادگیرنده', subtitle: 'پِه در پیوند با داده', description: 'حرف «پ» با سه نقطه‌ی فارسی و شاخه‌های شبکه‌ی عصبی؛ ترکیبی بومی و فناورانه' },
   { id: 'ai', title: 'هوش در جریان', subtitle: 'امضای روشن و جهانی', description: 'مونوگرام AI با خطوط مداری و گره‌های داده؛ ساده، خوانا و مناسب محصولات دیجیتال' },
   { id: 'arch', title: 'ریشه و آینده', subtitle: 'الهام از معماری ایران', description: 'قوس هندسی ایرانی در کنار مسیرهای داده؛ هویتی ریشه‌دار با پرداخت مدرن' },
@@ -88,16 +88,16 @@ export default function LogoOptionsPage() {
   return (
     <main className="logo-options-page" dir="rtl">
       <header className="logo-options-header site-container">
-        <a className="logo-options-brand" href="#home"><span className="brand-symbol"><CrystalMark /></span><span><strong>پارس</strong><small>سرمایه‌گذاری جسورانه</small></span></a>
+        <a className="logo-options-brand" href="#home"><span className="brand-symbol"><CrystalMark /></span><span><strong>پارس</strong><small>سرمایه‌گذاری خطرپذیر</small></span></a>
         <a className="logo-options-back" href="#home"><ArrowLeft size={16} /> بازگشت به سایت</a>
       </header>
       <section className="logo-options-intro site-container">
-        <span className="logo-options-kicker"><Palette size={15} /> هویت بصری · پارس ایرانیان</span>
-        <h1>پنج مسیر برای<br /><em>هوش مصنوعی پارس ایرانیان</em></h1>
-        <p>«بلور پارس» نشان اصلی سایت است؛ چهار مسیر دیگر در گالری باقی مانده‌اند تا زبان بصری هر ایده را کنار هم ببینید</p>
+        <span className="logo-options-kicker"><Palette size={15} /> هویت بصری · پارس</span>
+        <h1>پنج مسیر برای<br /><em>هویت بصری پارس</em></h1>
+        <p>«بلور پارس» نشان اصلی سایت است؛ گزینه‌های دیگر طرح‌های مفهومی‌اند</p>
         <div className={`logo-choice-status ${selected ? 'is-selected' : ''}`} aria-live="polite">
           <span className="logo-choice-status-icon">{selected ? <Check size={16} /> : <MousePointer2 size={16} />}</span>
-          <span>{selected ? `«${selectedTitle}» برای پیش‌نمایش در این مرورگر انتخاب شده است` : 'یک گزینه را انتخاب کنید تا پیش‌نمایش آن در همین مرورگر ذخیره شود'}</span>
+          <span>{selected ? `«${selectedTitle}» برای پیش‌نمایش انتخاب شده است` : 'یک گزینه را انتخاب کنید تا پیش‌نمایش آن را ببینید'}</span>
         </div>
       </section>
       <section className="logo-options-grid site-container" aria-label="پنج گزینه‌ی لوگو">
@@ -105,7 +105,7 @@ export default function LogoOptionsPage() {
           <article className={`logo-option-card ${selected === concept.id ? 'is-selected' : ''}`} key={concept.id}>
             <div className="logo-option-art">
               <div className={`logo-option-mark logo-option-mark-${concept.id}`}><LogoMark concept={concept.id} /></div>
-              <div className="logo-option-wordmark"><strong>پارس ایرانیان</strong><span>هوش مصنوعی</span></div>
+              <div className="logo-option-wordmark"><strong>پارس</strong><span>سرمایه‌گذاری خطرپذیر</span></div>
             </div>
             <div className="logo-option-copy">
               <div className="logo-option-heading"><span>{new Intl.NumberFormat('fa-IR').format(index + 1)}</span><h2>{concept.title}</h2></div>
@@ -118,7 +118,7 @@ export default function LogoOptionsPage() {
           </article>
         ))}
       </section>
-      <p className="logo-options-note site-container">نشان اصلی منتشرشده‌ی سایت «بلور پارس» است؛ انتخاب طرح‌های دیگر فقط پیش‌نمایش محلی است و هویت برند سایت را تغییر نمی‌دهد</p>
+      <p className="logo-options-note site-container">نشان اصلی سایت «بلور پارس» است؛ انتخاب طرح‌های دیگر فقط پیش‌نمایش همین صفحه را تغییر می‌دهد</p>
     </main>
   );
 }

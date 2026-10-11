@@ -1,14 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   Activity,
-  ArrowDownLeft,
   ArrowUpLeft,
   BarChart3,
   Check,
   CircleHelp,
   ClipboardCheck,
   Copy,
-  ExternalLink,
   Gauge,
   LineChart,
   PieChart,
@@ -40,9 +38,9 @@ export const calculatorTools = [
     },
   },
   {
-    id: 'runway', title: 'محاسبه‌گر Runway', eyebrow: 'نقدینگی', icon: Activity,
+    id: 'runway', title: 'دوام نقدینگی (Runway)', eyebrow: 'نقدینگی', icon: Activity,
     description: 'برآورد کنید با نقدینگی و هزینه‌ی فعلی، چند ماه فرصت دارید',
-    formula: 'Runway = نقدینگی در دسترس ÷ هزینه‌ی خالص ماهانه', related: 'Runway چیست و چطور آن را حساب کنیم؟',
+    formula: 'Runway = نقدینگی در دسترس ÷ هزینه‌ی خالص ماهانه', related: 'Runway چیست و چگونه محاسبه می‌شود؟',
     fields: [
       { key: 'cash', label: 'نقدینگی در دسترس', unit: 'میلیون تومان', type: 'number', min: 0, default: 2400 },
       { key: 'burn', label: 'هزینه‌ی خالص ماهانه', unit: 'میلیون تومان', type: 'number', min: 0, default: 300 },
@@ -53,7 +51,7 @@ export const calculatorTools = [
     },
   },
   {
-    id: 'dilution', title: 'محاسبه‌گر رقیق‌شدن سهام', eyebrow: 'سهام', icon: PieChart,
+    id: 'dilution', title: 'رقیق‌شدن سهام', eyebrow: 'سهام', icon: PieChart,
     description: 'اثر یک دور جذب سرمایه‌ی جدید را روی سهم فعلی خود بسنجید',
     formula: 'سهم جدید شما = سهم فعلی × (۱ − درصد سهام واگذار‌شده)', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
     fields: [
@@ -67,7 +65,7 @@ export const calculatorTools = [
     },
   },
   {
-    id: 'captable', title: 'جدول سهام‌داری', eyebrow: 'سهم‌داران', icon: WalletCards,
+    id: 'captable', title: 'جدول سهامداری (Cap Table)', eyebrow: 'سهم‌داران', icon: WalletCards,
     description: 'توزیع تقریبی مالکیت را پس از ورود سرمایه‌گذار جدید ببینید',
     formula: 'سهم هر گروه پس از دور = سهم پیش از دور × (۱ − درصد دور جدید)', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
     fields: [
@@ -84,9 +82,9 @@ export const calculatorTools = [
     },
   },
   {
-    id: 'cac', title: 'محاسبه‌گر CAC', eyebrow: 'هزینه‌ی جذب', icon: Gauge,
+    id: 'cac', title: 'هزینه‌ی جذب مشتری (CAC)', eyebrow: 'هزینه‌ی جذب', icon: Gauge,
     description: 'هزینه‌ی جذب هر مشتری را در یک بازه‌ی مشخص محاسبه کنید',
-    formula: 'CAC = مجموع هزینه‌ی جذب ÷ تعداد مشتریان جدید', related: 'شاخص‌هایی که داستان رشد را بهتر روایت می‌کنند',
+    formula: 'CAC = مجموع هزینه‌ی جذب ÷ تعداد مشتریان جدید', related: 'شاخص‌هایی که مسیر رشد را بهتر نشان می‌دهند',
     fields: [
       { key: 'spend', label: 'هزینه‌ی فروش و بازاریابی', unit: 'میلیون تومان', type: 'number', min: 0, default: 180 },
       { key: 'customers', label: 'مشتریان جدید', unit: 'نفر', type: 'number', min: 0, default: 90 },
@@ -97,9 +95,9 @@ export const calculatorTools = [
     },
   },
   {
-    id: 'ltv', title: 'محاسبه‌گر LTV', eyebrow: 'ارزش طول عمر', icon: LineChart,
+    id: 'ltv', title: 'ارزش طول عمر مشتری (LTV)', eyebrow: 'ارزش طول عمر', icon: LineChart,
     description: 'یک برآورد پایه از ارزش طول عمر مشتری اشتراکی به دست آورید',
-    formula: 'LTV تقریبی = درآمد ماهانه‌ی هر مشتری × حاشیه‌ی سود ناخالص ÷ ریزش ماهانه', related: 'شاخص‌هایی که داستان رشد را بهتر روایت می‌کنند',
+    formula: 'LTV تقریبی = درآمد ماهانه‌ی هر مشتری × حاشیه‌ی سود ناخالص ÷ ریزش ماهانه', related: 'شاخص‌هایی که مسیر رشد را بهتر نشان می‌دهند',
     fields: [
       { key: 'arpu', label: 'درآمد ماهانه از هر مشتری', unit: 'میلیون تومان', type: 'number', min: 0, default: 2.5 },
       { key: 'margin', label: 'حاشیه‌ی سود ناخالص', unit: 'درصد', type: 'number', min: 0, max: 100, default: 75 },
@@ -113,7 +111,7 @@ export const calculatorTools = [
   {
     id: 'saas', title: 'شاخص‌های SaaS', eyebrow: 'درآمد تکرارشونده', icon: BarChart3,
     description: 'درآمد سالانه‌ی تکرارشونده و نرخ رشد ماهانه را تخمین بزنید',
-    formula: 'ARR = درآمد تکرارشونده‌ی ماهانه × ۱۲', related: 'شاخص‌هایی که داستان رشد را بهتر روایت می‌کنند',
+    formula: 'ARR = درآمد تکرارشونده‌ی ماهانه × ۱۲', related: 'شاخص‌هایی که مسیر رشد را بهتر نشان می‌دهند',
     fields: [
       { key: 'mrr', label: 'درآمد تکرارشونده‌ی ماهانه (MRR)', unit: 'میلیون تومان', type: 'number', min: 0, default: 420 },
       { key: 'growth', label: 'رشد ماهانه‌ی MRR', unit: 'درصد', type: 'number', min: -100, max: 300, default: 8 },
@@ -124,7 +122,7 @@ export const calculatorTools = [
     },
   },
   {
-    id: 'maturity', title: 'سنجش آمادگی استارتاپ', eyebrow: 'ارزیابی اولیه', icon: ClipboardCheck,
+    id: 'maturity', title: 'سنجش آمادگی تیم', eyebrow: 'ارزیابی اولیه', icon: ClipboardCheck,
     description: 'در چند محور به آمادگی امروز تیم خودتان امتیاز بدهید',
     formula: 'امتیاز آمادگی = مجموع امتیازها ÷ حداکثر امتیاز × ۱۰۰', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
     fields: [
@@ -207,7 +205,7 @@ export default function CalculatorLab({ toolId, onClose, onOpenArticle }) {
     <div className="modal-scrim" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
       <section className="calculator-dialog" role="dialog" aria-modal="true" aria-labelledby="calculator-title" dir="rtl">
         <header className="dialog-header">
-          <div className="dialog-brand"><span className="dialog-brand-mark"><CrystalMark /></span><span>آزمایشگاه ابزارهای پارس</span></div>
+          <div className="dialog-brand"><span className="dialog-brand-mark"><CrystalMark /></span><span>ابزارهای پارس</span></div>
           <button type="button" className="icon-button dialog-close" onClick={onClose} aria-label="بستن"><X size={20} /></button>
         </header>
         <div className="calculator-layout">

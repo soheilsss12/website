@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -86,7 +86,6 @@ export default function ApplicationPage() {
   const [portalCode, setPortalCode] = useState('');
   const [portalMessage, setPortalMessage] = useState('');
   const [portalRequested, setPortalRequested] = useState(false);
-  const reference = useMemo(() => `PARS-${new Intl.NumberFormat('fa-IR').format(Math.floor(100000 + Math.random() * 899999))}`, []);
 
   const update = (key, value) => {
     setForm((current) => ({ ...current, [key]: value }));
@@ -114,13 +113,13 @@ export default function ApplicationPage() {
   const requestPortalAccess = (event) => {
     event.preventDefault();
     setPortalRequested(true);
-    setPortalMessage('این بخش پیش‌نمایش است؛ پیامک ارسال نمی‌شود و برای ورود واقعی به اتصال امن احراز هویت نیاز دارد');
+    setPortalMessage('کد ورود ارسال نشد؛ امکان پیگیری درخواست در حال حاضر فعال نیست');
   };
 
   const submitPortalCode = (event) => {
     event.preventDefault();
     setPortalMessage(portalCode.trim()
-      ? 'ورود آزمایشی است؛ تا اتصال سامانه، وضعیت یا اطلاعات متقاضی نمایش داده نمی‌شود'
+      ? 'ورود در حال حاضر فعال نیست و اطلاعاتی نمایش داده نمی‌شود'
       : 'برای ادامه، کد تأیید را وارد کنید');
   };
 
@@ -160,13 +159,13 @@ export default function ApplicationPage() {
         <div className="campaign-criteria-intro">
           <div className="eyebrow">پیش از شروع</div>
           <h2>اطلاعیه‌ی کمپین</h2>
-          <p>جزئیات زیر پس از تأیید تیم در صفحه‌ی کمپین درج می‌شوند؛ برای جلوگیری از ابهام، در این نسخه عدد یا شرط تأییدنشده‌ای اعلام نشده است</p>
+          <p>شرایط پذیرش، مبلغ سرمایه‌گذاری، مراحل موردپذیرش و محدوده‌ی جغرافیایی در اطلاعیه‌ی رسمی هر دوره اعلام می‌شود</p>
         </div>
         <div className="campaign-facts-grid">
-          <div><small>حوزه‌های مورد پذیرش</small><strong>۸ حوزه‌ی فناوری</strong><span>از سلامت تا صنعت و انرژی</span></div>
-          <div><small>نوع و مبلغ سرمایه</small><strong>در حال تعیین</strong><span>در اطلاعیه‌ی رسمی دوره اعلام می‌شود</span></div>
+          <div><small>حوزه‌های تمرکز</small><strong>۸ حوزه‌ی فناوری</strong><span>از سلامت تا صنعت و انرژی</span></div>
+          <div><small>نوع و مبلغ سرمایه</small><strong>در اطلاعیه‌ی دوره</strong><span>جزئیات در اطلاعیه‌ی رسمی همان دوره اعلام می‌شود</span></div>
           <div><small>مراحل رشد</small><strong>ایده تا رشد</strong><span>بررسی تناسب با هر دوره</span></div>
-          <div><small>محدوده‌ی جغرافیایی</small><strong>در حال تعیین</strong><span>بر اساس شرایط هر کمپین</span></div>
+          <div><small>محدوده‌ی جغرافیایی</small><strong>در اطلاعیه‌ی دوره</strong><span>شرایط هر دوره به‌طور رسمی اعلام می‌شود</span></div>
         </div>
         <div className="campaign-benefit-strip">
           <span>همراهی فراتر از سرمایه</span>
@@ -190,7 +189,7 @@ export default function ApplicationPage() {
               </li>
             ))}
           </ol>
-          <div className="application-privacy-note"><LockKeyhole size={17} /><span>این پیش‌نمایش اطلاعات را ارسال یا ذخیره نمی‌کند</span></div>
+          <div className="application-privacy-note"><LockKeyhole size={17} /><span>اطلاعات این فرم به سرور ارسال یا ذخیره نمی‌شود</span></div>
         </aside>
 
         <div className="application-card">
@@ -217,10 +216,10 @@ export default function ApplicationPage() {
                   <div className="application-fields-grid">
                     <Field label="نام و نام خانوادگی" name="fullName" value={form.fullName} onChange={update} placeholder="نام شما" required />
                     <Field label="سمت در تیم" name="role" value={form.role} onChange={update} placeholder="برای مثال: هم‌بنیان‌گذار" required />
-                    <Field label="شماره‌ی موبایل" name="mobile" value={form.mobile} onChange={update} type="tel" placeholder="۰۹۱۲۱۲۳۴۵۶۷" dir="ltr" required help="اتصال واقعی کد پیامکی در نسخه‌ی نهایی انجام می‌شود" />
+                    <Field label="شماره‌ی موبایل" name="mobile" value={form.mobile} onChange={update} type="tel" placeholder="۰۹۱۲۱۲۳۴۵۶۷" dir="ltr" required help="کد تأیید موبایل در حال حاضر ارسال نمی‌شود" />
                     <Field label="ایمیل" name="email" value={form.email} onChange={update} type="email" placeholder="name@example.com" dir="ltr" required />
                     <Field label="شهر محل فعالیت" name="city" value={form.city} onChange={update} placeholder="نام شهر" required />
-                    <div className="verification-placeholder"><ShieldCheck size={17} /><span>تأیید موبایل</span><small>پس از اتصال سرویس پیامک فعال می‌شود</small></div>
+                    <div className="verification-placeholder"><ShieldCheck size={17} /><span>تأیید موبایل</span><small>ارسال کد در حال حاضر فعال نیست</small></div>
                   </div>
                 )}
 
@@ -256,7 +255,7 @@ export default function ApplicationPage() {
                         <span className="button button-quiet"><Upload size={14} /> انتخاب فایل</span>
                       </label>
                       <input id="deck-upload" type="file" accept=".pdf,application/pdf" onChange={saveUploadName} />
-                      <span className="upload-disclaimer">در این پیش‌نمایش فایل به جایی ارسال نمی‌شود</span>
+                      <span className="upload-disclaimer">فایل انتخاب‌شده ارسال نمی‌شود</span>
                     </div>
                     <Field label="لینک‌های مرتبط" name="links" value={form.links} onChange={update} type="textarea" placeholder="ویدئو، نمونه‌کار، شبکه‌ی اجتماعی و موارد دیگر" dir="ltr" />
                     <label className={`application-consent ${errors.includes('agreed') ? 'has-error' : ''}`}>
@@ -271,20 +270,19 @@ export default function ApplicationPage() {
                 <div className="application-form-actions">
                   {step > 0
                     ? <button type="button" className="button button-quiet" onClick={() => { setStep((current) => current - 1); setErrors([]); }}><ArrowRight size={16} /> مرحله‌ی قبل</button>
-                    : <span className="form-privacy-micro"><LockKeyhole size={13} /> اطلاعات محرمانه می‌ماند</span>}
-                  <button className="button button-lime" type="submit">{step === steps.length - 1 ? 'ثبت پیش‌نمایش درخواست' : 'ادامه'} <ArrowLeft size={16} /></button>
+                    : <span className="form-privacy-micro"><LockKeyhole size={13} /> اطلاعات به سرور ارسال نمی‌شود</span>}
+                  <button className="button button-lime" type="submit">{step === steps.length - 1 ? 'تکمیل فرم' : 'ادامه'} <ArrowLeft size={16} /></button>
                 </div>
               </form>
             </>
           ) : (
             <div className="application-success">
-              <div className="success-mark"><Check size={28} /></div>
-              <span className="eyebrow">پیش‌نمایش تکمیل فرم</span>
-              <h3>قدم اول<br /><em>برداشته شد</em></h3>
-              <p>شماره‌ی نمایشی درخواست شما</p>
-              <strong className="reference-code" dir="ltr">{reference}</strong>
-              <div className="demo-warning"><CircleHelp size={17} /><span>این یک نمونه‌ی نمایشی است؛ اطلاعات جایی ارسال یا ذخیره نشده است؛ اتصال سامانه و زمان پاسخ‌گویی باید پیش از راه‌اندازی نهایی شود</span></div>
-              <button type="button" className="button button-lime" onClick={() => { setSubmitted(false); setStep(0); setForm(initialForm); }}>ثبت درخواست نمونه‌ی دیگر <ArrowLeft size={16} /></button>
+              <div className="success-mark"><CircleHelp size={28} /></div>
+              <span className="eyebrow">فرم تکمیل شد</span>
+              <h3>اطلاعات شما<br /><em>ارسال نشده است</em></h3>
+              <p>اطلاعات واردشده فقط در همین صفحه بوده و به پارس ارسال نشده است</p>
+              <div className="demo-warning"><CircleHelp size={17} /><span>برای ثبت درخواست، اطلاعیه‌ی رسمی دوره را دنبال کنید</span></div>
+              <button type="button" className="button button-lime" onClick={() => { setSubmitted(false); setStep(0); setForm(initialForm); }}>شروع دوباره <ArrowLeft size={16} /></button>
             </div>
           )}
         </div>
@@ -296,14 +294,14 @@ export default function ApplicationPage() {
             <span className="eyebrow"><UserRound size={14} /> فضای متقاضیان</span>
             <h2>درخواست خود را<br /><em>پیگیری کنید</em></h2>
             <p>پس از راه‌اندازی سامانه، ورود با شماره‌ی موبایل امکان مشاهده‌ی وضعیت، ویرایش اطلاعات، تکمیل مدارک و دریافت پیام‌ها را فراهم می‌کند</p>
-            <div className="portal-security-note"><LockKeyhole size={16} /><span>ورود امن و کد یک‌بارمصرف در این طرح به سرویس احراز هویت متصل نیست</span></div>
+            <div className="portal-security-note"><LockKeyhole size={16} /><span>ورود امن و ارسال کد یک‌بارمصرف در حال حاضر فعال نیست</span></div>
           </div>
           <div className="applicant-portal-card">
             <div className="portal-card-heading"><span className="portal-card-icon"><Bell size={18} /></span><span><strong>ورود و پیگیری درخواست</strong><small>با شماره‌ی موبایلی که در فرم ثبت کرده‌اید</small></span></div>
             <form className="portal-login-form" onSubmit={portalRequested ? submitPortalCode : requestPortalAccess}>
               <label><span>شماره‌ی موبایل</span><input type="tel" dir="ltr" required value={portalPhone} onChange={(event) => setPortalPhone(event.target.value)} placeholder="۰۹۱۲۱۲۳۴۵۶۷" /></label>
               {portalRequested && <label><span>کد یک‌بارمصرف</span><input type="text" dir="ltr" inputMode="numeric" required value={portalCode} onChange={(event) => setPortalCode(event.target.value)} placeholder="کد تأیید" /></label>}
-              <button type="submit" className="button button-lime">{portalRequested ? 'ورود نمایشی' : 'درخواست کد ورود'} <ArrowLeft size={15} /></button>
+              <button type="submit" className="button button-lime">{portalRequested ? 'ادامه' : 'درخواست کد ورود'} <ArrowLeft size={15} /></button>
             </form>
             {portalMessage && <div className="portal-demo-message" role="status">{portalMessage}</div>}
             <div className="portal-feature-list" role="list" aria-label="امکانات فضای متقاضیان پس از راه‌اندازی">
@@ -322,7 +320,7 @@ export default function ApplicationPage() {
         <a href="#campaign-criteria" className="apply-support-link">اطلاعیه‌ی دوره <ArrowUpLeft size={16} /></a>
       </section>
 
-      <footer className="apply-footer"><BrandLink href={rootHref} /><span>پارس · سرمایه‌گذاری جسورانه</span><a href={homeHref('privacy')}>حریم خصوصی و محرمانگی</a><span>پیش‌نمایش فرم · بدون ارسال اطلاعات</span></footer>
+      <footer className="apply-footer"><BrandLink href={rootHref} /><span>پارس · سرمایه‌گذاری خطرپذیر</span><a href={homeHref('privacy')}>حریم خصوصی و محرمانگی</a><span>اطلاعات فرم ارسال نمی‌شود</span></footer>
     </main>
   );
 }

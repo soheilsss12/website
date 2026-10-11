@@ -11,6 +11,10 @@ npm run dev
 
 Build the production site with `npm run build`.
 
+## GitHub Pages
+
+GitHub Actions builds and deploys the site on pushes to `main` or `arena/4d1d0891-website`. The project-site base path is added automatically for the repository URL: <https://soheilsss12.github.io/website/>.
+
 ## Experience
 
 - A full-screen introduction with conversational shortcuts and a timed project-intake sequence for a name, company, and job title.

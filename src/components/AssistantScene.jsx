@@ -368,7 +368,7 @@ function PersonRig({ isSpeaking, projectStartedAt }) {
   const reducedMotion = useRef(false);
   const { size } = useThree();
   const torsoGeometry = useMemo(makeTorsoGeometry, []);
-  const sweaterTexture = useLoader(THREE.TextureLoader, '/lisa-knit-texture.png');
+  const sweaterTexture = useLoader(THREE.TextureLoader, `${import.meta.env.BASE_URL}lisa-knit-texture.png`);
   const sweaterMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#c1c6ce',
     map: sweaterTexture,

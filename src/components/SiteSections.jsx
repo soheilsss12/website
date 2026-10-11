@@ -52,6 +52,30 @@ import CrystalMark from './CrystalMark.jsx';
 
 const faNumber = (value) => new Intl.NumberFormat('fa-IR').format(value);
 
+const trustVisuals = [
+  {
+    number: '۰۱',
+    image: 'trust-dialogue.jpg',
+    alt: 'تصویر مفهومی از اتاق گفت‌وگوی روشن و خالی',
+    title: 'گفت‌وگوی شفاف',
+    description: 'انتظارهای روشن و قدم بعدیِ قابل‌فهم برای هر دو طرف',
+  },
+  {
+    number: '۰۲',
+    image: 'trust-prototype.jpg',
+    alt: 'تصویر مفهومی از نمونه‌ی اولیه‌ی محصولی الکترونیکی روی میز کار',
+    title: 'شناخت محصول',
+    description: 'وقتی محصول را می‌شناسیم، تصمیم‌ها به واقعیت نزدیک‌تر می‌شوند',
+  },
+  {
+    number: '۰۳',
+    image: 'trust-growth.jpg',
+    alt: 'تصویر مفهومی از راهروی خالی مرکز داده با سرورهای منظم',
+    title: 'رشد پایدار',
+    description: 'زیرساخت متناسب، پایه‌ی رشد مسئولانه و پایدار است',
+  },
+];
+
 function SectionEyebrow({ index, children, light = false }) {
   return <div className={`section-eyebrow ${light ? 'is-light' : ''}`}><span>{index}</span><i />{children}</div>;
 }
@@ -487,6 +511,38 @@ export function AboutSection() {
           const Icon = item.icon;
           return <article className="about-value-card" key={item.title} data-reveal><span className="about-value-number">۰{index + 1}</span><Icon size={21} /><h3>{item.title}</h3><p>{item.description}</p></article>;
         })}</div>
+        <section className="trust-visuals" aria-labelledby="trust-visuals-title">
+          <div className="trust-visuals-heading" data-reveal>
+            <div>
+              <span className="trust-visuals-eyebrow"><i /> نگاه پارس به همکاری</span>
+              <h3 id="trust-visuals-title">اعتماد، در جزئیات ساخته می‌شود</h3>
+            </div>
+            <p>از گفت‌وگوی شفاف تا شناخت محصول و رشد پایدار؛ همکاری خوب باید در عمل معنا پیدا کند</p>
+          </div>
+          <div className="trust-visuals-grid">
+            {trustVisuals.map((item) => (
+              <article className="trust-visuals-card" key={item.image} data-reveal>
+                <div className="trust-visuals-media">
+                  <img
+                    src={`${import.meta.env.BASE_URL}${item.image}`}
+                    alt={item.alt}
+                    width="1536"
+                    height="1024"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span className="trust-visuals-image-index">{item.number}</span>
+                  <span className="trust-visuals-image-tag"><i /> تصویر مفهومی</span>
+                </div>
+                <div className="trust-visuals-card-copy">
+                  <div><span>{item.number} / پارس</span><h4>{item.title}</h4></div>
+                  <p>{item.description}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="trust-visuals-disclosure"><ShieldCheck size={15} /><span>این تصاویر مفهومی‌اند؛ نماینده‌ی دفتر، پرتفوی یا شریک مشخصی نیستند</span></p>
+        </section>
         <div className="team-section" id="team"><div className="team-heading"><SectionEyebrow index="۱۶">تیم همراه پارس</SectionEyebrow><h3>تخصص‌های مکمل،<br /><em>هدف مشترک</em></h3><p>معرفی اعضا و تجربه‌های حرفه‌ای پس از تأیید اطلاعات هر فرد منتشر می‌شود</p></div><div className="team-role-list">{roles.map((item, index) => {
           const Icon = item.icon;
           return <div className="team-role-card" key={item.title} data-reveal><span className="team-role-avatar"><Icon size={20} /></span><span className="team-role-meta"><strong>{item.title}</strong><small>{item.description}</small></span><span className="team-role-index">۰{index + 1}</span></div>;

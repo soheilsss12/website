@@ -8982,8 +8982,6 @@ h4,
   position: relative;
   width: min(100%, 490px);
   min-height: 140px;
-  perspective: 760px;
-  transform-style: preserve-3d;
 }
 
 .hero-dialogue-history {
@@ -8996,7 +8994,8 @@ h4,
   margin-bottom: 6px;
   overflow: hidden;
   transform-origin: right center;
-  transition: opacity 0.3s ease, filter 0.34s ease, transform 0.38s ease;
+  will-change: opacity, transform;
+  transition: opacity 0.22s ease-out, filter 0.2s ease-out, transform 0.3s ease-out;
 }
 
 .hero-dialogue-echo {
@@ -9009,9 +9008,9 @@ h4,
   font-size: clamp(12px, 0.58vw, 13px);
   line-height: 1.45;
   opacity: 0.34;
-  filter: blur(1.6px);
-  transform: translateY(-3px);
-  animation: hero-dialogue-echo-arrive 0.38s ease both;
+  filter: blur(0.9px);
+  transform: translateY(-2px);
+  animation: hero-dialogue-echo-arrive 0.28s ease-out both;
 }
 
 .hero-dialogue-echo > span {
@@ -9045,11 +9044,11 @@ h4,
   line-height: 1.5;
   text-wrap: pretty;
   transform-origin: right center;
-  transform-style: preserve-3d;
+  will-change: opacity, transform;
   transition:
-    opacity 0.3s ease,
-    filter 0.34s ease,
-    transform 0.38s cubic-bezier(0.2, 0.75, 0.2, 1);
+    opacity 0.24s ease-out,
+    filter 0.18s ease-out,
+    transform 0.32s cubic-bezier(0.22, 0.72, 0.22, 1);
 }
 
 .hero-pars-copy .hero-dialogue-prompt.is-intro {
@@ -9077,15 +9076,15 @@ h4,
 }
 
 .hero-dialogue-stage.phase-receding .hero-dialogue-prompt {
-  opacity: 0.3;
-  filter: blur(2.4px);
-  transform: translate3d(0, -4px, -16px) scale(0.985);
+  opacity: 0.38;
+  filter: blur(1.1px);
+  transform: translate3d(0, -3px, 0) scale(0.99);
 }
 
 .hero-dialogue-stage.phase-receding .hero-dialogue-history {
-  opacity: 0.24;
-  filter: blur(1.8px);
-  transform: translateY(-3px);
+  opacity: 0.3;
+  filter: blur(0.9px);
+  transform: translateY(-2px);
 }
 
 .hero-type-caret {
@@ -9242,8 +9241,8 @@ h4,
 }
 
 @keyframes hero-dialogue-echo-arrive {
-  from { opacity: 0; filter: blur(4px); transform: translateY(-5px); }
-  to { opacity: 0.34; filter: blur(1.6px); transform: translateY(-3px); }
+  from { opacity: 0; filter: blur(2px); transform: translateY(-3px); }
+  to { opacity: 0.34; filter: blur(0.9px); transform: translateY(-2px); }
 }
 
 @keyframes hero-type-caret-blink {
@@ -9467,7 +9466,7 @@ h4,
 
   .hero-dialogue-echo {
     opacity: 0.34;
-    filter: blur(1.6px);
+    filter: blur(0.9px);
     transform: none;
   }
 

@@ -11,3 +11,4 @@ server/private-decks/
 .local-review*.png
 .review/
 image-search/
+.arena/

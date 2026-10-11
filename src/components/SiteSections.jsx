@@ -69,7 +69,9 @@ function XGlyph({ className = '' }) {
 }
 
 function HeroCrystalVisual() {
-  const imageSource = `${import.meta.env.BASE_URL}images/x-crystal-hero.webp`;
+  const imageSource = `${import.meta.env.BASE_URL}images/x-crystal-hero-1024.webp`;
+  const responsiveImageSource = `${import.meta.env.BASE_URL}images/x-crystal-hero-768.webp`;
+  const imageSizes = '(max-width: 560px) min(100vw, 410px), (max-width: 820px) 520px, 680px';
   const handlePointerMove = (event) => {
     if (event.pointerType === 'touch') return;
     const stage = event.currentTarget;
@@ -100,9 +102,11 @@ function HeroCrystalVisual() {
         <img
           className="hero-crystal-image"
           src={imageSource}
+          srcSet={`${responsiveImageSource} 768w, ${imageSource} 1024w`}
+          sizes={imageSizes}
           alt="سازه‌ی کریستالی سه‌بعدی با فرم X و بازتاب‌های سبز"
-          width="1254"
-          height="1254"
+          width="1024"
+          height="1024"
           fetchPriority="high"
           decoding="async"
         />

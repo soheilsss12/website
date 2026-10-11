@@ -52,24 +52,30 @@ import CrystalMark from './CrystalMark.jsx';
 
 const faNumber = (value) => new Intl.NumberFormat('fa-IR').format(value);
 
+const HERO_TITLE_LINE_ONE = 'ایده‌های جسور،';
+const HERO_TITLE_LINE_TWO = 'آینده‌ی روشن';
+const HERO_TITLE_LINE_ONE_CHARS = Array.from(HERO_TITLE_LINE_ONE);
+const HERO_TITLE_LINE_TWO_CHARS = Array.from(HERO_TITLE_LINE_TWO);
+const HERO_TITLE_CHARACTER_COUNT = HERO_TITLE_LINE_ONE_CHARS.length + HERO_TITLE_LINE_TWO_CHARS.length;
+
 const trustVisuals = [
   {
     number: '۰۱',
-    image: 'trust-dialogue.jpg',
+    image: 'trust-dialogue.webp',
     alt: 'تصویر مفهومی از اتاق گفت‌وگوی روشن و خالی',
     title: 'گفت‌وگوی شفاف',
     description: 'انتظارهای روشن و قدم بعدیِ قابل‌فهم برای هر دو طرف',
   },
   {
     number: '۰۲',
-    image: 'trust-prototype.jpg',
+    image: 'trust-prototype.webp',
     alt: 'تصویر مفهومی از نمونه‌ی اولیه‌ی محصولی الکترونیکی روی میز کار',
     title: 'شناخت محصول',
     description: 'وقتی محصول را می‌شناسیم، تصمیم‌ها به واقعیت نزدیک‌تر می‌شوند',
   },
   {
     number: '۰۳',
-    image: 'trust-growth.jpg',
+    image: 'trust-growth.webp',
     alt: 'تصویر مفهومی از راهروی خالی مرکز داده با سرورهای منظم',
     title: 'رشد پایدار',
     description: 'زیرساخت متناسب، پایه‌ی رشد مسئولانه و پایدار است',
@@ -139,13 +145,103 @@ function HeroParsVisual() {
 }
 
 export function HeroSection() {
+  const prefersReducedMotion = () => (
+    typeof window !== 'undefined'
+    && typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+  const [heroPhase, setHeroPhase] = useState(() => (prefersReducedMotion() ? 'settled' : 'typing'));
+  const [typedTitleLength, setTypedTitleLength] = useState(() => (
+    prefersReducedMotion() ? HERO_TITLE_CHARACTER_COUNT : 0
+  ));
+
+  useEffect(() => {
+    const motionQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    if (motionQuery?.matches) {
+      setTypedTitleLength(HERO_TITLE_CHARACTER_COUNT);
+      setHeroPhase('settled');
+      return undefined;
+    }
+
+    const timers = [];
+    let characterInterval;
+    const clearSequence = () => {
+      timers.forEach((timer) => window.clearTimeout(timer));
+      if (characterInterval !== undefined) window.clearInterval(characterInterval);
+    };
+    const typeDelay = 520;
+    const characterDelay = 40;
+    const typingCompleteAt = typeDelay + HERO_TITLE_CHARACTER_COUNT * characterDelay;
+
+    timers.push(window.setTimeout(() => {
+      let currentLength = 0;
+      characterInterval = window.setInterval(() => {
+        currentLength = Math.min(currentLength + 1, HERO_TITLE_CHARACTER_COUNT);
+        setTypedTitleLength(currentLength);
+        if (currentLength >= HERO_TITLE_CHARACTER_COUNT) {
+          window.clearInterval(characterInterval);
+        }
+      }, characterDelay);
+    }, typeDelay));
+    timers.push(window.setTimeout(() => setHeroPhase('receding'), typingCompleteAt + 260));
+    timers.push(window.setTimeout(() => setHeroPhase('gathering'), typingCompleteAt + 600));
+    timers.push(window.setTimeout(() => setHeroPhase('settled'), typingCompleteAt + 1550));
+
+    const finishForReducedMotion = (event) => {
+      if (!event.matches) return;
+      clearSequence();
+      setTypedTitleLength(HERO_TITLE_CHARACTER_COUNT);
+      setHeroPhase('settled');
+    };
+    motionQuery?.addEventListener?.('change', finishForReducedMotion);
+
+    return () => {
+      clearSequence();
+      motionQuery?.removeEventListener?.('change', finishForReducedMotion);
+    };
+  }, []);
+
+  const lineOneLength = HERO_TITLE_LINE_ONE_CHARS.length;
+  const typedLineOne = HERO_TITLE_LINE_ONE_CHARS.slice(0, Math.min(typedTitleLength, lineOneLength)).join('');
+  const typedLineTwoLength = Math.min(
+    Math.max(0, typedTitleLength - lineOneLength),
+    HERO_TITLE_LINE_TWO_CHARS.length,
+  );
+  const visibleLineTwo = HERO_TITLE_LINE_TWO_CHARS.slice(0, typedLineTwoLength).join('');
+  const showCaret = heroPhase === 'typing';
+
   return (
     <section className="hero hero-pars" id="home" aria-labelledby="hero-title">
       <div className="hero-atmosphere" aria-hidden="true"><span /><span /><i /></div>
       <div className="hero-layout hero-pars-layout site-container">
-        <div className="hero-copy hero-pars-copy">
+        <div className={`hero-copy hero-pars-copy hero-phase-${heroPhase}`}>
           <div className="hero-kicker hero-kicker-pars"><span className="hero-kicker-icon"><Sparkles size={14} /></span> سرمایه‌گذاری جسورانه، برای آینده‌ای روشن</div>
-          <h1 id="hero-title">ایده‌های جسور،<br /><em>آینده‌ی روشن</em></h1>
+          <div className="hero-headline-stage">
+            <h1 id="hero-title" aria-label={`${HERO_TITLE_LINE_ONE} ${HERO_TITLE_LINE_TWO}`}>
+              <span className="hero-headline-line" aria-hidden="true">
+                {typedLineOne || '\u00a0'}
+                {showCaret && typedTitleLength <= lineOneLength && <span className="hero-type-caret" />}
+              </span>
+              <span className="hero-headline-line" aria-hidden="true">
+                <em>{visibleLineTwo || '\u00a0'}</em>
+                {showCaret && typedTitleLength > lineOneLength && typedTitleLength < HERO_TITLE_CHARACTER_COUNT && <span className="hero-type-caret" />}
+              </span>
+            </h1>
+            <div className="hero-info-panel" aria-hidden="true" dir="rtl">
+              <div className="hero-info-panel-head">
+                <span><i className="hero-info-live-dot" /> نگاه پارس به همکاری</span>
+                <span className="hero-info-panel-code">پ / ۰۳</span>
+              </div>
+              <div className="hero-info-panel-equation">
+                <span>سرمایه</span><i>+</i><span>تجربه</span><i>+</i><span>شبکه</span>
+              </div>
+              <div className="hero-info-panel-foot">
+                <span><ShieldCheck size={13} /> مسیر شفاف</span>
+                <span>از ایده تا رشد</span>
+              </div>
+              <span className="hero-info-panel-progress"><i /></span>
+            </div>
+          </div>
           <p className="hero-description">پارس کنار تیم‌هایی می‌ایستد که مسئله‌های واقعی را به کسب‌وکارهای ماندگار تبدیل می‌کنند؛ با سرمایه، تجربه و شبکه‌ای برای رشد</p>
           <div className="hero-actions hero-pars-actions">
             <a className="button button-lime button-large" href="#apply">شروع درخواست <ArrowUpLeft size={17} /></a>
@@ -526,8 +622,8 @@ export function AboutSection() {
                   <img
                     src={`${import.meta.env.BASE_URL}${item.image}?v=1`}
                     alt={item.alt}
-                    width="1536"
-                    height="1024"
+                    width="960"
+                    height="640"
                     loading="lazy"
                     decoding="async"
                   />

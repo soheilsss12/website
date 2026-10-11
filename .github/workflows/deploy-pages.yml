@@ -33,7 +33,7 @@ jobs:
       - name: Publish built files for branch-based Pages
         run: |
           rm -rf assets images
-          rm -f trust-*.jpg
+          rm -f trust-*.jpg trust-*.webp
           cp -R dist/. .
           touch .nojekyll
           git config user.name "github-actions[bot]"

@@ -32,12 +32,12 @@ jobs:
         run: npm run build
       - name: Publish built files for branch-based Pages
         run: |
-          rm -rf assets
+          rm -rf assets images
           cp -R dist/. .
           touch .nojekyll
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- index.html assets favicon.svg .nojekyll
+          git add -A -- index.html assets images favicon.svg .nojekyll
           if git diff --cached --quiet; then
             echo "The Pages files are already current."
           else

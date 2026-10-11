@@ -46,6 +46,7 @@ import {
   stageOptions,
   valuePillars,
 } from '../data/siteContent.js';
+import { iranCityMarkers, iranOutlinePath, iranOutlineViewBox } from '../data/iranMap.js';
 
 const faNumber = (value) => new Intl.NumberFormat('fa-IR').format(value);
 
@@ -67,52 +68,93 @@ function XGlyph({ className = '' }) {
   return <span className={`x-glyph ${className}`} aria-hidden="true"><i /><i /></span>;
 }
 
-function HeroVisual() {
+function HeroCrystalVisual() {
+  const imageSource = `${import.meta.env.BASE_URL}images/x-crystal-hero.webp`;
+  const handlePointerMove = (event) => {
+    if (event.pointerType === 'touch') return;
+    const stage = event.currentTarget;
+    const rect = stage.getBoundingClientRect();
+    const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+    const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+    stage.style.setProperty('--hero-pointer-x', `${x * 100}%`);
+    stage.style.setProperty('--hero-pointer-y', `${y * 100}%`);
+    stage.style.setProperty('--hero-tilt-x', `${(x - 0.5) * -8}deg`);
+    stage.style.setProperty('--hero-tilt-y', `${(y - 0.5) * 7}deg`);
+  };
+  const resetPointer = (event) => {
+    const stage = event.currentTarget;
+    stage.style.setProperty('--hero-pointer-x', '50%');
+    stage.style.setProperty('--hero-pointer-y', '48%');
+    stage.style.setProperty('--hero-tilt-x', '0deg');
+    stage.style.setProperty('--hero-tilt-y', '0deg');
+  };
+
   return (
-    <div className="hero-visual" aria-hidden="true">
-      <div className="hero-visual-grid" />
-      <div className="hero-halo hero-halo-one" />
-      <div className="hero-halo hero-halo-two" />
-      <svg className="hero-network-svg" viewBox="0 0 700 680" fill="none">
-        <defs>
-          <linearGradient id="orbit-stroke" x1="130" y1="104" x2="603" y2="568" gradientUnits="userSpaceOnUse"><stop stopColor="#D7FF76" stopOpacity=".8"/><stop offset="1" stopColor="#D7FF76" stopOpacity=".04"/></linearGradient>
-          <radialGradient id="core-glow"><stop stopColor="#CBFF62" stopOpacity=".37"/><stop offset="1" stopColor="#CBFF62" stopOpacity="0"/></radialGradient>
-        </defs>
-        <ellipse cx="350" cy="340" rx="276" ry="184" transform="rotate(-27 350 340)" stroke="url(#orbit-stroke)" strokeDasharray="2 12" />
-        <ellipse cx="350" cy="340" rx="226" ry="294" transform="rotate(34 350 340)" stroke="#F4F1E6" strokeOpacity=".12" />
-        <ellipse cx="350" cy="340" rx="166" ry="166" stroke="#D7FF76" strokeOpacity=".26" />
-        <path d="M91 468 222 403l113 73 140-204 122 66M176 193l156 87 139-97 118 41" stroke="#D7FF76" strokeOpacity=".27" strokeWidth="1" />
-        <circle cx="222" cy="403" r="5" fill="#D7FF76"/><circle cx="335" cy="476" r="6" fill="#D7FF76"/><circle cx="475" cy="272" r="5" fill="#D7FF76"/><circle cx="597" cy="338" r="4" fill="#E58D63"/><circle cx="176" cy="193" r="4" fill="#E58D63"/><circle cx="471" cy="183" r="5" fill="#D7FF76"/>
-        <circle cx="350" cy="340" r="138" fill="url(#core-glow)" />
-        <path d="M350 81v114M350 485v111M92 340h108M500 340h110" stroke="#F1EEE4" strokeOpacity=".12" />
-      </svg>
-      <div className="hero-core"><div className="hero-core-orbit" /><XGlyph className="hero-x" /><span>ایکس / سرمایه</span></div>
-      <div className="hero-float-card hero-float-card-top"><span className="float-card-icon"><ChartNoAxesCombined size={16} /></span><span><small>مسیر همراهی</small><strong>از ایده تا رشد</strong></span><i className="float-live-dot" /></div>
-      <div className="hero-float-card hero-float-card-bottom"><span className="float-card-signal"><Network size={15} /></span><span><small>سرمایه فقط آغاز است</small><strong>شبکه · تجربه · بازار</strong></span></div>
-      <div className="hero-coordinate">۳۵°۴۱′ شمالی <i /> ۵۱°۲۵′ شرقی</div>
-      <div className="hero-visual-caption"><span>سرمایه‌ی هوشمند</span><span>همراهی واقعی</span></div>
+    <div className="hero-stage" onPointerMove={handlePointerMove} onPointerLeave={resetPointer}>
+      <div className="hero-stage-aura" />
+      <div className="hero-stage-grid" />
+      <div className="hero-stage-orbit hero-stage-orbit-a"><i /></div>
+      <div className="hero-stage-orbit hero-stage-orbit-b"><i /></div>
+      <div className="hero-stage-orbit hero-stage-orbit-c" />
+      <div className="hero-crystal-shell">
+        <img
+          className="hero-crystal-image"
+          src={imageSource}
+          alt="سازه‌ی کریستالی سه‌بعدی با فرم X و بازتاب‌های سبز"
+          width="1254"
+          height="1254"
+          fetchPriority="high"
+          decoding="async"
+        />
+        <span className="hero-crystal-shine" />
+      </div>
+      <span className="hero-stage-spark hero-stage-spark-one" />
+      <span className="hero-stage-spark hero-stage-spark-two" />
+      <span className="hero-stage-spark hero-stage-spark-three" />
+      <div className="hero-glass-panel hero-glass-panel-top">
+        <span className="hero-glass-icon"><Sparkles size={17} /></span>
+        <span><small>همراهی ایکس</small><strong>سرمایه + تجربه + شبکه</strong></span>
+        <i className="hero-glass-pulse" />
+      </div>
+      <div className="hero-glass-panel hero-glass-panel-bottom">
+        <span className="hero-glass-number">X / ۰۱</span>
+        <span><small>از ایده تا اثر</small><strong>مسیر رشد، با همراهی</strong></span>
+        <ArrowUpLeft size={16} />
+      </div>
+      <div className="hero-stage-coordinate"><span>طراحی برای رشد بلندمدت</span><i /></div>
+      <div className="hero-stage-watermark">X</div>
     </div>
   );
 }
 
 export function HeroSection() {
   return (
-    <section className="hero" id="home" aria-labelledby="hero-title">
+    <section className="hero hero-crystal" id="home" aria-labelledby="hero-title">
       <div className="hero-noise" aria-hidden="true" />
-      <div className="hero-layout site-container">
-        <div className="hero-copy">
-          <div className="hero-kicker"><span className="signal-dot" /> سرمایه‌گذاری جسورانه، با نگاه همراه</div>
-          <h1 id="hero-title">آینده را<br /><em>با هم می‌سازیم.</em></h1>
-          <p className="hero-description">ایکس در کنار تیم‌هایی می‌ایستد که برای حل مسئله‌های واقعی، محصول می‌سازند؛ با سرمایه، شبکه و همراهی در مسیر رشد.</p>
-          <div className="hero-actions">
-            <a className="button button-lime button-large" href="#apply">شروع درخواست سرمایه <ArrowUpLeft size={17} /></a>
-            <a className="button button-outline button-large" href="#approach">رویکرد ایکس <ArrowDown size={15} /></a>
+      <div className="hero-atmosphere" aria-hidden="true"><span /><span /><i /></div>
+      <div className="hero-layout hero-crystal-layout site-container">
+        <div className="hero-copy hero-crystal-copy">
+          <div className="hero-kicker hero-kicker-crystal"><span className="hero-kicker-icon"><Sparkles size={14} /></span> سرمایه‌گذاری جسورانه، برای آینده‌ای روشن</div>
+          <h1 id="hero-title">ایده‌های جسور،<br /><em>آینده‌ی روشن.</em></h1>
+          <p className="hero-description">ایکس کنار تیم‌هایی می‌ایستد که مسئله‌های واقعی را به کسب‌وکارهای ماندگار تبدیل می‌کنند؛ با سرمایه، تجربه و شبکه‌ای برای رشد.</p>
+          <div className="hero-actions hero-crystal-actions">
+            <a className="button button-lime button-large" href="#apply">شروع درخواست <ArrowUpLeft size={17} /></a>
+            <a className="button button-outline-light button-large" href="#approach">شناخت رویکرد ایکس <ArrowDown size={15} /></a>
           </div>
-          <div className="hero-status-line"><span className="status-pill status-pending"><i /> وضعیت دوره: در انتظار اعلام رسمی</span><span className="hero-status-note">شرایط هر فراخوان پیش از شروع ثبت‌نام منتشر می‌شود.</span></div>
+          <div className="hero-value-strip">
+            <div><span className="hero-value-index">۰۱</span><span><small>سرمایه‌ی جسورانه</small><strong>برای فرصت‌های واقعی</strong></span></div>
+            <div><span className="hero-value-index">۰۲</span><span><small>تجربه و شبکه</small><strong>فراتر از تأمین مالی</strong></span></div>
+            <div><span className="hero-value-index">۰۳</span><span><small>همراهی بلندمدت</small><strong>از ایده تا رشد</strong></span></div>
+          </div>
+          <div className="hero-campaign-note"><span><i /></span> وضعیت هر دوره پس از تأیید رسمی اعلام می‌شود.</div>
         </div>
-        <HeroVisual />
+        <HeroCrystalVisual />
       </div>
-      <div className="hero-bottomline site-container"><span>از ایده تا رشد، کنار تیم‌های بلندپرواز</span><a href="#industries">حوزه‌های سرمایه‌گذاری <ArrowDown size={14} /></a><span className="hero-bottom-index">X / ۰۱</span></div>
+      <div className="hero-bottomline hero-crystal-bottomline site-container">
+        <a href="#industries" className="hero-scroll-cue"><span><ArrowDown size={14} /></span> کشف حوزه‌های سرمایه‌گذاری</a>
+        <span className="hero-bottomline-note">سرمایه، وقتی معنا دارد که به رشد واقعی برسد.</span>
+        <span className="hero-bottom-index">ایکس / ۰۱</span>
+      </div>
     </section>
   );
 }
@@ -266,21 +308,76 @@ export function PortfolioSection({ onOpenCase }) {
 }
 
 export function MapSection() {
+  const labelPlacement = {
+    tabriz: { dx: 1.3, dy: -1.5, anchor: 'start' },
+    tehran: { dx: 0, dy: -1.7, anchor: 'middle' },
+    mashhad: { dx: -1.5, dy: -1.5, anchor: 'end' },
+    isfahan: { dx: -1.6, dy: 2.4, anchor: 'end' },
+    shiraz: { dx: -1.5, dy: 2.5, anchor: 'end' },
+    'bandar-abbas': { dx: -1.5, dy: 2.6, anchor: 'end' },
+  };
   return (
     <section className="map-section section-space" id="map">
-      <div className="site-container map-layout">
-        <div className="map-copy"><SectionHeading index="۰۷" eyebrow="گستره‌ی جغرافیایی" title="ایده‌های بزرگ،" emphasis="مرز نمی‌شناسند." copy="محدوده‌ی پذیرش و شهرهای فعال در هر دوره، در اطلاعیه‌ی رسمی همان کمپین مشخص می‌شود." /><div className="map-note-card"><Globe2 size={20} /><span><strong>پوشش دوره‌ای</strong><small>شهرهای تأییدشده پس از اعلام شرایط نمایش داده می‌شوند.</small></span></div><a href="#apply" className="text-link">دیدن شرایط فراخوان <ArrowUpLeft size={16} /></a></div>
-        <div className="map-art-card" data-reveal>
-          <div className="map-card-head"><span><MapPin size={15} /> نقشه‌ی همکاری</span><span className="map-sample-tag">نمایش نمونه</span></div>
-          <svg className="iran-map" viewBox="0 0 460 410" role="img" aria-label="نمای گرافیکی ایران با نقاط شبکه‌ی سرمایه‌گذاری">
-            <defs><linearGradient id="iranFill" x1="90" y1="30" x2="360" y2="355" gradientUnits="userSpaceOnUse"><stop stopColor="#D7FF76" stopOpacity=".2"/><stop offset="1" stopColor="#D7FF76" stopOpacity=".015"/></linearGradient><filter id="mapGlow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-            <path className="iran-outline" d="M117 26 158 32 184 17 216 30 243 24 269 42 300 39 316 60 348 67 355 95 386 115 375 144 395 169 372 196 384 223 358 247 352 278 329 297 309 330 281 346 255 329 230 350 207 333 179 342 159 320 132 310 122 281 99 266 84 238 64 217 70 190 53 169 65 145 58 121 78 99 80 71 101 52Z" fill="url(#iranFill)" stroke="#d7ff76" strokeOpacity=".62" strokeWidth="1.4" />
-            <path d="M111 80 184 122l81-29 76 37M83 177l88-7 60 66 78-43 59 29M130 280l87-44 52 93M184 122l-13 48m94-77 3 118m76-81-37 81" stroke="#e8e5da" strokeOpacity=".15" strokeDasharray="3 7" />
-            <g filter="url(#mapGlow)"><circle cx="253" cy="139" r="5" fill="#e8ffb2"/><circle cx="229" cy="236" r="4" fill="#e58d63"/><circle cx="331" cy="129" r="4" fill="#d7ff76"/><circle cx="183" cy="269" r="4" fill="#d7ff76"/><circle cx="158" cy="127" r="3" fill="#e58d63"/></g>
-            <circle className="map-pulse" cx="253" cy="139" r="14" stroke="#d7ff76" strokeOpacity=".6" />
-          </svg>
-          <div className="map-legend"><span><i className="legend-lime" /> نمونه‌ی نقاط شبکه</span><span>اطلاعات واقعی پس از تأیید</span></div>
-          <div className="map-coordinate">ایران / شبکه‌ی فرصت‌ها</div>
+      <div className="site-container map-layout map-layout-accurate">
+        <div className="map-copy">
+          <SectionHeading index="۰۷" eyebrow="گستره‌ی جغرافیایی" title="ایران، روی" emphasis="نقشه‌ی واقعی." copy="مرز جغرافیایی ایران با جزئیات دقیق‌تر بازطراحی شده است. نقاط شهرها فقط نمونه‌ی تصویری‌اند و پوشش یا فعالیت شرکت را نشان نمی‌دهند." />
+          <div className="map-note-card"><Globe2 size={20} /><span><strong>جانمایی شفاف</strong><small>شهرها و محدوده‌ی پذیرش هر دوره فقط پس از تأیید رسمی اعلام می‌شوند.</small></span></div>
+          <div className="map-accuracy-note"><ShieldCheck size={15} /><span>نقشه‌ی مرزی: داده‌ی برداری با مجوز CC BY 4.0؛ نقاط شهری صرفاً نمایشی.</span></div>
+          <a href="#apply" className="text-link">دیدن شرایط فراخوان <ArrowUpLeft size={16} /></a>
+        </div>
+        <div className="map-art-card map-art-card-accurate" data-reveal>
+          <div className="map-card-head"><span><MapPin size={15} /> گستره‌ی ایران</span><span className="map-sample-tag"><i /> نقاط نمونه، نه دفتر یا سرمایه‌گذاری</span></div>
+          <div className="iran-map-stage">
+            <div className="iran-map-scan" />
+            <div className="iran-map-crosshair iran-map-crosshair-one" />
+            <div className="iran-map-crosshair iran-map-crosshair-two" />
+            <svg className="iran-map iran-map-accurate" viewBox={iranOutlineViewBox} role="img" aria-label="مرز دقیق نقشه‌ی ایران همراه با جانمایی نمونه‌ی چند شهر">
+              <defs>
+                <linearGradient id="iranSurface" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="#e5ffc0" stopOpacity=".42" />
+                  <stop offset=".45" stopColor="#91e4b5" stopOpacity=".2" />
+                  <stop offset="1" stopColor="#598e9a" stopOpacity=".12" />
+                </linearGradient>
+                <linearGradient id="iranBorder" x1="0" y1="0" x2="1" y2="1">
+                  <stop stopColor="#edffbd" />
+                  <stop offset=".5" stopColor="#8de5b7" />
+                  <stop offset="1" stopColor="#d3a76b" />
+                </linearGradient>
+                <clipPath id="iranClip"><path d={iranOutlinePath} /></clipPath>
+              </defs>
+              <path className="iran-map-shadow" d={iranOutlinePath} />
+              <path className="iran-map-fill" d={iranOutlinePath} fill="url(#iranSurface)" />
+              <g className="iran-map-topography" clipPath="url(#iranClip)">
+                <path d="M594 348 C608 348 611 359 623 358 S638 350 657 352 M596 365 C608 362 614 370 625 370 S644 362 655 365 M598 383 C609 379 615 386 628 382 S643 376 655 380" />
+                <path d="M612 338 C610 350 620 357 617 367 S623 380 620 395 M632 337 C630 350 638 361 632 371 S634 385 638 395" />
+              </g>
+              <g className="iran-map-routes" aria-hidden="true">
+                <path d="M619.1 355.5 C613 352 609 349 604.9 347.5" />
+                <path d="M619.1 355.5 C628 351 635 351 642.2 353.5" />
+                <path d="M619.1 355.5 C618 360 618 362 620 365.5" />
+                <path d="M619.1 355.5 C615 364 618 371 622.5 375.6" />
+                <path d="M619.1 355.5 C623 367 627 378 632.8 383.8" />
+              </g>
+              <path className="iran-map-outline" d={iranOutlinePath} />
+              <g className="iran-map-markers">
+                {iranCityMarkers.map((marker) => {
+                  const label = labelPlacement[marker.id];
+                  return (
+                    <g className={`iran-map-city ${marker.featured ? 'is-featured' : ''}`} key={marker.id}>
+                      <circle className="iran-map-city-pulse" cx={marker.x} cy={marker.y} r="1.1" />
+                      <circle className="iran-map-city-dot" cx={marker.x} cy={marker.y} r={marker.featured ? '0.62' : '0.43'} />
+                      <circle className="iran-map-city-core" cx={marker.x} cy={marker.y} r="0.18" />
+                      <text className="iran-map-city-label" x={marker.x + label.dx} y={marker.y + label.dy} textAnchor={label.anchor}>{marker.label}</text>
+                    </g>
+                  );
+                })}
+              </g>
+            </svg>
+            <span className="iran-map-stage-stamp">IRAN <i /> ۰۱</span>
+            <span className="iran-map-stage-caption">مرز جغرافیایی / نمای برداری</span>
+          </div>
+          <div className="map-legend"><span><i className="legend-lime" /> جانمایی نمونه‌ی شهرها</span><span><i className="legend-copper" /> محدوده‌ی همکاری پس از تأیید</span></div>
+          <div className="map-coordinate">مختصات شهرها نمایشی است؛ حضور ایکس در هیچ نقطه‌ای را تأیید نمی‌کند.</div>
         </div>
       </div>
     </section>

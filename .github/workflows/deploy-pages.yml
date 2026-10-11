@@ -1,4 +1,4 @@
-name: Build and deploy X investment website to GitHub Pages
+name: Build and deploy Pars investment website to GitHub Pages
 
 on:
   push:

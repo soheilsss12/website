@@ -26,7 +26,7 @@ const percent = (value) => `${fmt(value)}٪`;
 export const calculatorTools = [
   {
     id: 'valuation', title: 'ارزش‌گذاری استارتاپ', eyebrow: 'ارزش‌گذاری', icon: BarChart3,
-    description: 'رابطه‌ی مبلغ جذب و درصد سهام را برای یک برآورد اولیه ببینید.',
+    description: 'رابطه‌ی مبلغ جذب و درصد سهام را برای یک برآورد اولیه ببینید',
     formula: 'ارزش پس از سرمایه‌گذاری = مبلغ سرمایه ÷ درصد سهام', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
     fields: [
       { key: 'amount', label: 'مبلغ سرمایه‌ی درخواستی', unit: 'میلیون تومان', type: 'number', min: 0, default: 500 },
@@ -35,12 +35,12 @@ export const calculatorTools = [
     calculate: (v) => {
       const amount = numberOf(v.amount); const equity = Math.min(99, Math.max(0.1, numberOf(v.equity)));
       const post = amount / (equity / 100);
-      return { main: `${fmt(post)} میلیون تومان`, label: 'ارزش پس از سرمایه‌گذاری', secondary: `ارزش پیش از سرمایه‌گذاری: ${fmt(Math.max(0, post - amount))} میلیون تومان`, note: 'این محاسبه فقط یک برآورد ریاضی است؛ ارزش‌گذاری نهایی به مذاکره و شرایط معامله وابسته است.' };
+      return { main: `${fmt(post)} میلیون تومان`, label: 'ارزش پس از سرمایه‌گذاری', secondary: `ارزش پیش از سرمایه‌گذاری: ${fmt(Math.max(0, post - amount))} میلیون تومان`, note: 'این محاسبه فقط یک برآورد ریاضی است؛ ارزش‌گذاری نهایی به مذاکره و شرایط معامله وابسته است' };
     },
   },
   {
     id: 'runway', title: 'محاسبه‌گر Runway', eyebrow: 'نقدینگی', icon: Activity,
-    description: 'برآورد کنید با نقدینگی و هزینه‌ی فعلی، چند ماه فرصت دارید.',
+    description: 'برآورد کنید با نقدینگی و هزینه‌ی فعلی، چند ماه فرصت دارید',
     formula: 'Runway = نقدینگی در دسترس ÷ هزینه‌ی خالص ماهانه', related: 'Runway چیست و چطور آن را حساب کنیم؟',
     fields: [
       { key: 'cash', label: 'نقدینگی در دسترس', unit: 'میلیون تومان', type: 'number', min: 0, default: 2400 },
@@ -48,12 +48,12 @@ export const calculatorTools = [
     ],
     calculate: (v) => {
       const cash = numberOf(v.cash); const burn = numberOf(v.burn); const months = burn ? cash / burn : 0;
-      return { main: burn ? `${fmt(months)} ماه` : '—', label: 'زمان باقی‌مانده', secondary: `نقدینگی ماهانه‌ی برآوردی: ${fmt(burn)} میلیون تومان`, note: 'هزینه‌های پیش‌بینی‌نشده، تغییر درآمد و زمان جذب سرمایه را در سناریوهای جداگانه بررسی کنید.' };
+      return { main: burn ? `${fmt(months)} ماه` : '—', label: 'زمان باقی‌مانده', secondary: `نقدینگی ماهانه‌ی برآوردی: ${fmt(burn)} میلیون تومان`, note: 'هزینه‌های پیش‌بینی‌نشده، تغییر درآمد و زمان جذب سرمایه را در سناریوهای جداگانه بررسی کنید' };
     },
   },
   {
     id: 'dilution', title: 'محاسبه‌گر رقیق‌شدن سهام', eyebrow: 'سهام', icon: PieChart,
-    description: 'اثر یک دور جذب سرمایه‌ی جدید را روی سهم فعلی خود بسنجید.',
+    description: 'اثر یک دور جذب سرمایه‌ی جدید را روی سهم فعلی خود بسنجید',
     formula: 'سهم جدید شما = سهم فعلی × (۱ − درصد سهام واگذار‌شده)', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
     fields: [
       { key: 'current', label: 'سهم فعلی شما', unit: 'درصد', type: 'number', min: 0, max: 100, default: 60 },
@@ -62,12 +62,12 @@ export const calculatorTools = [
     calculate: (v) => {
       const current = Math.min(100, numberOf(v.current)); const round = Math.min(99, numberOf(v.round));
       const result = current * (1 - round / 100);
-      return { main: percent(result), label: 'سهم شما پس از جذب سرمایه', secondary: `تغییر سهم: ${percent(current - result)}`, note: 'این مدل ساده، سهام تشویقی، حق تقدم، اوراق قابل تبدیل و شروط خاص قرارداد را لحاظ نمی‌کند.' };
+      return { main: percent(result), label: 'سهم شما پس از جذب سرمایه', secondary: `تغییر سهم: ${percent(current - result)}`, note: 'این مدل ساده، سهام تشویقی، حق تقدم، اوراق قابل تبدیل و شروط خاص قرارداد را لحاظ نمی‌کند' };
     },
   },
   {
     id: 'captable', title: 'جدول سهام‌داری', eyebrow: 'سهم‌داران', icon: WalletCards,
-    description: 'توزیع تقریبی مالکیت را پس از ورود سرمایه‌گذار جدید ببینید.',
+    description: 'توزیع تقریبی مالکیت را پس از ورود سرمایه‌گذار جدید ببینید',
     formula: 'سهم هر گروه پس از دور = سهم پیش از دور × (۱ − درصد دور جدید)', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
     fields: [
       { key: 'founders', label: 'بنیان‌گذاران', unit: 'درصد', type: 'number', min: 0, max: 100, default: 70 },
@@ -79,12 +79,12 @@ export const calculatorTools = [
       const factor = 1 - Math.min(99, numberOf(v.round)) / 100;
       const founders = numberOf(v.founders) * factor; const early = numberOf(v.early) * factor; const pool = numberOf(v.pool) * factor;
       const total = founders + early + pool + (1 - factor) * 100;
-      return { main: percent(founders), label: 'سهم بنیان‌گذاران پس از دور', secondary: `سرمایه‌گذاران فعلی ${percent(early)} · سهام تشویقی ${percent(pool)} · دور جدید ${percent((1 - factor) * 100)}`, note: `جمع تقریبی جدول: ${percent(total)}. پیش از تصمیم، درصدها و شروط قرارداد را با مشاور حقوقی بررسی کنید.` };
+      return { main: percent(founders), label: 'سهم بنیان‌گذاران پس از دور', secondary: `سرمایه‌گذاران فعلی ${percent(early)} · سهام تشویقی ${percent(pool)} · دور جدید ${percent((1 - factor) * 100)}`, note: `جمع تقریبی جدول: ${percent(total)}؛ پیش از تصمیم، درصدها و شروط قرارداد را با مشاور حقوقی بررسی کنید` };
     },
   },
   {
     id: 'cac', title: 'محاسبه‌گر CAC', eyebrow: 'هزینه‌ی جذب', icon: Gauge,
-    description: 'هزینه‌ی جذب هر مشتری را در یک بازه‌ی مشخص محاسبه کنید.',
+    description: 'هزینه‌ی جذب هر مشتری را در یک بازه‌ی مشخص محاسبه کنید',
     formula: 'CAC = مجموع هزینه‌ی جذب ÷ تعداد مشتریان جدید', related: 'شاخص‌هایی که داستان رشد را بهتر روایت می‌کنند',
     fields: [
       { key: 'spend', label: 'هزینه‌ی فروش و بازاریابی', unit: 'میلیون تومان', type: 'number', min: 0, default: 180 },
@@ -92,12 +92,12 @@ export const calculatorTools = [
     ],
     calculate: (v) => {
       const spend = numberOf(v.spend); const customers = numberOf(v.customers); const cac = customers ? spend / customers : 0;
-      return { main: customers ? `${fmt(cac)} میلیون تومان` : '—', label: 'هزینه‌ی جذب هر مشتری', secondary: `هزینه‌ی کل بازه: ${fmt(spend)} میلیون تومان`, note: 'هزینه‌ی تیم فروش، تخفیف و کانال‌های مختلف را در صورت نیاز به محاسبه اضافه کنید.' };
+      return { main: customers ? `${fmt(cac)} میلیون تومان` : '—', label: 'هزینه‌ی جذب هر مشتری', secondary: `هزینه‌ی کل بازه: ${fmt(spend)} میلیون تومان`, note: 'هزینه‌ی تیم فروش، تخفیف و کانال‌های مختلف را در صورت نیاز به محاسبه اضافه کنید' };
     },
   },
   {
     id: 'ltv', title: 'محاسبه‌گر LTV', eyebrow: 'ارزش طول عمر', icon: LineChart,
-    description: 'یک برآورد پایه از ارزش طول عمر مشتری اشتراکی به دست آورید.',
+    description: 'یک برآورد پایه از ارزش طول عمر مشتری اشتراکی به دست آورید',
     formula: 'LTV تقریبی = درآمد ماهانه‌ی هر مشتری × حاشیه‌ی سود ناخالص ÷ ریزش ماهانه', related: 'شاخص‌هایی که داستان رشد را بهتر روایت می‌کنند',
     fields: [
       { key: 'arpu', label: 'درآمد ماهانه از هر مشتری', unit: 'میلیون تومان', type: 'number', min: 0, default: 2.5 },
@@ -106,12 +106,12 @@ export const calculatorTools = [
     ],
     calculate: (v) => {
       const arpu = numberOf(v.arpu); const margin = Math.min(100, numberOf(v.margin)); const churn = numberOf(v.churn); const ltv = churn ? arpu * (margin / 100) / (churn / 100) : 0;
-      return { main: churn ? `${fmt(ltv)} میلیون تومان` : '—', label: 'ارزش طول عمر تقریبی', secondary: `دوره‌ی بازگشت سرمایه را در کنار CAC بررسی کنید.`, note: 'مدل پایه است و تغییر رفتار مشتری، هزینه‌ی نگهداشت و ارزش زمانی پول را در نظر نمی‌گیرد.' };
+      return { main: churn ? `${fmt(ltv)} میلیون تومان` : '—', label: 'ارزش طول عمر تقریبی', secondary: `دوره‌ی بازگشت سرمایه را در کنار CAC بررسی کنید`, note: 'مدل پایه است و تغییر رفتار مشتری، هزینه‌ی نگهداشت و ارزش زمانی پول را در نظر نمی‌گیرد' };
     },
   },
   {
     id: 'saas', title: 'شاخص‌های SaaS', eyebrow: 'درآمد تکرارشونده', icon: BarChart3,
-    description: 'درآمد سالانه‌ی تکرارشونده و نرخ رشد ماهانه را تخمین بزنید.',
+    description: 'درآمد سالانه‌ی تکرارشونده و نرخ رشد ماهانه را تخمین بزنید',
     formula: 'ARR = درآمد تکرارشونده‌ی ماهانه × ۱۲', related: 'شاخص‌هایی که داستان رشد را بهتر روایت می‌کنند',
     fields: [
       { key: 'mrr', label: 'درآمد تکرارشونده‌ی ماهانه (MRR)', unit: 'میلیون تومان', type: 'number', min: 0, default: 420 },
@@ -119,12 +119,12 @@ export const calculatorTools = [
     ],
     calculate: (v) => {
       const mrr = numberOf(v.mrr); const growth = Number(v.growth) || 0; const arr = mrr * 12;
-      return { main: `${fmt(arr)} میلیون تومان`, label: 'ARR برآوردی', secondary: `MRR فعلی ${fmt(mrr)} میلیون تومان · رشد ماهانه ${percent(growth)}`, note: 'ARR برون‌یابی ساده‌ی MRR است؛ درآمد غیرتکرارشونده، تخفیف و ریزش باید جداگانه بررسی شوند.' };
+      return { main: `${fmt(arr)} میلیون تومان`, label: 'ARR برآوردی', secondary: `MRR فعلی ${fmt(mrr)} میلیون تومان · رشد ماهانه ${percent(growth)}`, note: 'ARR برون‌یابی ساده‌ی MRR است؛ درآمد غیرتکرارشونده، تخفیف و ریزش باید جداگانه بررسی شوند' };
     },
   },
   {
     id: 'maturity', title: 'سنجش آمادگی استارتاپ', eyebrow: 'ارزیابی اولیه', icon: Sparkles,
-    description: 'در چند محور به آمادگی امروز تیم خودتان امتیاز بدهید.',
+    description: 'در چند محور به آمادگی امروز تیم خودتان امتیاز بدهید',
     formula: 'امتیاز آمادگی = مجموع امتیازها ÷ حداکثر امتیاز × ۱۰۰', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
     fields: [
       { key: 'team', label: 'تیم و نقش‌های کلیدی', unit: 'از ۵', type: 'range', min: 1, max: 5, default: 3 },
@@ -139,7 +139,7 @@ export const calculatorTools = [
       const score = ['team', 'problem', 'product', 'traction', 'finance', 'legal', 'goToMarket'].reduce((sum, key) => sum + Math.min(5, numberOf(v[key])), 0);
       const result = Math.round((score / 35) * 100);
       const stage = result < 40 ? 'تمرکز بر مسئله و شناخت بازار' : result < 65 ? 'تقویت محصول و شواهد اولیه' : result < 82 ? 'آماده‌ی گفت‌وگوی عمیق‌تر' : 'آماده‌سازی برای ارزیابی جامع';
-      return { main: `${fmt(result, 0)} از ۱۰۰`, label: 'امتیاز آمادگی', secondary: stage, note: 'این ابزار تشخیص یا تضمین پذیرش نیست؛ فقط چک‌لیستی برای گفت‌وگوی تیمی است.' };
+      return { main: `${fmt(result, 0)} از ۱۰۰`, label: 'امتیاز آمادگی', secondary: stage, note: 'این ابزار تشخیص یا تضمین پذیرش نیست؛ فقط چک‌لیستی برای گفت‌وگوی تیمی است' };
     },
   },
 ];
@@ -190,14 +190,14 @@ export default function CalculatorLab({ toolId, onClose, onOpenArticle }) {
   const copyResult = async (share = false) => {
     try {
       if (share && navigator.share) {
-        await navigator.share({ title: 'نتیجه‌ی محاسبه در ایکس', text: summary });
-        setShareMessage('نتیجه به‌اشتراک گذاشته شد.');
+        await navigator.share({ title: 'نتیجه‌ی محاسبه در پارس', text: summary });
+        setShareMessage('نتیجه به‌اشتراک گذاشته شد');
       } else {
         await navigator.clipboard.writeText(summary);
-        setShareMessage('نتیجه کپی شد.');
+        setShareMessage('نتیجه کپی شد');
       }
     } catch {
-      setShareMessage('اشتراک‌گذاری در این مرورگر در دسترس نیست.');
+      setShareMessage('اشتراک‌گذاری در این مرورگر در دسترس نیست');
     }
     window.setTimeout(() => setShareMessage(''), 2600);
   };
@@ -206,7 +206,7 @@ export default function CalculatorLab({ toolId, onClose, onOpenArticle }) {
     <div className="modal-scrim" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
       <section className="calculator-dialog" role="dialog" aria-modal="true" aria-labelledby="calculator-title" dir="rtl">
         <header className="dialog-header">
-          <div className="dialog-brand"><span className="dialog-brand-mark">X</span><span>آزمایشگاه ابزارهای ایکس</span></div>
+          <div className="dialog-brand"><span className="dialog-brand-mark">پ</span><span>آزمایشگاه ابزارهای پارس</span></div>
           <button type="button" className="icon-button dialog-close" onClick={onClose} aria-label="بستن"><X size={20} /></button>
         </header>
         <div className="calculator-layout">
@@ -216,7 +216,7 @@ export default function CalculatorLab({ toolId, onClose, onOpenArticle }) {
             <h2 id="calculator-title">{tool.title}</h2>
             <p>{tool.description}</p>
             <div className="formula-card"><span>فرمول پایه</span><code>{tool.formula}</code></div>
-            <div className="calculator-side-note"><CircleHelp size={17} /><p>نتیجه‌ی این ابزار برآورد آموزشی است و جایگزین بررسی تخصصی مالی یا حقوقی نیست.</p></div>
+            <div className="calculator-side-note"><CircleHelp size={17} /><p>نتیجه‌ی این ابزار برآورد آموزشی است و جایگزین بررسی تخصصی مالی یا حقوقی نیست</p></div>
           </aside>
           <div className="calculator-main">
             <div className="result-card">

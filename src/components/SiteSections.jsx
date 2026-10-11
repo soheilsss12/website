@@ -546,21 +546,30 @@ export function PortfolioSection() {
 }
 
 export function MapSection() {
+  const labelPlacement = {
+    tabriz: { dx: 1.3, dy: -1.5, anchor: 'start' },
+    tehran: { dx: 0, dy: -1.7, anchor: 'middle' },
+    mashhad: { dx: -1.5, dy: -1.5, anchor: 'end' },
+    isfahan: { dx: -1.6, dy: 2.4, anchor: 'end' },
+    shiraz: { dx: -1.5, dy: 2.5, anchor: 'end' },
+    'bandar-abbas': { dx: -1.5, dy: 2.6, anchor: 'end' },
+  };
   return (
     <section className="map-section section-space" id="map">
       <div className="site-container map-layout map-layout-accurate">
         <div className="map-copy">
-          <SectionHeading index="۰۶" eyebrow="گستره‌ی جغرافیایی" title="نگاهی به" emphasis="نقشه‌ی ایران" copy="محدوده‌ی پذیرش هر دوره در اطلاعیه‌ی رسمی همان دوره اعلام می‌شود" />
-          <div className="map-note-card"><Globe2 size={20} /><span><strong>محدوده‌ی پذیرش</strong><small>شهرها و محدوده‌ی پذیرش هر دوره در اطلاعیه‌ی رسمی اعلام می‌شود</small></span></div>
+          <SectionHeading index="۰۶" eyebrow="گستره‌ی جغرافیایی" title="نگاهی به" emphasis="نقشه‌ی ایران" copy="نام شهرها و خطوط روی نقشه نمای شماتیک‌اند؛ محدوده‌ی پذیرش هر دوره فقط در اطلاعیه‌ی رسمی اعلام می‌شود" />
+          <div className="map-note-card"><Globe2 size={20} /><span><strong>محدوده‌ی پذیرش</strong><small>این نقشه پوشش جغرافیایی تأییدشده‌ی پارس را نشان نمی‌دهد</small></span></div>
+          <div className="map-accuracy-note"><ShieldCheck size={15} /><span>نقطه‌ها و خط‌ها نمایشی‌اند؛ حضور، دفتر یا سرمایه‌گذاری پارس در شهرها را تأیید نمی‌کنند.</span></div>
           <a href="#apply" className="text-link">دیدن شرایط فراخوان <ArrowUpLeft size={16} /></a>
         </div>
         <div className="map-art-card map-art-card-accurate" data-reveal>
-          <div className="map-card-head"><span><MapPin size={15} /> گستره‌ی ایران</span></div>
+          <div className="map-card-head"><span><MapPin size={15} /> گستره‌ی ایران</span><span className="map-sample-tag"><i /> شهرها و خطوط شماتیک</span></div>
           <div className="iran-map-stage">
             <div className="iran-map-scan" />
             <div className="iran-map-crosshair iran-map-crosshair-one" />
             <div className="iran-map-crosshair iran-map-crosshair-two" />
-            <svg className="iran-map iran-map-accurate" viewBox={iranOutlineViewBox} role="img" aria-label="نقشه‌ی ایران با چند نقطه‌ی شهری نمایشی">
+            <svg className="iran-map iran-map-accurate" viewBox={iranOutlineViewBox} role="img" aria-label="نقشه‌ی ایران با نام چند شهر و مسیرهای شماتیک؛ نه محدوده‌ی پوشش واقعی پارس">
               <defs>
                 <linearGradient id="iranSurface" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0" stopColor="#e5ffc0" stopOpacity=".42" />
@@ -580,18 +589,31 @@ export function MapSection() {
                 <path d="M594 348 C608 348 611 359 623 358 S638 350 657 352 M596 365 C608 362 614 370 625 370 S644 362 655 365 M598 383 C609 379 615 386 628 382 S643 376 655 380" />
                 <path d="M612 338 C610 350 620 357 617 367 S623 380 620 395 M632 337 C630 350 638 361 632 371 S634 385 638 395" />
               </g>
+              <g className="iran-map-routes" aria-hidden="true">
+                <path d="M619.1 355.5 C613 352 609 349 604.9 347.5" />
+                <path d="M619.1 355.5 C628 351 635 351 642.2 353.5" />
+                <path d="M619.1 355.5 C618 360 618 362 620 365.5" />
+                <path d="M619.1 355.5 C615 364 618 371 622.5 375.6" />
+                <path d="M619.1 355.5 C623 367 627 378 632.8 383.8" />
+              </g>
               <path className="iran-map-outline" d={iranOutlinePath} />
               <g className="iran-map-markers" aria-hidden="true">
-                {iranCityMarkers.map((marker) => (
-                  <g className={`iran-map-city ${marker.featured ? 'is-featured' : ''}`} key={marker.id}>
-                    <circle className="iran-map-city-pulse" cx={marker.x} cy={marker.y} r="1.1" />
-                    <circle className="iran-map-city-dot" cx={marker.x} cy={marker.y} r={marker.featured ? '0.62' : '0.43'} />
-                    <circle className="iran-map-city-core" cx={marker.x} cy={marker.y} r="0.18" />
-                  </g>
-                ))}
+                {iranCityMarkers.map((marker) => {
+                  const label = labelPlacement[marker.id];
+                  return (
+                    <g className={`iran-map-city ${marker.featured ? 'is-featured' : ''}`} key={marker.id}>
+                      <circle className="iran-map-city-pulse" cx={marker.x} cy={marker.y} r="1.1" />
+                      <circle className="iran-map-city-dot" cx={marker.x} cy={marker.y} r={marker.featured ? '0.62' : '0.43'} />
+                      <circle className="iran-map-city-core" cx={marker.x} cy={marker.y} r="0.18" />
+                      <text className="iran-map-city-label" x={marker.x + label.dx} y={marker.y + label.dy} textAnchor={label.anchor}>{marker.label}</text>
+                    </g>
+                  );
+                })}
               </g>
             </svg>
           </div>
+          <div className="map-legend"><span><i className="legend-lime" /> نام و نقطه‌ی شهرها</span><span><i className="legend-copper" /> مسیر شماتیک، نه پوشش واقعی</span></div>
+          <div className="map-coordinate">اطلاعیه‌ی رسمی هر دوره، شهرهای مجاز و محدوده‌ی پذیرش را مشخص می‌کند.</div>
         </div>
       </div>
     </section>

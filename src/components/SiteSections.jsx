@@ -47,6 +47,7 @@ import {
   valuePillars,
 } from '../data/siteContent.js';
 import { iranCityMarkers, iranOutlinePath, iranOutlineViewBox } from '../data/iranMap.js';
+import CrystalIcosahedron from './CrystalIcosahedron.jsx';
 
 const faNumber = (value) => new Intl.NumberFormat('fa-IR').format(value);
 
@@ -88,17 +89,8 @@ function HeroParsVisual() {
       <div className="hero-stage-grid" />
       <div className="hero-stage-orbit hero-stage-orbit-a"><i /></div>
       <div className="hero-stage-orbit hero-stage-orbit-c" />
-      <div className="hero-pars-shell">
-        <div className="hero-pars-orb" role="img" aria-label="مدل سه‌بعدی کره‌ی مداری پارس">
-          <span className="hero-pars-orb-ring hero-pars-orb-ring-back" />
-          <span className="hero-pars-orb-ring hero-pars-orb-ring-meridian" />
-          <span className="hero-pars-orb-sphere">
-            <span className="hero-pars-orb-surface" />
-            <span className="hero-pars-orb-latitude" />
-            <strong className="hero-pars-orb-mark">پ</strong>
-          </span>
-          <span className="hero-pars-orb-ring hero-pars-orb-ring-front"><i /></span>
-        </div>
+      <div className="hero-crystal-shell">
+        <CrystalIcosahedron active={isStageActive} />
       </div>
       <span className="hero-stage-spark hero-stage-spark-one" />
       <span className="hero-stage-spark hero-stage-spark-two" />
@@ -113,7 +105,7 @@ function HeroParsVisual() {
         <span><small>از ایده تا اثر</small><strong>مسیر رشد، با همراهی</strong></span>
         <ArrowUpLeft size={16} />
       </div>
-      <div className="hero-stage-coordinate"><span>طراحی برای رشد بلندمدت</span><i /></div>
+      <div className="hero-stage-coordinate"><span>۲۰ وجه بلوری · واکنش به حرکت موس</span><i /></div>
       <div className="hero-stage-watermark">پارس</div>
     </div>
   );

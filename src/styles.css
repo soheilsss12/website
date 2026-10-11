@@ -6486,7 +6486,7 @@ summary:focus-visible {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Pars orbital brand system — a lightweight CSS 3D hero
+   Pars identity system — a lightweight interactive 20-face crystal hero
    ────────────────────────────────────────────────────────────── */
 :root {
   --max-width: 1400px;
@@ -6815,7 +6815,6 @@ h4,
   animation: hero-stage-arrive 0.8s 0.08s cubic-bezier(0.2, 0.75, 0.2, 1) both;
 }
 
-.hero-stage.is-idle .hero-pars-orb-ring-front,
 .hero-stage.is-idle .hero-stage-orbit-a,
 .hero-stage.is-idle .hero-stage-spark,
 .hero-stage.is-idle .hero-glass-pulse {
@@ -6901,7 +6900,7 @@ h4,
   transform: translate(-50%, -50%) rotateX(68deg);
 }
 
-.hero-pars-shell {
+.hero-crystal-shell {
   position: relative;
   z-index: 1;
   display: grid;
@@ -6911,177 +6910,40 @@ h4,
   transform-style: preserve-3d;
 }
 
-.hero-pars-orb {
+.hero-crystal-object {
   position: relative;
   display: grid;
   width: min(100%, 520px);
   aspect-ratio: 1;
   place-items: center;
-  transform-style: preserve-3d;
+  cursor: grab;
+  touch-action: pan-y;
 }
 
-.hero-pars-orb-ring {
+.hero-crystal-object:active {
+  cursor: grabbing;
+}
+
+.hero-crystal-glow {
   position: absolute;
-  display: block;
-  border: 1px solid rgba(215, 255, 203, 0.29);
+  width: 62%;
+  aspect-ratio: 1;
   border-radius: 50%;
+  background: radial-gradient(circle, rgba(116, 255, 181, 0.24), rgba(73, 180, 137, 0.1) 43%, transparent 72%);
   pointer-events: none;
-  transform-style: preserve-3d;
 }
 
-.hero-pars-orb-ring-back {
-  z-index: 0;
-  width: 78%;
-  height: 78%;
-  border-color: rgba(167, 226, 191, 0.19);
-  transform: rotateX(69deg) rotateZ(-25deg);
-}
-
-.hero-pars-orb-ring-meridian {
-  z-index: 0;
-  width: 43%;
-  height: 94%;
-  border-color: rgba(214, 255, 206, 0.22);
-  transform: rotateY(58deg) rotateZ(19deg);
-}
-
-.hero-pars-orb-sphere {
+.hero-crystal-mesh {
   position: relative;
   z-index: 1;
-  display: block;
-  width: 53%;
-  aspect-ratio: 1;
-  overflow: hidden;
-  border: 1px solid rgba(226, 255, 215, 0.58);
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 29% 25%, rgba(247, 255, 219, 0.98) 0 1.3%, rgba(203, 255, 190, 0.72) 3%, transparent 14%),
-    radial-gradient(circle at 33% 31%, #9de99b 0, #4ca782 22%, #236857 46%, #11373b 70%, #071416 100%);
-  box-shadow:
-    0 0 76px rgba(96, 255, 165, 0.2),
-    0 28px 54px rgba(0, 0, 0, 0.42),
-    inset -22px -28px 46px rgba(0, 0, 0, 0.62),
-    inset 12px 9px 28px rgba(224, 255, 211, 0.2);
-  transform: translateZ(4px);
-}
-
-.hero-pars-orb-surface {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(132deg, rgba(244, 255, 222, 0.26), transparent 27%, transparent 61%, rgba(2, 12, 17, 0.51));
+  width: 100%;
+  height: 100%;
+  overflow: visible;
   pointer-events: none;
 }
 
-.hero-pars-orb-latitude {
-  position: absolute;
-  z-index: 1;
-  top: 36%;
-  left: 5%;
-  width: 90%;
-  height: 34%;
-  border: 1px solid rgba(222, 255, 220, 0.42);
-  border-radius: 50%;
-  transform: rotate(-12deg) rotateX(54deg);
-  pointer-events: none;
-}
-
-.hero-pars-orb-mark {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 50%;
-  color: #e6ffad;
-  font-family: var(--font-persian);
-  font-size: clamp(54px, 5.2vw, 76px);
-  font-weight: 670;
-  line-height: 1;
-  text-shadow: 0 0 26px rgba(214, 255, 116, 0.66), 0 4px 18px rgba(0, 0, 0, 0.42);
-  transform: translate(-50%, -54%);
-}
-
-.hero-pars-orb-ring-front {
-  z-index: 2;
-  width: 98%;
-  height: 31%;
-  border-color: rgba(224, 255, 194, 0.74);
-  box-shadow: 0 0 18px rgba(154, 255, 181, 0.14);
-  transform: rotateX(62deg) rotateZ(-26deg);
-  animation: hero-pars-orbit-spin 46s linear infinite;
-  will-change: transform;
-}
-
-.hero-pars-orb-ring-front::before,
-.hero-pars-orb-ring-front::after {
-  position: absolute;
-  top: 50%;
-  width: 8px;
-  height: 8px;
-  content: "";
-  border: 1px solid #ecffc4;
-  border-radius: 50%;
-  background: #b8ff8b;
-  box-shadow: 0 0 15px rgba(184, 255, 139, 0.84);
-}
-
-.hero-pars-orb-ring-front::before {
-  left: 9%;
-  transform: translateY(-50%);
-}
-
-.hero-pars-orb-ring-front::after {
-  right: 18%;
-  width: 5px;
-  height: 5px;
-  background: #f1a574;
-  border-color: #ffd0a9;
-  box-shadow: 0 0 14px rgba(241, 165, 116, 0.8);
-  transform: translateY(-50%);
-}
-
-@media (max-width: 560px) {
-  .hero-pars-orb-sphere {
-    width: 56%;
-  }
-
-  .hero-pars-orb-mark {
-    font-size: clamp(50px, 13vw, 66px);
-  }
-}
-
-.hero-stage-spark {
-  position: absolute;
-  z-index: 2;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #edffc9;
-  box-shadow: 0 0 12px 3px rgba(199, 255, 151, 0.62);
-  animation: hero-stage-spark-drift 6s ease-in-out infinite;
-}
-
-.hero-stage-spark-one {
-  top: 17%;
-  right: 27%;
-}
-
-.hero-stage-spark-two {
-  bottom: 27%;
-  left: 18%;
-  width: 3px;
-  height: 3px;
-  animation-delay: -2s;
-}
-
-.hero-stage-spark-three {
-  top: 42%;
-  left: 8%;
-  width: 5px;
-  height: 5px;
-  background: #e9bd7e;
-  box-shadow: 0 0 13px 3px rgba(233, 189, 126, 0.6);
-  animation-delay: -4s;
+.hero-crystal-mesh polygon {
+  vector-effect: non-scaling-stroke;
 }
 
 .hero-stage-spark {
@@ -7839,11 +7701,6 @@ h4,
   50% { opacity: 1; transform: scale(1.22); }
 }
 
-@keyframes hero-pars-orbit-spin {
-  from { transform: rotateX(62deg) rotateZ(-26deg); }
-  to { transform: rotateX(62deg) rotateZ(334deg); }
-}
-
 @keyframes hero-stage-orbit-spin {
   from { transform: translate(-50%, -50%) rotate(-29deg) rotateX(62deg) rotate(0); }
   to { transform: translate(-50%, -50%) rotate(-29deg) rotateX(62deg) rotate(360deg); }
@@ -8273,7 +8130,6 @@ h4,
 
 @media (prefers-reduced-motion: reduce) {
   .hero-stage-orbit,
-  .hero-pars-orb-ring-front,
   .hero-stage-spark,
   .hero-glass-pulse,
   .hero-scroll-cue > span,
@@ -8291,5 +8147,347 @@ h4,
     animation: none !important;
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Temporary identity-selection gallery for Pars Iranian AI */
+.logo-options-page {
+  min-height: 100svh;
+  overflow: hidden;
+  color: #f0f4eb;
+  background:
+    radial-gradient(ellipse at 50% 0, rgba(78, 139, 104, 0.16), transparent 43%),
+    #080c0a;
+}
+
+.logo-options-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 20px;
+  border-bottom: 1px solid rgba(228, 245, 219, 0.1);
+}
+
+.logo-options-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: #f0f4eb;
+  text-decoration: none;
+}
+
+.logo-options-brand > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logo-options-brand strong {
+  font-size: 16px;
+  line-height: 1.15;
+}
+
+.logo-options-brand small {
+  color: #8e9a8d;
+  font-size: 9px;
+}
+
+.logo-options-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #c8d3c5;
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.logo-options-back:hover {
+  color: var(--lime);
+}
+
+.logo-options-intro {
+  padding-block: clamp(48px, 7vw, 82px) 34px;
+  text-align: center;
+}
+
+.logo-options-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 13px;
+  border: 1px solid rgba(214, 255, 116, 0.25);
+  border-radius: 999px;
+  color: #d6ff9b;
+  background: rgba(214, 255, 116, 0.06);
+  font-size: 11px;
+}
+
+.logo-options-intro h1 {
+  margin: 22px 0 12px;
+  color: #f3f5ec;
+  font-size: clamp(38px, 5.4vw, 68px);
+  font-weight: 680;
+  letter-spacing: -0.055em;
+  line-height: 1.35;
+}
+
+.logo-options-intro h1 em {
+  color: transparent;
+  background: linear-gradient(95deg, #f1ffce, #d6ff74 48%, #8ce3bd);
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-style: normal;
+}
+
+.logo-options-intro > p {
+  max-width: 700px;
+  margin: 0 auto;
+  color: #9eaa9d;
+  font-size: 14px;
+  line-height: 2;
+}
+
+.logo-choice-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 22px;
+  padding: 10px 15px;
+  border: 1px solid rgba(226, 246, 220, 0.12);
+  border-radius: 8px;
+  color: #b4c0b2;
+  background: rgba(255, 255, 255, 0.025);
+  font-size: 11px;
+}
+
+.logo-choice-status.is-selected {
+  border-color: rgba(214, 255, 116, 0.4);
+  color: #ddf2c8;
+  background: rgba(214, 255, 116, 0.07);
+}
+
+.logo-choice-status-icon {
+  display: grid;
+  color: var(--lime);
+  place-items: center;
+}
+
+.logo-options-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 14px;
+}
+
+.logo-option-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid rgba(223, 241, 216, 0.12);
+  border-radius: 12px;
+  background: linear-gradient(155deg, rgba(23, 31, 26, 0.96), rgba(11, 16, 13, 0.98));
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.17);
+  transition: border-color 0.24s ease, transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+.logo-option-card:hover {
+  border-color: rgba(214, 255, 116, 0.38);
+  transform: translateY(-3px);
+}
+
+.logo-option-card.is-selected {
+  border-color: rgba(214, 255, 116, 0.82);
+  box-shadow: 0 0 0 1px rgba(214, 255, 116, 0.14), 0 20px 55px rgba(57, 107, 70, 0.18);
+}
+
+.logo-option-art {
+  display: flex;
+  min-height: 218px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(220, 240, 219, 0.075);
+  border-radius: 8px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(99, 157, 114, 0.13), transparent 63%), #0c120f;
+}
+
+.logo-option-mark {
+  display: grid;
+  width: 112px;
+  height: 112px;
+  place-items: center;
+}
+
+.logo-option-mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.logo-option-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-top: 9px;
+  text-align: center;
+}
+
+.logo-option-wordmark strong {
+  color: #f2f5ea;
+  font-size: 18px;
+  font-weight: 660;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.logo-option-wordmark span {
+  color: #9ead97;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.logo-option-copy {
+  flex: 1;
+  padding: 15px 5px 12px;
+}
+
+.logo-option-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-option-heading > span {
+  color: #9aaf87;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.logo-option-heading h2 {
+  margin: 0;
+  color: #e9eee4;
+  font-size: 14px;
+  font-weight: 630;
+}
+
+.logo-option-copy > small {
+  display: block;
+  margin-top: 5px;
+  color: #d6ff93;
+  font-size: 9px;
+}
+
+.logo-option-copy p {
+  margin: 10px 0 0;
+  color: #929d91;
+  font-size: 10px;
+  line-height: 1.9;
+}
+
+.logo-option-select {
+  display: flex;
+  min-height: 41px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: auto;
+  border: 1px solid rgba(214, 255, 116, 0.33);
+  border-radius: 6px;
+  color: #e5f2d3;
+  background: rgba(214, 255, 116, 0.055);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.logo-option-select:hover,
+.logo-option-card.is-selected .logo-option-select {
+  border-color: var(--lime);
+  color: #0c1209;
+  background: var(--lime);
+}
+
+.logo-option-select:focus-visible,
+.logo-options-back:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 3px;
+}
+
+.logo-options-note {
+  padding-block: 24px 48px;
+  color: #758176;
+  font-size: 10px;
+  text-align: center;
+}
+
+@media (max-width: 1180px) {
+  .logo-options-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 720px) {
+  .logo-options-header {
+    padding-block: 15px;
+  }
+
+  .logo-options-intro {
+    padding-block: 46px 26px;
+  }
+
+  .logo-options-intro > p {
+    max-width: 510px;
+    font-size: 12px;
+  }
+
+  .logo-options-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+  }
+
+  .logo-option-art {
+    min-height: 198px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-options-header {
+    gap: 12px;
+  }
+
+  .logo-options-back {
+    font-size: 10px;
+  }
+
+  .logo-options-grid {
+    grid-template-columns: 1fr;
+    max-width: 380px;
+  }
+
+  .logo-option-card {
+    padding: 11px;
+  }
+
+  .logo-option-art {
+    min-height: 218px;
+  }
+
+  .logo-option-copy p {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-option-card,
+  .logo-options-back,
+  .logo-option-select {
+    transition: none;
   }
 }

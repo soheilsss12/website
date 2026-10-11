@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import ApplicationPage from './components/ApplicationPage.jsx';
 import CalculatorLab, { calculatorTools } from './components/CalculatorLab.jsx';
+import LogoOptionsPage from './components/LogoOptions.jsx';
 import {
   AboutSection,
   ArticleDetail,
@@ -49,7 +50,7 @@ const siteAnchors = new Set([
   'tools', 'voices', 'partners', 'knowledge', 'news', 'about', 'team', 'licenses', 'contact', 'campaign',
 ]);
 const applyAnchors = new Set(['campaign-criteria', 'application-form', 'applicant-access']);
-const routeViews = new Set(['apply', 'terms', 'privacy', 'sitemap', 'admin']);
+const routeViews = new Set(['apply', 'terms', 'privacy', 'sitemap', 'admin', 'logo-options']);
 
 function resolveRoute() {
   if (window.location.hostname.toLowerCase().startsWith('apply.')) return 'apply';
@@ -97,7 +98,7 @@ function FullMenu({ open, onClose }) {
     ['مسیر سرمایه‌گذاری', '#process'], ['پرتفوی', '#portfolio'], ['گستره‌ی جغرافیایی', '#map'],
     ['معیارهای ارزیابی', '#approach'], ['ابزارهای استارتاپ', '#tools'], ['مرکز دانش', '#knowledge'],
     ['اخبار و رویدادها', '#news'], ['درباره‌ی پارس', '#about'], ['همکاران', '#partners'],
-    ['مجوزها', '#licenses'], ['تماس با ما', '#contact'],
+    ['مجوزها', '#licenses'], ['تماس با ما', '#contact'], ['گزینه‌های لوگوی پارس ایرانیان', '#logo-options'],
   ];
   useEffect(() => {
     const onEscape = (event) => { if (event.key === 'Escape') onClose(); };
@@ -218,7 +219,7 @@ export default function App() {
   useEffect(() => {
     const titles = {
       home: 'پارس | سرمایه‌گذاری جسورانه', apply: 'درخواست سرمایه | پارس', terms: 'قوانین و مقررات | پارس',
-      privacy: 'حریم خصوصی | پارس', sitemap: 'نقشه‌ی سایت | پارس', admin: 'پنل داخلی | پارس', 'not-found': 'صفحه پیدا نشد | پارس',
+      privacy: 'حریم خصوصی | پارس', sitemap: 'نقشه‌ی سایت | پارس', admin: 'پنل داخلی | پارس', 'logo-options': 'گزینه‌های لوگو | پارس ایرانیان', 'not-found': 'صفحه پیدا نشد | پارس',
     };
     document.title = titles[route] || titles.home;
     if (route === 'apply') {
@@ -278,6 +279,7 @@ export default function App() {
   if (route === 'terms' || route === 'privacy') return <LegalPage type={route} />;
   if (route === 'sitemap') return <SiteMapPage />;
   if (route === 'admin') return <AdminPreview />;
+  if (route === 'logo-options') return <LogoOptionsPage />;
   if (route === 'not-found') return <NotFoundPage />;
 
   const activeToolConfig = calculatorTools.find((tool) => tool.id === activeTool);

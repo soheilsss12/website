@@ -197,8 +197,7 @@ export function HeroSection() {
     if (!motionQuery) return undefined;
     const updateMotionPreference = (event) => {
       setIsMotionReduced(event.matches);
-      if (event.matches) setNextStep(null);
-      else setDialoguePhase('typing');
+      setDialoguePhase(event.matches ? 'ready' : 'typing');
     };
     motionQuery.addEventListener?.('change', updateMotionPreference);
     return () => motionQuery.removeEventListener?.('change', updateMotionPreference);
@@ -240,15 +239,6 @@ export function HeroSection() {
             setDialoguePhase('holding');
             timers.push(window.setTimeout(() => {
               setDialoguePhase('receding');
-              timers.push(window.setTimeout(() => {
-                setHistory((items) => (
-                  items.some((turn) => turn.prompt === HERO_TITLE_TEXT)
-                    ? items
-                    : [...items, { prompt: HERO_TITLE_TEXT, answer: '' }]
-                ));
-                setDialoguePhase('arriving');
-                setDialogueStep(0);
-              }, 520));
             }, 900));
           } else {
             setDialoguePhase('ready');
@@ -274,14 +264,29 @@ export function HeroSection() {
   }, [dialoguePhase, isMotionReduced]);
 
   useEffect(() => {
-    if (nextStep === null) return undefined;
-    const transitionTimer = window.setTimeout(() => {
-      setDialoguePhase(isMotionReduced ? 'ready' : 'arriving');
-      setDialogueStep(nextStep);
-      setNextStep(null);
-    }, isMotionReduced ? 0 : 520);
-    return () => window.clearTimeout(transitionTimer);
-  }, [nextStep, isMotionReduced]);
+    if (!isMotionReduced || nextStep === null) return;
+    setDialogueStep(nextStep);
+    setNextStep(null);
+    setDialoguePhase('ready');
+  }, [isMotionReduced, nextStep]);
+
+  const handlePromptTransitionEnd = (event) => {
+    if (event.target !== event.currentTarget || event.propertyName !== 'transform' || dialoguePhase !== 'receding') return;
+    if (dialogueStep < 0) {
+      setHistory((items) => (
+        items.some((turn) => turn.prompt === HERO_TITLE_TEXT)
+          ? items
+          : [...items, { prompt: HERO_TITLE_TEXT, answer: '' }]
+      ));
+      setDialoguePhase('arriving');
+      setDialogueStep(0);
+      return;
+    }
+    if (nextStep === null) return;
+    setDialoguePhase('arriving');
+    setDialogueStep(nextStep);
+    setNextStep(null);
+  };
 
   const advanceConversation = (answer) => {
     const cleanAnswer = answer.trim();
@@ -355,6 +360,7 @@ export function HeroSection() {
               id="hero-title"
               className={`hero-dialogue-prompt ${isIntro ? 'is-intro' : ''}`}
               aria-label={activePrompt}
+              onTransitionEnd={handlePromptTransitionEnd}
             >
               {isIntro ? (
                 <span className="hero-dialogue-prompt-visual" aria-hidden="true">

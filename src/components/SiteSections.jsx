@@ -524,7 +524,7 @@ export function AboutSection() {
               <article className="trust-visuals-card" key={item.image} data-reveal>
                 <div className="trust-visuals-media">
                   <img
-                    src={`${import.meta.env.BASE_URL}${item.image}`}
+                    src={`${import.meta.env.BASE_URL}${item.image}?v=1`}
                     alt={item.alt}
                     width="1536"
                     height="1024"

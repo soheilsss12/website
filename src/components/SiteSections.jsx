@@ -198,6 +198,7 @@ export function HeroSection() {
     const updateMotionPreference = (event) => {
       setIsMotionReduced(event.matches);
       if (event.matches) setNextStep(null);
+      else setDialoguePhase('typing');
     };
     motionQuery.addEventListener?.('change', updateMotionPreference);
     return () => motionQuery.removeEventListener?.('change', updateMotionPreference);
@@ -221,7 +222,6 @@ export function HeroSection() {
     }
 
     setTypingState({ prompt: activePrompt, length: 0 });
-    setDialoguePhase('typing');
     const timers = [];
     let characterInterval;
     const clearSequence = () => {
@@ -246,6 +246,7 @@ export function HeroSection() {
                     ? items
                     : [...items, { prompt: HERO_TITLE_TEXT, answer: '' }]
                 ));
+                setDialoguePhase('arriving');
                 setDialogueStep(0);
               }, 520));
             }, 900));
@@ -260,8 +261,22 @@ export function HeroSection() {
   }, [activePrompt, dialogueStep, isMotionReduced]);
 
   useEffect(() => {
+    if (dialoguePhase !== 'arriving' || isMotionReduced) return undefined;
+    let firstFrame = null;
+    let secondFrame = null;
+    firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => setDialoguePhase('typing'));
+    });
+    return () => {
+      if (firstFrame !== null) window.cancelAnimationFrame(firstFrame);
+      if (secondFrame !== null) window.cancelAnimationFrame(secondFrame);
+    };
+  }, [dialoguePhase, isMotionReduced]);
+
+  useEffect(() => {
     if (nextStep === null) return undefined;
     const transitionTimer = window.setTimeout(() => {
+      setDialoguePhase(isMotionReduced ? 'ready' : 'arriving');
       setDialogueStep(nextStep);
       setNextStep(null);
     }, isMotionReduced ? 0 : 520);
@@ -336,6 +351,7 @@ export function HeroSection() {
               ))}
             </div>
             <h1
+              key={dialogueStep}
               id="hero-title"
               className={`hero-dialogue-prompt ${isIntro ? 'is-intro' : ''}`}
               aria-label={activePrompt}

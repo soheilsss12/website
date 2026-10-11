@@ -6916,12 +6916,7 @@ h4,
   width: min(100%, 520px);
   aspect-ratio: 1;
   place-items: center;
-  cursor: grab;
   touch-action: pan-y;
-}
-
-.hero-crystal-object:active {
-  cursor: grabbing;
 }
 
 .hero-crystal-glow {
@@ -8552,6 +8547,7 @@ h4,
   position: absolute;
   z-index: 1;
   inset: 20%;
+  pointer-events: none;
   display: grid;
   place-items: center;
   filter: drop-shadow(0 0 24px rgba(104, 255, 169, 0.28));
@@ -8581,18 +8577,99 @@ h4,
   filter: drop-shadow(0 0 8px rgba(128, 255, 176, 0.24));
 }
 
-.hero-crystal-fallback {
+
+/* Precise orbital framing for the crystal hero */
+.hero-stage.is-idle .hero-stage-orbit-b {
+  animation-play-state: paused;
+}
+
+.hero-stage-instrument {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from -5deg, rgba(199, 255, 210, 0.44) 0deg 0.22deg, transparent 0.22deg 15deg);
+  opacity: 0.35;
   pointer-events: none;
-  transition: opacity 0.55s ease, transform 0.55s ease;
+  transform: rotate(3deg);
+  -webkit-mask-image: radial-gradient(circle, transparent 0 77.4%, #000 77.8% 78.25%, transparent 78.7%);
+  mask-image: radial-gradient(circle, transparent 0 77.4%, #000 77.8% 78.25%, transparent 78.7%);
 }
 
-.hero-crystal-fallback.is-fading {
-  opacity: 0;
-  transform: scale(0.94);
+.hero-stage-instrument::after {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from -74deg, transparent 0deg 38deg, rgba(133, 255, 189, 0.48) 49deg 72deg, transparent 84deg 212deg, rgba(255, 185, 125, 0.34) 225deg 239deg, transparent 250deg 360deg);
+  content: "";
+  -webkit-mask-image: radial-gradient(circle, transparent 0 77.1%, #000 77.5% 79%, transparent 79.4%);
+  mask-image: radial-gradient(circle, transparent 0 77.1%, #000 77.5% 79%, transparent 79.4%);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-crystal-fallback {
-    transition: none;
-  }
+.hero-stage-orbit-a {
+  width: 116%;
+  height: 43%;
+  border-color: rgba(166, 255, 198, 0.28);
+  box-shadow: 0 0 20px rgba(76, 220, 163, 0.06);
+}
+
+.hero-stage-orbit-b {
+  width: 101%;
+  height: 30%;
+  border-color: rgba(125, 235, 204, 0.23);
+  transform: translate(-50%, -50%) rotate(33deg) rotateX(59deg);
+  animation: hero-stage-orbit-counter-spin 52s linear infinite;
+}
+
+.hero-stage-orbit-b i {
+  position: absolute;
+  top: 25%;
+  right: 18%;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(237, 255, 224, 0.88);
+  border-radius: 50%;
+  background: #83f2c1;
+  box-shadow: 0 0 12px 2px rgba(107, 255, 192, 0.42);
+}
+
+.hero-stage-orbit-b::after {
+  position: absolute;
+  top: 72%;
+  left: 24%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffc18c;
+  box-shadow: 0 0 11px 2px rgba(255, 180, 119, 0.38);
+  content: "";
+}
+
+.hero-glass-panel {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  border-color: rgba(211, 255, 224, 0.22);
+  background: linear-gradient(135deg, rgba(20, 35, 28, 0.82), rgba(8, 13, 10, 0.76));
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.34), inset 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.hero-glass-panel::before {
+  position: absolute;
+  top: 0;
+  right: 17px;
+  width: 42%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(208, 255, 179, 0.8), transparent);
+  content: "";
+}
+
+.hero-crystal-object,
+.hero-crystal-object:active {
+  cursor: default;
+}
+
+@keyframes hero-stage-orbit-counter-spin {
+  from { transform: translate(-50%, -50%) rotate(33deg) rotateX(59deg) rotate(0); }
+  to { transform: translate(-50%, -50%) rotate(33deg) rotateX(59deg) rotate(-360deg); }
 }

@@ -8,6 +8,15 @@ const siteBase = isGitHubActionsBuild && repositoryName ? `/${repositoryName}/` 
 export default defineConfig({
   base: siteBase,
   plugins: [react()],
+  build: {
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [{ name: 'three', test: /node_modules[\\/]three[\\/]/ }],
+        },
+      },
+    },
+  },
   server: {
     host: '0.0.0.0',
     port: 5173,

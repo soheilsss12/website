@@ -88,10 +88,12 @@ function HeroParsVisual() {
     <div ref={stageRef} className={`hero-stage ${isStageActive ? 'is-active' : 'is-idle'}`}>
       <div className="hero-stage-aura" />
       <div className="hero-stage-grid" />
-      <div className="hero-stage-orbit hero-stage-orbit-a"><i /></div>
+      <div className="hero-stage-instrument" aria-hidden="true" />
       <div className="hero-stage-orbit hero-stage-orbit-c" />
+      <div className="hero-stage-orbit hero-stage-orbit-a"><i /></div>
+      <div className="hero-stage-orbit hero-stage-orbit-b"><i /></div>
       <div className="hero-crystal-shell">
-        <CrystalIcosahedron active={isStageActive} />
+        <CrystalIcosahedron active={isStageActive} interactionRef={stageRef} />
       </div>
       <span className="hero-stage-spark hero-stage-spark-one" />
       <span className="hero-stage-spark hero-stage-spark-two" />

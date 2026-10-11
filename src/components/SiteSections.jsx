@@ -345,7 +345,7 @@ export function HeroSection() {
       <div className="hero-atmosphere" aria-hidden="true"><span /><span /><i /></div>
       <div className="hero-layout hero-pars-layout site-container">
         <div className="hero-copy hero-pars-copy">
-          <div className="hero-kicker hero-kicker-pars"><span className="hero-kicker-icon"><ChartNoAxesCombined size={14} /></span> سرمایه‌گذاری خطرپذیر</div>
+          <div className="hero-kicker hero-kicker-pars"><span className="hero-kicker-icon"><ChartNoAxesCombined size={14} /></span> سرمایه‌گذاری</div>
           <div className={`hero-dialogue-stage ${isIntro ? 'is-intro' : ''} ${currentField ? 'has-input' : ''} ${isComplete ? 'is-complete' : ''} phase-${dialoguePhase}`}>
             <div className="hero-dialogue-history" aria-hidden="true">
               {history.slice(-2).map((turn, index) => (

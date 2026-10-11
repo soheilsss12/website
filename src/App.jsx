@@ -58,11 +58,11 @@ function resolveRoute() {
   return 'not-found';
 }
 
-function BrandLockup() {
+function BrandLockup({ descriptor = 'سرمایه‌گذاری خطرپذیر' }) {
   return (
     <a className="brand-lockup" href="#home" aria-label="صفحه‌ی اصلی پارس">
       <span className="brand-symbol"><CrystalMark /></span>
-      <span className="brand-name-stack"><strong>پارس</strong><small>سرمایه‌گذاری خطرپذیر</small></span>
+      <span className="brand-name-stack"><strong>پارس</strong><small>{descriptor}</small></span>
     </a>
   );
 }
@@ -71,7 +71,7 @@ function SiteHeader({ menuOpen, setMenuOpen }) {
   return (
     <header className="site-header">
       <div className="site-header-inner site-container">
-        <BrandLockup />
+        <BrandLockup descriptor="سرمایه‌گذاری" />
         <nav className="desktop-nav" aria-label="منوی اصلی">
           {navItems.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}
         </nav>
@@ -101,7 +101,7 @@ function FullMenu({ open, onClose }) {
   return (
     <div className={`full-menu ${open ? 'is-open' : ''}`} id="full-menu" aria-hidden={!open} inert={!open}>
       <div className="full-menu-inner site-container">
-        <div className="full-menu-head"><BrandLockup /><span className="full-menu-coordinate">ایران · سرمایه‌ی هوشمند · رشد بلندمدت</span><button type="button" className="full-menu-close" onClick={onClose}>بستن <X size={18} /></button></div>
+        <div className="full-menu-head"><BrandLockup descriptor="سرمایه‌گذاری" /><span className="full-menu-coordinate">ایران · سرمایه‌ی هوشمند · رشد بلندمدت</span><button type="button" className="full-menu-close" onClick={onClose}>بستن <X size={18} /></button></div>
         <div className="full-menu-body"><div className="full-menu-label"><span className="eyebrow">دسترسی سریع</span><p>از شناخت رویکرد تا شروع درخواست؛ از هرجا که هستید</p><a href="#apply" className="button button-lime" onClick={onClose}>شروع درخواست سرمایه <ArrowUpLeft size={15} /></a></div><nav className="full-menu-links" aria-label="همه‌ی بخش‌های سایت">{links.map((item, index) => <a href={item[1]} key={item[1] + item[0]} onClick={onClose}><span>{new Intl.NumberFormat('fa-IR').format(index + 1)}</span>{item[0]}<ArrowUpLeft size={17} /></a>)}</nav></div>
         <div className="full-menu-foot"><span>پارس / سرمایه‌گذاری خطرپذیر</span><span>شرایط پذیرش در اطلاعیه‌ی هر دوره اعلام می‌شود</span></div>
       </div>
@@ -125,7 +125,7 @@ function SiteMapPage() {
 function SubPage({ title, eyebrow, description, icon: Icon = FileText, children }) {
   return (
     <main className="subpage-shell" dir="rtl">
-      <header className="subpage-header site-container"><BrandLockup /><a href="#home" className="text-link"><ArrowLeft size={15} /> بازگشت به صفحه‌ی اصلی</a></header>
+      <header className="subpage-header site-container"><BrandLockup descriptor="سرمایه‌گذاری" /><a href="#home" className="text-link"><ArrowLeft size={15} /> بازگشت به صفحه‌ی اصلی</a></header>
       <section className="subpage-hero site-container"><div className="subpage-icon"><Icon size={25} /></div><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{description}</p></section>
       <section className="subpage-content site-container">{children}</section>
       <footer className="subpage-footer site-container"><BrandLockup /><span>پارس · سرمایه‌گذاری خطرپذیر</span><a href="#contact">تماس با ما</a></footer>
@@ -201,7 +201,7 @@ export default function App() {
 
   useEffect(() => {
     const titles = {
-      home: 'پارس | سرمایه‌گذاری خطرپذیر', apply: 'درخواست سرمایه | پارس', terms: 'قوانین و مقررات | پارس',
+      home: 'پارس | سرمایه‌گذاری', apply: 'درخواست سرمایه | پارس', terms: 'قوانین و مقررات | پارس',
       privacy: 'حریم خصوصی | پارس', sitemap: 'نقشه‌ی سایت | پارس', 'logo-options': 'گزینه‌های لوگو | پارس', admin: 'پنل مدیریت | پارس', 'not-found': 'صفحه پیدا نشد | پارس',
     };
     document.title = titles[route] || titles.home;

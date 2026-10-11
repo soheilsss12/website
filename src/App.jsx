@@ -1,12 +1,15 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import {
+  ArrowDown,
   ArrowRight,
   ArrowUpRight,
   Check,
   Compass,
   ExternalLink,
+  Menu,
   MessageCircle,
+  MousePointer2,
   RotateCcw,
   Send,
   UsersRound,
@@ -50,10 +53,10 @@ function getReply(message) {
   return 'I can help with projects, the studio, or finding your way to the right people. Give me a little more context and I’ll make a good introduction.';
 }
 
-function Header({ onStartConversation }) {
+function LisaHeader({ onStartConversation }) {
   return (
     <header className="reference-header">
-      <a className="reference-wordmark" href="#top" aria-label="Locomotive — back to L.I.S.A.">
+      <a className="reference-wordmark" href="#home" aria-label="Locomotive — back to the studio home page">
         Locomotive<sup>®</sup>
       </a>
       <span className="reference-mark" aria-hidden="true"><i /><i /></span>
@@ -166,12 +169,12 @@ function Hero({ onStartConversation, onQuickPrompt, isSpeaking, soundEnabled, on
           : 'We’re gonna make *somebody* jealous with what we build.';
 
   return (
-    <section className="reference-stage" id="top" aria-labelledby="stage-title">
+    <section className="reference-stage" id="lisa" aria-labelledby="stage-title">
       <div className="stage-atmosphere" aria-hidden="true" />
       <Suspense fallback={<div className="scene-fallback" aria-hidden="true" />}>
         <AssistantScene isSpeaking={isSpeaking} projectStartedAt={projectStartedAt} />
       </Suspense>
-      <Header onStartConversation={onStartConversation} />
+      <LisaHeader onStartConversation={onStartConversation} />
 
       <div className="stage-conversation">
         <p className="stage-whisper stage-dialogue-enter" key={`whisper-${projectStep}`}>{whisper}</p>
@@ -299,7 +302,7 @@ function PathwaysSection({ onQuickPrompt }) {
       </div>
 
       <div className="pathway-grid">
-        {QUICK_PROMPTS.map((item) => {
+        {QUICK_PROMPTS.slice(0, 3).map((item) => {
           const Icon = item.icon;
           return (
             <button
@@ -343,7 +346,7 @@ function Footer({ onStartConversation, onCookieSettings }) {
         </button>
       </div>
       <div className="footer-bottom">
-        <a className="footer-brand" href="#top">L.I.S.A.<span>®</span></a>
+        <a className="footer-brand" href="#home">L.I.S.A.<span>®</span></a>
         <span>INDEPENDENT BY NATURE. DIGITAL BY DESIGN.</span>
         <div className="footer-links">
           <a href="mailto:hello@locomotive.ca">EMAIL THE STUDIO</a>
@@ -353,6 +356,137 @@ function Footer({ onStartConversation, onCookieSettings }) {
         <span>© LOCOMOTIVE 2026</span>
       </div>
     </footer>
+  );
+}
+
+function StudioHeader({ onOpenMenu, onStartConversation }) {
+  return (
+    <header className="site-header">
+      <a className="brand-lockup" href="#home" aria-label="Locomotive studio home">
+        <span className="brand-mark">LOC<span className="brand-period">.</span></span>
+        <span className="brand-caption">INDEPENDENT<br />DIGITAL STUDIO</span>
+      </a>
+      <span className="header-center">
+        <span className="header-center-dot" />
+        DIGITAL FIRST · MONTRÉAL<sup>®</sup>
+      </span>
+      <div className="header-actions">
+        <a className="header-studio-link" href="#about">THE STUDIO <ArrowDown size={12} /></a>
+        <button className="menu-trigger" type="button" onClick={onOpenMenu}>MENU <Menu size={15} strokeWidth={1.5} /></button>
+        <button className="header-chat-shortcut" type="button" onClick={onStartConversation}>LET’S TALK <ArrowUpRight size={12} /></button>
+      </div>
+    </header>
+  );
+}
+
+function StudioHomeHero({ onOpenMenu, onOpenLisa, onStartConversation, onQuickPrompt }) {
+  return (
+    <section className="hero" id="home" aria-labelledby="studio-home-title">
+      <div className="hero-light" aria-hidden="true" />
+      <div className="hero-orbit" aria-hidden="true" />
+      <div className="hero-orbit hero-orbit-two" aria-hidden="true" />
+      <Suspense fallback={<div className="scene-fallback" aria-hidden="true" />}>
+        <AssistantScene eyesAwake />
+      </Suspense>
+      <div className="hero-vignette" aria-hidden="true" />
+      <div className="hero-grain" aria-hidden="true" />
+
+      <StudioHeader onOpenMenu={onOpenMenu} onStartConversation={onStartConversation} />
+
+      <div className="hero-content">
+        <div className="hero-copy">
+          <p className="eyebrow hero-eyebrow"><span className="live-dot" /> AN INDEPENDENT DIGITAL STUDIO</p>
+          <h1 id="studio-home-title">Good work.<br /><span>Feels human.</span></h1>
+          <p className="hero-description">We bring strategy, design, and technology together to make digital experiences people want to spend time with.</p>
+          <div className="hero-cta-row">
+            <a className="button button-light" href="#lisa" onClick={(event) => { event.preventDefault(); onOpenLisa(); }}>
+              Meet L.I.S.A. <ArrowUpRight size={16} />
+            </a>
+            <span className="hero-cta-note">Your first hello at Locomotive.</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="portrait-caption" aria-hidden="true">
+        <span className="portrait-caption-overline"><span className="live-dot" /> HERE, IF YOU NEED ME</span>
+        <span className="portrait-caption-title">L.I.S.A.<br />Your human way in.</span>
+      </div>
+      <div className="pointer-hint" aria-hidden="true">
+        <MousePointer2 size={17} strokeWidth={1.4} />
+        <span>MOVE YOUR POINTER<br />SAY HELLO</span>
+      </div>
+
+      <div className="hero-bottom">
+        <div className="hero-bottom-meta">
+          <span className="meta-index">01 / 03</span>
+          <span className="hero-bottom-label">INDEPENDENT BY NATURE.<br />DIGITAL BY DESIGN.</span>
+        </div>
+        <div className="quick-start" aria-label="Quick ways to start">
+          {QUICK_PROMPTS.slice(0, 3).map((item) => (
+            <button key={item.number} type="button" onClick={() => onQuickPrompt(item.prompt)}>
+              <span className="quick-number">{item.number}</span>
+              {item.title}
+              <ArrowUpRight size={13} strokeWidth={1.5} />
+            </button>
+          ))}
+        </div>
+        <a className="scroll-cue" href="#about">SCROLL TO EXPLORE <ArrowDown size={14} strokeWidth={1.5} /></a>
+      </div>
+    </section>
+  );
+}
+
+function StudioHomePage({ onOpenLisa, onStartConversation, onQuickPrompt, onCookieSettings }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const revealItems = document.querySelectorAll('.studio-site [data-reveal]');
+    if (!('IntersectionObserver' in window)) {
+      revealItems.forEach((item) => item.classList.add('is-inview'));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-inview');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14, rootMargin: '0px 0px -5% 0px' });
+
+    revealItems.forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
+  }, []);
+
+  const openLisaFromMenu = (event) => {
+    event.preventDefault();
+    setMenuOpen(false);
+    onOpenLisa();
+  };
+  const startFromMenu = () => {
+    setMenuOpen(false);
+    onStartConversation();
+  };
+
+  return (
+    <div className="studio-site">
+      <StudioHomeHero
+        onOpenMenu={() => setMenuOpen(true)}
+        onOpenLisa={onOpenLisa}
+        onStartConversation={onStartConversation}
+        onQuickPrompt={onQuickPrompt}
+      />
+      <AboutSection onQuickPrompt={onQuickPrompt} />
+      <PathwaysSection onQuickPrompt={onQuickPrompt} />
+      <Footer onStartConversation={onStartConversation} onCookieSettings={onCookieSettings} />
+      <MenuOverlay
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        onStartConversation={startFromMenu}
+        onOpenLisa={openLisaFromMenu}
+      />
+    </div>
   );
 }
 
@@ -466,7 +600,7 @@ function ChatPanel({ open, messages, isSpeaking, input, setInput, onClose, onSub
   );
 }
 
-function MenuOverlay({ open, onClose, onStartConversation }) {
+function MenuOverlay({ open, onClose, onStartConversation, onOpenLisa }) {
   return (
     <div className={`menu-overlay ${open ? 'is-open' : ''}`} aria-hidden={!open} inert={!open}>
       <div className="menu-overlay-inner">
@@ -477,7 +611,7 @@ function MenuOverlay({ open, onClose, onStartConversation }) {
           </button>
         </div>
         <nav className="menu-nav" aria-label="Main navigation">
-          <a href="#top" onClick={onClose}><span>01</span> Meet L.I.S.A. <ArrowUpRight size={22} /></a>
+          <a href="#lisa" onClick={onOpenLisa}><span>01</span> Meet L.I.S.A. <ArrowUpRight size={22} /></a>
           <a href="#about" onClick={onClose}><span>02</span> The studio <ArrowUpRight size={22} /></a>
           <a href="#pathways" onClick={onClose}><span>03</span> Find your way <ArrowUpRight size={22} /></a>
           <button type="button" onClick={onStartConversation}><span>04</span> Start a conversation <ArrowUpRight size={22} /></button>
@@ -552,6 +686,15 @@ function CookieConsent({ choice, onSave, onReopen, settingsOpen, visible = true 
 }
 
 export default function App() {
+  const [page, setPage] = useState(() => window.location.hash === '#lisa' ? 'lisa' : 'home');
+  const [cookieChoice, setCookieChoice] = useState(() => {
+    try {
+      return window.localStorage.getItem('lisa-cookie-choice') || '';
+    } catch {
+      return '';
+    }
+  });
+  const [cookieSettingsOpen, setCookieSettingsOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -561,6 +704,22 @@ export default function App() {
   const bottomRef = useRef(null);
   const utteranceRef = useRef(null);
   const soundEnabledRef = useRef(false);
+
+  useEffect(() => {
+    const handleRouteChange = () => setPage(window.location.hash === '#lisa' ? 'lisa' : 'home');
+    window.addEventListener('hashchange', handleRouteChange);
+    return () => window.removeEventListener('hashchange', handleRouteChange);
+  }, []);
+
+  useEffect(() => {
+    document.title = page === 'lisa'
+      ? 'L.I.S.A. — Locomotive Interactive Super Assistant'
+      : 'Locomotive — Independent Digital Studio';
+  }, [page]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
 
   useEffect(() => {
     const handleEscape = (event) => {
@@ -575,25 +734,31 @@ export default function App() {
     if (reducedMotion) return undefined;
 
     const context = gsap.context(() => {
-      gsap.fromTo(
-        '.reference-header',
-        { autoAlpha: 0, y: -10 },
-        { autoAlpha: 1, y: 0, duration: 0.75, ease: 'power2.out', delay: 0.12 },
-      );
-      gsap.fromTo(
-        '.stage-conversation > *',
-        { autoAlpha: 0, y: 12 },
-        { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out', delay: 0.28 },
-      );
-      gsap.fromTo(
-        '.stage-controls > *',
-        { autoAlpha: 0, y: 8 },
-        { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power2.out', delay: 0.75 },
-      );
+      if (page === 'lisa') {
+        gsap.fromTo(
+          '.reference-header',
+          { autoAlpha: 0, y: -10 },
+          { autoAlpha: 1, y: 0, duration: 0.75, ease: 'power2.out', delay: 0.12 },
+        );
+        gsap.fromTo(
+          '.stage-conversation > *',
+          { autoAlpha: 0, y: 12 },
+          { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out', delay: 0.28 },
+        );
+        gsap.fromTo(
+          '.stage-controls > *',
+          { autoAlpha: 0, y: 8 },
+          { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power2.out', delay: 0.75 },
+        );
+      } else {
+        gsap.fromTo('.site-header', { autoAlpha: 0, y: -12 }, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power2.out' });
+        gsap.fromTo('.hero-copy > *', { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out', delay: 0.18 });
+        gsap.fromTo('.hero-bottom > *', { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power2.out', delay: 0.7 });
+      }
     });
 
     return () => context.revert();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     soundEnabledRef.current = soundEnabled;
@@ -705,19 +870,52 @@ export default function App() {
       setIsSpeaking(false);
     }
   };
+  const openLisaPage = () => {
+    if (window.location.hash !== '#lisa') window.location.hash = 'lisa';
+    else window.scrollTo(0, 0);
+  };
+  const saveCookieChoice = (choice) => {
+    setCookieChoice(choice);
+    setCookieSettingsOpen(false);
+    try {
+      window.localStorage.setItem('lisa-cookie-choice', choice);
+    } catch {
+      // Consent remains active for the current visit if storage is unavailable.
+    }
+  };
+  const reopenCookieSettings = () => {
+    try {
+      window.localStorage.removeItem('lisa-cookie-choice');
+    } catch {
+      // Keep the privacy controls open if storage is disabled.
+    }
+    setCookieChoice('');
+    setCookieSettingsOpen(true);
+  };
 
   return (
     <>
-      <main className="site-shell">
-        <Hero
-          onStartConversation={openConversation}
-          onQuickPrompt={startWithPrompt}
-          isSpeaking={isSpeaking}
-          soundEnabled={soundEnabled}
-          onToggleSound={toggleSound}
-          onReset={resetExperience}
-        />
-      </main>
+      {page === 'lisa' ? (
+        <main className="site-shell is-lisa-page">
+          <Hero
+            onStartConversation={openConversation}
+            onQuickPrompt={startWithPrompt}
+            isSpeaking={isSpeaking}
+            soundEnabled={soundEnabled}
+            onToggleSound={toggleSound}
+            onReset={resetExperience}
+          />
+        </main>
+      ) : (
+        <main className="site-shell is-studio-page">
+          <StudioHomePage
+            onOpenLisa={openLisaPage}
+            onStartConversation={openConversation}
+            onQuickPrompt={startWithPrompt}
+            onCookieSettings={reopenCookieSettings}
+          />
+        </main>
+      )}
 
       <ChatPanel
         open={chatOpen}
@@ -729,6 +927,13 @@ export default function App() {
         onSubmit={handleSubmit}
         onQuickPrompt={startWithPrompt}
         bottomRef={bottomRef}
+      />
+      <CookieConsent
+        choice={cookieChoice}
+        settingsOpen={cookieSettingsOpen}
+        visible={page === 'home'}
+        onSave={saveCookieChoice}
+        onReopen={reopenCookieSettings}
       />
       <div className="assistant-speaking-state" aria-hidden="true" data-speaking={isSpeaking} />
     </>

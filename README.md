@@ -1,6 +1,6 @@
-# L.I.S.A. — Locomotive Interactive Super Assistant
+# Locomotive — Independent Digital Studio
 
-A responsive, single-page L.I.S.A. experience built with React, Vite, Three.js, and React Three Fiber. The interface and animated CRT character are recreated from the reference recording in this repository's `main` branch.
+A responsive studio website built with React, Vite, Three.js, and React Three Fiber. The root page introduces the studio across several sections; L.I.S.A., its interactive assistant experience, lives at `#lisa` so it works within the existing GitHub Pages project URL.
 
 ## Run locally
 
@@ -17,8 +17,9 @@ GitHub Pages is configured for the `arena/4d1d0891-website` branch at the reposi
 
 ## Experience
 
-- A full-screen introduction with conversational shortcuts and a timed project-intake sequence for a name, company, and job title.
-- A custom 3D CRT character. The monitor screen is drawn procedurally and animates its glow, eyes, blink, scan effects, and brief signal glitches; head motion responds smoothly to the pointer.
+- A multi-section studio homepage with an animated hero, About and Pathways sections, a contact footer, navigation menu, and cookie controls.
+- The separate `#lisa` experience includes conversational shortcuts and a timed project-intake sequence for a name, company, and job title.
+- A custom 3D CRT character. The monitor screen is drawn procedurally and animates its glow, eyes, blink, scan effects, and brief signal glitches; head motion responds smoothly to the pointer. On the homepage, L.I.S.A.'s eyes remain awake and blink while idle.
 - A lightweight chat-panel demo with local intent-based replies. It does not connect to an assistant API or submit intake data to a server.
 - Optional browser speech synthesis for replies and respect for reduced-motion preferences.
 

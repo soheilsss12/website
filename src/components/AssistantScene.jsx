@@ -20,7 +20,7 @@ function roundedRect(context, x, y, width, height, radius) {
   context.closePath();
 }
 
-function drawCRTScreen(canvas, time, lookX, lookY, speaking) {
+function drawCRTScreen(canvas, time, lookX, lookY, speaking, eyesAwake = false, blinkTime = time) {
   const context = canvas.getContext('2d');
   const width = canvas.width;
   const height = canvas.height;
@@ -32,9 +32,9 @@ function drawCRTScreen(canvas, time, lookX, lookY, speaking) {
     || (cycle > 12.1 && cycle < 12.9);
   const horizontalBeam = cycle > 13.15 && cycle < 14.5;
   const blink = Math.max(0, 1 - Math.abs(cycle - 9.85) / 0.88);
-  const idleBlink = Math.max(0, 1 - Math.abs((time % 4.6) - 0.08) / 0.11);
-  const eyeBlink = Math.max(blink, speaking ? idleBlink : 0);
-  const eyesVisible = speaking || (cycle > 4.15 && cycle < 11.7) || (cycle > 17.2 && cycle < 27.5);
+  const idleBlink = Math.max(0, 1 - Math.abs((blinkTime % 4.6) - 0.08) / 0.11);
+  const eyeBlink = Math.max(blink, speaking || eyesAwake ? idleBlink : 0);
+  const eyesVisible = eyesAwake || speaking || (cycle > 4.15 && cycle < 11.7) || (cycle > 17.2 && cycle < 27.5);
   const eyeHeight = THREE.MathUtils.lerp(height * 0.105, height * 0.022, eyeBlink);
   const eyeWidth = width * 0.128;
   const gazeX = clamp(lookX, -1, 1) * width * 0.014;
@@ -268,7 +268,7 @@ function MonitorDetails({ speaking, scanRef, ledMaterialRef }) {
   );
 }
 
-function CRTHead({ pointer, isSpeaking, reducedMotion, projectStartedAt }) {
+function CRTHead({ pointer, isSpeaking, reducedMotion, projectStartedAt, eyesAwake }) {
   const headRef = useRef(null);
   const scanRef = useRef(null);
   const ledMaterialRef = useRef(null);
@@ -307,7 +307,7 @@ function CRTHead({ pointer, isSpeaking, reducedMotion, projectStartedAt }) {
     }
 
     if (time - lastScreenDraw.current > 1 / 24) {
-      drawCRTScreen(screenTexture.image, screenTime, pointer.current.x, pointer.current.y, isSpeaking);
+      drawCRTScreen(screenTexture.image, screenTime, pointer.current.x, pointer.current.y, isSpeaking, eyesAwake, time);
       screenTexture.needsUpdate = true;
       lastScreenDraw.current = time;
     }
@@ -361,7 +361,7 @@ function CRTHead({ pointer, isSpeaking, reducedMotion, projectStartedAt }) {
   );
 }
 
-function PersonRig({ isSpeaking, projectStartedAt }) {
+function PersonRig({ isSpeaking, projectStartedAt, eyesAwake }) {
   const characterRef = useRef(null);
   const bodyRef = useRef(null);
   const pointer = useRef({ x: 0, y: 0 });
@@ -452,12 +452,12 @@ function PersonRig({ isSpeaking, projectStartedAt }) {
       </group>
 
       {cableSets.map((cable, index) => <Cable key={index} {...cable} />)}
-      <CRTHead pointer={pointer} isSpeaking={isSpeaking} reducedMotion={reducedMotion} projectStartedAt={projectStartedAt} />
+      <CRTHead pointer={pointer} isSpeaking={isSpeaking} reducedMotion={reducedMotion} projectStartedAt={projectStartedAt} eyesAwake={eyesAwake} />
     </group>
   );
 }
 
-function Scene({ isSpeaking, projectStartedAt }) {
+function Scene({ isSpeaking, projectStartedAt, eyesAwake }) {
   return (
     <>
       <ambientLight intensity={0.92} color="#f5f2ec" />
@@ -465,12 +465,12 @@ function Scene({ isSpeaking, projectStartedAt }) {
       <directionalLight position={[-3.8, 5.2, 6]} intensity={2.45} color="#fff8ef" />
       <pointLight position={[3.2, 0.4, 3.4]} intensity={13} distance={9} color="#9eafc0" />
       <pointLight position={[-3.3, -0.8, -1.8]} intensity={7} distance={8} color="#ad9688" />
-      <PersonRig isSpeaking={isSpeaking} projectStartedAt={projectStartedAt} />
+      <PersonRig isSpeaking={isSpeaking} projectStartedAt={projectStartedAt} eyesAwake={eyesAwake} />
     </>
   );
 }
 
-export default function AssistantScene({ isSpeaking = false, projectStartedAt = null }) {
+export default function AssistantScene({ isSpeaking = false, projectStartedAt = null, eyesAwake = false }) {
   return (
     <div className="assistant-scene" aria-hidden="true">
       <Canvas
@@ -485,7 +485,7 @@ export default function AssistantScene({ isSpeaking = false, projectStartedAt = 
         }}
         fallback={<div className="scene-fallback" />}
       >
-        <Scene isSpeaking={isSpeaking} projectStartedAt={projectStartedAt} />
+        <Scene isSpeaking={isSpeaking} projectStartedAt={projectStartedAt} eyesAwake={eyesAwake} />
       </Canvas>
     </div>
   );

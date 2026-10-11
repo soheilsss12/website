@@ -1,4 +1,4 @@
-name: Build and deploy L.I.S.A. to GitHub Pages
+name: Build and deploy X investment website to GitHub Pages
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
           touch .nojekyll
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- index.html assets favicon.svg lisa-knit-texture.png .nojekyll
+          git add -A -- index.html assets favicon.svg .nojekyll
           if git diff --cached --quiet; then
             echo "The Pages files are already current."
           else

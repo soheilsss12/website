@@ -1,5 +1,5 @@
 {
-  "name": "lisa-interactive-experience",
+  "name": "x-investment-site",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -11,12 +11,10 @@
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
-    "@react-three/fiber": "^9.8.1",
-    "gsap": "^3.15.0",
+    "@fontsource-variable/vazirmatn": "^5.3.0",
     "lucide-react": "^1.55.0",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "three": "^0.186.1"
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.1.2",

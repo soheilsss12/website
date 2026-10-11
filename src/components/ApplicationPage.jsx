@@ -130,24 +130,29 @@ export default function ApplicationPage() {
       <header className="apply-header">
         <BrandLink href={rootHref} />
         <div className="apply-header-center"><span className="signal-dot" /> فراخوان سرمایه‌گذاری پارس</div>
-        <div className="apply-header-actions"><a className="apply-profile-link" href="#applicant-access"><UserRound size={15} /> پیگیری درخواست</a><a className="apply-back-link" href={rootHref}><ArrowRight size={16} /> بازگشت به سایت</a></div>
+        <div className="apply-header-actions"><a className="apply-profile-link" href="#applicant-access" aria-label="پیگیری درخواست"><UserRound size={17} /><span>پیگیری درخواست</span></a><a className="apply-back-link" href={rootHref}><ArrowRight size={17} /><span className="apply-back-copy">بازگشت به سایت</span><span className="apply-back-short">بازگشت</span></a></div>
       </header>
 
       <section className="apply-hero">
         <div className="apply-hero-copy">
           <span className="eyebrow"><span className="signal-dot" /> مسیر درخواست سرمایه</span>
-          <h1>قدم بعدیِ رشد<br /><em>از همین‌جا شروع می‌شود</em></h1>
-          <p>برای شناخت تیم، محصول و نیاز سرمایه‌ی شما، این فرم را مرحله‌به‌مرحله تکمیل کنید؛ پاسخ‌ها فقط برای ارزیابی درخواست استفاده می‌شوند</p>
+          <h1>برای قدم بعدیِ رشد<br /><em>از همین‌جا شروع کنید</em></h1>
+          <p>در چهار مرحله‌ی کوتاه، تیم، محصول و نیاز سرمایه‌ی خود را معرفی کنید؛ پاسخ‌های روشن و دقیق، گفت‌وگوی اولیه را مفیدتر می‌کنند</p>
+          <div className="apply-hero-actions">
+            <a className="button button-lime button-large" href="#application-form">شروع فرم اولیه <ArrowUpLeft size={17} /></a>
+            <a className="apply-hero-secondary" href="#campaign-criteria">بررسی شرایط دوره <ArrowUpLeft size={15} /></a>
+          </div>
           <div className="campaign-status-card">
             <span className="status-rings"><i /><i /></span>
-            <span><small>وضعیت دوره</small><strong>در انتظار اعلام رسمی شرایط</strong></span>
+            <span><small>وضعیت دوره</small><strong>اطلاعیه‌ی رسمی هنوز منتشر نشده</strong></span>
             <span className="status-card-arrow"><ArrowUpLeft size={17} /></span>
           </div>
         </div>
         <div className="apply-hero-aside">
           <span className="aside-index">پ / ۰۱</span>
-          <p>پیش از تکمیل، شرایط سرمایه‌گذاری هر دوره را از اطلاعیه‌ی رسمی بررسی کنید</p>
-          <a href="#campaign-criteria" className="text-link">مشاهده‌ی شرایط دوره <ArrowUpLeft size={16} /></a>
+          <span className="apply-aside-kicker">پیش از ثبت درخواست</span>
+          <p>شرایط، اولویت‌ها و محدوده‌ی هر دوره فقط در اطلاعیه‌ی رسمی اعلام می‌شود</p>
+          <a href="#campaign-criteria" className="text-link">رفتن به اطلاعیه‌ی دوره <ArrowUpLeft size={16} /></a>
           <div className="apply-aside-orbit" aria-hidden="true"><CrystalMark /><i /><i /></div>
         </div>
       </section>
@@ -188,7 +193,7 @@ export default function ApplicationPage() {
             <>
               <div className="application-progress" aria-label={`مرحله‌ی ${step + 1} از ${steps.length}`}>
                 {steps.map((item, index) => (
-                  <button type="button" className={`progress-step ${index === step ? 'is-current' : ''} ${index < step ? 'is-complete' : ''}`} key={item.short} onClick={() => index < step && setStep(index)} disabled={index > step}>
+                  <button type="button" className={`progress-step ${index === step ? 'is-current' : ''} ${index < step ? 'is-complete' : ''}`} key={item.short} onClick={() => index < step && setStep(index)} disabled={index > step} aria-current={index === step ? 'step' : undefined} aria-label={`مرحله‌ی ${new Intl.NumberFormat('fa-IR').format(index + 1)}: ${item.title}`}>
                     <span className="progress-number">{index < step ? <Check size={14} /> : new Intl.NumberFormat('fa-IR').format(index + 1)}</span>
                     <span className="progress-label">{item.short}</span>
                   </button>
@@ -196,10 +201,10 @@ export default function ApplicationPage() {
                 <span className="progress-track"><i style={{ width: `${(step / (steps.length - 1)) * 100}%` }} /></span>
               </div>
 
-              <form className="application-form" onSubmit={goNext} noValidate>
+              <form className="application-form" onSubmit={goNext} noValidate aria-labelledby="application-step-title">
                 <div className="application-form-heading">
-                  <span className="form-step-index">مرحله‌ی {new Intl.NumberFormat('fa-IR').format(step + 1)} / {new Intl.NumberFormat('fa-IR').format(steps.length)}</span>
-                  <h3>{steps[step].title}</h3>
+                  <span className="form-step-index">مرحله‌ی {new Intl.NumberFormat('fa-IR').format(step + 1)} از {new Intl.NumberFormat('fa-IR').format(steps.length)}</span>
+                  <h3 id="application-step-title">{steps[step].title}</h3>
                   <p>{step === 0 ? 'اطلاعاتی برای شروع گفت‌وگو' : step === 1 ? 'محصول، مسئله و مرحله‌ی کسب‌وکار' : step === 2 ? 'میزان نیاز و برنامه‌ی مصرف سرمایه' : 'لینک‌ها و تأیید شرایط'}</p>
                 </div>
 

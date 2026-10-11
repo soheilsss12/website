@@ -18,18 +18,20 @@ import {
   Clock3,
   Compass,
   FileCheck2,
+  FileText,
   Globe2,
   Gauge,
   HeartHandshake,
+  Info,
   Landmark,
   LineChart,
   Link2,
   MapPin,
+  MessageSquareQuote,
   Network,
   PieChart,
   Search,
   ShieldCheck,
-  Sparkles,
   UsersRound,
   WalletCards,
   X,
@@ -142,7 +144,7 @@ function HeroParsVisual() {
       <span className="hero-stage-spark hero-stage-spark-two" />
       <span className="hero-stage-spark hero-stage-spark-three" />
       <div className="hero-glass-panel hero-glass-panel-top">
-        <span className="hero-glass-icon"><Sparkles size={17} /></span>
+        <span className="hero-glass-icon"><HeartHandshake size={17} /></span>
         <span><small>همراهی پارس</small><strong>سرمایه + تجربه + شبکه</strong></span>
         <i className="hero-glass-pulse" />
       </div>
@@ -335,7 +337,7 @@ export function HeroSection() {
       <div className="hero-atmosphere" aria-hidden="true"><span /><span /><i /></div>
       <div className="hero-layout hero-pars-layout site-container">
         <div className="hero-copy hero-pars-copy">
-          <div className="hero-kicker hero-kicker-pars"><span className="hero-kicker-icon"><Sparkles size={14} /></span> سرمایه‌گذاری جسورانه، برای آینده‌ای روشن</div>
+          <div className="hero-kicker hero-kicker-pars"><span className="hero-kicker-icon"><ChartNoAxesCombined size={14} /></span> سرمایه‌گذاری جسورانه، برای آینده‌ای روشن</div>
           <div className={`hero-dialogue-stage ${isIntro ? 'is-intro' : ''} ${currentField ? 'has-input' : ''} ${isComplete ? 'is-complete' : ''} phase-${dialoguePhase}`}>
             <div className="hero-dialogue-history" aria-hidden="true">
               {history.slice(-2).map((turn, index) => (
@@ -568,7 +570,7 @@ export function PortfolioSection({ onOpenCase }) {
   return (
     <section className="portfolio-section section-space" id="portfolio">
       <div className="site-container">
-        <div className="section-heading-row portfolio-heading-row"><SectionHeading index="۰۶" eyebrow="پرتفوی پارس" title="همراهی، در" emphasis="دنیای واقعی" copy="هر پروفایل، داستان تیمی است که با مسئله‌ای واقعی روبه‌رو شده و برای رشد آماده است" /><span className="sample-disclosure"><Sparkles size={15} /> کارت‌ها نمونه‌ی طراحی هستند؛ اطلاعات پرتفوی واقعی جایگزین می‌شود</span></div>
+        <div className="section-heading-row portfolio-heading-row"><SectionHeading index="۰۶" eyebrow="پرتفوی پارس" title="همراهی، در" emphasis="دنیای واقعی" copy="هر پروفایل، داستان تیمی است که با مسئله‌ای واقعی روبه‌رو شده و برای رشد آماده است" /><span className="sample-disclosure"><Info size={15} /> کارت‌ها نمونه‌ی طراحی هستند؛ اطلاعات پرتفوی واقعی جایگزین می‌شود</span></div>
         <div className="portfolio-toolbar" aria-label="فیلتر شرکت‌ها">
           <span className="portfolio-result-count">{faNumber(filtered.length)} پرونده‌ی نمونه</span>
           <div className="portfolio-filters">
@@ -670,7 +672,7 @@ export function MapSection() {
 
 export function CriteriaSection() {
   const criteria = [
-    { icon: Sparkles, title: 'حوزه‌های مورد پذیرش', value: '۸ حوزه‌ی فناوری', note: 'اولویت دقیق در اطلاعیه‌ی هر دوره' },
+    { icon: Compass, title: 'حوزه‌های مورد پذیرش', value: '۸ حوزه‌ی فناوری', note: 'اولویت دقیق در اطلاعیه‌ی هر دوره' },
     { icon: Banknote, title: 'نوع و بازه‌ی سرمایه', value: 'اعلام در کمپین', note: 'حداقل و حداکثر پس از تأیید منتشر می‌شود' },
     { icon: ChartNoAxesCombined, title: 'مرحله‌ی کسب‌وکار', value: 'ایده تا رشد', note: 'تناسب با اولویت دوره بررسی می‌شود' },
     { icon: UsersRound, title: 'اندازه‌ی تیم', value: 'در حال تعیین', note: 'شرط نهایی در فراخوان درج می‌شود' },
@@ -705,7 +707,7 @@ export function ToolsSection({ onOpenTool }) {
     { id: 'cac', code: '۰۵', title: 'CAC', description: 'هزینه‌ی جذب هر مشتری جدید', icon: Gauge, tag: 'اقتصاد واحد' },
     { id: 'ltv', code: '۰۶', title: 'LTV', description: 'ارزش تقریبی مشتری در طول رابطه', icon: LineChart, tag: 'درآمد' },
     { id: 'saas', code: '۰۷', title: 'شاخص‌های SaaS', description: 'درآمد تکرارشونده و نرخ رشد ماهانه', icon: BarChart3, tag: 'درآمد تکرارشونده' },
-    { id: 'maturity', code: '۰۸', title: 'سنجش آمادگی', description: 'چک‌لیست کوتاه بلوغ و آمادگی تیم', icon: Sparkles, tag: 'ارزیابی تیم' },
+    { id: 'maturity', code: '۰۸', title: 'سنجش آمادگی', description: 'چک‌لیست کوتاه بلوغ و آمادگی تیم', icon: Gauge, tag: 'ارزیابی تیم' },
   ];
   return (
     <section className="tools-section section-space" id="tools">
@@ -724,7 +726,7 @@ export function ToolsSection({ onOpenTool }) {
 export function QuotesSection() {
   return (
     <section className="quotes-section section-space" id="voices">
-      <div className="site-container quotes-layout"><div className="quotes-intro"><SectionHeading index="۱۱" eyebrow="صدای بنیان‌گذاران" title="همکاری را،" emphasis="از نگاه آن‌ها ببینید" copy="تجربه‌ی واقعی تیم‌ها مهم‌تر از هر ادعایی است؛ نقل‌قول‌ها پس از تأیید بنیان‌گذاران منتشر می‌شوند" light /><span className="sample-disclosure sample-disclosure-light"><Sparkles size={14} /> متن‌های این کارت‌ها نمونه‌ی طراحی‌اند</span></div><div className="quotes-grid">{sampleQuotes.map((item, index) => <article className="quote-card" key={item.initials} data-reveal><span className="quote-mark">“</span><p>{item.quote}</p><div className="quote-attribution"><span className="quote-avatar">{item.initials}</span><span><strong>{item.role}</strong><small>نمونه‌ی متن؛ جایگزین با نقل‌قول واقعی</small></span><span className="quote-card-index">۰{index + 1}</span></div></article>)}</div></div>
+      <div className="site-container quotes-layout"><div className="quotes-intro"><SectionHeading index="۱۱" eyebrow="صدای بنیان‌گذاران" title="همکاری را،" emphasis="از نگاه آن‌ها ببینید" copy="تجربه‌ی واقعی تیم‌ها مهم‌تر از هر ادعایی است؛ نقل‌قول‌ها پس از تأیید بنیان‌گذاران منتشر می‌شوند" light /><span className="sample-disclosure sample-disclosure-light"><MessageSquareQuote size={14} /> متن‌های این کارت‌ها نمونه‌ی طراحی‌اند</span></div><div className="quotes-grid">{sampleQuotes.map((item, index) => <article className="quote-card" key={item.initials} data-reveal><span className="quote-mark">“</span><p>{item.quote}</p><div className="quote-attribution"><span className="quote-avatar">{item.initials}</span><span><strong>{item.role}</strong><small>نمونه‌ی متن؛ جایگزین با نقل‌قول واقعی</small></span><span className="quote-card-index">۰{index + 1}</span></div></article>)}</div></div>
     </section>
   );
 }
@@ -771,7 +773,7 @@ export function AboutSection() {
   const values = [
     { title: 'شفافیت', description: 'گفت‌وگوی صریح درباره‌ی فرصت‌ها، ریسک‌ها و انتظارها', icon: ShieldCheck },
     { title: 'همراهی', description: 'کنار تیم می‌مانیم؛ نه فقط در لحظه‌ی سرمایه‌گذاری', icon: HeartHandshake },
-    { title: 'یادگیری', description: 'تصمیم‌ها را با داده، کنجکاوی و بازنگری بهتر می‌کنیم', icon: Sparkles },
+    { title: 'یادگیری', description: 'تصمیم‌ها را با داده، کنجکاوی و بازنگری بهتر می‌کنیم', icon: BookOpen },
   ];
   const roles = [
     { title: 'سرمایه‌گذاری', description: 'ارزیابی فرصت و ساخت مسیر همکاری', icon: Landmark },
@@ -903,7 +905,7 @@ export function PortfolioDetail({ item, onClose, onStartApplication }) {
       <section className="case-dialog" role="dialog" aria-modal="true" aria-labelledby="case-title" dir="rtl">
         <button className="icon-button modal-dismiss" type="button" onClick={onClose} aria-label="بستن"><X size={20} /></button>
         <div className={`case-dialog-art ${item.tone}`}><Icon size={56} strokeWidth={1.2} /><span>پرونده‌ی نمونه / {item.id}</span><i /></div>
-        <div className="case-dialog-content"><span className="sample-disclosure"><Sparkles size={14} /> نمونه‌ی طراحی</span><h2 id="case-title">{item.title}</h2><p>{item.description}</p><div className="case-facts"><div><small>حوزه</small><strong>{item.sector}</strong></div><div><small>مرحله</small><strong>{item.stage}</strong></div><div><small>سال / شهر</small><strong>پس از تأیید</strong></div></div><div className="case-story"><span className="eyebrow">روایت همکاری</span><p>{item.story}</p></div><div className="case-quote"><span>“</span><p>نقل‌قول بنیان‌گذار این شرکت پس از تأیید در این بخش قرار می‌گیرد</p></div><button type="button" className="button button-lime" onClick={onStartApplication}>شروع درخواست سرمایه <ArrowUpLeft size={15} /></button></div>
+        <div className="case-dialog-content"><span className="sample-disclosure"><FileText size={14} /> نمونه‌ی طراحی</span><h2 id="case-title">{item.title}</h2><p>{item.description}</p><div className="case-facts"><div><small>حوزه</small><strong>{item.sector}</strong></div><div><small>مرحله</small><strong>{item.stage}</strong></div><div><small>سال / شهر</small><strong>پس از تأیید</strong></div></div><div className="case-story"><span className="eyebrow">روایت همکاری</span><p>{item.story}</p></div><div className="case-quote"><span>“</span><p>نقل‌قول بنیان‌گذار این شرکت پس از تأیید در این بخش قرار می‌گیرد</p></div><button type="button" className="button button-lime" onClick={onStartApplication}>شروع درخواست سرمایه <ArrowUpLeft size={15} /></button></div>
       </section>
     </div>
   );

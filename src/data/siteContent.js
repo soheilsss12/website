@@ -8,11 +8,11 @@ import {
   GraduationCap,
   HeartPulse,
   Leaf,
+  Landmark,
   Network,
   Rocket,
   ShieldCheck,
   ShoppingBag,
-  Sparkles,
   Truck,
   UsersRound,
   WalletCards,
@@ -67,7 +67,7 @@ export const portfolioCases = [
 ];
 
 export const partnerCategories = [
-  { title: 'صندوق نوآوری و شکوفایی', icon: Sparkles },
+  { title: 'صندوق نوآوری و شکوفایی', icon: Landmark },
   { title: 'صندوق‌های پژوهش و فناوری', icon: ChartNoAxesCombined },
   { title: 'پارک‌های علم و فناوری', icon: Building2 },
   { title: 'مراکز رشد و شتاب‌دهنده‌ها', icon: Rocket },

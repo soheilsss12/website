@@ -6,6 +6,7 @@ import {
   BarChart3,
   Check,
   CircleHelp,
+  ClipboardCheck,
   Copy,
   ExternalLink,
   Gauge,
@@ -13,7 +14,6 @@ import {
   PieChart,
   Share2,
   ShieldCheck,
-  Sparkles,
   WalletCards,
   X,
 } from 'lucide-react';
@@ -124,7 +124,7 @@ export const calculatorTools = [
     },
   },
   {
-    id: 'maturity', title: 'سنجش آمادگی استارتاپ', eyebrow: 'ارزیابی اولیه', icon: Sparkles,
+    id: 'maturity', title: 'سنجش آمادگی استارتاپ', eyebrow: 'ارزیابی اولیه', icon: ClipboardCheck,
     description: 'در چند محور به آمادگی امروز تیم خودتان امتیاز بدهید',
     formula: 'امتیاز آمادگی = مجموع امتیازها ÷ حداکثر امتیاز × ۱۰۰', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
     fields: [

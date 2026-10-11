@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Check, Sparkles } from 'lucide-react';
+import { ArrowLeft, Check, MousePointer2, Palette } from 'lucide-react';
 import CrystalMark from './CrystalMark.jsx';
 
 const concepts = [
@@ -92,11 +92,11 @@ export default function LogoOptionsPage() {
         <a className="logo-options-back" href="#home"><ArrowLeft size={16} /> بازگشت به سایت</a>
       </header>
       <section className="logo-options-intro site-container">
-        <span className="logo-options-kicker"><Sparkles size={15} /> هویت بصری · پارس ایرانیان</span>
+        <span className="logo-options-kicker"><Palette size={15} /> هویت بصری · پارس ایرانیان</span>
         <h1>پنج مسیر برای<br /><em>هوش مصنوعی پارس ایرانیان</em></h1>
         <p>«بلور پارس» نشان اصلی سایت است؛ چهار مسیر دیگر در گالری باقی مانده‌اند تا زبان بصری هر ایده را کنار هم ببینید</p>
         <div className={`logo-choice-status ${selected ? 'is-selected' : ''}`} aria-live="polite">
-          <span className="logo-choice-status-icon">{selected ? <Check size={16} /> : <Sparkles size={16} />}</span>
+          <span className="logo-choice-status-icon">{selected ? <Check size={16} /> : <MousePointer2 size={16} />}</span>
           <span>{selected ? `«${selectedTitle}» برای پیش‌نمایش در این مرورگر انتخاب شده است` : 'یک گزینه را انتخاب کنید تا پیش‌نمایش آن در همین مرورگر ذخیره شود'}</span>
         </div>
       </section>

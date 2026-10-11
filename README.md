@@ -13,7 +13,7 @@ Build the production site with `npm run build`.
 
 ## GitHub Pages
 
-GitHub Actions builds and deploys the site on pushes to `main` or `arena/4d1d0891-website`. The project-site base path is added automatically for the repository URL: <https://soheilsss12.github.io/website/>.
+GitHub Pages is configured for the `arena/4d1d0891-website` branch at the repository root. On each push, GitHub Actions builds the Vite app, publishes the static files for branch-based Pages, and deploys the build. The project-site base path is set automatically for <https://soheilsss12.github.io/website/>.
 
 ## Experience
 

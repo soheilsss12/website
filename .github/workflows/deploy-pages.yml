@@ -1,14 +1,13 @@
-name: Deploy website to GitHub Pages
+name: Build and deploy L.I.S.A. to GitHub Pages
 
 on:
   push:
     branches:
-      - main
       - arena/4d1d0891-website
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -31,6 +30,20 @@ jobs:
         run: npm ci
       - name: Build site
         run: npm run build
+      - name: Publish built files for branch-based Pages
+        run: |
+          rm -rf assets
+          cp -R dist/. .
+          touch .nojekyll
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- index.html assets favicon.svg lisa-knit-texture.png .nojekyll
+          if git diff --cached --quiet; then
+            echo "The Pages files are already current."
+          else
+            git commit -m "Publish GitHub Pages build"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

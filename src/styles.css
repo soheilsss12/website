@@ -8491,3 +8491,108 @@ h4,
     transition: none;
   }
 }
+
+/* Crystal identity: shared static mark and progressive 3D canvas */
+.brand-symbol .pars-crystal-logo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 34px;
+  height: 34px;
+  filter: drop-shadow(0 0 7px rgba(128, 255, 176, 0.2));
+}
+
+.pars-glyph > .pars-crystal-logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 10px rgba(128, 255, 176, 0.2));
+}
+
+.criteria-side-mark > .pars-crystal-logo {
+  width: 27px;
+  height: 27px;
+}
+
+.dialog-brand-mark > .pars-crystal-logo {
+  width: 22px;
+  height: 22px;
+}
+
+.apply-aside-orbit > .pars-crystal-logo {
+  width: 82px;
+  height: 82px;
+  filter: drop-shadow(0 0 16px rgba(158, 255, 123, 0.34));
+}
+
+.hero-crystal-object {
+  isolation: isolate;
+  overflow: visible;
+}
+
+.hero-crystal-canvas {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hero-crystal-glow {
+  z-index: 0;
+  width: 72%;
+  background: radial-gradient(circle, rgba(166, 255, 186, 0.32), rgba(48, 206, 158, 0.12) 40%, transparent 73%);
+  filter: blur(8px);
+}
+
+.hero-crystal-fallback {
+  position: absolute;
+  z-index: 1;
+  inset: 20%;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 0 24px rgba(104, 255, 169, 0.28));
+}
+
+.hero-crystal-fallback > .pars-crystal-logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-crystal-object.is-fallback {
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-crystal-object,
+  .hero-crystal-glow {
+    animation: none !important;
+  }
+}
+
+.cookie-notice-symbol > .pars-crystal-logo {
+  display: block;
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 0 8px rgba(128, 255, 176, 0.24));
+}
+
+.hero-crystal-fallback {
+  pointer-events: none;
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.hero-crystal-fallback.is-fading {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-crystal-fallback {
+    transition: none;
+  }
+}

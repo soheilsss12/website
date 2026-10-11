@@ -15,6 +15,7 @@ import {
   UserRound,
 } from 'lucide-react';
 import { industries, stageOptions, valuePillars } from '../data/siteContent.js';
+import CrystalMark from './CrystalMark.jsx';
 
 const steps = [
   { title: 'اطلاعات تماس', short: 'تماس' },
@@ -65,7 +66,7 @@ function SelectField({ label, name, value, onChange, options, placeholder = 'ا�
 function BrandLink({ href = '#home' }) {
   return (
     <a className="brand-lockup" href={href} aria-label="بازگشت به صفحه‌ی اصلی پارس">
-      <span className="brand-symbol">پ</span>
+      <span className="brand-symbol"><CrystalMark /></span>
       <span className="brand-name-stack"><strong>پارس</strong><small>سرمایه‌گذاری جسورانه</small></span>
     </a>
   );
@@ -147,7 +148,7 @@ export default function ApplicationPage() {
           <span className="aside-index">پ / ۰۱</span>
           <p>پیش از تکمیل، شرایط سرمایه‌گذاری هر دوره را از اطلاعیه‌ی رسمی بررسی کنید</p>
           <a href="#campaign-criteria" className="text-link">مشاهده‌ی شرایط دوره <ArrowUpLeft size={16} /></a>
-          <div className="apply-aside-orbit" aria-hidden="true"><span>پ</span><i /><i /></div>
+          <div className="apply-aside-orbit" aria-hidden="true"><CrystalMark /><i /><i /></div>
         </div>
       </section>
 

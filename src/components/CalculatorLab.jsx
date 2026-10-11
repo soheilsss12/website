@@ -17,6 +17,7 @@ import {
   WalletCards,
   X,
 } from 'lucide-react';
+import CrystalMark from './CrystalMark.jsx';
 
 const numberFormat = new Intl.NumberFormat('fa-IR', { maximumFractionDigits: 1 });
 const numberOf = (value) => Math.max(0, Number(value) || 0);
@@ -206,7 +207,7 @@ export default function CalculatorLab({ toolId, onClose, onOpenArticle }) {
     <div className="modal-scrim" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
       <section className="calculator-dialog" role="dialog" aria-modal="true" aria-labelledby="calculator-title" dir="rtl">
         <header className="dialog-header">
-          <div className="dialog-brand"><span className="dialog-brand-mark">پ</span><span>آزمایشگاه ابزارهای پارس</span></div>
+          <div className="dialog-brand"><span className="dialog-brand-mark"><CrystalMark /></span><span>آزمایشگاه ابزارهای پارس</span></div>
           <button type="button" className="icon-button dialog-close" onClick={onClose} aria-label="بستن"><X size={20} /></button>
         </header>
         <div className="calculator-layout">

@@ -18,6 +18,7 @@ import {
 import ApplicationPage from './components/ApplicationPage.jsx';
 import CalculatorLab, { calculatorTools } from './components/CalculatorLab.jsx';
 import LogoOptionsPage from './components/LogoOptions.jsx';
+import CrystalMark from './components/CrystalMark.jsx';
 import {
   AboutSection,
   ArticleDetail,
@@ -68,7 +69,7 @@ function resolveRoute() {
 function BrandLockup() {
   return (
     <a className="brand-lockup" href="#home" aria-label="صفحه‌ی اصلی پارس">
-      <span className="brand-symbol">پ</span>
+      <span className="brand-symbol"><CrystalMark /></span>
       <span className="brand-name-stack"><strong>پارس</strong><small>سرمایه‌گذاری جسورانه</small></span>
     </a>
   );

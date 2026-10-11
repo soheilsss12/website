@@ -1,39 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, Check, Sparkles } from 'lucide-react';
-
-const RAW_VERTICES = [
-  [-1, 1.618, 0], [1, 1.618, 0], [-1, -1.618, 0], [1, -1.618, 0],
-  [0, -1, 1.618], [0, 1, 1.618], [0, -1, -1.618], [0, 1, -1.618],
-  [1.618, 0, -1], [1.618, 0, 1], [-1.618, 0, -1], [-1.618, 0, 1],
-];
-const ICO_FACES = [
-  [0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11],
-  [1, 5, 9], [5, 11, 4], [11, 10, 2], [10, 7, 6], [7, 1, 8],
-  [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8], [3, 8, 9],
-  [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1],
-];
-const LOGO_COLORS = ['#d6ff74', '#8ce3bd', '#4fb99f', '#e9ffd1', '#317e72', '#a9eaa4'];
-const LOGO_VERTICES = RAW_VERTICES.map((vertex) => {
-  const length = Math.hypot(...vertex);
-  return vertex.map((coordinate) => coordinate / length);
-});
-const CRYSTAL_FACETS = (() => {
-  const rx = -0.48; const ry = 0.62;
-  const rotated = LOGO_VERTICES.map(([x, y, z]) => {
-    const y1 = y * Math.cos(rx) - z * Math.sin(rx);
-    const z1 = y * Math.sin(rx) + z * Math.cos(rx);
-    return [x * Math.cos(ry) + z1 * Math.sin(ry), y1, -x * Math.sin(ry) + z1 * Math.cos(ry)];
-  });
-  const projected = rotated.map(([x, y, z]) => {
-    const scale = 3.8 / (3.8 - z);
-    return [60 + x * 47 * scale, 60 + y * 47 * scale];
-  });
-  return ICO_FACES.map((face, index) => ({
-    index,
-    depth: face.reduce((sum, vertexIndex) => sum + rotated[vertexIndex][2], 0) / 3,
-    points: face.map((vertexIndex) => projected[vertexIndex].map((point) => point.toFixed(1)).join(',')).join(' '),
-  })).sort((left, right) => left.depth - right.depth);
-})();
+import CrystalMark from './CrystalMark.jsx';
 
 const concepts = [
   { id: 'crystal', title: 'بلور پارس', subtitle: 'هندسه‌ی دقیق، هوش شفاف', description: 'بیست وجه بلوری با برش‌های نورانی؛ نشان شاخص و آینده‌نگر برای یک شرکت هوش مصنوعی' },
@@ -42,17 +9,6 @@ const concepts = [
   { id: 'arch', title: 'ریشه و آینده', subtitle: 'الهام از معماری ایران', description: 'قوس هندسی ایرانی در کنار مسیرهای داده؛ هویتی ریشه‌دار با پرداخت مدرن' },
   { id: 'orbit', title: 'مدار پارسی', subtitle: 'هوش، در حرکت', description: 'مدارهای متقاطع و هسته‌ی مرکزی؛ نمادی از ارتباط، یادگیری و مقیاس‌پذیری' },
 ];
-
-function CrystalMark() {
-  return (
-    <svg viewBox="0 0 120 120" role="img" aria-label="نشان بلوری بیست‌وجهی">
-      {CRYSTAL_FACETS.map(({ index, points }) => (
-        <polygon key={index} points={points} fill={LOGO_COLORS[index % LOGO_COLORS.length]} fillOpacity="0.73" stroke="#eaffd9" strokeWidth="0.75" strokeOpacity="0.78" strokeLinejoin="round" />
-      ))}
-      <circle cx="60" cy="60" r="2.2" fill="#f4ffd9" />
-    </svg>
-  );
-}
 
 function NeuralMark() {
   return (
@@ -118,30 +74,30 @@ function LogoMark({ concept }) {
 
 export default function LogoOptionsPage() {
   const [selected, setSelected] = useState(() => {
-    if (typeof window === 'undefined') return '';
-    try { return window.localStorage.getItem('pars-ai-logo-choice') || ''; } catch { return ''; }
+    if (typeof window === 'undefined') return 'crystal';
+    try { return window.localStorage.getItem('pars-ai-logo-preview') || 'crystal'; } catch { return 'crystal'; }
   });
   const selectedIndex = concepts.findIndex((concept) => concept.id === selected);
-  const selectedNumber = selectedIndex >= 0 ? new Intl.NumberFormat('fa-IR').format(selectedIndex + 1) : '';
+  const selectedTitle = concepts[selectedIndex]?.title || '';
 
   const chooseConcept = (id) => {
     setSelected(id);
-    try { window.localStorage.setItem('pars-ai-logo-choice', id); } catch { /* local demo only */ }
+    try { window.localStorage.setItem('pars-ai-logo-preview', id); } catch { /* local demo only */ }
   };
 
   return (
     <main className="logo-options-page" dir="rtl">
       <header className="logo-options-header site-container">
-        <a className="logo-options-brand" href="#home"><span className="brand-symbol">پ</span><span><strong>پارس</strong><small>سرمایه‌گذاری جسورانه</small></span></a>
+        <a className="logo-options-brand" href="#home"><span className="brand-symbol"><CrystalMark /></span><span><strong>پارس</strong><small>سرمایه‌گذاری جسورانه</small></span></a>
         <a className="logo-options-back" href="#home"><ArrowLeft size={16} /> بازگشت به سایت</a>
       </header>
       <section className="logo-options-intro site-container">
         <span className="logo-options-kicker"><Sparkles size={15} /> هویت بصری · پارس ایرانیان</span>
         <h1>پنج مسیر برای<br /><em>هوش مصنوعی پارس ایرانیان</em></h1>
-        <p>پنج نشان برداری با زبان‌های بصری متفاوت؛ یکی را انتخاب کنید تا به‌عنوان هویت نهایی پرداخت و در سایت جایگزین شود</p>
+        <p>«بلور پارس» نشان اصلی سایت است؛ چهار مسیر دیگر در گالری باقی مانده‌اند تا زبان بصری هر ایده را کنار هم ببینید</p>
         <div className={`logo-choice-status ${selected ? 'is-selected' : ''}`} aria-live="polite">
           <span className="logo-choice-status-icon">{selected ? <Check size={16} /> : <Sparkles size={16} />}</span>
-          <span>{selected ? `گزینه‌ی ${selectedNumber} انتخاب شد؛ شماره‌ی طرح را برای اعمال نهایی اعلام کنید` : 'روی هر گزینه بزنید تا انتخاب محلی ذخیره شود؛ سپس شماره‌ی آن را اعلام کنید'}</span>
+          <span>{selected ? `«${selectedTitle}» برای پیش‌نمایش در این مرورگر انتخاب شده است` : 'یک گزینه را انتخاب کنید تا پیش‌نمایش آن در همین مرورگر ذخیره شود'}</span>
         </div>
       </section>
       <section className="logo-options-grid site-container" aria-label="پنج گزینه‌ی لوگو">
@@ -162,7 +118,7 @@ export default function LogoOptionsPage() {
           </article>
         ))}
       </section>
-      <p className="logo-options-note site-container">انتخاب فقط در همین مرورگر ذخیره می‌شود؛ برای نهایی‌کردن، شماره‌ی گزینه را در گفتگو بفرستید</p>
+      <p className="logo-options-note site-container">نشان اصلی منتشرشده‌ی سایت «بلور پارس» است؛ انتخاب طرح‌های دیگر فقط پیش‌نمایش محلی است و هویت برند سایت را تغییر نمی‌دهد</p>
     </main>
   );
 }

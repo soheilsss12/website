@@ -1,157 +1,448 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import CrystalMark from './CrystalMark.jsx';
 
-const PHI = (1 + Math.sqrt(5)) / 2;
-const RAW_VERTICES = [
-  [-1, PHI, 0], [1, PHI, 0], [-1, -PHI, 0], [1, -PHI, 0],
-  [0, -1, PHI], [0, 1, PHI], [0, -1, -PHI], [0, 1, -PHI],
-  [PHI, 0, -1], [PHI, 0, 1], [-PHI, 0, -1], [-PHI, 0, 1],
-];
-const VERTICES = RAW_VERTICES.map((point) => {
-  const length = Math.hypot(...point);
-  return point.map((coordinate) => coordinate / length);
-});
-const FACES = [
-  [0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11],
-  [1, 5, 9], [5, 11, 4], [11, 10, 2], [10, 7, 6], [7, 1, 8],
-  [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8], [3, 8, 9],
-  [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1],
-];
-const FACET_COLORS = [
-  '#d6ff74', '#9bf0bc', '#53cbb0', '#e7ffd0', '#378f79',
-  '#b5e9a6', '#67dac1', '#7abf9a', '#def5a9', '#3b9c86',
-];
-const LIGHT = [-0.46, -0.62, 0.64];
+const FACET_COLORS = ['#d6ff74', '#9bf0bc', '#53cbb0', '#e7ffd0', '#378f79', '#b5e9a6', '#67dac1', '#7abf9a', '#def5a9', '#3b9c86'];
+const ENVIRONMENT_URL = `${import.meta.env.BASE_URL}crystal-environment.jpg`;
 
-function rotateVertex([x, y, z], rotationX, rotationY, rotationZ) {
-  const cosX = Math.cos(rotationX); const sinX = Math.sin(rotationX);
-  const cosY = Math.cos(rotationY); const sinY = Math.sin(rotationY);
-  const cosZ = Math.cos(rotationZ); const sinZ = Math.sin(rotationZ);
-  const yAfterX = y * cosX - z * sinX;
-  const zAfterX = y * sinX + z * cosX;
-  const xAfterY = x * cosY + zAfterX * sinY;
-  const zAfterY = -x * sinY + zAfterX * cosY;
-  return [
-    xAfterY * cosZ - yAfterX * sinZ,
-    xAfterY * sinZ + yAfterX * cosZ,
-    zAfterY,
-  ];
+function createFacetColors(THREE, geometry) {
+  const positions = geometry.getAttribute('position');
+  const colors = new Float32Array(positions.count * 3);
+  const normal = new THREE.Vector3();
+  const lightDirection = new THREE.Vector3(-0.4, 0.65, 0.6).normalize();
+  const first = new THREE.Vector3();
+  const second = new THREE.Vector3();
+  const third = new THREE.Vector3();
+
+  for (let vertex = 0; vertex < positions.count; vertex += 3) {
+    first.fromBufferAttribute(positions, vertex);
+    second.fromBufferAttribute(positions, vertex + 1);
+    third.fromBufferAttribute(positions, vertex + 2);
+    second.sub(first);
+    third.sub(first);
+    normal.crossVectors(second, third).normalize();
+
+    const faceIndex = Math.floor(vertex / 3);
+    const light = 0.84 + Math.max(0, normal.dot(lightDirection)) * 0.23;
+    const tint = new THREE.Color(FACET_COLORS[faceIndex % FACET_COLORS.length]).multiplyScalar(light);
+    for (let point = 0; point < 3; point += 1) {
+      const offset = (vertex + point) * 3;
+      colors[offset] = tint.r;
+      colors[offset + 1] = tint.g;
+      colors[offset + 2] = tint.b;
+    }
+  }
+
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 }
 
-function normalFor(a, b, c) {
-  const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
-  const ac = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
-  let normal = [
-    ab[1] * ac[2] - ab[2] * ac[1],
-    ab[2] * ac[0] - ab[0] * ac[2],
-    ab[0] * ac[1] - ab[1] * ac[0],
-  ];
-  const length = Math.hypot(...normal) || 1;
-  normal = normal.map((coordinate) => coordinate / length);
-  const center = [a[0] + b[0] + c[0], a[1] + b[1] + c[1], a[2] + b[2] + c[2]];
-  if (normal[0] * center[0] + normal[1] * center[1] + normal[2] * center[2] < 0) {
-    normal = normal.map((coordinate) => -coordinate);
+function cropToEquirectangular(THREE, image) {
+  const sourceWidth = image.naturalWidth || image.videoWidth || image.width;
+  const sourceHeight = image.naturalHeight || image.videoHeight || image.height;
+  const width = 1024;
+  const height = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext('2d');
+  if (!context || !sourceWidth || !sourceHeight) return null;
+
+  const sourceRatio = sourceWidth / sourceHeight;
+  if (sourceRatio > 2) {
+    const cropWidth = sourceHeight * 2;
+    context.drawImage(image, (sourceWidth - cropWidth) / 2, 0, cropWidth, sourceHeight, 0, 0, width, height);
+  } else if (sourceRatio < 2) {
+    const cropHeight = sourceWidth / 2;
+    context.drawImage(image, 0, (sourceHeight - cropHeight) / 2, sourceWidth, cropHeight, 0, 0, width, height);
+  } else {
+    context.drawImage(image, 0, 0, sourceWidth, sourceHeight, 0, 0, width, height);
   }
-  return normal;
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.generateMipmaps = true;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  return texture;
+}
+
+function createGlowTexture(THREE) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 128;
+  canvas.height = 128;
+  const context = canvas.getContext('2d');
+  if (!context) return null;
+
+  const gradient = context.createRadialGradient(64, 64, 3, 64, 64, 62);
+  gradient.addColorStop(0, 'rgba(218,255,146,0.88)');
+  gradient.addColorStop(0.22, 'rgba(129,255,174,0.58)');
+  gradient.addColorStop(0.54, 'rgba(53,220,169,0.19)');
+  gradient.addColorStop(1, 'rgba(53,220,169,0)');
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, 128, 128);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
+
+function createRenderer(THREE, host) {
+  const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.55);
+  const renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    antialias: true,
+    powerPreference: 'low-power',
+    premultipliedAlpha: true,
+  });
+  renderer.setPixelRatio(pixelRatio);
+  renderer.setClearColor(0x000000, 0);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.15;
+  renderer.domElement.className = 'hero-crystal-canvas';
+  renderer.domElement.setAttribute('aria-hidden', 'true');
+  renderer.domElement.setAttribute('role', 'presentation');
+  host.appendChild(renderer.domElement);
+  return renderer;
 }
 
 export default function CrystalIcosahedron({ active }) {
-  const meshRef = useRef(null);
+  const hostRef = useRef(null);
   const pointerRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
+  const firstFrameRef = useRef(false);
+  const activeRef = useRef(active);
+  const lifecycleRef = useRef({ mounted: true, loading: false, requestId: 0, controller: null });
+  const [webglUnavailable, setWebglUnavailable] = useState(false);
+  const [webglReady, setWebglReady] = useState(false);
+
+  activeRef.current = active;
 
   useEffect(() => {
-    const mesh = meshRef.current;
-    if (!mesh || !active) return undefined;
+    const lifecycle = lifecycleRef.current;
+    lifecycle.mounted = true;
 
-    const faceNodes = new Map(
-      Array.from(mesh.querySelectorAll('[data-crystal-face]'), (node) => [Number(node.dataset.crystalFace), node]),
-    );
-    let frameId = 0;
-    let lastFrame = 0;
-    let previousOrder = [];
-    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
-    const frameInterval = reducedMotion ? 32 : 16;
+    const updateActivity = () => {
+      if (activeRef.current && !webglUnavailable) lifecycle.controller?.start();
+      else lifecycle.controller?.stop();
+    };
+    updateActivity();
 
-    const draw = (timestamp) => {
-      if (timestamp - lastFrame < frameInterval) {
-        frameId = window.requestAnimationFrame(draw);
+    if (!active || webglUnavailable || lifecycle.controller || lifecycle.loading) return undefined;
+    lifecycle.loading = true;
+    const requestId = lifecycle.requestId + 1;
+    lifecycle.requestId = requestId;
+
+    import('three').then((THREE) => {
+      if (requestId !== lifecycle.requestId) return;
+      lifecycle.loading = false;
+      if (!lifecycle.mounted || !hostRef.current) return;
+
+      const host = hostRef.current;
+      let renderer;
+      try {
+        renderer = createRenderer(THREE, host);
+      } catch {
+        if (lifecycle.mounted) setWebglUnavailable(true);
         return;
       }
-      lastFrame = timestamp;
+
+      const scene = new THREE.Scene();
+      const bounds = host.getBoundingClientRect();
+      const width = Math.max(1, bounds.width);
+      const height = Math.max(1, bounds.height);
+      const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 40);
+      camera.position.set(0, 0, 4.75);
+      scene.add(camera);
+
+      const ambientLight = new THREE.HemisphereLight(0xd9ffe9, 0x08130f, 1.75);
+      scene.add(ambientLight);
+      const keyLight = new THREE.DirectionalLight(0xeaffd3, 3.1);
+      keyLight.position.set(-3.4, 4.1, 3.8);
+      scene.add(keyLight);
+      const mintLight = new THREE.PointLight(0x65ffd0, 5.2, 8, 2);
+      mintLight.position.set(2.8, 0.8, 2.2);
+      scene.add(mintLight);
+      const warmLight = new THREE.PointLight(0xffb77d, 2.4, 7, 2);
+      warmLight.position.set(-2.6, -2.1, 1.5);
+      scene.add(warmLight);
+      const coreLight = new THREE.PointLight(0xcaff7c, 4.6, 3.8, 2);
+      coreLight.position.set(0, 0, 0.15);
+      scene.add(coreLight);
+
+      const crystalRig = new THREE.Group();
+      crystalRig.rotation.set(-0.13, 0.18, 0.03);
+      scene.add(crystalRig);
+
+      const outerGeometry = new THREE.IcosahedronGeometry(1.34, 0);
+      createFacetColors(THREE, outerGeometry);
+      const shellMaterial = new THREE.MeshPhysicalMaterial({
+        color: '#e0f7dd',
+        vertexColors: true,
+        metalness: 0.06,
+        roughness: 0.14,
+        transmission: 0.7,
+        thickness: 0.9,
+        ior: 1.43,
+        attenuationColor: new THREE.Color('#55d8ad'),
+        attenuationDistance: 2.1,
+        clearcoat: 0.95,
+        clearcoatRoughness: 0.1,
+        emissive: new THREE.Color('#0a291e'),
+        emissiveIntensity: 0.2,
+        envMapIntensity: 1.65,
+        flatShading: true,
+        side: THREE.DoubleSide,
+      });
+      const outerCrystal = new THREE.Mesh(outerGeometry, shellMaterial);
+      crystalRig.add(outerCrystal);
+
+      const edgeGeometry = new THREE.EdgesGeometry(outerGeometry, 0.1);
+      const edgeMaterial = new THREE.LineBasicMaterial({
+        color: '#d8ffe5',
+        transparent: true,
+        opacity: 0.45,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      const facetEdges = new THREE.LineSegments(edgeGeometry, edgeMaterial);
+      facetEdges.scale.setScalar(1.002);
+      facetEdges.renderOrder = 1;
+      crystalRig.add(facetEdges);
+
+      const innerRig = new THREE.Group();
+      crystalRig.add(innerRig);
+      const innerGeometry = new THREE.IcosahedronGeometry(0.76, 0);
+      const innerMaterial = new THREE.MeshPhysicalMaterial({
+        color: '#9ff2ca',
+        metalness: 0.08,
+        roughness: 0.2,
+        transmission: 0.44,
+        thickness: 0.56,
+        ior: 1.34,
+        attenuationColor: new THREE.Color('#61e6b7'),
+        attenuationDistance: 1.4,
+        clearcoat: 0.85,
+        clearcoatRoughness: 0.14,
+        emissive: new THREE.Color('#123d2c'),
+        emissiveIntensity: 0.38,
+        envMapIntensity: 1.15,
+        flatShading: true,
+        side: THREE.DoubleSide,
+      });
+      innerRig.add(new THREE.Mesh(innerGeometry, innerMaterial));
+
+      const coreGeometry = new THREE.DodecahedronGeometry(0.235, 0);
+      const coreMaterial = new THREE.MeshStandardMaterial({
+        color: '#edffbd',
+        emissive: new THREE.Color('#baff6b'),
+        emissiveIntensity: 2.25,
+        metalness: 0.12,
+        roughness: 0.24,
+        flatShading: true,
+      });
+      const core = new THREE.Mesh(coreGeometry, coreMaterial);
+      core.rotation.set(0.24, -0.34, 0.12);
+      innerRig.add(core);
+
+      const glowTexture = createGlowTexture(THREE);
+      let coreGlow = null;
+      if (glowTexture) {
+        const glowMaterial = new THREE.SpriteMaterial({
+          map: glowTexture,
+          color: '#a4ffc1',
+          transparent: true,
+          opacity: 0.56,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+          depthTest: false,
+          toneMapped: false,
+        });
+        coreGlow = new THREE.Sprite(glowMaterial);
+        coreGlow.scale.set(1.18, 1.18, 1);
+        coreGlow.renderOrder = 2;
+        innerRig.add(coreGlow);
+      }
+
+      renderer.setSize(width, height, false);
+      const resize = () => {
+        const rect = host.getBoundingClientRect();
+        const nextWidth = Math.max(1, rect.width);
+        const nextHeight = Math.max(1, rect.height);
+        camera.aspect = nextWidth / nextHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(nextWidth, nextHeight, false);
+      };
+      const resizeObserver = 'ResizeObserver' in window ? new ResizeObserver(resize) : null;
+      resizeObserver?.observe(host);
+      if (!resizeObserver) window.addEventListener('resize', resize, { passive: true });
+      resize();
+
+      let disposed = false;
+      let environmentTarget = null;
+      let environmentTexture = null;
+      const sourceEnvironment = new THREE.TextureLoader().load(
+        ENVIRONMENT_URL,
+        (imageTexture) => {
+          if (disposed || !lifecycle.mounted) {
+            imageTexture.dispose();
+            return;
+          }
+          try {
+            environmentTexture = cropToEquirectangular(THREE, imageTexture.image);
+            imageTexture.dispose();
+            if (!environmentTexture) return;
+            const pmremGenerator = new THREE.PMREMGenerator(renderer);
+            try {
+              pmremGenerator.compileEquirectangularShader();
+              environmentTarget = pmremGenerator.fromEquirectangular(environmentTexture);
+              scene.environment = environmentTarget.texture;
+            } finally {
+              pmremGenerator.dispose();
+            }
+            environmentTexture.dispose();
+            environmentTexture = null;
+          } catch {
+            environmentTexture?.dispose();
+            environmentTexture = null;
+          }
+        },
+        undefined,
+        () => {},
+      );
+
+      const motionQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+      let reducedMotion = motionQuery?.matches ?? false;
+      const onMotionPreferenceChange = (event) => {
+        reducedMotion = event.matches;
+        if (!reducedMotion) lifecycle.controller?.start();
+      };
+      motionQuery?.addEventListener?.('change', onMotionPreferenceChange);
+      if (motionQuery && !motionQuery.addEventListener) motionQuery.addListener?.(onMotionPreferenceChange);
 
       const pointer = pointerRef.current;
-      pointer.x += (pointer.targetX - pointer.x) * 0.12;
-      pointer.y += (pointer.targetY - pointer.y) * 0.12;
-      const rotationX = (reducedMotion ? 0 : timestamp * 0.00018) - pointer.y * 0.46;
-      const rotationY = (reducedMotion ? 0 : timestamp * 0.00032) + pointer.x * 0.56;
-      const rotationZ = pointer.x * 0.07;
-      const rotated = VERTICES.map((vertex) => rotateVertex(vertex, rotationX, rotationY, rotationZ));
-      const perspective = 4.2;
-      const projected = rotated.map(([x, y, z]) => {
-        const scale = perspective / (perspective - z);
-        return [200 + x * 148 * scale, 200 + y * 148 * scale];
-      });
+      const handlePointerMove = (event) => {
+        const rect = host.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        pointer.targetX = THREE.MathUtils.clamp(((event.clientX - rect.left) / rect.width - 0.5) * 2, -1, 1);
+        pointer.targetY = THREE.MathUtils.clamp(((event.clientY - rect.top) / rect.height - 0.5) * 2, -1, 1);
+        if (reducedMotion) lifecycle.controller?.start();
+      };
+      const resetPointer = () => {
+        pointer.targetX = 0;
+        pointer.targetY = 0;
+        if (reducedMotion) lifecycle.controller?.start();
+      };
+      host.addEventListener('pointermove', handlePointerMove, { passive: true });
+      host.addEventListener('pointerleave', resetPointer, { passive: true });
 
-      const orderedFaces = FACES.map((face, index) => {
-        const [a, b, c] = face.map((vertexIndex) => rotated[vertexIndex]);
-        const depth = (a[2] + b[2] + c[2]) / 3;
-        const normal = normalFor(a, b, c);
-        const illumination = Math.max(0, normal[0] * LIGHT[0] + normal[1] * LIGHT[1] + normal[2] * LIGHT[2]);
-        const points = face.map((vertexIndex) => projected[vertexIndex].map((value) => value.toFixed(2)).join(',')).join(' ');
-        return { index, depth, illumination, points };
-      }).sort((left, right) => left.depth - right.depth);
+      let frameId = 0;
+      let lastTimestamp = 0;
+      let elapsed = 0;
+      const renderFrame = (timestamp) => {
+        frameId = 0;
+        if (!lifecycle.mounted || !activeRef.current || document.hidden) return;
 
-      const nextOrder = orderedFaces.map(({ index }) => index);
-      const orderChanged = nextOrder.some((index, position) => index !== previousOrder[position]);
-      orderedFaces.forEach(({ index, depth, illumination, points }) => {
-        const polygon = faceNodes.get(index);
-        if (!polygon) return;
-        polygon.setAttribute('points', points);
-        polygon.setAttribute('fill-opacity', String(Math.min(0.76, 0.19 + illumination * 0.4 + Math.max(0, depth) * 0.16)));
-        polygon.setAttribute('stroke-opacity', String(0.3 + Math.max(0, depth) * 0.42));
-        if (orderChanged) mesh.appendChild(polygon);
-      });
-      if (orderChanged) previousOrder = nextOrder;
+        const delta = lastTimestamp ? Math.min((timestamp - lastTimestamp) / 1000, 0.05) : 0;
+        lastTimestamp = timestamp;
+        elapsed += delta;
+        pointer.x += (pointer.targetX - pointer.x) * 0.075;
+        pointer.y += (pointer.targetY - pointer.y) * 0.075;
 
-      frameId = window.requestAnimationFrame(draw);
-    };
+        const idleTurn = reducedMotion ? 0 : elapsed;
+        crystalRig.rotation.y = 0.18 + idleTurn * 0.24 + pointer.x * 0.3;
+        crystalRig.rotation.x = -0.13 + pointer.y * 0.24 + (reducedMotion ? 0 : Math.sin(elapsed * 0.55) * 0.025);
+        crystalRig.rotation.z = 0.03 + pointer.x * 0.045;
+        innerRig.rotation.y = reducedMotion ? 0 : -elapsed * 0.18;
+        innerRig.rotation.x = reducedMotion ? 0 : Math.sin(elapsed * 0.38) * 0.06;
+        core.rotation.y = reducedMotion ? -0.34 : -0.34 + elapsed * 0.32;
+        if (coreGlow && !reducedMotion) coreGlow.material.opacity = 0.52 + Math.sin(elapsed * 1.8) * 0.06;
 
-    frameId = window.requestAnimationFrame(draw);
-    return () => window.cancelAnimationFrame(frameId);
-  }, [active]);
+        renderer.render(scene, camera);
+        if (!firstFrameRef.current) {
+          firstFrameRef.current = true;
+          setWebglReady(true);
+        }
+        const pointerIsSettling = Math.abs(pointer.targetX - pointer.x) > 0.001 || Math.abs(pointer.targetY - pointer.y) > 0.001;
+        if (!reducedMotion || pointerIsSettling) frameId = window.requestAnimationFrame(renderFrame);
+      };
+      const start = () => {
+        if (frameId || disposed || !lifecycle.mounted || !activeRef.current || document.hidden) return;
+        lastTimestamp = 0;
+        frameId = window.requestAnimationFrame(renderFrame);
+      };
+      const stop = () => {
+        if (frameId) window.cancelAnimationFrame(frameId);
+        frameId = 0;
+        lastTimestamp = 0;
+      };
+      const onVisibilityChange = () => {
+        if (document.hidden) stop();
+        else if (activeRef.current) start();
+      };
+      document.addEventListener('visibilitychange', onVisibilityChange);
+      const onContextLost = (event) => {
+        event.preventDefault();
+        stop();
+        if (lifecycle.mounted) setWebglUnavailable(true);
+      };
+      renderer.domElement.addEventListener('webglcontextlost', onContextLost, false);
 
-  const handlePointerMove = (event) => {
-    const bounds = event.currentTarget.getBoundingClientRect();
-    if (!bounds.width || !bounds.height) return;
-    const pointer = pointerRef.current;
-    pointer.targetX = Math.max(-1, Math.min(1, ((event.clientX - bounds.left) / bounds.width - 0.5) * 2));
-    pointer.targetY = Math.max(-1, Math.min(1, ((event.clientY - bounds.top) / bounds.height - 0.5) * 2));
-  };
+      const cleanup = () => {
+        if (disposed) return;
+        disposed = true;
+        stop();
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+        renderer.domElement.removeEventListener('webglcontextlost', onContextLost, false);
+        motionQuery?.removeEventListener?.('change', onMotionPreferenceChange);
+        if (motionQuery && !motionQuery.removeEventListener) motionQuery.removeListener?.(onMotionPreferenceChange);
+        host.removeEventListener('pointermove', handlePointerMove);
+        host.removeEventListener('pointerleave', resetPointer);
+        resizeObserver?.disconnect();
+        if (!resizeObserver) window.removeEventListener('resize', resize);
+        sourceEnvironment.dispose();
+        environmentTexture?.dispose();
+        environmentTarget?.dispose();
+        glowTexture?.dispose();
+        scene.traverse((object) => {
+          object.geometry?.dispose?.();
+          if (Array.isArray(object.material)) object.material.forEach((material) => material.dispose());
+          else object.material?.dispose?.();
+        });
+        renderer.dispose();
+        renderer.domElement.remove();
+      };
 
-  const resetPointer = () => {
-    pointerRef.current.targetX = 0;
-    pointerRef.current.targetY = 0;
-  };
+      lifecycle.controller = { start, stop, cleanup };
+      if (activeRef.current) start();
+    }).catch(() => {
+      if (requestId !== lifecycle.requestId) return;
+      lifecycle.loading = false;
+      if (lifecycle.mounted) setWebglUnavailable(true);
+    });
+
+    return undefined;
+  }, [active, webglUnavailable]);
+
+  useEffect(() => () => {
+    const lifecycle = lifecycleRef.current;
+    lifecycle.mounted = false;
+    lifecycle.requestId += 1;
+    lifecycle.loading = false;
+    lifecycle.controller?.cleanup();
+    lifecycle.controller = null;
+  }, []);
 
   return (
-    <div className="hero-crystal-object" onPointerMove={handlePointerMove} onPointerLeave={resetPointer}>
+    <div
+      ref={hostRef}
+      className={`hero-crystal-object ${webglUnavailable ? 'is-fallback' : ''}`}
+      role="img"
+      aria-label="کریستال سه‌بعدی بیست‌وجهی پارس با هسته‌ی نورانی؛ چرخان و واکنش‌گرا به حرکت نشانگر"
+    >
       <span className="hero-crystal-glow" aria-hidden="true" />
-      <svg className="hero-crystal-mesh" viewBox="0 0 400 400" role="img" aria-label="کریستال سه‌بعدی بیست‌وجهی پارس؛ چرخان و واکنش‌گرا به حرکت موس">
-        <g ref={meshRef}>
-          {FACES.map((face, index) => (
-            <polygon
-              key={index}
-              data-crystal-face={index}
-              points={face.map((vertexIndex) => `${200 + VERTICES[vertexIndex][0] * 148},${200 + VERTICES[vertexIndex][1] * 148}`).join(' ')}
-              fill={FACET_COLORS[index % FACET_COLORS.length]}
-              fillOpacity="0.34"
-              stroke="#e8ffd9"
-              strokeWidth="1.1"
-              strokeLinejoin="round"
-              strokeOpacity="0.56"
-            />
-          ))}
-        </g>
-      </svg>
+      <span className={`hero-crystal-fallback ${webglReady && !webglUnavailable ? 'is-fading' : ''}`} aria-hidden="true">
+        <CrystalMark />
+      </span>
     </div>
   );
 }

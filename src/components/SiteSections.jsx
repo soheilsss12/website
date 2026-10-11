@@ -48,6 +48,7 @@ import {
 } from '../data/siteContent.js';
 import { iranCityMarkers, iranOutlinePath, iranOutlineViewBox } from '../data/iranMap.js';
 import CrystalIcosahedron from './CrystalIcosahedron.jsx';
+import CrystalMark from './CrystalMark.jsx';
 
 const faNumber = (value) => new Intl.NumberFormat('fa-IR').format(value);
 
@@ -66,7 +67,7 @@ function SectionHeading({ index, eyebrow, title, emphasis, copy, light = false, 
 }
 
 function ParsGlyph({ className = '' }) {
-  return <span className={`pars-glyph ${className}`} aria-hidden="true">پ</span>;
+  return <span className={`pars-glyph ${className}`} aria-hidden="true"><CrystalMark /></span>;
 }
 
 function HeroParsVisual() {
@@ -105,7 +106,7 @@ function HeroParsVisual() {
         <span><small>از ایده تا اثر</small><strong>مسیر رشد، با همراهی</strong></span>
         <ArrowUpLeft size={16} />
       </div>
-      <div className="hero-stage-coordinate"><span>۲۰ وجه بلوری · واکنش به حرکت موس</span><i /></div>
+      <div className="hero-stage-coordinate"><span>۲۰ وجه بلوری · واکنش به حرکت نشانگر</span><i /></div>
       <div className="hero-stage-watermark">پارس</div>
     </div>
   );
@@ -380,7 +381,7 @@ export function CriteriaSection() {
   return (
     <section className="criteria-section section-space" id="approach">
       <div className="site-container">
-        <div className="criteria-intro-row"><SectionHeading index="۰۸" eyebrow="رویکرد و معیارها" title="شفافیت، قبل از" emphasis="سرمایه‌گذاری" copy="چه چیزی را بررسی می‌کنیم، چه چیزی را هنوز باید اعلام کنیم و چرا؛ همه‌چیز روشن و بی‌وعده‌ی مبهم" /><div className="criteria-side-note"><span className="criteria-side-mark">پ</span><p>شرایط قطعی فقط از مسیر اطلاعیه‌ی رسمی هر دوره اعلام خواهد شد</p></div></div>
+        <div className="criteria-intro-row"><SectionHeading index="۰۸" eyebrow="رویکرد و معیارها" title="شفافیت، قبل از" emphasis="سرمایه‌گذاری" copy="چه چیزی را بررسی می‌کنیم، چه چیزی را هنوز باید اعلام کنیم و چرا؛ همه‌چیز روشن و بی‌وعده‌ی مبهم" /><div className="criteria-side-note"><span className="criteria-side-mark"><CrystalMark /></span><p>شرایط قطعی فقط از مسیر اطلاعیه‌ی رسمی هر دوره اعلام خواهد شد</p></div></div>
         <div className="criteria-grid">{criteria.map((item, index) => {
           const Icon = item.icon;
           return <article className="criteria-card" key={item.title} data-reveal><span className="criteria-card-index">۰{index + 1}</span><Icon size={20} /><small>{item.title}</small><strong>{item.value}</strong><p>{item.note}</p></article>;
@@ -534,7 +535,7 @@ export function FooterSection() {
       <div className="site-container">
         <div className="footer-top">
           <a className="brand-lockup" href="#home">
-            <span className="brand-symbol">پ</span>
+            <span className="brand-symbol"><CrystalMark /></span>
             <span className="brand-name-stack"><strong>پارس</strong><small>سرمایه‌گذاری جسورانه</small></span>
           </a>
           <p>سرمایه‌ی هوشمند،<br /><em>همراهی واقعی</em></p>
@@ -579,7 +580,7 @@ export function PortfolioDetail({ item, onClose, onStartApplication }) {
 export function ArticleDetail({ article, onClose, onOpenTool }) {
   return (
     <div className="modal-scrim" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
-      <article className="article-dialog" role="dialog" aria-modal="true" aria-labelledby="article-title" dir="rtl"><header className="dialog-header"><div className="dialog-brand"><span className="dialog-brand-mark">پ</span><span>مرکز دانش پارس</span></div><button type="button" className="icon-button dialog-close" onClick={onClose} aria-label="بستن"><X size={20} /></button></header><div className="article-dialog-meta"><span>{article.category}</span><span><Clock3 size={14} /> {article.readTime}</span></div><h2 id="article-title">{article.title}</h2><p className="article-dialog-excerpt">{article.excerpt}</p><div className="article-dialog-body">{article.body.split('\n').map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div><div className="article-related-tool"><div><span className="eyebrow">ابزار مرتبط</span><strong>محاسبه‌گر برای تصمیم بعدی</strong></div><button type="button" className="button button-dark" onClick={() => onOpenTool(article.tool)}>بازکردن ابزار <ArrowUpLeft size={15} /></button></div><small className="article-dialog-note">یادداشت آموزشی پیشنهادی؛ پیش از انتشار نهایی بازبینی می‌شود</small></article>
+      <article className="article-dialog" role="dialog" aria-modal="true" aria-labelledby="article-title" dir="rtl"><header className="dialog-header"><div className="dialog-brand"><span className="dialog-brand-mark"><CrystalMark /></span><span>مرکز دانش پارس</span></div><button type="button" className="icon-button dialog-close" onClick={onClose} aria-label="بستن"><X size={20} /></button></header><div className="article-dialog-meta"><span>{article.category}</span><span><Clock3 size={14} /> {article.readTime}</span></div><h2 id="article-title">{article.title}</h2><p className="article-dialog-excerpt">{article.excerpt}</p><div className="article-dialog-body">{article.body.split('\n').map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div><div className="article-related-tool"><div><span className="eyebrow">ابزار مرتبط</span><strong>محاسبه‌گر برای تصمیم بعدی</strong></div><button type="button" className="button button-dark" onClick={() => onOpenTool(article.tool)}>بازکردن ابزار <ArrowUpLeft size={15} /></button></div><small className="article-dialog-note">یادداشت آموزشی پیشنهادی؛ پیش از انتشار نهایی بازبینی می‌شود</small></article>
     </div>
   );
 }
@@ -588,6 +589,6 @@ export function CookieNotice({ choice, onSave }) {
   const [open, setOpen] = useState(false);
   if (choice || open) return null;
   return (
-    <aside className="cookie-notice" aria-label="تنظیمات حریم خصوصی"><div className="cookie-notice-symbol">پ</div><div className="cookie-notice-copy"><strong>حریم خصوصی، انتخاب شماست</strong><p>این پیش‌نمایش از ابزارهای تحلیلی استفاده نمی‌کند؛ فقط تنظیم انتخاب شما ذخیره می‌شود</p></div><div className="cookie-notice-actions"><button type="button" onClick={() => onSave('essential')}>فقط ضروری</button><button type="button" className="cookie-accept" onClick={() => onSave('all')}>متوجه شدم <Check size={13} /></button></div><button className="cookie-dismiss" type="button" onClick={() => { onSave('essential'); setOpen(true); }} aria-label="بستن پیام"><X size={14} /></button></aside>
+    <aside className="cookie-notice" aria-label="تنظیمات حریم خصوصی"><div className="cookie-notice-symbol"><CrystalMark /></div><div className="cookie-notice-copy"><strong>حریم خصوصی، انتخاب شماست</strong><p>این پیش‌نمایش از ابزارهای تحلیلی استفاده نمی‌کند؛ فقط تنظیم انتخاب شما ذخیره می‌شود</p></div><div className="cookie-notice-actions"><button type="button" onClick={() => onSave('essential')}>فقط ضروری</button><button type="button" className="cookie-accept" onClick={() => onSave('all')}>متوجه شدم <Check size={13} /></button></div><button className="cookie-dismiss" type="button" onClick={() => { onSave('essential'); setOpen(true); }} aria-label="بستن پیام"><X size={14} /></button></aside>
   );
 }

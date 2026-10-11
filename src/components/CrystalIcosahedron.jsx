@@ -165,11 +165,11 @@ export default function CrystalIcosahedron({ active, interactionRef }) {
     scene.add(warmLight);
     const coreLight = new THREE.PointLight(0xcaff7c, 4.6, 3.8, 2);
     coreLight.position.set(0, 0, 0.15);
-    scene.add(coreLight);
 
     const crystalRig = new THREE.Group();
     crystalRig.rotation.set(-0.13, 0.18, 0.03);
     scene.add(crystalRig);
+    crystalRig.add(coreLight);
 
     const outerGeometry = new THREE.IcosahedronGeometry(1.34, 0);
     createFacetColors(outerGeometry);
@@ -358,6 +358,8 @@ export default function CrystalIcosahedron({ active, interactionRef }) {
       }
 
       const idleTurn = reducedMotion ? 0 : elapsed;
+      crystalRig.position.x = pointer.x * 0.55;
+      crystalRig.position.y = -pointer.y * 0.55;
       crystalRig.rotation.y = 0.18 + idleTurn * CRYSTAL_SPIN_SPEED + pointer.x;
       crystalRig.rotation.x = -0.13 + pointer.y + (reducedMotion ? 0 : Math.sin(elapsed * 0.55) * 0.025);
       crystalRig.rotation.z = 0.03 + pointer.x * 0.08;

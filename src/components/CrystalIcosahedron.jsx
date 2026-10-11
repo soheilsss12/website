@@ -5,6 +5,7 @@ import CrystalMark from './CrystalMark.jsx';
 const FACET_COLORS = ['#d6ff74', '#9bf0bc', '#53cbb0', '#e7ffd0', '#378f79', '#b5e9a6', '#67dac1', '#7abf9a', '#def5a9', '#3b9c86'];
 const ENVIRONMENT_URL = `${import.meta.env.BASE_URL}crystal-environment.jpg`;
 const CRYSTAL_SPIN_SPEED = 0.24;
+const CRYSTAL_CANVAS_OVERSCAN = 1.4;
 
 function createFacetColors(geometry) {
   const positions = geometry.getAttribute('position');
@@ -149,7 +150,7 @@ export default function CrystalIcosahedron({ active, interactionRef }) {
     const width = Math.max(1, initialBounds.width);
     const height = Math.max(1, initialBounds.height);
     const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 40);
-    camera.position.set(0, 0, 4.75);
+    camera.position.set(0, 0, 4.75 * CRYSTAL_CANVAS_OVERSCAN);
     scene.add(camera);
 
     const ambientLight = new THREE.HemisphereLight(0xd9ffe9, 0x08130f, 1.75);
@@ -260,14 +261,14 @@ export default function CrystalIcosahedron({ active, interactionRef }) {
       innerRig.add(coreGlow);
     }
 
-    renderer.setSize(width, height, false);
+    renderer.setSize(width * CRYSTAL_CANVAS_OVERSCAN, height * CRYSTAL_CANVAS_OVERSCAN, false);
     const resize = () => {
       const rect = host.getBoundingClientRect();
       const nextWidth = Math.max(1, rect.width);
       const nextHeight = Math.max(1, rect.height);
       camera.aspect = nextWidth / nextHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(nextWidth, nextHeight, false);
+      renderer.setSize(nextWidth * CRYSTAL_CANVAS_OVERSCAN, nextHeight * CRYSTAL_CANVAS_OVERSCAN, false);
       lifecycle.controller?.start();
     };
     const resizeObserver = 'ResizeObserver' in window ? new ResizeObserver(resize) : null;

@@ -8982,9 +8982,13 @@ h4,
   position: relative;
   width: min(100%, 490px);
   min-height: 140px;
+  perspective: 900px;
+  transform-style: preserve-3d;
 }
 
 .hero-dialogue-history {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -8993,9 +8997,6 @@ h4,
   max-height: 44px;
   margin-bottom: 6px;
   overflow: hidden;
-  transform-origin: right center;
-  will-change: opacity, transform;
-  transition: opacity 0.24s ease-out, transform 0.32s ease-out;
 }
 
 .hero-dialogue-echo {
@@ -9008,9 +9009,9 @@ h4,
   font-size: clamp(12px, 0.58vw, 13px);
   line-height: 1.45;
   opacity: 0.34;
-  filter: blur(0.7px);
-  transform: translateY(-2px);
-  animation: hero-dialogue-echo-arrive 0.3s ease-out both;
+  filter: blur(1px);
+  transform: translateY(0) scale(1);
+  animation: hero-dialogue-echo-arrive 0.9s cubic-bezier(0.18, 0.72, 0.22, 1) both;
 }
 
 .hero-dialogue-echo > span {
@@ -9043,11 +9044,14 @@ h4,
   letter-spacing: -0.012em;
   line-height: 1.5;
   text-wrap: pretty;
+  filter: blur(0px);
   transform-origin: right center;
-  will-change: opacity, transform;
+  will-change: filter, opacity, transform;
+  backface-visibility: hidden;
   transition:
-    opacity 0.28s ease-out,
-    transform 0.38s cubic-bezier(0.22, 0.72, 0.22, 1);
+    opacity 0.9s cubic-bezier(0.18, 0.72, 0.22, 1),
+    filter 0.9s cubic-bezier(0.18, 0.72, 0.22, 1),
+    transform 0.9s cubic-bezier(0.18, 0.72, 0.22, 1);
 }
 
 .hero-pars-copy .hero-dialogue-prompt.is-intro {
@@ -9075,18 +9079,15 @@ h4,
 }
 
 .hero-dialogue-stage.phase-receding .hero-dialogue-prompt {
-  opacity: 0.28;
-  transform: translateY(-5px);
+  opacity: 0.02;
+  filter: blur(8px);
+  transform: translate3d(0, -19px, -120px) scale(0.82);
 }
 
 .hero-dialogue-stage.phase-arriving .hero-dialogue-prompt {
   opacity: 0;
-  transform: translateY(7px);
-}
-
-.hero-dialogue-stage.phase-receding .hero-dialogue-history {
-  opacity: 0.3;
-  transform: translateY(-2px);
+  filter: blur(5px);
+  transform: translate3d(0, 9px, -100px) scale(0.86);
 }
 
 .hero-type-caret {
@@ -9240,8 +9241,16 @@ h4,
 }
 
 @keyframes hero-dialogue-echo-arrive {
-  from { opacity: 0; transform: translateY(-3px); }
-  to { opacity: 0.34; transform: translateY(-2px); }
+  from {
+    opacity: 0;
+    filter: blur(0px);
+    transform: translateY(7px) scale(1.08);
+  }
+  to {
+    opacity: 0.34;
+    filter: blur(1px);
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes hero-type-caret-blink {

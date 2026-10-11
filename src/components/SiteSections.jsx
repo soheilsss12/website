@@ -238,6 +238,11 @@ export function HeroSection() {
           if (dialogueStep === -1) {
             setDialoguePhase('holding');
             timers.push(window.setTimeout(() => {
+              setHistory((items) => (
+                items.some((turn) => turn.prompt === HERO_TITLE_TEXT)
+                  ? items
+                  : [...items, { prompt: HERO_TITLE_TEXT, answer: '' }]
+              ));
               setDialoguePhase('receding');
             }, 900));
           } else {
@@ -273,11 +278,6 @@ export function HeroSection() {
   const handlePromptTransitionEnd = (event) => {
     if (event.target !== event.currentTarget || event.propertyName !== 'transform' || dialoguePhase !== 'receding') return;
     if (dialogueStep < 0) {
-      setHistory((items) => (
-        items.some((turn) => turn.prompt === HERO_TITLE_TEXT)
-          ? items
-          : [...items, { prompt: HERO_TITLE_TEXT, answer: '' }]
-      ));
       setDialoguePhase('arriving');
       setDialogueStep(0);
       return;

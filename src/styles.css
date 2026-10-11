@@ -255,9 +255,7 @@ summary:focus-visible {
 }
 .site-header {
   z-index: 40;
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  background: #090b0ae0;
+  background: rgba(9, 11, 10, 0.97);
   border-bottom: 1px solid #f1f0eb1a;
   width: 100%;
   height: 80px;
@@ -510,15 +508,7 @@ summary:focus-visible {
   position: absolute;
   inset: 0;
 }
-.hero-noise {
-  z-index: -1;
-  opacity: 0.075;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 190 190' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
-  position: absolute;
-  inset: 0;
-}
+
 .hero-layout {
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -6577,19 +6567,11 @@ h4,
   inset: 0;
   content: "";
   pointer-events: none;
-  opacity: 0.34;
+  opacity: 0.2;
   background-image:
     linear-gradient(rgba(210, 255, 197, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(210, 255, 197, 0.035) 1px, transparent 1px);
-  background-size: 84px 84px;
-  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.78), transparent 74%);
-  animation: hero-grid-drift 32s linear infinite;
-}
-
-.hero-crystal .hero-noise {
-  z-index: 3;
-  opacity: 0.035;
-  mix-blend-mode: soft-light;
+  background-size: 92px 92px;
 }
 
 .hero-atmosphere {
@@ -6607,10 +6589,8 @@ h4,
   width: 44vw;
   aspect-ratio: 1;
   border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.14;
-  background: radial-gradient(circle, #8effb4, transparent 68%);
-  animation: hero-aurora-drift 17s ease-in-out infinite alternate;
+  opacity: 0.11;
+  background: radial-gradient(circle, rgba(142, 255, 180, 0.7), transparent 68%);
 }
 
 .hero-atmosphere > span:first-child {
@@ -6622,9 +6602,8 @@ h4,
   right: -20%;
   bottom: -32%;
   width: 50vw;
-  opacity: 0.09;
-  background: radial-gradient(circle, #d9a85d, transparent 67%);
-  animation-delay: -6s;
+  opacity: 0.07;
+  background: radial-gradient(circle, rgba(217, 168, 93, 0.62), transparent 67%);
 }
 
 .hero-atmosphere > i {
@@ -6679,7 +6658,6 @@ h4,
   border-radius: 50%;
   color: #d9ff8c;
   background: rgba(210, 255, 116, 0.1);
-  animation: hero-icon-glow 3s ease-in-out infinite;
 }
 
 .hero-crystal-copy h1 {
@@ -6702,7 +6680,6 @@ h4,
   background-clip: text;
   font-weight: 790;
   font-style: normal;
-  filter: drop-shadow(0 7px 22px rgba(142, 255, 158, 0.12));
 }
 
 .hero-crystal .hero-description {
@@ -6857,10 +6834,6 @@ h4,
 }
 
 .hero-stage {
-  --hero-pointer-x: 50%;
-  --hero-pointer-y: 48%;
-  --hero-tilt-x: 0deg;
-  --hero-tilt-y: 0deg;
   position: relative;
   z-index: 2;
   display: grid;
@@ -6869,9 +6842,16 @@ h4,
   place-items: center;
   margin-inline: auto;
   isolation: isolate;
-  perspective: 1200px;
+  perspective: 1280px;
   transform-style: preserve-3d;
-  animation: hero-stage-arrive 1.1s 0.12s cubic-bezier(0.2, 0.75, 0.2, 1) both;
+  animation: hero-stage-arrive 0.8s 0.08s cubic-bezier(0.2, 0.75, 0.2, 1) both;
+}
+
+.hero-stage.is-idle .hero-crystal-rotator,
+.hero-stage.is-idle .hero-stage-orbit-a,
+.hero-stage.is-idle .hero-stage-spark,
+.hero-stage.is-idle .hero-glass-pulse {
+  animation-play-state: paused;
 }
 
 .hero-stage::before {
@@ -6881,11 +6861,10 @@ h4,
   content: "";
   border: 1px solid rgba(218, 255, 220, 0.12);
   border-radius: 50%;
-  background: radial-gradient(ellipse at var(--hero-pointer-x) var(--hero-pointer-y), rgba(118, 255, 169, 0.19), transparent 43%);
+  background: radial-gradient(ellipse at 52% 48%, rgba(118, 255, 169, 0.16), transparent 46%);
   box-shadow:
-    0 0 90px rgba(67, 200, 141, 0.09),
-    inset 0 0 90px rgba(177, 255, 210, 0.035);
-  transition: background-position 0.25s ease;
+    0 0 58px rgba(67, 200, 141, 0.08),
+    inset 0 0 48px rgba(177, 255, 210, 0.03);
 }
 
 .hero-stage::after {
@@ -6896,17 +6875,14 @@ h4,
   border: 1px solid rgba(211, 235, 220, 0.085);
   border-radius: 50%;
   transform: rotateX(70deg) rotate(-18deg);
-  box-shadow: 0 0 34px rgba(137, 255, 180, 0.08);
 }
 
 .hero-stage-aura {
   position: absolute;
   z-index: -2;
-  inset: 13%;
+  inset: 16%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(123, 255, 167, 0.27), rgba(24, 102, 74, 0.16) 32%, transparent 70%);
-  filter: blur(24px);
-  animation: crystal-aura 6.5s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(123, 255, 167, 0.2), rgba(24, 102, 74, 0.1) 34%, transparent 72%);
 }
 
 .hero-stage-grid {
@@ -6914,11 +6890,10 @@ h4,
   z-index: -1;
   inset: 4%;
   border-radius: 50%;
-  opacity: 0.4;
-  background-image: radial-gradient(rgba(227, 255, 228, 0.66) 0.75px, transparent 0.9px);
-  background-size: 17px 17px;
+  opacity: 0.26;
+  background-image: radial-gradient(rgba(227, 255, 228, 0.55) 0.7px, transparent 0.95px);
+  background-size: 19px 19px;
   mask-image: radial-gradient(ellipse, #000 14%, transparent 71%);
-  animation: hero-grid-breathe 8s ease-in-out infinite alternate;
 }
 
 .hero-stage-orbit {
@@ -6927,56 +6902,35 @@ h4,
   top: 50%;
   left: 50%;
   display: block;
-  width: 111%;
+  width: 108%;
   height: 42%;
-  border: 1px solid rgba(210, 255, 191, 0.31);
+  border: 1px solid rgba(210, 255, 191, 0.27);
   border-radius: 50%;
   pointer-events: none;
 }
 
 .hero-stage-orbit-a {
   transform: translate(-50%, -50%) rotate(-29deg) rotateX(62deg);
-  animation: crystal-orbit-a 25s linear infinite;
+  animation: crystal-orbit-a 40s linear infinite;
 }
 
-.hero-stage-orbit-a i,
-.hero-stage-orbit-b i {
+.hero-stage-orbit-a i {
   position: absolute;
   top: 16%;
   left: 19%;
-  width: 8px;
-  height: 8px;
-  border: 2px solid #e5ffc1;
+  width: 7px;
+  height: 7px;
+  border: 1px solid #e5ffc1;
   border-radius: 50%;
   background: #96ffb0;
-  box-shadow: 0 0 18px #a1ffb2, 0 0 38px rgba(122, 255, 166, 0.7);
-}
-
-.hero-stage-orbit-b {
-  width: 76%;
-  height: 93%;
-  border-color: rgba(194, 232, 205, 0.2);
-  border-style: dashed;
-  transform: translate(-50%, -50%) rotate(31deg) rotateY(55deg);
-  animation: crystal-orbit-b 37s linear infinite;
-}
-
-.hero-stage-orbit-b i {
-  top: 79%;
-  left: 72%;
-  width: 6px;
-  height: 6px;
-  border: 0;
-  background: #e7bb79;
-  box-shadow: 0 0 18px rgba(231, 187, 121, 0.9);
+  box-shadow: 0 0 12px rgba(161, 255, 178, 0.78);
 }
 
 .hero-stage-orbit-c {
   width: 89%;
   height: 89%;
-  border: 1px solid rgba(214, 255, 116, 0.1);
-  border-radius: 50%;
-  animation: hero-ring-breathe 7s ease-in-out infinite alternate;
+  border-color: rgba(214, 255, 116, 0.1);
+  transform: translate(-50%, -50%) rotateX(68deg);
 }
 
 .hero-crystal-shell {
@@ -6987,34 +6941,303 @@ h4,
   height: 97%;
   place-items: center;
   transform-style: preserve-3d;
-  animation: crystal-float 8s ease-in-out infinite;
 }
 
-.hero-crystal-image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  mix-blend-mode: screen;
-  opacity: 0.94;
-  filter: saturate(1.22) contrast(1.08) brightness(1.06);
-  transform: rotateX(var(--hero-tilt-y)) rotateY(var(--hero-tilt-x)) scale(1.02);
+.hero-crystal-object {
+  position: relative;
+  display: grid;
+  width: min(100%, 590px);
+  aspect-ratio: 1;
+  place-items: center;
   transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-  -webkit-mask-image: radial-gradient(ellipse 77% 76% at 50% 50%, #000 55%, rgba(0, 0, 0, 0.88) 71%, transparent 97%);
-  mask-image: radial-gradient(ellipse 77% 76% at 50% 50%, #000 55%, rgba(0, 0, 0, 0.88) 71%, transparent 97%);
 }
 
-.hero-crystal-shine {
+.hero-crystal-rotator {
   position: absolute;
-  inset: 8%;
-  border-radius: 50%;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: hero-crystal-spin 28s linear infinite;
+  will-change: transform;
+}
+
+.hero-crystal-beam {
+  --beam-length: 520px;
+  --beam-height: 92px;
+  --beam-depth: 78px;
+  --beam-depth-half: 39px;
+  --beam-depth-negative: -39px;
+  --beam-offset: 34px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--beam-length);
+  height: var(--beam-height);
+  transform-style: preserve-3d;
+}
+
+.hero-crystal-beam-a {
+  --beam-offset: 36px;
+  transform: translate(-50%, -50%) rotateZ(-45deg) translateZ(var(--beam-offset));
+}
+
+.hero-crystal-beam-b {
+  --beam-offset: -36px;
+  transform: translate(-50%, -50%) rotateZ(45deg) translateZ(var(--beam-offset));
+}
+
+.hero-crystal-face {
+  position: absolute;
+  display: block;
+  border: 1px solid rgba(230, 255, 244, 0.45);
+  backface-visibility: hidden;
+}
+
+.hero-crystal-face-front,
+.hero-crystal-face-back {
+  inset: 0;
+  clip-path: polygon(6% 0, 94% 0, 100% 18%, 100% 82%, 94% 100%, 6% 100%, 0 82%, 0 18%);
+}
+
+.hero-crystal-face-front {
+  transform: translateZ(var(--beam-depth-half));
+}
+
+.hero-crystal-face-back {
+  transform: rotateY(180deg) translateZ(var(--beam-depth-half));
+}
+
+.hero-crystal-face-top {
+  top: var(--beam-depth-negative);
+  left: 0;
+  width: 100%;
+  height: var(--beam-depth);
+  transform: rotateX(90deg);
+}
+
+.hero-crystal-face-bottom {
+  top: calc(100% - var(--beam-depth-half));
+  left: 0;
+  width: 100%;
+  height: var(--beam-depth);
+  transform: rotateX(-90deg);
+}
+
+.hero-crystal-face-left {
+  top: 0;
+  left: var(--beam-depth-negative);
+  width: var(--beam-depth);
+  height: 100%;
+  transform: rotateY(-90deg);
+}
+
+.hero-crystal-face-right {
+  top: 0;
+  left: calc(100% - var(--beam-depth-half));
+  width: var(--beam-depth);
+  height: 100%;
+  transform: rotateY(90deg);
+}
+
+.hero-crystal-beam-a .hero-crystal-face-front {
+  background: linear-gradient(108deg, rgba(232, 255, 248, 0.76), rgba(89, 223, 183, 0.34) 16%, rgba(9, 54, 47, 0.84) 32%, rgba(201, 255, 234, 0.82) 47%, rgba(24, 96, 79, 0.66) 57%, rgba(242, 255, 247, 0.78) 72%, rgba(12, 29, 29, 0.86));
+  box-shadow: inset 0 0 28px rgba(191, 255, 227, 0.24);
+}
+
+.hero-crystal-beam-a .hero-crystal-face-back {
+  background: linear-gradient(115deg, rgba(10, 35, 31, 0.94), rgba(113, 223, 179, 0.48), rgba(10, 27, 30, 0.94));
+}
+
+.hero-crystal-beam-a .hero-crystal-face-top {
+  background: linear-gradient(90deg, rgba(240, 255, 250, 0.84), rgba(86, 196, 159, 0.74) 35%, rgba(15, 48, 47, 0.95) 70%, rgba(218, 255, 240, 0.84));
+}
+
+.hero-crystal-beam-a .hero-crystal-face-bottom {
+  background: linear-gradient(90deg, rgba(9, 25, 26, 0.98), rgba(81, 147, 129, 0.7), rgba(6, 19, 22, 0.96));
+}
+
+.hero-crystal-beam-a .hero-crystal-face-left,
+.hero-crystal-beam-a .hero-crystal-face-right {
+  background: linear-gradient(180deg, rgba(231, 255, 246, 0.8), rgba(31, 103, 89, 0.9) 46%, rgba(4, 19, 22, 0.98));
+}
+
+.hero-crystal-beam-b .hero-crystal-face-front {
+  background: linear-gradient(108deg, rgba(17, 27, 34, 0.96), rgba(201, 246, 236, 0.62) 19%, rgba(25, 77, 79, 0.88) 37%, rgba(229, 255, 249, 0.82) 51%, rgba(15, 40, 46, 0.94) 68%, rgba(180, 235, 222, 0.66) 84%, rgba(9, 19, 24, 0.96));
+  box-shadow: inset 0 0 26px rgba(211, 255, 242, 0.17);
+}
+
+.hero-crystal-beam-b .hero-crystal-face-back {
+  background: linear-gradient(115deg, rgba(8, 16, 21, 0.96), rgba(105, 169, 162, 0.56), rgba(6, 22, 28, 0.96));
+}
+
+.hero-crystal-beam-b .hero-crystal-face-top {
+  background: linear-gradient(90deg, rgba(16, 34, 40, 0.94), rgba(218, 255, 246, 0.75) 38%, rgba(28, 98, 98, 0.9) 68%, rgba(6, 23, 31, 0.98));
+}
+
+.hero-crystal-beam-b .hero-crystal-face-bottom {
+  background: linear-gradient(90deg, rgba(5, 15, 20, 0.98), rgba(43, 99, 99, 0.78), rgba(6, 14, 20, 0.98));
+}
+
+.hero-crystal-beam-b .hero-crystal-face-left,
+.hero-crystal-beam-b .hero-crystal-face-right {
+  background: linear-gradient(180deg, rgba(218, 255, 248, 0.76), rgba(25, 82, 86, 0.9) 48%, rgba(4, 15, 22, 0.98));
+}
+
+.hero-crystal-facet {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: block;
+  clip-path: polygon(6% 0, 94% 0, 100% 18%, 100% 82%, 94% 100%, 6% 100%, 0 82%, 0 18%);
+  transform: translateZ(calc(var(--beam-depth-half) + 1px));
+  backface-visibility: hidden;
   pointer-events: none;
-  opacity: 0.34;
-  mix-blend-mode: screen;
-  background: linear-gradient(117deg, transparent 28%, rgba(236, 255, 198, 0.16) 48%, transparent 57%);
-  background-size: 230% 100%;
-  animation: crystal-shimmer 9s ease-in-out infinite;
+}
+
+.hero-crystal-facet-one {
+  clip-path: polygon(0 18%, 6% 0, 34% 0, 53% 50%, 34% 100%, 6% 100%, 0 82%);
+  background: linear-gradient(130deg, rgba(245, 255, 252, 0.62), rgba(116, 236, 197, 0.08));
+}
+
+.hero-crystal-facet-two {
+  clip-path: polygon(34% 0, 57% 0, 82% 50%, 57% 100%, 34% 100%, 53% 50%);
+  background: linear-gradient(145deg, rgba(211, 255, 239, 0.16), rgba(13, 49, 45, 0.42));
+}
+
+.hero-crystal-facet-three {
+  clip-path: polygon(57% 0, 94% 0, 100% 18%, 100% 82%, 94% 100%, 57% 100%, 82% 50%);
+  background: linear-gradient(120deg, rgba(236, 255, 248, 0.05), rgba(201, 255, 231, 0.4));
+}
+
+.hero-crystal-facet-glint {
+  clip-path: polygon(46% 0, 48% 0, 66% 100%, 63% 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(197, 255, 225, 0.04));
+}
+
+.hero-crystal-beam-b .hero-crystal-facet-one {
+  background: linear-gradient(130deg, rgba(249, 255, 255, 0.54), rgba(99, 194, 188, 0.08));
+}
+
+.hero-crystal-beam-b .hero-crystal-facet-two {
+  background: linear-gradient(145deg, rgba(214, 255, 248, 0.12), rgba(7, 33, 40, 0.5));
+}
+
+.hero-crystal-beam-b .hero-crystal-facet-three {
+  background: linear-gradient(120deg, rgba(236, 255, 252, 0.05), rgba(179, 238, 229, 0.34));
+}
+
+.hero-crystal-core {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 88px;
+  height: 88px;
+  border: 1px solid rgba(247, 255, 245, 0.76);
+  background: linear-gradient(135deg, rgba(234, 255, 245, 0.86), rgba(67, 178, 145, 0.58) 47%, rgba(10, 32, 36, 0.9));
+  box-shadow: 0 0 30px rgba(132, 255, 206, 0.4), inset 0 0 18px rgba(240, 255, 244, 0.54);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  transform: translate(-50%, -50%) translateZ(82px) rotate(45deg);
+}
+
+.hero-crystal-core i {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border: 1px solid rgba(241, 255, 248, 0.42);
+}
+
+.hero-crystal-core i:first-child {
+  clip-path: polygon(50% 0, 50% 50%, 0 50%);
+  background: rgba(239, 255, 246, 0.28);
+}
+
+.hero-crystal-core i:nth-child(2) {
+  clip-path: polygon(50% 0, 100% 50%, 50% 50%);
+  background: rgba(140, 245, 208, 0.2);
+}
+
+.hero-crystal-core i:nth-child(3) {
+  clip-path: polygon(100% 50%, 50% 100%, 50% 50%);
+  background: rgba(7, 30, 35, 0.34);
+}
+
+@media (max-width: 1120px) {
+  .hero-crystal-beam {
+    --beam-length: 440px;
+    --beam-height: 78px;
+    --beam-depth: 64px;
+    --beam-depth-half: 32px;
+    --beam-depth-negative: -32px;
+  }
+
+  .hero-crystal-beam-a { --beam-offset: 30px; }
+  .hero-crystal-beam-b { --beam-offset: -30px; }
+}
+
+@media (max-width: 560px) {
+  .hero-crystal-beam {
+    --beam-length: 320px;
+    --beam-height: 60px;
+    --beam-depth: 48px;
+    --beam-depth-half: 24px;
+    --beam-depth-negative: -24px;
+  }
+
+  .hero-crystal-beam-a { --beam-offset: 23px; }
+  .hero-crystal-beam-b { --beam-offset: -23px; }
+
+  .hero-crystal-core {
+    width: 62px;
+    height: 62px;
+  }
+}
+
+@media (max-width: 365px) {
+  .hero-crystal-beam {
+    --beam-length: 250px;
+    --beam-height: 48px;
+    --beam-depth: 40px;
+    --beam-depth-half: 20px;
+    --beam-depth-negative: -20px;
+  }
+
+  .hero-crystal-beam-a { --beam-offset: 19px; }
+  .hero-crystal-beam-b { --beam-offset: -19px; }
+}
+
+.hero-stage-spark {
+  position: absolute;
+  z-index: 2;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #edffc9;
+  box-shadow: 0 0 12px 3px rgba(199, 255, 151, 0.62);
+  animation: crystal-spark-drift 6s ease-in-out infinite;
+}
+
+.hero-stage-spark-one {
+  top: 17%;
+  right: 27%;
+}
+
+.hero-stage-spark-two {
+  bottom: 27%;
+  left: 18%;
+  width: 3px;
+  height: 3px;
+  animation-delay: -2s;
+}
+
+.hero-stage-spark-three {
+  top: 42%;
+  left: 8%;
+  width: 5px;
+  height: 5px;
+  background: #e9bd7e;
+  box-shadow: 0 0 13px 3px rgba(233, 189, 126, 0.6);
+  animation-delay: -4s;
 }
 
 .hero-stage-spark {
@@ -7062,24 +7285,20 @@ h4,
   border: 1px solid rgba(224, 255, 231, 0.25);
   border-radius: 12px;
   color: #f1f6ed;
-  background: linear-gradient(135deg, rgba(20, 35, 28, 0.83), rgba(8, 13, 10, 0.72));
+  background: linear-gradient(135deg, rgba(20, 35, 28, 0.97), rgba(8, 13, 10, 0.95));
   box-shadow:
-    0 18px 50px rgba(0, 0, 0, 0.34),
+    0 12px 30px rgba(0, 0, 0, 0.28),
     inset 0 1px rgba(255, 255, 255, 0.12);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
 }
 
 .hero-glass-panel-top {
   top: 13%;
   left: -2%;
-  animation: glass-panel-float 6.5s ease-in-out infinite;
 }
 
 .hero-glass-panel-bottom {
   right: -2%;
   bottom: 14%;
-  animation: glass-panel-float 7.5s -2s ease-in-out infinite;
 }
 
 .hero-glass-panel > span:nth-child(2) {
@@ -7760,7 +7979,7 @@ h4,
   font-size: 8px;
 }
 
-/* Keyframes: mostly compositor-friendly motion; no animation library required. */
+/* Keyframes: lightweight, compositor-only motion for the CSS crystal. */
 @keyframes hero-copy-arrive {
   from { opacity: 0; transform: translate3d(0, 28px, 0); }
   to { opacity: 1; transform: translate3d(0, 0, 0); }
@@ -7771,34 +7990,14 @@ h4,
   to { opacity: 1; transform: scale(1) translate3d(0, 0, 0); }
 }
 
-@keyframes hero-aurora-drift {
-  0% { transform: translate3d(-3%, 2%, 0) scale(0.92); }
-  100% { transform: translate3d(8%, -6%, 0) scale(1.1); }
-}
-
-@keyframes hero-grid-drift {
-  from { background-position: 0 0; }
-  to { background-position: 84px 84px; }
-}
-
-@keyframes hero-icon-glow {
-  0%, 100% { box-shadow: 0 0 0 rgba(214, 255, 116, 0); transform: scale(1); }
-  50% { box-shadow: 0 0 18px rgba(214, 255, 116, 0.2); transform: scale(1.06); }
-}
-
 @keyframes hero-status-pulse {
   0%, 100% { opacity: 0.68; transform: scale(0.82); }
   50% { opacity: 1; transform: scale(1.22); }
 }
 
-@keyframes crystal-aura {
-  from { opacity: 0.66; transform: scale(0.92); }
-  to { opacity: 1; transform: scale(1.08); }
-}
-
-@keyframes hero-grid-breathe {
-  from { opacity: 0.22; transform: rotate(-8deg) scale(0.94); }
-  to { opacity: 0.48; transform: rotate(4deg) scale(1.04); }
+@keyframes hero-crystal-spin {
+  from { transform: rotateX(18deg) rotateY(0deg) rotateZ(-7deg); }
+  to { transform: rotateX(18deg) rotateY(360deg) rotateZ(-7deg); }
 }
 
 @keyframes crystal-orbit-a {
@@ -7806,34 +8005,9 @@ h4,
   to { transform: translate(-50%, -50%) rotate(-29deg) rotateX(62deg) rotate(360deg); }
 }
 
-@keyframes crystal-orbit-b {
-  from { transform: translate(-50%, -50%) rotate(31deg) rotateY(55deg) rotate(0); }
-  to { transform: translate(-50%, -50%) rotate(31deg) rotateY(55deg) rotate(-360deg); }
-}
-
-@keyframes hero-ring-breathe {
-  from { opacity: 0.3; transform: scale(0.95); }
-  to { opacity: 0.72; transform: scale(1.04); }
-}
-
-@keyframes crystal-float {
-  0%, 100% { transform: translate3d(0, 4px, 0) rotateZ(-0.8deg); }
-  50% { transform: translate3d(0, -12px, 0) rotateZ(0.8deg); }
-}
-
-@keyframes crystal-shimmer {
-  0%, 15% { background-position: 140% 50%; opacity: 0.12; }
-  62%, 100% { background-position: -130% 50%; opacity: 0.48; }
-}
-
 @keyframes crystal-spark-drift {
   0%, 100% { opacity: 0.25; transform: translate3d(0, 0, 0) scale(0.75); }
   50% { opacity: 1; transform: translate3d(5px, -12px, 0) scale(1.25); }
-}
-
-@keyframes glass-panel-float {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -9px, 0); }
 }
 
 @keyframes hero-cue-bob {
@@ -8254,13 +8428,10 @@ h4,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-atmosphere > span,
   .hero-stage-orbit,
-  .hero-stage-aura,
-  .hero-crystal-shell,
-  .hero-crystal-shine,
+  .hero-crystal-rotator,
   .hero-stage-spark,
-  .hero-glass-panel,
+  .hero-glass-pulse,
   .hero-scroll-cue > span,
   .iran-map-scan,
   .iran-map-stage::after,

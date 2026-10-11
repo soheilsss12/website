@@ -68,49 +68,51 @@ function XGlyph({ className = '' }) {
   return <span className={`x-glyph ${className}`} aria-hidden="true"><i /><i /></span>;
 }
 
+function CrystalBeam({ variant }) {
+  return (
+    <div className={`hero-crystal-beam ${variant}`} aria-hidden="true">
+      <i className="hero-crystal-face hero-crystal-face-front" />
+      <i className="hero-crystal-face hero-crystal-face-back" />
+      <i className="hero-crystal-face hero-crystal-face-top" />
+      <i className="hero-crystal-face hero-crystal-face-bottom" />
+      <i className="hero-crystal-face hero-crystal-face-left" />
+      <i className="hero-crystal-face hero-crystal-face-right" />
+      <i className="hero-crystal-facet hero-crystal-facet-one" />
+      <i className="hero-crystal-facet hero-crystal-facet-two" />
+      <i className="hero-crystal-facet hero-crystal-facet-three" />
+      <i className="hero-crystal-facet hero-crystal-facet-glint" />
+    </div>
+  );
+}
+
 function HeroCrystalVisual() {
-  const imageSource = `${import.meta.env.BASE_URL}images/x-crystal-hero-1024.webp`;
-  const responsiveImageSource = `${import.meta.env.BASE_URL}images/x-crystal-hero-768.webp`;
-  const imageSizes = '(max-width: 560px) min(100vw, 410px), (max-width: 820px) 520px, 680px';
-  const handlePointerMove = (event) => {
-    if (event.pointerType === 'touch') return;
-    const stage = event.currentTarget;
-    const rect = stage.getBoundingClientRect();
-    const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
-    const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
-    stage.style.setProperty('--hero-pointer-x', `${x * 100}%`);
-    stage.style.setProperty('--hero-pointer-y', `${y * 100}%`);
-    stage.style.setProperty('--hero-tilt-x', `${(x - 0.5) * -8}deg`);
-    stage.style.setProperty('--hero-tilt-y', `${(y - 0.5) * 7}deg`);
-  };
-  const resetPointer = (event) => {
-    const stage = event.currentTarget;
-    stage.style.setProperty('--hero-pointer-x', '50%');
-    stage.style.setProperty('--hero-pointer-y', '48%');
-    stage.style.setProperty('--hero-tilt-x', '0deg');
-    stage.style.setProperty('--hero-tilt-y', '0deg');
-  };
+  const stageRef = useRef(null);
+  const [isStageActive, setIsStageActive] = useState(true);
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || !('IntersectionObserver' in window)) return undefined;
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsStageActive(entry.isIntersecting && entry.intersectionRatio >= 0.3);
+    }, { threshold: [0, 0.3] });
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="hero-stage" onPointerMove={handlePointerMove} onPointerLeave={resetPointer}>
+    <div ref={stageRef} className={`hero-stage ${isStageActive ? 'is-active' : 'is-idle'}`}>
       <div className="hero-stage-aura" />
       <div className="hero-stage-grid" />
       <div className="hero-stage-orbit hero-stage-orbit-a"><i /></div>
-      <div className="hero-stage-orbit hero-stage-orbit-b"><i /></div>
       <div className="hero-stage-orbit hero-stage-orbit-c" />
       <div className="hero-crystal-shell">
-        <img
-          className="hero-crystal-image"
-          src={imageSource}
-          srcSet={`${responsiveImageSource} 768w, ${imageSource} 1024w`}
-          sizes={imageSizes}
-          alt="سازه‌ی کریستالی سه‌بعدی با فرم X و بازتاب‌های سبز"
-          width="1024"
-          height="1024"
-          fetchPriority="high"
-          decoding="async"
-        />
-        <span className="hero-crystal-shine" />
+        <div className="hero-crystal-object" role="img" aria-label="مدل سه‌بعدی و چرخان کریستال ایکس">
+          <div className="hero-crystal-rotator" aria-hidden="true">
+            <CrystalBeam variant="hero-crystal-beam-a" />
+            <CrystalBeam variant="hero-crystal-beam-b" />
+            <span className="hero-crystal-core"><i /><i /><i /></span>
+          </div>
+        </div>
       </div>
       <span className="hero-stage-spark hero-stage-spark-one" />
       <span className="hero-stage-spark hero-stage-spark-two" />
@@ -134,7 +136,6 @@ function HeroCrystalVisual() {
 export function HeroSection() {
   return (
     <section className="hero hero-crystal" id="home" aria-labelledby="hero-title">
-      <div className="hero-noise" aria-hidden="true" />
       <div className="hero-atmosphere" aria-hidden="true"><span /><span /><i /></div>
       <div className="hero-layout hero-crystal-layout site-container">
         <div className="hero-copy hero-crystal-copy">

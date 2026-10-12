@@ -1,0 +1,196 @@
+/* Brand palette and contrast refinements for the archived layout. */
+:root {
+  --pars-purple: #592c7a;
+  --pars-purple-deep: #472164;
+  --pars-indigo: #6166aa;
+  --pars-cyan: #5cc6d9;
+  --pars-ink: #231b2c;
+  --pars-paper: #f5f3f8;
+  --pars-line: #e6e1eb;
+  background: #fff;
+}
+
+html,
+body,
+#root {
+  background-color: #fff;
+}
+
+.hero-brand-mark {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: min(76%, 475px);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 18px 30px rgba(97, 102, 170, 0.15))
+    drop-shadow(0 3px 5px rgba(35, 27, 44, 0.1));
+  animation: pars-brand-float 8s 1s ease-in-out infinite;
+}
+
+.hero-stage.is-idle .hero-brand-mark {
+  animation-play-state: paused;
+}
+
+@keyframes pars-brand-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.hero-stage::before {
+  border-color: rgba(89, 44, 122, 0.12);
+  background: radial-gradient(ellipse at 52% 48%, rgba(92, 198, 217, 0.14), transparent 48%);
+  box-shadow: 0 0 58px rgba(97, 102, 170, 0.08), inset 0 0 48px rgba(92, 198, 217, 0.06);
+}
+
+.hero-stage::after {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(transparent, transparent) padding-box,
+    linear-gradient(132deg, rgba(89, 44, 122, 0.18), rgba(97, 102, 170, 0.72) 48%, rgba(92, 198, 217, 0.86)) border-box;
+  box-shadow: 0 0 24px rgba(97, 102, 170, 0.07);
+}
+
+.hero-stage-aura {
+  background: radial-gradient(circle, rgba(92, 198, 217, 0.16), rgba(97, 102, 170, 0.07) 36%, transparent 72%);
+}
+
+.hero-stage-grid {
+  background-image: radial-gradient(rgba(97, 102, 170, 0.26) 0.7px, transparent 0.95px);
+}
+
+.hero-stage-orbit-a {
+  border-color: rgba(89, 44, 122, 0.34);
+}
+
+.hero-stage-orbit-b {
+  border-color: rgba(92, 198, 217, 0.48);
+}
+
+.hero-stage-orbit-c {
+  border-color: rgba(97, 102, 170, 0.18);
+}
+
+.hero-stage-instrument {
+  background: repeating-conic-gradient(from -5deg, rgba(97, 102, 170, 0.22) 0deg 0.22deg, transparent 0.22deg 15deg);
+  opacity: 0.5;
+}
+
+.hero-stage-instrument::after {
+  background: conic-gradient(from -74deg, transparent 0deg 38deg, rgba(92, 198, 217, 0.55) 49deg 72deg, transparent 84deg 212deg, rgba(97, 102, 170, 0.25) 225deg 239deg, transparent 250deg 360deg);
+}
+
+.hero-stage-spark {
+  background: var(--pars-cyan);
+  box-shadow: 0 0 12px 3px rgba(92, 198, 217, 0.48);
+}
+
+.hero-stage-coordinate i {
+  background: linear-gradient(90deg, transparent, rgba(92, 198, 217, 0.8));
+}
+
+.button-dark {
+  color: #fff;
+  background: var(--pars-ink);
+}
+
+.button-dark:hover {
+  color: #fff;
+  background: var(--pars-purple);
+}
+
+.button-outline-light {
+  color: var(--pars-ink);
+  border-color: rgba(89, 44, 122, 0.34);
+}
+
+.button-outline-light:hover {
+  color: var(--pars-purple);
+  border-color: var(--pars-cyan);
+}
+
+.final-callout {
+  color: #fff;
+  background:
+    radial-gradient(ellipse at 82% 20%, rgba(92, 198, 217, 0.16), transparent 44%),
+    linear-gradient(112deg, var(--pars-purple-deep), var(--pars-purple) 57%, #6166aa);
+}
+
+.final-callout .section-eyebrow,
+.final-callout .section-eyebrow > span,
+.final-callout h2,
+.final-callout h2 em,
+.final-callout-content > p,
+.final-callout-note {
+  color: #fff;
+}
+
+.final-callout .section-eyebrow > i {
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.final-callout .button-outline-light {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.52);
+}
+
+.final-callout .button-outline-light:hover {
+  color: #fff;
+  border-color: var(--pars-cyan);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.final-callout-orbit,
+.final-callout-orbit::before,
+.final-callout-orbit::after {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.final-callout-orbit > .pars-glyph {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.modal-scrim {
+  background: rgba(35, 27, 44, 0.56);
+}
+
+.pars-crystal-logo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.brand-symbol .pars-crystal-logo {
+  width: 34px;
+  height: auto;
+}
+
+.pars-glyph > .pars-crystal-logo {
+  width: 100%;
+  height: auto;
+}
+
+.criteria-side-mark > .pars-crystal-logo {
+  width: 27px;
+  height: auto;
+}
+
+.dialog-brand-mark > .pars-crystal-logo {
+  width: 22px;
+  height: auto;
+}
+
+@media (max-width: 760px) {
+  .hero-brand-mark {
+    width: min(78%, 385px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-brand-mark,
+  .hero-stage-orbit-a,
+  .hero-stage-orbit-b {
+    animation: none !important;
+  }
+}

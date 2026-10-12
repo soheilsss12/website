@@ -3,14 +3,12 @@ import {
   Activity,
   ArrowDown,
   ArrowUpLeft,
-  Banknote,
   BarChart3,
   BookOpen,
   Building2,
   CalendarDays,
   ChartNoAxesCombined,
   Check,
-  ChevronDown,
   Clock3,
   Compass,
   Globe2,
@@ -22,7 +20,6 @@ import {
   MapPin,
   Network,
   PieChart,
-  Search,
   ShieldCheck,
   UsersRound,
   WalletCards,
@@ -30,14 +27,12 @@ import {
 } from 'lucide-react';
 import { apiFetch } from '../lib/api.js';
 import {
-  articles,
-  faqItems,
   industries,
   processSteps,
   valuePillars,
 } from '../data/siteContent.js';
 import { iranCityMarkers, iranOutlinePath, iranOutlineViewBox } from '../data/iranMap.js';
-import CrystalIcosahedron from './CrystalIcosahedron.jsx';
+import ParsLogoMark from './ParsLogoMark.jsx';
 import CrystalMark from './CrystalMark.jsx';
 
 const faNumber = (value) => new Intl.NumberFormat('fa-IR').format(value);
@@ -126,7 +121,7 @@ function HeroParsVisual() {
       <div className="hero-stage-orbit hero-stage-orbit-a"><i /></div>
       <div className="hero-stage-orbit hero-stage-orbit-b"><i /></div>
       <div className="hero-crystal-shell">
-        <CrystalIcosahedron active={isStageActive} interactionRef={stageRef} />
+        <ParsLogoMark animated decorative className="hero-brand-mark" />
       </div>
       <span className="hero-stage-spark hero-stage-spark-one" />
       <span className="hero-stage-spark hero-stage-spark-two" />
@@ -451,9 +446,9 @@ export function HeroSection() {
 
 export function StatsRibbon() {
   const stats = [
-    { value: '۰۸', title: 'حوزه‌ی فعالیت', icon: Compass },
-    { value: '۰۴', title: 'مرحله‌ی کسب‌وکار', note: 'از ایده تا رشد', icon: ChartNoAxesCombined },
-    { value: '۰۸', title: 'پشتیبانی غیرمالی', icon: HeartHandshake },
+    { value: '۱۱', title: 'بازوی سرمایه‌گذاری', icon: Compass },
+    { value: 'ده‌ها', title: 'شرکت زیرمجموعه', icon: Building2 },
+    { value: '۰۴', title: 'گام در فرم درخواست', icon: ChartNoAxesCombined },
   ];
   return (
     <section className="stats-ribbon site-container" aria-label="پارس در یک نگاه">
@@ -470,13 +465,13 @@ export function StatsRibbon() {
 
 export function ManifestoSection() {
   return (
-    <section className="manifesto-section" id="manifesto">
+    <section className="manifesto-section" id="approach">
       <div className="manifesto-inner site-container">
         <div className="manifesto-aside" data-reveal><span>نگاه پارس</span><span className="manifesto-asterisk">✳</span><small>سرمایه وقتی ارزش دارد<br />که به رشدی واقعی برسد</small></div>
         <div className="manifesto-copy" data-reveal>
           <SectionEyebrow index="۰۱">مانیفست ما</SectionEyebrow>
           <h2>سرمایه فقط پول نیست؛<br /> <em>شتابی برای ساختن است</em></h2>
-          <p>باور داریم کسب‌وکارهای ماندگار با یک تصمیم ساخته نمی‌شوند. سرمایه باید در کنار تجربه، ارتباطات و پاسخ‌گویی قرار بگیرد تا تیم‌ها بتوانند مسئله‌های مهم را به محصولاتی پایدار تبدیل کنند</p>
+          <p>باور داریم کسب‌وکارهای موفق با یک تصمیم ساخته نمی‌شوند. سرمایه باید در کنار تجربه، ارتباطات و پاسخ‌گویی قرار بگیرد تا تیم‌ها بتوانند مسئله‌های مهم را به محصولاتی پایدار تبدیل کنند</p>
           <a href="#approach" className="text-link text-link-dark">نگاه سرمایه‌گذاری پارس <ArrowUpLeft size={16} /></a>
         </div>
         <div className="manifesto-mark" aria-hidden="true"><ParsGlyph /><span>پارس / سرمایه‌گذاری خطرپذیر</span></div>
@@ -490,7 +485,7 @@ export function IndustriesSection() {
     <section className="industries-section section-space" id="industries">
       <div className="site-container">
         <div className="section-heading-row">
-          <SectionHeading index="۰۲" eyebrow="حوزه‌های تمرکز" title="هشت حوزه، یک معیار:" emphasis="مسئله‌ای واقعی" copy="به‌دنبال تیم‌هایی هستیم که مسئله‌ای مهم را در یکی از این حوزه‌ها حل می‌کنند" />
+          <SectionHeading index="۰۲" eyebrow="حوزه‌های منتخب" title="سرمایه برای" emphasis="حل مسئله‌های واقعی" copy="پارس در حوزه‌هایی سرمایه‌گذاری می‌کند که فناوری بتواند راه‌حل‌های تازه بسازد" />
           <span className="heading-side-note">اولویت و شرایط پذیرش هر حوزه در اطلاعیه‌ی هر دوره مشخص می‌شود</span>
         </div>
         <div className="industry-grid">
@@ -538,14 +533,14 @@ export function ProcessSection() {
     <section className="process-section section-space" id="process">
       <div className="site-container">
         <div className="section-heading-row process-heading-row">
-          <SectionHeading index="۰۴" eyebrow="مسیر سرمایه‌گذاری" title="روشن از همان" emphasis="گام اول" copy="در هر مرحله می‌دانید چه چیزی بررسی می‌شود و گام بعدی چیست" />
-          <div className="process-time-note"><Clock3 size={18} /><span>زمان‌بندی دقیق در اطلاعیه‌ی هر دوره اعلام می‌شود</span></div>
+          <SectionHeading index="۰۴" eyebrow="فرم درخواست" title="در چهار گام" emphasis="اطلاعات‌تان را ثبت کنید" copy="فرم مرحله‌ای اطلاعات تماس، محصول، نیاز سرمایه و مدارک را می‌گیرد" />
+          <div className="process-time-note"><Check size={18} /><span>ارسال فرم فقط پس از پاسخ موفق سامانه تأیید می‌شود</span></div>
         </div>
         <div className="process-timeline">
           <div className="process-timeline-line"><i /></div>
-          {processSteps.map((step, index) => <article className="process-step" key={step.number} data-reveal><span className="process-node"><i /></span><span className="process-step-number">{step.number} / ۰۵</span><h3>{step.title}</h3><p>{step.description}</p><span className="process-step-duration">زمان‌بندی در اطلاعیه‌ی دوره</span></article>)}
+          {processSteps.map((step) => <article className="process-step" key={step.number} data-reveal><span className="process-node"><i /></span><span className="process-step-number">{step.number} / ۰۴</span><h3>{step.title}</h3><p>{step.description}</p><span className="process-step-duration">گام {step.number} از ۰۴</span></article>)}
         </div>
-        <div className="process-cta"><span>برای اولین گفت‌وگو آماده‌اید؟</span><a href="#apply" className="button button-dark">شروع درخواست <ArrowUpLeft size={16} /></a></div>
+        <div className="process-cta"><span>برای ثبت درخواست آماده‌اید؟</span><a href="#apply" className="button button-dark">شروع درخواست <ArrowUpLeft size={16} /></a></div>
       </div>
     </section>
   );
@@ -555,12 +550,12 @@ export function PortfolioSection() {
   return (
     <section className="portfolio-section section-space" id="portfolio">
       <div className="site-container">
-        <div className="section-heading-row portfolio-heading-row"><SectionHeading index="۰۵" eyebrow="پرتفوی پارس" title="شرکت‌های" emphasis="پرتفوی" copy="اطلاعات تأییدشده‌ی پرتفوی به‌زودی منتشر می‌شود" /></div>
+        <div className="section-heading-row portfolio-heading-row"><SectionHeading index="۰۵" eyebrow="پرتفوی پارس" title="شرکت‌های" emphasis="پرتفوی" copy="اطلاعات پرتفوی پس از تأیید رسمی در این بخش منتشر می‌شود" /></div>
         <article className="portfolio-coming-soon" data-reveal>
           <span className="portfolio-coming-soon-icon"><Clock3 size={23} /></span>
           <span className="eyebrow">پرتفوی پارس</span>
-          <h3>به‌زودی</h3>
-          <p>اطلاعات پرتفوی به‌زودی منتشر می‌شود</p>
+          <h3>در انتظار اعلام رسمی</h3>
+          <p>اطلاعات شرکت‌های پرتفوی پس از تأیید رسمی منتشر می‌شود</p>
         </article>
       </div>
     </section>
@@ -594,14 +589,14 @@ export function MapSection() {
             <svg className="iran-map iran-map-accurate" viewBox={iranOutlineViewBox} role="img" aria-label="نقشه‌ی ایران با نام چند شهر و مسیرهای شماتیک؛ نه محدوده‌ی پوشش واقعی پارس">
               <defs>
                 <linearGradient id="iranSurface" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stopColor="#e5ffc0" stopOpacity=".42" />
-                  <stop offset=".45" stopColor="#91e4b5" stopOpacity=".2" />
-                  <stop offset="1" stopColor="#598e9a" stopOpacity=".12" />
+                  <stop offset="0" stopColor="#68A6D9" stopOpacity=".28" />
+                  <stop offset=".45" stopColor="#5CC6D9" stopOpacity=".2" />
+                  <stop offset="1" stopColor="#6166AA" stopOpacity=".12" />
                 </linearGradient>
                 <linearGradient id="iranBorder" x1="0" y1="0" x2="1" y2="1">
-                  <stop stopColor="#edffbd" />
-                  <stop offset=".5" stopColor="#8de5b7" />
-                  <stop offset="1" stopColor="#d3a76b" />
+                  <stop stopColor="#592C7A" />
+                  <stop offset=".5" stopColor="#6166AA" />
+                  <stop offset="1" stopColor="#5CC6D9" />
                 </linearGradient>
                 <clipPath id="iranClip"><path d={iranOutlinePath} /></clipPath>
               </defs>
@@ -642,34 +637,6 @@ export function MapSection() {
   );
 }
 
-export function CriteriaSection() {
-  const criteria = [
-    { icon: Compass, title: 'حوزه‌های تمرکز', value: '۸ حوزه‌ی فعالیت', note: 'اولویت هر حوزه در اطلاعیه‌ی دوره اعلام می‌شود' },
-    { icon: Banknote, title: 'بازه‌ی سرمایه', value: 'در اطلاعیه‌ی دوره', note: 'حداقل و حداکثر مبلغ همراه با اطلاعیه منتشر می‌شود' },
-    { icon: ChartNoAxesCombined, title: 'مرحله‌ی کسب‌وکار', value: 'ایده تا رشد', note: 'تناسب با اولویت دوره بررسی می‌شود' },
-    { icon: UsersRound, title: 'اندازه‌ی تیم', value: 'در اطلاعیه‌ی دوره', note: 'شرایط تیم در اطلاعیه‌ی رسمی اعلام می‌شود' },
-    { icon: MapPin, title: 'محدوده‌ی جغرافیایی', value: 'بر اساس هر دوره', note: 'شهرهای مجاز در اطلاعیه مشخص می‌شوند' },
-    { icon: ShieldCheck, title: 'اولویت‌ها و نشانه‌های هشدار', value: 'بررسی دقیق', note: 'معیارهای هر دوره در اطلاعیه‌ی رسمی اعلام می‌شود' },
-  ];
-  const redFlags = ['مسئله یا مشتری هدف نامشخص', 'ادعا بدون مستندات و داده', 'نبود تعهد کامل یا تقسیم نقش روشن در تیم', 'ابهام در مالکیت فکری و مسائل حقوقی'];
-  return (
-    <section className="criteria-section section-space" id="approach">
-      <div className="site-container">
-        <div className="criteria-intro-row"><SectionHeading index="۰۷" eyebrow="معیارهای ارزیابی" title="پیش از درخواست،" emphasis="بدانید چه می‌سنجیم" copy="چه مواردی را بررسی می‌کنیم و چه مواردی در اطلاعیه‌ی هر دوره مشخص می‌شود؛ روشن و بدون وعده‌ی مبهم" /><div className="criteria-side-note"><span className="criteria-side-mark"><CrystalMark /></span><p>این‌ها نقطه‌ی شروع ارزیابی‌اند، نه تضمین پذیرش</p></div></div>
-        <div className="criteria-grid">{criteria.map((item, index) => {
-          const Icon = item.icon;
-          return <article className="criteria-card" key={item.title} data-reveal><span className="criteria-card-index">۰{index + 1}</span><Icon size={20} /><small>{item.title}</small><strong>{item.value}</strong><p>{item.note}</p></article>;
-        })}</div>
-        <div className="criteria-details-grid">
-          <div className="priority-panel"><span className="eyebrow">اولویت‌های سرمایه‌گذاری</span><h3>بازار بزرگ،<br /><em>تیم متعهد، مسئله‌ی روشن</em></h3><p>این‌ها نقطه‌ی شروع ارزیابی‌اند، نه تضمین پذیرش</p><div className="priority-pills">{['اندازه‌ی فرصت', 'تناسب مسئله و راهکار', 'سرعت یادگیری', 'ظرفیت مقیاس‌پذیری'].map((item) => <span key={item}>{item}</span>)}</div><a href="#industries" className="text-link">حوزه‌ی فعالیت <ArrowUpLeft size={15} /></a></div>
-          <div className="redflags-panel"><span className="eyebrow"><ShieldCheck size={14} /> نشانه‌های هشدار</span><h3>چه مواردی<br /><em>ما را محتاط می‌کند؟</em></h3><p>در ارزیابی اولیه، به این موارد توجه می‌کنیم</p><ul>{redFlags.map((item) => <li key={item}><span><X size={12} /></span>{item}</li>)}</ul></div>
-        </div>
-        <div className="faq-block" id="faq"><div className="faq-heading"><SectionEyebrow index="۰۸">پرسش‌های پرتکرار</SectionEyebrow><h3>پاسخ پرسش‌های رایج</h3><a href="#contact" className="text-link">پاسخ پرسش‌تان را نیافتید؟ <ArrowUpLeft size={14} /></a></div><div className="faq-list">{faqItems.map((item, index) => <details className="faq-item" key={item.question} data-reveal><summary><span>{item.question}</span><i>{faNumber(index + 1)}</i><ChevronDown size={17} /></summary><p>{item.answer}</p></details>)}</div></div>
-      </div>
-    </section>
-  );
-}
-
 export function ToolsSection({ onOpenTool }) {
   const tools = [
     { id: 'valuation', code: '۰۱', title: 'ارزش‌گذاری استارتاپ', description: 'با مبلغ جذب و سهم پیشنهادی، ارزش تقریبی شرکت را برآورد کنید', icon: ChartNoAxesCombined, tag: 'ارزش‌گذاری' },
@@ -679,17 +646,16 @@ export function ToolsSection({ onOpenTool }) {
     { id: 'cac', code: '۰۵', title: 'هزینه‌ی جذب مشتری (CAC)', description: 'هزینه‌ی به‌دست‌آوردن هر مشتری جدید', icon: Gauge, tag: 'اقتصاد واحد' },
     { id: 'ltv', code: '۰۶', title: 'ارزش طول عمر مشتری (LTV)', description: 'درآمد تقریبی هر مشتری در کل دوره‌ی همکاری با شما', icon: LineChart, tag: 'درآمد' },
     { id: 'saas', code: '۰۷', title: 'شاخص‌های SaaS', description: 'درآمد تکرارشونده و نرخ رشد ماهانه', icon: BarChart3, tag: 'درآمد تکرارشونده' },
-    { id: 'maturity', code: '۰۸', title: 'سنجش آمادگی تیم', description: 'چک‌لیست کوتاه بلوغ و آمادگی', icon: Gauge, tag: 'ارزیابی تیم' },
   ];
   return (
     <section className="tools-section section-space" id="tools">
       <div className="site-container">
-        <div className="section-heading-row"><SectionHeading index="۰۹" eyebrow="ابزارهای استارتاپی" title="با عدد" emphasis="تصمیم بگیرید" copy="محاسبه‌گرهای ساده برای پرسش‌هایی که پیش از جذب سرمایه، رشد یا مذاکره پیش می‌آید" /><div className="tools-data-note"><ShieldCheck size={18} /><span>محاسبه‌ها در مرورگر شما انجام می‌شود و هیچ داده‌ای به سرور ارسال نمی‌شود</span></div></div>
+        <div className="section-heading-row"><SectionHeading index="۰۷" eyebrow="ابزارهای استارتاپی" title="با عدد" emphasis="تصمیم بگیرید" copy="محاسبه‌گرهای ساده برای پرسش‌هایی که پیش از جذب سرمایه، رشد یا مذاکره پیش می‌آید" /><div className="tools-data-note"><ShieldCheck size={18} /><span>محاسبه‌ها در مرورگر شما انجام می‌شود و هیچ داده‌ای به سرور ارسال نمی‌شود</span></div></div>
         <div className="tools-grid">{tools.map((tool) => {
           const Icon = tool.icon;
-          return <button type="button" className="tool-card" key={tool.id} onClick={() => onOpenTool(tool.id)} data-reveal><span className="tool-card-top"><span>{tool.code} / ۰۸</span><Icon size={21} strokeWidth={1.5} /></span><span className="tool-card-tag">{tool.tag}</span><strong>{tool.title}</strong><p>{tool.description}</p><span className="tool-card-action">استفاده از ابزار <ArrowUpLeft size={15} /></span></button>;
+          return <button type="button" className="tool-card" key={tool.id} onClick={() => onOpenTool(tool.id)} data-reveal><span className="tool-card-top"><span>{tool.code} / ۰۷</span><Icon size={21} strokeWidth={1.5} /></span><span className="tool-card-tag">{tool.tag}</span><strong>{tool.title}</strong><p>{tool.description}</p><span className="tool-card-action">استفاده از ابزار <ArrowUpLeft size={15} /></span></button>;
         })}</div>
-        <div className="tools-bottom"><span>نتایج برآوردی‌اند و پیش‌بینی قطعی یا توصیه‌ی سرمایه‌گذاری نیستند</span><a href="#knowledge" className="text-link">واژه‌نامه‌ی مالی و رشد <ArrowUpLeft size={15} /></a></div>
+        <div className="tools-bottom"><span>نتایج برآوردی‌اند و پیش‌بینی قطعی یا توصیه‌ی سرمایه‌گذاری نیستند</span><a href="#apply" className="text-link">درخواست سرمایه <ArrowUpLeft size={15} /></a></div>
       </div>
     </section>
   );
@@ -699,25 +665,9 @@ export function PartnersSection() {
   return (
     <section className="partners-section section-space" id="partners">
       <div className="site-container">
-        <div className="partners-top"><SectionHeading index="۱۰" eyebrow="شبکه‌ی همکاران" title="رشد" emphasis="کار جمعی است" copy="همکاری با نهادهای مالی، مراکز فناوری و جامعه‌ی کارآفرینی" /><span className="partners-disclosure">شرکای رسمی به‌زودی معرفی می‌شوند</span></div>
-        <div className="partners-coming-soon" data-reveal><Network size={24} /><strong>شرکای رسمی پارس</strong><span>به‌زودی معرفی می‌شوند</span></div>
+        <div className="partners-top"><SectionHeading index="۰۸" eyebrow="شبکه‌ی همکاران" title="رشد" emphasis="کار جمعی است" copy="اطلاعات همکاران رسمی پارس پس از تأیید و اعلام عمومی منتشر می‌شود" /><span className="partners-disclosure">فهرست همکاران رسمی پس از تأیید منتشر می‌شود</span></div>
+        <div className="partners-coming-soon" data-reveal><Network size={24} /><strong>شرکای رسمی پارس</strong><span>در انتظار اعلام رسمی</span></div>
         <a href="#contact" className="text-link">پیشنهاد همکاری دارید؟ با ما در میان بگذارید <ArrowUpLeft size={15} /></a>
-      </div>
-    </section>
-  );
-}
-
-export function KnowledgeSection({ onOpenArticle, onOpenTool }) {
-  const [query, setQuery] = useState('');
-  const [category, setCategory] = useState('همه');
-  const categories = ['همه', ...new Set(articles.map((item) => item.category))];
-  const results = articles.filter((item) => (category === 'همه' || item.category === category) && `${item.title} ${item.excerpt} ${item.category}`.toLowerCase().includes(query.trim().toLowerCase()));
-  return (
-    <section className="knowledge-section section-space" id="knowledge">
-      <div className="site-container">
-        <div className="knowledge-heading-row"><SectionHeading index="۱۱" eyebrow="مرکز دانش" title="تجربه‌ها را" emphasis="به اشتراک می‌گذاریم" copy="راهنماهای کوتاه برای تصمیم‌های مهم در مسیر ساخت و رشد کسب‌وکار" /><a href="#news" className="button button-outline">خبرها و رویدادها <ArrowUpLeft size={15} /></a></div>
-        <div className="knowledge-tools"><div className="knowledge-search"><Search size={17} /><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="جست‌وجو در مقاله‌ها" aria-label="جست‌وجو در مقاله‌ها" /></div><div className="knowledge-categories" role="group" aria-label="دسته‌بندی مقاله‌ها">{categories.map((item) => <button type="button" className={category === item ? 'is-active' : ''} key={item} onClick={() => setCategory(item)}>{item}</button>)}</div></div>
-        {results.length ? <div className="articles-grid">{results.map((item, index) => <article className="article-card" key={item.id} data-reveal><div className={`article-art article-art-${index + 1}`} aria-hidden="true"><BookOpen size={28} strokeWidth={1.3} /><i /></div><div className="article-card-content"><div className="article-meta"><span>{item.category}</span><span><Clock3 size={13} /> {item.readTime}</span></div><h3>{item.title}</h3><p>{item.excerpt}</p><div className="article-actions"><button type="button" className="text-link" onClick={() => onOpenArticle(item)}>خواندن مقاله <ArrowUpLeft size={15} /></button><button type="button" className="article-tool-link" onClick={() => onOpenTool(item.tool)}>ابزار مرتبط <ArrowUpLeft size={13} /></button></div></div></article>)}</div> : <div className="empty-state"><Search size={20} /><p>مقاله‌ای با این عبارت پیدا نشد</p></div>}
       </div>
     </section>
   );
@@ -728,7 +678,7 @@ export function NewsSection() {
   const tabs = ['اطلاعیه‌ی کمپین', 'اخبار پارس', 'پارس در رسانه‌ها', 'رویدادها و فراخوان‌ها'];
   return (
     <section className="news-section section-space" id="news">
-      <div className="site-container"><div className="section-heading-row"><SectionHeading index="۱۲" eyebrow="خبر و رویداد" title="از تازه‌ترین‌ها" emphasis="باخبر باشید" copy="اخبار شرکت، بازتاب رسانه‌ای، رویدادها و فراخوان‌ها، یک‌جا" /><a href="#apply" className="text-link">اطلاعیه‌ی کمپین <ArrowUpLeft size={15} /></a></div><div className="news-tabs" role="tablist">{tabs.map((item) => <button type="button" role="tab" aria-selected={tab === item} className={tab === item ? 'is-active' : ''} key={item} onClick={() => setTab(item)}>{item}</button>)}</div><div className="news-empty"><div className="news-empty-icon"><CalendarDays size={24} /></div><div><span className="eyebrow">{tab}</span><h3>هنوز خبری منتشر نشده است</h3><p>برای آگاهی از وضعیت پذیرش، صفحه‌ی کمپین را ببینید</p></div><a href="#apply" className="button button-outline">رفتن به صفحه‌ی کمپین <ArrowUpLeft size={14} /></a></div></div>
+      <div className="site-container"><div className="section-heading-row"><SectionHeading index="۰۹" eyebrow="خبر و رویداد" title="از تازه‌ترین‌ها" emphasis="باخبر باشید" copy="اخبار شرکت، بازتاب رسانه‌ای، رویدادها و فراخوان‌ها، یک‌جا" /><a href="#apply" className="text-link">اطلاعیه‌ی کمپین <ArrowUpLeft size={15} /></a></div><div className="news-tabs" role="tablist">{tabs.map((item) => <button type="button" role="tab" aria-selected={tab === item} className={tab === item ? 'is-active' : ''} key={item} onClick={() => setTab(item)}>{item}</button>)}</div><div className="news-empty"><div className="news-empty-icon"><CalendarDays size={24} /></div><div><span className="eyebrow">{tab}</span><h3>هنوز خبری منتشر نشده است</h3><p>برای آگاهی از وضعیت پذیرش، صفحه‌ی کمپین را ببینید</p></div><a href="#apply" className="button button-outline">رفتن به صفحه‌ی کمپین <ArrowUpLeft size={14} /></a></div></div>
     </section>
   );
 }
@@ -741,7 +691,7 @@ export function AboutSection() {
   ];
   return (
     <section className="about-section section-space" id="about">
-      <div className="site-container"><div className="about-top"><SectionHeading index="۱۳" eyebrow="درباره‌ی پارس" title="سرمایه‌گذاری" emphasis="با نگاه بلندمدت" copy="پارس برای همراهی با کسب‌وکارهایی شکل گرفته که می‌خواهند مسئله‌های واقعی را حل کنند و رشدی پایدار بسازند" /><div className="about-history-card"><span className="about-history-symbol"><ParsGlyph /></span><span className="eyebrow">تاریخچه و معرفی</span><strong>سال تأسیس، مأموریت و داستان شکل‌گیری پارس به‌زودی در این بخش منتشر می‌شود</strong></div></div>
+      <div className="site-container"><div className="about-top"><SectionHeading index="۱۰" eyebrow="درباره‌ی پارس" title="سرمایه‌گذاری" emphasis="با نگاه بلندمدت" copy="پارس برای همراهی با کسب‌وکارهایی شکل گرفته که می‌خواهند مسئله‌های واقعی را حل کنند و رشدی پایدار بسازند" /><div className="about-history-card"><span className="about-history-symbol"><ParsGlyph /></span><span className="eyebrow">تاریخچه و معرفی</span><strong>اطلاعات رسمی درباره‌ی سال تأسیس و تاریخچه‌ی پارس پس از تأیید منتشر می‌شود</strong></div></div>
         <div className="about-values-grid">{values.map((item, index) => {
           const Icon = item.icon;
           return <article className="about-value-card" key={item.title} data-reveal><span className="about-value-number">۰{index + 1}</span><Icon size={21} /><h3>{item.title}</h3><p>{item.description}</p></article>;
@@ -780,15 +730,15 @@ export function AboutSection() {
         </section>
         <div className="team-section" id="team">
           <div className="team-heading">
-            <SectionEyebrow index="۱۴">تیم همراه پارس</SectionEyebrow>
-            <h3>معرفی تیم<br /><em>به‌زودی</em></h3>
-            <p>اطلاعات تأییدشده‌ی اعضا و سوابق حرفه‌ای تیم به‌زودی منتشر می‌شود</p>
+            <SectionEyebrow index="۱۱">تیم همراه پارس</SectionEyebrow>
+            <h3>تیم پارس</h3>
+            <p>اطلاعات اعضا و سوابق حرفه‌ای پس از تأیید رسمی منتشر می‌شود</p>
           </div>
           <div className="team-role-list" data-reveal>
             <div className="team-role-card">
               <span className="team-role-avatar"><UsersRound size={20} /></span>
-              <span className="team-role-meta"><strong>اعضا و سوابق حرفه‌ای</strong><small>به‌زودی معرفی می‌شوند</small></span>
-              <span className="team-role-index">به‌زودی</span>
+              <span className="team-role-meta"><strong>اعضا و سوابق حرفه‌ای</strong><small>پس از تأیید رسمی منتشر می‌شود</small></span>
+              <span className="team-role-index">پارس</span>
             </div>
           </div>
         </div>
@@ -830,7 +780,7 @@ export function ContactSection() {
 
   return (
     <section className="contact-section section-space" id="contact">
-      <div className="site-container contact-layout"><div className="contact-copy"><SectionHeading index="۱۵" eyebrow="تماس با پارس" title="یک گفت‌وگوی خوب" emphasis="از این‌جا شروع می‌شود" copy="برای پرسش درباره‌ی همکاری یا رسانه، پیام بگذارید" /><div className="contact-details"><div><span className="contact-detail-icon"><Link2 size={17} /></span><span><small>ایمیل شرکت</small><strong>به‌زودی</strong></span></div><div><span className="contact-detail-icon"><MapPin size={17} /></span><span><small>نشانی و ساعت پاسخ‌گویی</small><strong>به‌زودی</strong></span></div><div><span className="contact-detail-icon"><Building2 size={17} /></span><span><small>لینکدین و رسانه‌های اجتماعی</small><strong>به‌زودی</strong></span></div></div></div>
+      <div className="site-container contact-layout"><div className="contact-copy"><SectionHeading index="۱۲" eyebrow="تماس با پارس" title="یک گفت‌وگوی خوب" emphasis="از این‌جا شروع می‌شود" copy="برای پرسش درباره‌ی همکاری یا رسانه، پیام بگذارید" /><div className="contact-details"><div><span className="contact-detail-icon"><Link2 size={17} /></span><span><small>ایمیل شرکت</small><strong>پس از تأیید رسمی اعلام می‌شود</strong></span></div><div><span className="contact-detail-icon"><MapPin size={17} /></span><span><small>نشانی و ساعت پاسخ‌گویی</small><strong>پس از تأیید رسمی اعلام می‌شود</strong></span></div><div><span className="contact-detail-icon"><Building2 size={17} /></span><span><small>لینکدین و رسانه‌های اجتماعی</small><strong>پس از تأیید رسمی اعلام می‌شود</strong></span></div></div></div>
         <form className="contact-form" onSubmit={submit}>
           <div className="contact-form-top"><span className="eyebrow">فرم تماس کوتاه</span><span>ثبت پیام پس از پاسخ موفق سامانه</span></div>
           <label><span>نام شما</span><input required name="contactName" maxLength={120} placeholder="نام و نام خانوادگی" /></label>
@@ -850,7 +800,7 @@ export function FinalCallout() {
   return (
     <section className="final-callout" id="campaign">
       <div className="final-callout-orbit" aria-hidden="true"><ParsGlyph /></div>
-      <div className="site-container final-callout-content"><SectionEyebrow index="۱۶" light>مسیر بعدی</SectionEyebrow><h2>طرح شما برای<br /><em>گام بعدی آماده است؟</em></h2><p>شرایط دوره را بخوانید، با مسیر ارزیابی آشنا شوید و درخواست خود را با آمادگی کامل ثبت کنید</p><div className="final-callout-actions"><a href="#apply" className="button button-lime button-large">شروع درخواست سرمایه <ArrowUpLeft size={17} /></a><a href="#faq" className="button button-outline-light">پرسش‌های پرتکرار <ArrowUpLeft size={15} /></a></div><span className="final-callout-note">اطلاعات رسمی دوره پیش از شروع پذیرش منتشر می‌شود</span></div>
+      <div className="site-container final-callout-content"><SectionEyebrow index="۱۳" light>مسیر بعدی</SectionEyebrow><h2>طرح شما برای<br /><em>گام بعدی آماده است؟</em></h2><p>شرایط هر دوره را بخوانید و فرم درخواست سرمایه را گام‌به‌گام تکمیل کنید</p><div className="final-callout-actions"><a href="#apply" className="button button-lime button-large">شروع درخواست سرمایه <ArrowUpLeft size={17} /></a><a href="#contact" className="button button-outline-light">پرسشی دارید؟ <ArrowUpLeft size={15} /></a></div><span className="final-callout-note">اطلاعات رسمی دوره پیش از شروع پذیرش منتشر می‌شود</span></div>
     </section>
   );
 }
@@ -871,12 +821,12 @@ export function FooterSection() {
         <div className="footer-main">
           <div className="footer-sitemap">
             <div><strong>آشنایی با پارس</strong><a href="#approach">رویکرد ما</a><a href="#portfolio">پرتفوی</a><a href="#about">درباره‌ی ما</a><a href="#partners">همکاران</a></div>
-            <div><strong>منابع</strong><a href="#tools">ابزارهای استارتاپی</a><a href="#knowledge">مرکز دانش</a><a href="#news">اخبار و رویدادها</a></div>
+            <div><strong>ابزارها و خبرها</strong><a href="#tools">ابزارهای استارتاپی</a><a href="#news">اخبار و رویدادها</a></div>
             <div><strong>ارتباط</strong><a href="#contact">تماس با ما</a><a href="#apply">صفحه‌ی کمپین</a><a href="#sitemap">نقشه‌ی سایت</a></div>
           </div>
           <div className="footer-status">
             <span className="eyebrow">پذیرش دوره‌ی بعد</span>
-            <strong><i className="status-indicator" /> به‌زودی اعلام می‌شود</strong>
+            <strong><i className="status-indicator" /> جزئیات در اطلاعیه‌ی رسمی اعلام می‌شود</strong>
             <small>برای اطلاع از جزئیات، صفحه‌ی کمپین را ببینید</small>
             <a href="#apply">رفتن به صفحه‌ی کمپین <ArrowUpLeft size={13} /></a>
           </div>
@@ -889,14 +839,6 @@ export function FooterSection() {
       </div>
       <small className="footer-attribution site-container">منبع نقشه‌ی ایران: Victor Cazanave، @svg-maps/world · مجوز CC BY 4.0</small>
     </footer>
-  );
-}
-
-export function ArticleDetail({ article, onClose, onOpenTool }) {
-  return (
-    <div className="modal-scrim" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
-      <article className="article-dialog" role="dialog" aria-modal="true" aria-labelledby="article-title" dir="rtl"><header className="dialog-header"><div className="dialog-brand"><span className="dialog-brand-mark"><CrystalMark /></span><span>مرکز دانش پارس</span></div><button type="button" className="icon-button dialog-close" onClick={onClose} aria-label="بستن"><X size={20} /></button></header><div className="article-dialog-meta"><span>{article.category}</span><span><Clock3 size={14} /> {article.readTime}</span></div><h2 id="article-title">{article.title}</h2><p className="article-dialog-excerpt">{article.excerpt}</p><div className="article-dialog-body">{article.body.split('\n').map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div><div className="article-related-tool"><div><span className="eyebrow">ابزار مرتبط</span><strong>محاسبه‌گر برای تصمیم بعدی</strong></div><button type="button" className="button button-dark" onClick={() => onOpenTool(article.tool)}>استفاده از ابزار <ArrowUpLeft size={15} /></button></div></article>
-    </div>
   );
 }
 

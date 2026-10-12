@@ -5,7 +5,6 @@ import {
   BarChart3,
   Check,
   CircleHelp,
-  ClipboardCheck,
   Copy,
   Gauge,
   LineChart,
@@ -26,7 +25,7 @@ export const calculatorTools = [
   {
     id: 'valuation', title: 'ارزش‌گذاری استارتاپ', eyebrow: 'ارزش‌گذاری', icon: BarChart3,
     description: 'رابطه‌ی مبلغ جذب و درصد سهام را برای یک برآورد اولیه ببینید',
-    formula: 'ارزش پس از سرمایه‌گذاری = مبلغ سرمایه ÷ درصد سهام', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
+    formula: 'ارزش پس از سرمایه‌گذاری = مبلغ سرمایه ÷ درصد سهام',
     fields: [
       { key: 'amount', label: 'مبلغ سرمایه‌ی درخواستی', unit: 'میلیون تومان', type: 'number', min: 0, default: 500 },
       { key: 'equity', label: 'درصد سهام پیشنهادی', unit: 'درصد', type: 'number', min: 0.1, max: 99, step: 0.1, default: 10 },
@@ -40,7 +39,7 @@ export const calculatorTools = [
   {
     id: 'runway', title: 'دوام نقدینگی (Runway)', eyebrow: 'نقدینگی', icon: Activity,
     description: 'برآورد کنید با نقدینگی و هزینه‌ی فعلی، چند ماه فرصت دارید',
-    formula: 'Runway = نقدینگی در دسترس ÷ هزینه‌ی خالص ماهانه', related: 'Runway چیست و چگونه محاسبه می‌شود؟',
+    formula: 'Runway = نقدینگی در دسترس ÷ هزینه‌ی خالص ماهانه',
     fields: [
       { key: 'cash', label: 'نقدینگی در دسترس', unit: 'میلیون تومان', type: 'number', min: 0, default: 2400 },
       { key: 'burn', label: 'هزینه‌ی خالص ماهانه', unit: 'میلیون تومان', type: 'number', min: 0, default: 300 },
@@ -53,7 +52,7 @@ export const calculatorTools = [
   {
     id: 'dilution', title: 'رقیق‌شدن سهام', eyebrow: 'سهام', icon: PieChart,
     description: 'اثر یک دور جذب سرمایه‌ی جدید را روی سهم فعلی خود بسنجید',
-    formula: 'سهم جدید شما = سهم فعلی × (۱ − درصد سهام واگذار‌شده)', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
+    formula: 'سهم جدید شما = سهم فعلی × (۱ − درصد سهام واگذار‌شده)',
     fields: [
       { key: 'current', label: 'سهم فعلی شما', unit: 'درصد', type: 'number', min: 0, max: 100, default: 60 },
       { key: 'round', label: 'سهام واگذارشده در دور جدید', unit: 'درصد', type: 'number', min: 0, max: 99, default: 15 },
@@ -67,7 +66,7 @@ export const calculatorTools = [
   {
     id: 'captable', title: 'جدول سهامداری (Cap Table)', eyebrow: 'سهم‌داران', icon: WalletCards,
     description: 'توزیع تقریبی مالکیت را پس از ورود سرمایه‌گذار جدید ببینید',
-    formula: 'سهم هر گروه پس از دور = سهم پیش از دور × (۱ − درصد دور جدید)', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
+    formula: 'سهم هر گروه پس از دور = سهم پیش از دور × (۱ − درصد دور جدید)',
     fields: [
       { key: 'founders', label: 'بنیان‌گذاران', unit: 'درصد', type: 'number', min: 0, max: 100, default: 70 },
       { key: 'early', label: 'سرمایه‌گذاران فعلی', unit: 'درصد', type: 'number', min: 0, max: 100, default: 20 },
@@ -84,7 +83,7 @@ export const calculatorTools = [
   {
     id: 'cac', title: 'هزینه‌ی جذب مشتری (CAC)', eyebrow: 'هزینه‌ی جذب', icon: Gauge,
     description: 'هزینه‌ی جذب هر مشتری را در یک بازه‌ی مشخص محاسبه کنید',
-    formula: 'CAC = مجموع هزینه‌ی جذب ÷ تعداد مشتریان جدید', related: 'شاخص‌هایی که مسیر رشد را بهتر نشان می‌دهند',
+    formula: 'CAC = مجموع هزینه‌ی جذب ÷ تعداد مشتریان جدید',
     fields: [
       { key: 'spend', label: 'هزینه‌ی فروش و بازاریابی', unit: 'میلیون تومان', type: 'number', min: 0, default: 180 },
       { key: 'customers', label: 'مشتریان جدید', unit: 'نفر', type: 'number', min: 0, default: 90 },
@@ -97,7 +96,7 @@ export const calculatorTools = [
   {
     id: 'ltv', title: 'ارزش طول عمر مشتری (LTV)', eyebrow: 'ارزش طول عمر', icon: LineChart,
     description: 'یک برآورد پایه از ارزش طول عمر مشتری اشتراکی به دست آورید',
-    formula: 'LTV تقریبی = درآمد ماهانه‌ی هر مشتری × حاشیه‌ی سود ناخالص ÷ ریزش ماهانه', related: 'شاخص‌هایی که مسیر رشد را بهتر نشان می‌دهند',
+    formula: 'LTV تقریبی = درآمد ماهانه‌ی هر مشتری × حاشیه‌ی سود ناخالص ÷ ریزش ماهانه',
     fields: [
       { key: 'arpu', label: 'درآمد ماهانه از هر مشتری', unit: 'میلیون تومان', type: 'number', min: 0, default: 2.5 },
       { key: 'margin', label: 'حاشیه‌ی سود ناخالص', unit: 'درصد', type: 'number', min: 0, max: 100, default: 75 },
@@ -111,7 +110,7 @@ export const calculatorTools = [
   {
     id: 'saas', title: 'شاخص‌های SaaS', eyebrow: 'درآمد تکرارشونده', icon: BarChart3,
     description: 'درآمد سالانه‌ی تکرارشونده و نرخ رشد ماهانه را تخمین بزنید',
-    formula: 'ARR = درآمد تکرارشونده‌ی ماهانه × ۱۲', related: 'شاخص‌هایی که مسیر رشد را بهتر نشان می‌دهند',
+    formula: 'ARR = درآمد تکرارشونده‌ی ماهانه × ۱۲',
     fields: [
       { key: 'mrr', label: 'درآمد تکرارشونده‌ی ماهانه (MRR)', unit: 'میلیون تومان', type: 'number', min: 0, default: 420 },
       { key: 'growth', label: 'رشد ماهانه‌ی MRR', unit: 'درصد', type: 'number', min: -100, max: 300, default: 8 },
@@ -119,26 +118,6 @@ export const calculatorTools = [
     calculate: (v) => {
       const mrr = numberOf(v.mrr); const growth = Number(v.growth) || 0; const arr = mrr * 12;
       return { main: `${fmt(arr)} میلیون تومان`, label: 'ARR برآوردی', secondary: `MRR فعلی ${fmt(mrr)} میلیون تومان · رشد ماهانه ${percent(growth)}`, note: 'ARR برون‌یابی ساده‌ی MRR است؛ درآمد غیرتکرارشونده، تخفیف و ریزش باید جداگانه بررسی شوند' };
-    },
-  },
-  {
-    id: 'maturity', title: 'سنجش آمادگی تیم', eyebrow: 'ارزیابی اولیه', icon: ClipboardCheck,
-    description: 'در چند محور به آمادگی امروز تیم خودتان امتیاز بدهید',
-    formula: 'امتیاز آمادگی = مجموع امتیازها ÷ حداکثر امتیاز × ۱۰۰', related: 'پیش از جذب سرمایه، چه چیزهایی باید روشن باشد؟',
-    fields: [
-      { key: 'team', label: 'تیم و نقش‌های کلیدی', unit: 'از ۵', type: 'range', min: 1, max: 5, default: 3 },
-      { key: 'problem', label: 'شناخت مسئله و بازار', unit: 'از ۵', type: 'range', min: 1, max: 5, default: 3 },
-      { key: 'product', label: 'محصول و تجربه‌ی کاربر', unit: 'از ۵', type: 'range', min: 1, max: 5, default: 3 },
-      { key: 'traction', label: 'شواهد تقاضا و کشش بازار', unit: 'از ۵', type: 'range', min: 1, max: 5, default: 2 },
-      { key: 'finance', label: 'مدل مالی و مصرف سرمایه', unit: 'از ۵', type: 'range', min: 1, max: 5, default: 2 },
-      { key: 'legal', label: 'آمادگی حقوقی و مالکیت فکری', unit: 'از ۵', type: 'range', min: 1, max: 5, default: 2 },
-      { key: 'goToMarket', label: 'برنامه‌ی ورود به بازار', unit: 'از ۵', type: 'range', min: 1, max: 5, default: 3 },
-    ],
-    calculate: (v) => {
-      const score = ['team', 'problem', 'product', 'traction', 'finance', 'legal', 'goToMarket'].reduce((sum, key) => sum + Math.min(5, numberOf(v[key])), 0);
-      const result = Math.round((score / 35) * 100);
-      const stage = result < 40 ? 'تمرکز بر مسئله و شناخت بازار' : result < 65 ? 'تقویت محصول و شواهد اولیه' : result < 82 ? 'آماده‌ی گفت‌وگوی عمیق‌تر' : 'آماده‌سازی برای ارزیابی جامع';
-      return { main: `${fmt(result, 0)} از ۱۰۰`, label: 'امتیاز آمادگی', secondary: stage, note: 'این ابزار تشخیص یا تضمین پذیرش نیست؛ فقط چک‌لیستی برای گفت‌وگوی تیمی است' };
     },
   },
 ];
@@ -165,7 +144,7 @@ function ToolInput({ field, value, onChange }) {
   );
 }
 
-export default function CalculatorLab({ toolId, onClose, onOpenArticle }) {
+export default function CalculatorLab({ toolId, onClose }) {
   const tool = useMemo(() => calculatorTools.find((item) => item.id === toolId) || calculatorTools[0], [toolId]);
   const [values, setValues] = useState(() => defaultValues(tool));
   const [shareMessage, setShareMessage] = useState('');
@@ -237,7 +216,6 @@ export default function CalculatorLab({ toolId, onClose, onOpenArticle }) {
             </div>
             <div className="calculator-footer-note"><ShieldCheck size={17} /><p>{result.note}</p></div>
             <div className="calculator-dialog-footer">
-              <button type="button" className="text-link" onClick={onOpenArticle}>خواندن مقاله‌ی مرتبط <ArrowUpLeft size={16} /></button>
               <a href="#apply" className="button button-lime" onClick={onClose}>درخواست سرمایه <ArrowUpLeft size={15} /></a>
             </div>
           </div>

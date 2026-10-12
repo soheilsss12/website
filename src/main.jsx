@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './styles.css';
 import './pars-redesign.css';
+import './pars-art-direction.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

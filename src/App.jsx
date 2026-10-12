@@ -7,7 +7,7 @@ import MinimalHomePage from './components/MinimalHomePage.jsx';
 import ParsLogoMark from './components/ParsLogoMark.jsx';
 import TrackingPage from './components/TrackingPage.jsx';
 
-const homeAnchors = new Set(['home', 'gallery', 'industries', 'about']);
+const homeAnchors = new Set(['home', 'gallery', 'industries', 'strategy', 'about']);
 const applicationAnchors = new Set(['apply', 'application-form']);
 const pageRoutes = new Set(['track', 'terms', 'privacy', 'sitemap', 'logo-options', 'admin']);
 

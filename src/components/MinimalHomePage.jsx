@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { ArrowUpLeft, Menu, X } from 'lucide-react';
-import { industries } from '../data/siteContent.js';
+import { industries, valuePillars } from '../data/siteContent.js';
 import ParsLogoMark from './ParsLogoMark.jsx';
 
 const asset = (name) => `${import.meta.env.BASE_URL}${name}`;
 
 const links = [
-  { label: 'حوزه‌ها', href: '#industries' },
   { label: 'تصاویر', href: '#gallery' },
+  { label: 'حوزه‌ها', href: '#industries' },
+  { label: 'استراتژی', href: '#strategy' },
   { label: 'درباره‌ی پارس', href: '#about' },
 ];
 
@@ -37,7 +38,7 @@ function SiteHeader() {
           </a>
         </nav>
         <div className="pars-header-actions">
-          <a className="pars-track-link" href="#track">پیگیری</a>
+          <a className="pars-track-link" href="#track">پیگیری درخواست</a>
           <a className="pars-button pars-button--header" href="#apply">درخواست سرمایه <ArrowUpLeft size={16} /></a>
           <button
             className="pars-menu-toggle"
@@ -55,39 +56,53 @@ function SiteHeader() {
   );
 }
 
-function HeroLogoAnimation() {
+function HeroPhotoStage() {
   return (
-    <div className="pars-hero-logo-stage" aria-label="نشان پارس" role="img">
-      <span className="pars-hero-halo" aria-hidden="true" />
-      <span className="pars-hero-orbit pars-hero-orbit--one" aria-hidden="true" />
-      <span className="pars-hero-orbit pars-hero-orbit--two" aria-hidden="true" />
-      <span className="pars-hero-orbit-dot" aria-hidden="true" />
-      <ParsLogoMark animated decorative className="pars-hero-logo" />
-      <span className="pars-hero-sheen" aria-hidden="true" />
+    <div className="pars-hero-visual" data-reveal>
+      <span className="pars-hero-art-wash" aria-hidden="true" />
+      <span className="pars-hero-pixel-field" aria-hidden="true" />
+      <figure className="pars-hero-photo">
+        <img src={asset('trust-prototype.webp')} alt="" fetchPriority="high" />
+        <figcaption><span>فناوری</span><small>تصویر مفهومی</small></figcaption>
+      </figure>
+      <div className="pars-hero-logo-card" role="img" aria-label="نشان پارس">
+        <span className="pars-logo-card-orbit" aria-hidden="true" />
+        <ParsLogoMark animated decorative className="pars-hero-logo" />
+        <span className="pars-logo-card-caption" aria-hidden="true">پارس</span>
+      </div>
+      <span className="pars-hero-art-dot pars-hero-art-dot--one" aria-hidden="true" />
+      <span className="pars-hero-art-dot pars-hero-art-dot--two" aria-hidden="true" />
     </div>
   );
 }
 
 function PhotoGallery() {
   const photos = [
-    { src: 'trust-prototype.webp', label: 'فناوری', className: 'pars-photo-card--wide' },
-    { src: 'trust-growth.webp', label: 'زیرساخت', className: 'pars-photo-card--tall' },
-    { src: 'trust-dialogue.webp', label: 'همکاری', className: 'pars-photo-card--soft' },
+    { src: 'trust-growth.webp', label: 'زیرساخت', className: 'pars-photo-card--wide' },
+    { src: 'crystal-environment.jpg', label: 'فضای فناوری', className: 'pars-photo-card--ambient' },
+    { src: 'trust-dialogue.webp', label: 'فضای همکاری', className: 'pars-photo-card--portrait' },
   ];
 
   return (
     <section className="pars-section pars-gallery" id="gallery" aria-labelledby="pars-gallery-title">
-      <div className="pars-section-heading" data-reveal>
-        <span className="pars-section-kicker">تصاویر مفهومی</span>
-        <h2 id="pars-gallery-title">از فناوری تا زیرساخت</h2>
+      <div className="pars-gallery-heading" data-reveal>
+        <div>
+          <span className="pars-section-kicker">تصاویر مفهومی</span>
+          <h2 id="pars-gallery-title">جایی برای ساختن</h2>
+        </div>
+        <span className="pars-gallery-index" aria-hidden="true">P / ۰۱</span>
       </div>
       <div className="pars-photo-grid">
-        {photos.map((photo) => (
+        {photos.map((photo, index) => (
           <figure className={`pars-photo-card ${photo.className}`} key={photo.src} data-reveal>
             <img src={asset(photo.src)} alt="" loading="lazy" />
-            <figcaption><span>{photo.label}</span><i aria-hidden="true" /></figcaption>
+            <figcaption><span>{photo.label}</span><i aria-hidden="true" /><small>۰{index + 1}</small></figcaption>
           </figure>
         ))}
+        <div className="pars-photo-note" data-reveal>
+          <ParsLogoMark decorative className="pars-photo-note-mark" />
+          <span>از ایده<br />تا اثر</span>
+        </div>
       </div>
     </section>
   );
@@ -97,18 +112,46 @@ function IndustryGrid() {
   return (
     <section className="pars-section pars-industries" id="industries" aria-labelledby="pars-industries-title">
       <div className="pars-section-heading" data-reveal>
-        <span className="pars-section-kicker">حوزه‌ها</span>
-        <h2 id="pars-industries-title">تمرکز سرمایه‌گذاری</h2>
+        <div>
+          <span className="pars-section-kicker">حوزه‌های منتخب</span>
+          <h2 id="pars-industries-title">جایی که فناوری<br /><em>اثر می‌گذارد</em></h2>
+        </div>
+        <span className="pars-heading-note">سرمایه‌گذاری روی مسئله‌های واقعی</span>
       </div>
       <div className="pars-industry-grid">
         {industries.map((industry) => {
           const Icon = industry.icon;
           return (
             <a className="pars-industry-card" href="#apply" key={industry.title} data-reveal>
-              <span className="pars-industry-icon"><Icon size={20} strokeWidth={1.55} /></span>
+              <span className="pars-industry-icon"><Icon size={22} strokeWidth={1.55} /></span>
               <strong>{industry.title}</strong>
-              <ArrowUpLeft className="pars-industry-arrow" size={16} aria-hidden="true" />
+              <ArrowUpLeft className="pars-industry-arrow" size={17} aria-hidden="true" />
             </a>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function StrategySection() {
+  return (
+    <section className="pars-strategy" id="strategy" aria-labelledby="pars-strategy-title">
+      <div className="pars-strategy-head" data-reveal>
+        <span className="pars-section-kicker">رویکرد پارس</span>
+        <h2 id="pars-strategy-title">سرمایه، همراهِ<br /><em>مسیر رشد</em></h2>
+        <ParsLogoMark decorative className="pars-strategy-mark" />
+      </div>
+      <div className="pars-strategy-grid">
+        {valuePillars.slice(0, 4).map((item, index) => {
+          const Icon = item.icon;
+          return (
+            <article className="pars-strategy-card" key={item.number} data-reveal>
+              <span className="pars-strategy-count">۰{index + 1}</span>
+              <span className="pars-strategy-icon"><Icon size={22} strokeWidth={1.5} /></span>
+              <h3>{item.title}</h3>
+              <i className="pars-strategy-rule" aria-hidden="true" />
+            </article>
           );
         })}
       </div>
@@ -119,17 +162,17 @@ function IndustryGrid() {
 function AboutPars() {
   return (
     <section className="pars-about" id="about" aria-labelledby="pars-about-title">
-      <div className="pars-about-mark" data-reveal>
-        <span className="pars-about-mark-wash" aria-hidden="true" />
-        <ParsLogoMark decorative className="pars-about-logo" />
-      </div>
       <div className="pars-about-copy" data-reveal>
         <span className="pars-section-kicker">درباره‌ی پارس</span>
         <h2 id="pars-about-title">همراهِ ایده‌های<br /><em>موفق</em></h2>
         <div className="pars-facts" aria-label="پارس در یک نگاه">
-          <div className="pars-fact"><strong>۱۱</strong><span>شرکت سرمایه‌گذاری</span></div>
+          <div className="pars-fact"><strong>۱۱</strong><span>بازوی سرمایه‌گذاری</span></div>
           <div className="pars-fact"><strong>ده‌ها</strong><span>شرکت زیرمجموعه</span></div>
         </div>
+      </div>
+      <div className="pars-about-mark" data-reveal>
+        <span className="pars-about-mark-wash" aria-hidden="true" />
+        <ParsLogoMark decorative className="pars-about-logo" />
       </div>
     </section>
   );
@@ -162,21 +205,23 @@ export default function MinimalHomePage() {
           <div className="pars-hero-copy" data-reveal>
             <span className="pars-hero-kicker"><i aria-hidden="true" /> گروه سرمایه‌گذاری فناوری پارس</span>
             <h1 id="pars-hero-title">سرمایه برای<br /><em>ایده‌های موفق</em></h1>
+            <p className="pars-hero-subtitle">از ایده‌های جسورانه تا کسب‌وکارهای رو به رشد</p>
             <div className="pars-hero-actions">
-              <a className="pars-button pars-button--large" href="#apply">درخواست سرمایه <ArrowUpLeft size={18} /></a>
-              <a className="pars-text-link" href="#track">پیگیری درخواست</a>
+              <a className="pars-button pars-button--large" href="#apply">درخواست سرمایه <ArrowUpLeft size={19} /></a>
+              <a className="pars-text-link" href="#track">پیگیری درخواست <ArrowUpLeft size={15} /></a>
             </div>
+            <span className="pars-hero-footnote"><i aria-hidden="true" /> همراهِ مسیرِ رشد</span>
           </div>
-          <div className="pars-hero-visual" data-reveal>
-            <HeroLogoAnimation />
-          </div>
+          <HeroPhotoStage />
         </section>
 
         <PhotoGallery />
         <IndustryGrid />
+        <StrategySection />
         <AboutPars />
 
         <section className="pars-final pars-container" aria-labelledby="pars-final-title" data-reveal>
+          <div className="pars-final-mark"><ParsLogoMark decorative className="pars-final-logo" /></div>
           <div>
             <span className="pars-section-kicker">قدم بعدی</span>
             <h2 id="pars-final-title">آماده‌ی شروعید؟</h2>
@@ -192,7 +237,6 @@ export default function MinimalHomePage() {
             <a href="#privacy">حریم خصوصی</a>
             <a href="#terms">قوانین</a>
           </div>
-          <span className="pars-footer-mark">پارس</span>
         </div>
       </footer>
     </div>

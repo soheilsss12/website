@@ -281,16 +281,6 @@
   animation: pars-orbit-dot 4s ease-in-out infinite;
 }
 
-.pars-logo-card-caption {
-  position: absolute;
-  right: 16px;
-  bottom: 11px;
-  color: #857b8f;
-  font-size: 9px;
-  font-weight: 650;
-  letter-spacing: 0.04em;
-}
-
 .pars-hero-art-dot {
   position: absolute;
   z-index: 2;
@@ -969,7 +959,6 @@
   .pars-hero-photo figcaption small { padding: 4px 8px; font-size: 9px; }
   .pars-hero-logo-card { bottom: 1%; left: 0; width: 136px; height: 112px; border-radius: 16px 4px 16px 4px; }
   .pars-hero-logo { width: 88px; }
-  .pars-logo-card-caption { right: 12px; bottom: 7px; font-size: 8px; }
   .pars-hero-pixel-field { top: 0; left: 0; width: 104px; height: 90px; background-size: 13px 13px; }
   .pars-hero-copy { order: 1; padding: 4px 0 0; }
   .pars-hero-kicker { font-size: 12px; }

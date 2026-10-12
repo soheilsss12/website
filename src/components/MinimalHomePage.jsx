@@ -68,7 +68,6 @@ function HeroPhotoStage() {
       <div className="pars-hero-logo-card" role="img" aria-label="نشان پارس">
         <span className="pars-logo-card-orbit" aria-hidden="true" />
         <ParsLogoMark animated decorative className="pars-hero-logo" />
-        <span className="pars-logo-card-caption" aria-hidden="true">پارس</span>
       </div>
       <span className="pars-hero-art-dot pars-hero-art-dot--one" aria-hidden="true" />
       <span className="pars-hero-art-dot pars-hero-art-dot--two" aria-hidden="true" />

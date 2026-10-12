@@ -32,7 +32,7 @@ import {
   valuePillars,
 } from '../data/siteContent.js';
 import { iranCityMarkers, iranOutlinePath, iranOutlineViewBox } from '../data/iranMap.js';
-import ParsLogoMark from './ParsLogoMark.jsx';
+import ParsLogoSculpture from './ParsLogoSculpture.jsx';
 import CrystalMark from './CrystalMark.jsx';
 
 const faNumber = (value) => new Intl.NumberFormat('fa-IR').format(value);
@@ -112,8 +112,32 @@ function HeroParsVisual() {
     return () => observer.disconnect();
   }, []);
 
+  const handlePointerMove = (event) => {
+    if (!isStageActive || event.pointerType === 'touch') return;
+    if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const stage = stageRef.current;
+    if (!stage) return;
+    const bounds = stage.getBoundingClientRect();
+    const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 14;
+    const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * -10;
+    stage.style.setProperty('--logo-tilt-x', `${x.toFixed(2)}deg`);
+    stage.style.setProperty('--logo-tilt-y', `${y.toFixed(2)}deg`);
+  };
+
+  const resetPointerTilt = () => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    stage.style.setProperty('--logo-tilt-x', '0deg');
+    stage.style.setProperty('--logo-tilt-y', '0deg');
+  };
+
   return (
-    <div ref={stageRef} className={`hero-stage ${isStageActive ? 'is-active' : 'is-idle'}`}>
+    <div
+      ref={stageRef}
+      className={`hero-stage ${isStageActive ? 'is-active' : 'is-idle'}`}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetPointerTilt}
+    >
       <div className="hero-stage-aura" />
       <div className="hero-stage-grid" />
       <div className="hero-stage-instrument" aria-hidden="true" />
@@ -121,7 +145,7 @@ function HeroParsVisual() {
       <div className="hero-stage-orbit hero-stage-orbit-a"><i /></div>
       <div className="hero-stage-orbit hero-stage-orbit-b"><i /></div>
       <div className="hero-crystal-shell">
-        <ParsLogoMark animated decorative className="hero-brand-mark" />
+        <ParsLogoSculpture active={isStageActive} />
       </div>
       <span className="hero-stage-spark hero-stage-spark-one" />
       <span className="hero-stage-spark hero-stage-spark-two" />
@@ -589,13 +613,15 @@ export function MapSection() {
             <svg className="iran-map iran-map-accurate" viewBox={iranOutlineViewBox} role="img" aria-label="نقشه‌ی ایران با نام چند شهر و مسیرهای شماتیک؛ نه محدوده‌ی پوشش واقعی پارس">
               <defs>
                 <linearGradient id="iranSurface" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stopColor="#68A6D9" stopOpacity=".28" />
-                  <stop offset=".45" stopColor="#5CC6D9" stopOpacity=".2" />
-                  <stop offset="1" stopColor="#6166AA" stopOpacity=".12" />
+                  <stop offset="0" stopColor="#592C7A" stopOpacity=".09" />
+                  <stop offset=".32" stopColor="#6166AA" stopOpacity=".16" />
+                  <stop offset=".67" stopColor="#68A6D9" stopOpacity=".22" />
+                  <stop offset="1" stopColor="#5CC6D9" stopOpacity=".2" />
                 </linearGradient>
                 <linearGradient id="iranBorder" x1="0" y1="0" x2="1" y2="1">
                   <stop stopColor="#592C7A" />
-                  <stop offset=".5" stopColor="#6166AA" />
+                  <stop offset=".34" stopColor="#6166AA" />
+                  <stop offset=".68" stopColor="#68A6D9" />
                   <stop offset="1" stopColor="#5CC6D9" />
                 </linearGradient>
                 <clipPath id="iranClip"><path d={iranOutlinePath} /></clipPath>

@@ -56,30 +56,27 @@ function getHeroDialoguePrompt(step, answers) {
   return `سپاس ${answers.name}؛ حالا درباره‌ی ${answers.company} و مسیر پیش‌رو گفت‌وگو می‌کنیم`;
 }
 
-const trustVisuals = [
+const journeyChapters = [
   {
     number: '۰۱',
     stage: 'شناخت مسئله',
-    image: 'trust-dialogue.webp',
-    alt: 'تصویر مفهومی از فضای گفت‌وگوی روشن و خالی',
-    title: 'گفت‌وگوی شفاف',
-    description: 'انتظارهای روشن و گام بعدیِ مشخص برای هر دو طرف',
+    image: 'pars-hero-journey.jpg',
+    title: 'از مسئله‌ای واقعی آغاز کنیم',
+    description: 'گفت‌وگوی روشن کمک می‌کند نیاز واقعی را از فرضیه جدا کنیم و مسیر بررسی را بهتر بشناسیم.',
   },
   {
     number: '۰۲',
     stage: 'ساخت محصول',
-    image: 'trust-prototype.webp',
-    alt: 'تصویر مفهومی از محصولی الکترونیکی روی میز کار',
-    title: 'شناخت محصول',
-    description: 'وقتی محصول را از نزدیک می‌شناسیم، تصمیم‌ها دقیق‌تر می‌شوند',
+    image: 'pars-story-build.jpg',
+    title: 'راه‌حل را در عمل بسنجیم',
+    description: 'شناخت محصول و توان تیم، پایه‌ی تصمیم‌های دقیق‌تر و گام‌های بعدی است.',
   },
   {
     number: '۰۳',
     stage: 'آمادگی برای رشد',
-    image: 'trust-growth.webp',
-    alt: 'تصویر مفهومی از راهروی خالی مرکز داده با سرورهای منظم',
-    title: 'رشد پایدار',
-    description: 'زیرساخت درست، پایه‌ی رشدی مسئولانه و پایدار است',
+    image: 'pars-story-scale.jpg',
+    title: 'برای رشد، زیرساخت بسازیم',
+    description: 'سرمایه، تجربه و ارتباطات زمانی اثرگذارند که با نیاز کسب‌وکار هم‌راستا باشند.',
   },
 ];
 
@@ -321,7 +318,7 @@ export function HeroSection() {
     <section className="hero hero-pars" id="home" aria-labelledby="hero-title">
       <img
         className="hero-backdrop"
-        src={`${import.meta.env.BASE_URL}pars-hero-atmosphere.webp`}
+        src={`${import.meta.env.BASE_URL}pars-hero-journey.jpg`}
         alt=""
         aria-hidden="true"
         fetchPriority="high"
@@ -471,6 +468,25 @@ export function ManifestoSection() {
 }
 
 export function JourneySection() {
+  const chapterRefs = useRef([]);
+  const [activeChapter, setActiveChapter] = useState(0);
+  const activeStory = journeyChapters[activeChapter] ?? journeyChapters[0];
+
+  useEffect(() => {
+    const chapters = chapterRefs.current.filter(Boolean);
+    if (!chapters.length || !('IntersectionObserver' in window)) return undefined;
+
+    const observer = new IntersectionObserver((entries) => {
+      const mostVisible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
+      if (mostVisible) setActiveChapter(Number(mostVisible.target.dataset.storyIndex));
+    }, { threshold: [0.2, 0.45, 0.7], rootMargin: '-18% 0px -24% 0px' });
+
+    chapters.forEach((chapter) => observer.observe(chapter));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="journey-section" id="journey" aria-labelledby="journey-title">
       <div className="site-container">
@@ -479,35 +495,66 @@ export function JourneySection() {
             <span className="journey-eyebrow"><i aria-hidden="true" /> مسیر همراهی پارس</span>
             <h2 id="journey-title">از شناخت مسئله<br /><em>تا آمادگی برای رشد</em></h2>
           </div>
-          <p>همکاری خوب با گفت‌وگوی روشن آغاز می‌شود، به شناخت دقیق محصول می‌رسد و رشد پایدار را در نظر می‌گیرد.</p>
+          <p>روایتی سه‌مرحله‌ای از فهم مسئله تا ساختن راهی برای رشد.</p>
         </div>
-        <div className="journey-track" data-reveal>
-          {trustVisuals.map((item) => (
-            <article className="journey-card" key={item.image} data-reveal>
-              <span className="journey-card-node" aria-hidden="true" />
-              <figure className="journey-card-media">
+        <div className="journey-layout" style={{ '--journey-progress': `${((activeChapter + 1) / journeyChapters.length) * 100}%` }}>
+          <div className="journey-chapters">
+            {journeyChapters.map((item, index) => {
+              const isActive = index === activeChapter;
+              return (
+                <article
+                  className={`journey-chapter ${isActive ? 'is-active' : ''}`}
+                  key={item.image}
+                  ref={(node) => { chapterRefs.current[index] = node; }}
+                  data-story-index={index}
+                  aria-current={isActive ? 'step' : undefined}
+                >
+                  <figure className="journey-chapter-media">
+                    <img
+                      src={`${import.meta.env.BASE_URL}${item.image}`}
+                      alt=""
+                      width="1536"
+                      height="1024"
+                      loading={index === 0 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                    <figcaption><span>{item.stage}</span><small>تصویر مفهومی</small></figcaption>
+                  </figure>
+                  <div className="journey-chapter-copy">
+                    <span className="journey-chapter-index">{item.number}<i aria-hidden="true" /></span>
+                    <div>
+                      <span className="journey-chapter-stage">{item.stage}</span>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+          <figure className="journey-art" aria-hidden="true">
+            <div className="journey-art-images">
+              {journeyChapters.map((item, index) => (
                 <img
+                  className={`journey-art-image ${index === activeChapter ? 'is-active' : ''}`}
+                  key={item.image}
                   src={`${import.meta.env.BASE_URL}${item.image}`}
-                  alt={item.alt}
-                  width="960"
-                  height="640"
-                  loading="lazy"
+                  alt=""
+                  width="1536"
+                  height="1024"
+                  loading={index === 0 ? 'eager' : 'lazy'}
                   decoding="async"
                 />
-                <figcaption>
-                  <span>{item.stage}</span>
-                  <small>تصویر مفهومی</small>
-                </figcaption>
-              </figure>
-              <div className="journey-card-copy">
-                <span className="journey-card-index">{item.number} / ۰۳</span>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-              </div>
-            </article>
-          ))}
+              ))}
+            </div>
+            <figcaption className="journey-art-caption">
+              <span><i aria-hidden="true" />{activeStory.stage}</span>
+              <small>{activeStory.number} <b>/ ۰۳</b></small>
+            </figcaption>
+            <span className="journey-art-progress"><i /></span>
+          </figure>
         </div>
-        <p className="journey-disclosure"><ShieldCheck size={15} /><span>این تصاویر مفهومی‌اند و به دفتر، تیم، شریک یا شرکت مشخصی اشاره ندارند</span></p>
+        <p className="journey-disclosure"><ShieldCheck size={15} /><span>تصاویر این روایت مفهومی‌اند و به دفتر، تیم، شریک یا شرکت مشخصی اشاره ندارند</span></p>
       </div>
     </section>
   );
@@ -517,10 +564,15 @@ export function IndustriesSection() {
   return (
     <section className="industries-section section-space" id="industries">
       <div className="site-container">
-        <div className="section-heading-row">
-          <SectionHeading index="۰۲" eyebrow="حوزه‌های منتخب" title="سرمایه برای" emphasis="حل مسئله‌های واقعی" copy="پارس در حوزه‌هایی سرمایه‌گذاری می‌کند که فناوری بتواند راه‌حل‌های تازه بسازد" />
-          <span className="heading-side-note">اولویت و شرایط پذیرش هر حوزه در اطلاعیه‌ی هر دوره مشخص می‌شود</span>
+        <div className="industries-showcase" data-reveal>
+          <img src={`${import.meta.env.BASE_URL}pars-story-scale.jpg`} alt="" width="1536" height="1024" loading="lazy" decoding="async" />
+          <div className="industries-showcase-content">
+            <SectionHeading index="۰۲" eyebrow="حوزه‌های منتخب" title="سرمایه برای" emphasis="حل مسئله‌های واقعی" copy="پارس در حوزه‌هایی سرمایه‌گذاری می‌کند که فناوری بتواند راه‌حل‌های تازه بسازد" light className="industries-showcase-heading" />
+            <div className="industries-showcase-count"><strong>۱۱</strong><span>حوزه‌ی سرمایه‌گذاری<br />با یک نگاه مسئله‌محور</span></div>
+          </div>
+          <small className="industries-showcase-caption">تصویر مفهومی؛ نه نماینده‌ی یک حوزه یا شرکت مشخص</small>
         </div>
+        <p className="heading-side-note industries-side-note">اولویت و شرایط پذیرش هر حوزه در اطلاعیه‌ی هر دوره مشخص می‌شود</p>
         <div className="industry-grid">
           {industries.map((item) => {
             const Icon = item.icon;

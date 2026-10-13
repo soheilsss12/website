@@ -16,7 +16,8 @@
   object-fit: cover;
   object-position: center;
   opacity: 0.86;
-  transform: scaleX(-1);
+  transform-origin: 45% center;
+  animation: hero-backdrop-drift 26s ease-in-out infinite alternate;
   pointer-events: none;
 }
 
@@ -198,15 +199,25 @@
   color: var(--pars-indigo);
 }
 
-/* Three photographic chapters form a single, responsive journey. */
+/* A scroll-led photo essay turns the investment journey into three clear chapters. */
 .journey-section {
   position: relative;
-  overflow: hidden;
-  padding-block: clamp(76px, 9vw, 126px);
+  overflow: clip;
+  padding-block: clamp(78px, 9vw, 132px);
   color: #f8f4fc;
+  background: #181420;
+  isolation: isolate;
+}
+
+.journey-section::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
   background:
-    radial-gradient(ellipse at 8% 5%, rgba(92, 198, 217, 0.1), transparent 34%),
-    linear-gradient(128deg, #19131f 0%, #24182f 52%, #1d1a2b 100%);
+    radial-gradient(ellipse at 83% 8%, rgba(89, 44, 122, 0.22), transparent 34%),
+    radial-gradient(ellipse at 7% 72%, rgba(92, 198, 217, 0.1), transparent 32%);
+  content: '';
+  pointer-events: none;
 }
 
 .journey-section .site-container {
@@ -216,10 +227,10 @@
 
 .journey-heading {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.58fr);
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 0.52fr);
   align-items: end;
-  gap: clamp(30px, 7vw, 100px);
-  margin-bottom: 54px;
+  gap: clamp(28px, 7vw, 96px);
+  margin-bottom: clamp(38px, 6vw, 78px);
 }
 
 .journey-eyebrow {
@@ -257,155 +268,216 @@
 }
 
 .journey-heading > p {
-  max-width: 410px;
+  max-width: 390px;
   margin: 0 0 7px;
   color: rgba(248, 244, 252, 0.68);
   font-size: 14px;
   line-height: 2.1;
 }
 
-.journey-track {
-  position: relative;
+.journey-layout {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 2vw, 24px);
-  padding-top: 31px;
+  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+  align-items: start;
+  gap: clamp(34px, 7vw, 100px);
+  direction: rtl;
+}
+
+.journey-chapters {
+  min-width: 0;
+  grid-column: 1;
+}
+
+.journey-chapter {
+  display: grid;
+  min-height: clamp(280px, 42vh, 410px);
+  align-content: center;
+  padding-block: clamp(26px, 4.4vh, 48px);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  opacity: 0.55;
+  transform: translateX(0);
+  transition: opacity 420ms ease, transform 520ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.journey-chapter:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.journey-chapter.is-active {
+  opacity: 1;
+  transform: translateX(-5px);
+}
+
+.journey-chapter-copy {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+}
+
+.journey-chapter-index {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding-top: 3px;
+  color: var(--pars-cyan);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.journey-chapter-index i {
+  display: block;
+  width: 26px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.74;
+}
+
+.journey-chapter-stage {
+  display: block;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.journey-chapter-copy h3 {
+  max-width: 430px;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(21px, 2.25vw, 30px);
+  font-weight: 520;
+  letter-spacing: -0.025em;
+  line-height: 1.65;
+}
+
+.journey-chapter-copy p {
+  max-width: 440px;
+  margin: 12px 0 0;
+  color: rgba(248, 244, 252, 0.68);
+  font-size: 13px;
+  line-height: 2.05;
+}
+
+.journey-chapter-media {
+  display: none;
+}
+
+.journey-art {
+  position: sticky;
+  top: clamp(92px, 13vh, 142px);
+  grid-column: 2;
+  align-self: start;
+  aspect-ratio: 1.08;
+  margin: 0;
+  overflow: hidden;
+  background: #100e16;
   isolation: isolate;
 }
 
-.journey-track::before {
+.journey-art-images,
+.journey-art-image {
   position: absolute;
-  z-index: -1;
-  top: 6px;
-  right: 8%;
-  left: 8%;
-  height: 1px;
-  background: linear-gradient(270deg, rgba(92, 198, 217, 0.75), rgba(97, 102, 170, 0.5) 52%, rgba(89, 44, 122, 0.8));
-  content: '';
-  transform: scaleX(0);
-  transform-origin: right center;
-  transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.journey-track.is-visible::before {
-  transform: scaleX(1);
-}
-
-.journey-card {
-  position: relative;
-  min-width: 0;
-  overflow: visible;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  background:
-    linear-gradient(#211a2a, #211a2a) padding-box,
-    linear-gradient(132deg, rgba(92, 198, 217, 0.42), rgba(97, 102, 170, 0.12) 55%, rgba(89, 44, 122, 0.48)) border-box;
-  box-shadow: 0 18px 44px rgba(7, 5, 12, 0.2);
-  transition: transform 360ms ease, box-shadow 360ms ease;
-}
-
-.journey-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 25px 54px rgba(7, 5, 12, 0.32);
-}
-
-.journey-card-node {
-  position: absolute;
-  z-index: 2;
-  top: -31px;
-  right: 22px;
-  width: 13px;
-  height: 13px;
-  border: 2px solid #211a2a;
-  border-radius: 50%;
-  background: var(--pars-cyan);
-  box-shadow: 0 0 0 1px rgba(92, 198, 217, 0.7), 0 0 18px rgba(92, 198, 217, 0.38);
-}
-
-.journey-card-media {
-  position: relative;
-  aspect-ratio: 1.48;
-  margin: 0;
+.journey-art-images {
   overflow: hidden;
-  border-radius: 11px 11px 0 0;
-  background: #17131d;
 }
 
-.journey-card-media::after {
+.journey-art-image {
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: scale(1.07);
+  transition: opacity 700ms ease, transform 1400ms cubic-bezier(0.2, 0.65, 0.25, 1);
+}
+
+.journey-art-image:first-child {
+  object-position: 34% center;
+}
+
+.journey-art-image.is-active {
+  opacity: 1;
+  transform: scale(1.015);
+}
+
+.journey-art::after {
   position: absolute;
-  inset: 36% 0 0;
-  background: linear-gradient(180deg, transparent, rgba(15, 11, 20, 0.72));
+  z-index: 1;
+  inset: 42% 0 0;
+  background: linear-gradient(180deg, transparent 2%, rgba(13, 10, 18, 0.72) 100%);
   content: '';
   pointer-events: none;
 }
 
-.journey-card-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.78) contrast(1.04);
-  transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1), filter 700ms ease;
-}
-
-.journey-card:hover .journey-card-media img {
-  filter: saturate(1) contrast(1.03);
-  transform: scale(1.055);
-}
-
-.journey-card-media figcaption {
+.journey-art-caption {
   position: absolute;
-  z-index: 1;
-  right: 18px;
-  bottom: 16px;
-  left: 18px;
+  z-index: 2;
+  right: clamp(18px, 3vw, 30px);
+  bottom: 24px;
+  left: clamp(18px, 3vw, 30px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
   color: #fff;
 }
 
-.journey-card-media figcaption > span {
+.journey-art-caption > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: 14px;
-  font-weight: 620;
+  font-weight: 580;
 }
 
-.journey-card-media figcaption > small {
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 10px;
+.journey-art-caption > span i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pars-cyan);
+  box-shadow: 0 0 14px rgba(92, 198, 217, 0.7);
 }
 
-.journey-card-copy {
-  min-height: 143px;
-  padding: 17px 20px 20px;
-}
-
-.journey-card-index {
-  color: var(--pars-cyan);
+.journey-art-caption > small {
+  color: rgba(255, 255, 255, 0.83);
   font-size: 11px;
-  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
 }
 
-.journey-card-copy h3 {
-  margin: 8px 0 6px;
-  color: #fff;
-  font-size: 18px;
-  font-weight: 560;
+.journey-art-caption > small b {
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 400;
 }
 
-.journey-card-copy p {
-  margin: 0;
-  color: rgba(248, 244, 252, 0.66);
-  font-size: 12px;
-  line-height: 1.9;
+.journey-art-progress {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.journey-art-progress > i {
+  display: block;
+  width: var(--journey-progress, 33.333%);
+  height: 100%;
+  background: var(--pars-spectrum);
+  transition: width 560ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .journey-disclosure {
   display: flex;
   align-items: center;
   gap: 9px;
-  margin: 19px 0 0;
+  margin: 21px 0 0;
   color: rgba(248, 244, 252, 0.54);
   font-size: 11px;
   line-height: 1.9;
@@ -414,6 +486,146 @@
 .journey-disclosure svg {
   flex: 0 0 auto;
   color: var(--pars-cyan);
+}
+
+@keyframes hero-backdrop-drift {
+  from { transform: scale(1.025) translateX(0); }
+  to { transform: scale(1.075) translateX(-0.7%); }
+}
+
+/* The sector index opens on a real visual anchor rather than another empty white panel. */
+.industries-section {
+  color: #292532;
+  background: linear-gradient(138deg, #f0edf5 0%, #eaf0f5 49%, #f3f0ed 100%);
+}
+
+.industries-showcase {
+  position: relative;
+  min-height: clamp(300px, 38vw, 430px);
+  margin-bottom: 24px;
+  overflow: hidden;
+  color: #fff;
+  background: #15121c;
+  isolation: isolate;
+}
+
+.industries-showcase > img {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 56%;
+  filter: saturate(0.82);
+  transition: transform 1200ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.industries-showcase::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(17, 14, 23, 0.12) 0%, rgba(17, 14, 23, 0.43) 43%, rgba(17, 14, 23, 0.88) 100%),
+    linear-gradient(0deg, rgba(17, 14, 23, 0.58), transparent 58%);
+  content: '';
+}
+
+.industries-showcase:hover > img {
+  transform: scale(1.025);
+}
+
+.industries-showcase-content {
+  display: flex;
+  min-height: inherit;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(24px, 6vw, 86px);
+  padding: clamp(25px, 5vw, 58px);
+}
+
+.industries-showcase-heading {
+  max-width: 660px;
+  color: #fff;
+}
+
+.industries-showcase-heading .section-eyebrow,
+.industries-showcase-heading .section-eyebrow > span,
+.industries-showcase-heading h2,
+.industries-showcase-heading > p {
+  color: #fff;
+}
+
+.industries-showcase-heading .section-eyebrow > i {
+  background: var(--pars-spectrum);
+}
+
+.industries-showcase-heading h2 em {
+  color: #9fe7f0;
+  -webkit-text-fill-color: #9fe7f0;
+}
+
+.industries-showcase-heading > p {
+  max-width: 500px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.industries-showcase-count {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 16px;
+  padding-inline-start: 22px;
+  border-inline-start: 1px solid rgba(255, 255, 255, 0.34);
+  color: #fff;
+}
+
+.industries-showcase-count strong {
+  color: transparent;
+  background: linear-gradient(145deg, #5CC6D9, #68A6D9 55%, #b7a0d0);
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-size: clamp(68px, 8vw, 104px);
+  font-weight: 380;
+  letter-spacing: -0.09em;
+  line-height: 0.9;
+  -webkit-text-fill-color: transparent;
+}
+
+.industries-showcase-count > span {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 12px;
+  line-height: 1.9;
+  white-space: nowrap;
+}
+
+.industries-showcase-caption {
+  position: absolute;
+  bottom: 12px;
+  left: 18px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 10px;
+}
+
+.industries-side-note {
+  max-width: 560px;
+  margin: 0 0 22px auto;
+  color: #655F6E;
+}
+
+.industries-section .industry-card {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)) padding-box,
+    linear-gradient(138deg, rgba(92, 198, 217, 0.54), rgba(97, 102, 170, 0.16) 48%, rgba(89, 44, 122, 0.36)) border-box;
+  backdrop-filter: blur(8px);
+}
+
+.industries-section .industry-card:hover {
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(138deg, rgba(92, 198, 217, 0.8), rgba(97, 102, 170, 0.48) 48%, rgba(89, 44, 122, 0.68)) border-box;
 }
 
 /* A deliberate dark interlude makes the rest of the page feel less paper-flat. */
@@ -509,7 +721,7 @@
   .hero-backdrop {
     bottom: auto;
     height: clamp(420px, 66vw, 570px);
-    object-position: center 45%;
+    object-position: 16% 48%;
   }
 
   .hero.hero-pars::before {
@@ -539,38 +751,143 @@
 }
 
 @media (max-width: 760px) {
-  .journey-track {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    padding: 0 28px 0 0;
+  .industries-showcase {
+    min-height: 430px;
   }
 
-  .journey-track::before {
-    top: 15px;
-    right: 5px;
-    bottom: 15px;
-    left: auto;
-    width: 1px;
-    height: auto;
-    background: linear-gradient(180deg, rgba(92, 198, 217, 0.75), rgba(97, 102, 170, 0.5) 52%, rgba(89, 44, 122, 0.8));
-    transform: scaleY(0);
-    transform-origin: top center;
+  .industries-showcase-content {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 20px;
+    padding: 25px;
   }
 
-  .journey-track.is-visible::before {
-    transform: scaleY(1);
+  .industries-showcase-heading {
+    width: 100%;
   }
 
-  .journey-card-node {
-    top: 22px;
-    right: -23px;
+  .industries-showcase-count {
+    gap: 11px;
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+
+  .industries-showcase-count strong {
+    font-size: 58px;
+  }
+
+  .industries-showcase-caption {
+    bottom: 8px;
+    left: 12px;
+    font-size: 9px;
+  }
+
+  .journey-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .journey-chapters {
+    grid-column: 1;
+  }
+
+  .journey-art {
+    display: none;
+  }
+
+  .journey-chapter {
+    min-height: 0;
+    padding-block: 24px 28px;
+    opacity: 1;
+    transform: none;
+  }
+
+  .journey-chapter.is-active {
+    transform: none;
+  }
+
+  .journey-chapter-media {
+    position: relative;
+    display: block;
+    aspect-ratio: 1.38;
+    margin: 0 0 21px;
+    overflow: hidden;
+    background: #100e16;
+  }
+
+  .journey-chapter-media::after {
+    position: absolute;
+    inset: 45% 0 0;
+    background: linear-gradient(180deg, transparent, rgba(13, 10, 18, 0.72));
+    content: '';
+    pointer-events: none;
+  }
+
+  .journey-chapter-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .journey-chapter:first-child .journey-chapter-media img {
+    object-position: 34% center;
+  }
+
+  .journey-chapter-media figcaption {
+    position: absolute;
+    z-index: 1;
+    right: 16px;
+    bottom: 14px;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: #fff;
+  }
+
+  .journey-chapter-media figcaption > span {
+    font-size: 13px;
+    font-weight: 580;
+  }
+
+  .journey-chapter-media figcaption > small {
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 10px;
+  }
+
+  .journey-chapter-copy {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 13px;
   }
 }
 
 @media (max-width: 560px) {
+  .industries-showcase {
+    min-height: 410px;
+  }
+
+  .industries-showcase-content {
+    padding: 20px 18px 25px;
+  }
+
+  .industries-showcase-heading h2 {
+    font-size: clamp(34px, 9vw, 45px);
+  }
+
+  .industries-showcase-heading > p {
+    font-size: 12px;
+  }
+
+  .industries-showcase > img {
+    object-position: 39% center;
+  }
+
   .hero-backdrop {
     height: 470px;
-    object-position: center 43%;
+    object-position: 18% 45%;
   }
 
   .hero-pars-copy {
@@ -593,31 +910,43 @@
     font-size: clamp(34px, 9vw, 46px);
   }
 
-  .journey-card-media {
-    aspect-ratio: 1.4;
+  .journey-chapter-media {
+    aspect-ratio: 1.2;
   }
 
-  .journey-card-copy {
-    min-height: 0;
-    padding: 15px 16px 18px;
+  .journey-chapter-copy h3 {
+    font-size: 21px;
+  }
+
+  .journey-chapter-copy p {
+    font-size: 12px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-backdrop,
-  .journey-card,
-  .journey-card-media img,
-  .journey-track::before {
+  .industries-showcase > img,
+  .industries-section .industry-card,
+  .journey-chapter,
+  .journey-art-image,
+  .journey-art-progress > i {
     animation: none !important;
     transition: none !important;
   }
 
-  .journey-card:hover,
-  .journey-card:hover .journey-card-media img {
+  .hero-backdrop,
+  .industries-showcase > img,
+  .industries-showcase:hover > img,
+  .industries-section .industry-card,
+  .industries-section .industry-card:hover,
+  .journey-chapter,
+  .journey-chapter.is-active,
+  .journey-art-image,
+  .journey-art-image.is-active {
     transform: none;
   }
 
-  .journey-track::before {
-    transform: none;
+  .journey-chapter {
+    opacity: 1;
   }
 }

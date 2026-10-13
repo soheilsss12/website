@@ -19,7 +19,6 @@ import {
   AboutSection,
   BenefitsSection,
   BrandClosingSection,
-  BrandHomeHeroSection,
   ContactSection,
   CookieNotice,
   FinalCallout,
@@ -71,9 +70,11 @@ function BrandLockup({ descriptor = '' }) {
 
 function SiteHeader({ activeRoute, menuOpen, setMenuOpen }) {
   const isInvestmentPage = isInvestmentRoute(activeRoute);
+  const isHomePage = activeRoute === 'home';
+  const showApplyCallToAction = isInvestmentPage || isHomePage;
   const links = isInvestmentPage ? investmentNavItems : navItems;
   return (
-    <header className={`site-header ${isInvestmentPage ? 'site-header--investment' : ''}`}>
+    <header className={`site-header ${isInvestmentPage ? 'site-header--investment' : ''} ${isHomePage ? 'site-header--home' : ''}`}>
       <div className="site-header-inner site-container">
         <BrandLockup />
         {isInvestmentPage && <span className="site-section-badge"><i aria-hidden="true" /> بخش سرمایه‌گذاری</span>}
@@ -91,10 +92,10 @@ function SiteHeader({ activeRoute, menuOpen, setMenuOpen }) {
         <div className="header-actions">
           {isInvestmentPage && <a className="header-track-link" href={pageHref('track')}>پیگیری درخواست</a>}
           <a
-            className={`button ${isInvestmentPage ? 'button-lime header-apply' : 'button-outline header-investment-link'}`}
-            href={pageHref(isInvestmentPage ? 'apply' : 'investment')}
+            className={`button ${showApplyCallToAction ? 'button-lime header-apply' : 'button-outline header-investment-link'}`}
+            href={pageHref(showApplyCallToAction ? 'apply' : 'investment')}
           >
-            {isInvestmentPage ? 'درخواست سرمایه' : 'بخش سرمایه‌گذاری'} <ArrowUpLeft size={15} />
+            {showApplyCallToAction ? 'درخواست سرمایه' : 'بخش سرمایه‌گذاری'} <ArrowUpLeft size={15} />
           </a>
           <button
             className="menu-trigger"
@@ -259,7 +260,7 @@ function SiteShell({ children, activeRoute, menuOpen, setMenuOpen, cookieChoice,
 function HomePage({ menuOpen, setMenuOpen, cookieChoice, onSaveCookie }) {
   return (
     <SiteShell activeRoute="home" menuOpen={menuOpen} setMenuOpen={setMenuOpen} cookieChoice={cookieChoice} onSaveCookie={onSaveCookie}>
-      <BrandHomeHeroSection />
+      <HeroSection />
       <HomeHighlightsSection />
       <BrandClosingSection />
     </SiteShell>

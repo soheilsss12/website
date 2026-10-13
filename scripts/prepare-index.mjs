@@ -43,7 +43,7 @@ function imagePreload([stem, sizes, fullWidth = 1536]) {
 function renderPage({ title, description, folder }) {
   const preloads = [
     ...(folder === '' ? [
-      '    <link rel="preload" href="%BASE_URL%pars-brand-home-hero-1024.webp" imagesrcset="%BASE_URL%pars-brand-home-hero-640.webp 640w, %BASE_URL%pars-brand-home-hero-1024.webp 1024w, %BASE_URL%pars-brand-home-hero.webp 1672w" imagesizes="100vw" as="image" type="image/webp" fetchpriority="high" />',
+      '    <link rel="preload" href="%BASE_URL%pars-home-hero-1024.webp" imagesrcset="%BASE_URL%pars-home-hero-640.webp 640w, %BASE_URL%pars-home-hero-1024.webp 1024w, %BASE_URL%pars-home-hero.webp 1672w" imagesizes="100vw" as="image" type="image/webp" fetchpriority="high" />',
     ] : []),
     ...(pageImagePreloads[folder] ? [imagePreload(pageImagePreloads[folder])] : []),
     ...(folder === 'investment' ? ['    <link rel="preload" href="%BASE_URL%pars-mark.svg" as="image" type="image/svg+xml" />'] : []),

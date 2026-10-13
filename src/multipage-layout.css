@@ -2361,3 +2361,45 @@
     grid-column: span 2;
   }
 }
+
+/* Keep the request-investment action visible beside the hero on every viewport. */
+@media (max-width: 900px) {
+  .site-header--home .header-apply {
+    display: inline-flex;
+    min-height: 36px;
+    gap: 5px;
+    padding-inline: 9px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 400px) {
+  .site-header--home .site-header-inner {
+    gap: 5px;
+  }
+
+  .site-header--home .header-actions {
+    gap: 5px;
+  }
+
+  .site-header--home .header-apply {
+    padding-inline: 6px;
+    font-size: 10px;
+  }
+
+  .site-header--home .brand-lockup {
+    gap: 6px;
+  }
+
+  .site-header--home .brand-symbol {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+
+  .site-header--home .menu-trigger {
+    gap: 4px;
+    padding-inline: 7px;
+  }
+}

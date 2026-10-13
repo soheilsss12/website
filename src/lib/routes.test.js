@@ -6,6 +6,8 @@ test('page paths resolve to independent routes, including directory index reload
   const cases = [
     ['/', 'home'],
     ['index.html', 'home'],
+    ['/investment/', 'investment'],
+    ['/investment/index.html', 'investment'],
     ['/approach/', 'approach'],
     ['/sectors/', 'industries'],
     ['/sectors/index.html', 'industries'],

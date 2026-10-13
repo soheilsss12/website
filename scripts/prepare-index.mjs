@@ -5,26 +5,28 @@ import path from 'node:path';
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const templatePath = path.join(projectRoot, 'src', 'index.template.html');
 const template = await readFile(templatePath, 'utf8');
-const defaultDescription = 'پارس؛ سرمایه‌گذاری خطرپذیر در کنار تیم‌های نوآور، از ایده تا رشد کسب‌وکار.';
+const defaultDescription = 'پارس؛ نگاهی تازه به افق‌های پیش‌رو.';
 
 const pages = [
-  { folder: '', title: 'پارس | سرمایه‌گذاری خطرپذیر', description: defaultDescription },
-  { folder: 'approach', title: 'رویکرد سرمایه‌گذاری | پارس', description: 'نگاه پارس به همراهی با تیم‌ها، از شناخت مسئله تا آمادگی برای رشد.' },
-  { folder: 'sectors', title: 'حوزه‌های سرمایه‌گذاری | پارس', description: 'مرور ۱۱ حوزه‌ی تأییدشده‌ی سرمایه‌گذاری پارس.' },
-  { folder: 'portfolio', title: 'پرتفوی | پارس', description: 'اطلاعات پرتفوی پارس پس از تأیید و اعلام رسمی منتشر می‌شود.' },
-  { folder: 'stories', title: 'خبرها و دیدگاه‌ها | پارس', description: 'خبرها و دیدگاه‌های پارس؛ محتوا پس از تأیید رسمی منتشر می‌شود.' },
-  { folder: 'about', title: 'درباره‌ی پارس', description: 'آشنایی با پارس، ارزش‌ها و اطلاعات رسمی تیم.' },
-  { folder: 'contact', title: 'تماس با پارس', description: 'راه‌های ارتباط و فرم تماس پارس.' },
-  { folder: 'tools', title: 'ابزارهای استارتاپی | پارس', description: 'ابزارهای مالی و مدیریتی برای تصمیم‌های استارتاپی.' },
-  { folder: 'apply', title: 'درخواست سرمایه | پارس', description: 'فرم مرحله‌ای درخواست سرمایه پارس.' },
-  { folder: 'track', title: 'پیگیری درخواست | پارس', description: 'پیگیری درخواست سرمایه در سامانه‌ی پارس.' },
-  { folder: 'terms', title: 'قوانین و مقررات | پارس', description: 'قوانین و مقررات رسمی پارس.' },
-  { folder: 'privacy', title: 'حریم خصوصی | پارس', description: 'حریم خصوصی و محرمانگی اطلاعات در پارس.' },
-  { folder: 'sitemap', title: 'نقشه‌ی سایت | پارس', description: 'فهرست صفحه‌های مستقل سایت پارس.' },
-  { folder: 'admin', title: 'پنل مدیریت | پارس', description: 'پنل خصوصی مدیریت درخواست‌های پارس.' },
+  { folder: '', title: 'پارس', description: defaultDescription },
+  { folder: 'investment', title: 'بخش سرمایه‌گذاری | پارس', description: 'صفحه‌ی مستقل رویکرد، حوزه‌ها و مسیرهای سرمایه‌گذاری.' },
+  { folder: 'approach', title: 'رویکرد | بخش سرمایه‌گذاری پارس', description: 'نگاه بخش سرمایه‌گذاری به همراهی با تیم‌ها، از شناخت مسئله تا رشد.' },
+  { folder: 'sectors', title: 'حوزه‌ها | بخش سرمایه‌گذاری پارس', description: 'مرور ۱۱ حوزه‌ی سرمایه‌گذاری.' },
+  { folder: 'portfolio', title: 'پرتفوی | بخش سرمایه‌گذاری پارس', description: 'پرتفوی بخش سرمایه‌گذاری پارس.' },
+  { folder: 'stories', title: 'روایت‌ها | پارس', description: 'روایت‌ها و دیدگاه‌های پارس.' },
+  { folder: 'about', title: 'درباره‌ی پارس', description: 'آشنایی با نگاه و ارزش‌های پارس.' },
+  { folder: 'contact', title: 'تماس با پارس', description: 'راه ارتباط با پارس.' },
+  { folder: 'tools', title: 'ابزارها | بخش سرمایه‌گذاری پارس', description: 'محاسبه‌گرهای مالی و ابزارهای استارتاپی.' },
+  { folder: 'apply', title: 'درخواست سرمایه | بخش سرمایه‌گذاری پارس', description: 'فرم مرحله‌ای درخواست سرمایه.' },
+  { folder: 'track', title: 'پیگیری درخواست | بخش سرمایه‌گذاری پارس', description: 'پیگیری درخواست سرمایه.' },
+  { folder: 'terms', title: 'قوانین و مقررات | پارس', description: 'قوانین و مقررات پارس.' },
+  { folder: 'privacy', title: 'حریم خصوصی | پارس', description: 'حریم خصوصی و محرمانگی اطلاعات.' },
+  { folder: 'sitemap', title: 'نقشه‌ی سایت | پارس', description: 'فهرست صفحه‌های سایت پارس.' },
+  { folder: 'admin', title: 'پنل مدیریت | بخش سرمایه‌گذاری پارس', description: 'پنل مدیریت درخواست‌ها.' },
 ];
 
 const pageImagePreloads = {
+  investment: ['pars-home-hero', '100vw', 1672],
   approach: ['pars-journey-discovery', '(max-width: 760px) 92vw, 48vw'],
   sectors: ['pars-industries-showcase', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
   portfolio: ['pars-portfolio-editorial', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
@@ -34,17 +36,17 @@ const pageImagePreloads = {
   tools: ['pars-tools-analysis', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
 };
 
-function imagePreload([stem, sizes]) {
-  return `    <link rel="preload" href="%BASE_URL%${stem}-1024.webp" imagesrcset="%BASE_URL%${stem}-640.webp 640w, %BASE_URL%${stem}-1024.webp 1024w, %BASE_URL%${stem}.webp 1536w" imagesizes="${sizes}" as="image" type="image/webp" fetchpriority="high" />`;
+function imagePreload([stem, sizes, fullWidth = 1536]) {
+  return `    <link rel="preload" href="%BASE_URL%${stem}-1024.webp" imagesrcset="%BASE_URL%${stem}-640.webp 640w, %BASE_URL%${stem}-1024.webp 1024w, %BASE_URL%${stem}.webp ${fullWidth}w" imagesizes="${sizes}" as="image" type="image/webp" fetchpriority="high" />`;
 }
 
 function renderPage({ title, description, folder }) {
   const preloads = [
     ...(folder === '' ? [
-      '    <link rel="preload" href="%BASE_URL%pars-home-hero-1024.webp" imagesrcset="%BASE_URL%pars-home-hero-640.webp 640w, %BASE_URL%pars-home-hero-1024.webp 1024w, %BASE_URL%pars-home-hero.webp 1672w" imagesizes="100vw" as="image" type="image/webp" fetchpriority="high" />',
-      '    <link rel="preload" href="%BASE_URL%pars-mark.svg" as="image" type="image/svg+xml" />',
+      '    <link rel="preload" href="%BASE_URL%pars-brand-home-hero-1024.webp" imagesrcset="%BASE_URL%pars-brand-home-hero-640.webp 640w, %BASE_URL%pars-brand-home-hero-1024.webp 1024w, %BASE_URL%pars-brand-home-hero.webp 1672w" imagesizes="100vw" as="image" type="image/webp" fetchpriority="high" />',
     ] : []),
     ...(pageImagePreloads[folder] ? [imagePreload(pageImagePreloads[folder])] : []),
+    ...(folder === 'investment' ? ['    <link rel="preload" href="%BASE_URL%pars-mark.svg" as="image" type="image/svg+xml" />'] : []),
   ].join('\n');
 
   return template

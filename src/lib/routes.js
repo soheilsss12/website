@@ -1,5 +1,6 @@
 const routeSlugs = {
   home: '',
+  investment: 'investment',
   approach: 'approach',
   industries: 'sectors',
   portfolio: 'portfolio',
@@ -59,7 +60,6 @@ export function routeFromLegacyHash(hash) {
     privacy: 'privacy',
     sitemap: 'sitemap',
     admin: 'admin',
-    'logo-options': 'logo-options',
     'campaign-criteria': 'apply',
     'application-form': 'apply',
     'applicant-access': 'apply',

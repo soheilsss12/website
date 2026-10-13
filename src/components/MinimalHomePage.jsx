@@ -64,7 +64,7 @@ function HeroPhotoStage() {
       <span className="pars-hero-pixel-field" aria-hidden="true" />
       <figure className="pars-hero-photo">
         <img src={asset('trust-prototype.webp')} alt="" fetchPriority="high" />
-        <figcaption><span>فناوری</span><small>تصویر مفهومی</small></figcaption>
+        <figcaption><span>فناوری</span></figcaption>
       </figure>
       <div className="pars-hero-logo-card" role="img" aria-label="نشان پارس">
         <span className="pars-logo-card-orbit" aria-hidden="true" />
@@ -87,16 +87,15 @@ function PhotoGallery() {
     <section className="pars-section pars-gallery" id="gallery" aria-labelledby="pars-gallery-title">
       <div className="pars-gallery-heading" data-reveal>
         <div>
-          <span className="pars-section-kicker">تصاویر مفهومی</span>
+          <span className="pars-section-kicker">روایت تصویری</span>
           <h2 id="pars-gallery-title">جایی برای ساختن</h2>
         </div>
-        <span className="pars-gallery-index" aria-hidden="true">P / ۰۱</span>
       </div>
       <div className="pars-photo-grid">
-        {photos.map((photo, index) => (
+        {photos.map((photo) => (
           <figure className={`pars-photo-card ${photo.className}`} key={photo.src} data-reveal>
             <img src={asset(photo.src)} alt="" loading="lazy" />
-            <figcaption><span>{photo.label}</span><i aria-hidden="true" /><small>۰{index + 1}</small></figcaption>
+            <figcaption><span>{photo.label}</span><i aria-hidden="true" /></figcaption>
           </figure>
         ))}
         <div className="pars-photo-note" data-reveal>
@@ -143,11 +142,10 @@ function StrategySection() {
         <ParsLogoMark decorative className="pars-strategy-mark" />
       </div>
       <div className="pars-strategy-grid">
-        {valuePillars.slice(0, 4).map((item, index) => {
+        {valuePillars.slice(0, 4).map((item) => {
           const Icon = item.icon;
           return (
-            <article className="pars-strategy-card" key={item.number} data-reveal>
-              <span className="pars-strategy-count">۰{index + 1}</span>
+            <article className="pars-strategy-card" key={item.id} data-reveal>
               <span className="pars-strategy-icon"><Icon size={22} strokeWidth={1.5} /></span>
               <h3>{item.title}</h3>
               <i className="pars-strategy-rule" aria-hidden="true" />
@@ -166,7 +164,7 @@ function AboutPars() {
         <span className="pars-section-kicker">درباره‌ی پارس</span>
         <h2 id="pars-about-title">همراهِ ایده‌های<br /><em>موفق</em></h2>
         <div className="pars-facts" aria-label="پارس در یک نگاه">
-          <div className="pars-fact"><strong>۱۱</strong><span>بازوی سرمایه‌گذاری</span></div>
+          <div className="pars-fact"><strong>۱۱</strong><span>حوزه‌ی سرمایه‌گذاری</span></div>
           <div className="pars-fact"><strong>۰۴</strong><span>گام در فرم درخواست</span></div>
         </div>
       </div>
@@ -203,7 +201,7 @@ export default function MinimalHomePage() {
       <main>
         <section className="pars-hero pars-container" id="home" aria-labelledby="pars-hero-title">
           <div className="pars-hero-copy" data-reveal>
-            <span className="pars-hero-kicker"><i aria-hidden="true" /> گروه سرمایه‌گذاری فناوری پارس</span>
+            <span className="pars-hero-kicker"><i aria-hidden="true" /> بخش سرمایه‌گذاری</span>
             <h1 id="pars-hero-title">سرمایه برای<br /><em>ایده‌های موفق</em></h1>
             <p className="pars-hero-subtitle">از ایده‌های جسورانه تا کسب‌وکارهای رو به رشد</p>
             <div className="pars-hero-actions">

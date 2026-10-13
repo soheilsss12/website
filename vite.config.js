@@ -9,6 +9,7 @@ const repositoryName = process.env.GITHUB_REPOSITORY?.split('/')[1];
 const siteBase = isGitHubActionsBuild && repositoryName ? `/${repositoryName}/` : '/';
 const htmlPages = [
   'index.html',
+  'investment/index.html',
   'approach/index.html',
   'sectors/index.html',
   'portfolio/index.html',

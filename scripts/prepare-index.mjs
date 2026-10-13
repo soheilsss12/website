@@ -24,20 +24,28 @@ const pages = [
   { folder: 'admin', title: 'پنل مدیریت | پارس', description: 'پنل خصوصی مدیریت درخواست‌های پارس.' },
 ];
 
-function renderPage({ title, description }) {
+function renderPage({ title, description, folder }) {
+  const homePreloads = folder === ''
+    ? [
+      '    <link rel="preload" href="%BASE_URL%pars-home-hero.jpg" as="image" fetchpriority="high" />',
+      '    <link rel="preload" href="%BASE_URL%pars-mark.svg" as="image" type="image/svg+xml" />',
+    ].join('\n')
+    : '';
+
   return template
     .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${description}" />`)
-    .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
+    .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
+    .replace(/\n[ \t]*<\/head>/, homePreloads ? `\n${homePreloads}\n  </head>` : '\n  </head>');
 }
 
-await Promise.all(pages.map(async ({ folder, ...metadata }) => {
-  const destination = path.join(projectRoot, folder, 'index.html');
+await Promise.all(pages.map(async (page) => {
+  const destination = path.join(projectRoot, page.folder, 'index.html');
   await mkdir(path.dirname(destination), { recursive: true });
-  await writeFile(destination, renderPage(metadata), 'utf8');
+  await writeFile(destination, renderPage(page), 'utf8');
 }));
 
 await writeFile(
   path.join(projectRoot, '404.html'),
-  renderPage({ title: 'صفحه پیدا نشد | پارس', description: 'صفحه‌ی درخواستی در سایت پارس پیدا نشد.' }),
+  renderPage({ folder: '404', title: 'صفحه پیدا نشد | پارس', description: 'صفحه‌ی درخواستی در سایت پارس پیدا نشد.' }),
   'utf8',
 );

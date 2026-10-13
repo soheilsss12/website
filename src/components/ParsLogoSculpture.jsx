@@ -4,7 +4,7 @@ import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import ParsLogoMark from './ParsLogoMark.jsx';
 
-const SVG_URL = new URL('../../pars-mark.svg', import.meta.url).href;
+const SVG_URL = `${import.meta.env.BASE_URL}pars-mark.svg`;
 const SVG_BOUNDS = { x: 108, y: 0, width: 616, height: 466 };
 const MODEL_SCALE = 0.00365;
 const CENTER_X = SVG_BOUNDS.x + SVG_BOUNDS.width / 2;
@@ -347,12 +347,12 @@ export default function ParsLogoSculpture({ active = true, interactionRef = null
   return (
     <div
       ref={hostRef}
-      className={`pars-logo-sculpture ${status === 'fallback' ? 'is-fallback' : ''} ${active ? 'is-active' : 'is-idle'}`}
+      className={`pars-logo-sculpture ${status === 'ready' ? 'is-ready' : status === 'fallback' ? 'is-fallback' : 'is-loading'} ${active ? 'is-active' : 'is-idle'}`}
       role="img"
       aria-label="نشان سه‌بعدی پارس"
     >
       <div className="pars-logo-sculpture__aura" aria-hidden="true" />
-      <div className={`pars-logo-sculpture__fallback ${status === 'ready' ? 'is-hidden' : ''}`} aria-hidden="true">
+      <div className={`pars-logo-sculpture__fallback ${status !== 'fallback' ? 'is-hidden' : ''}`} aria-hidden="true">
         <ParsLogoMark animated decorative className="pars-logo-sculpture__fallback-mark" />
       </div>
     </div>

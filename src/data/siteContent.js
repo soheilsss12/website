@@ -1,9 +1,11 @@
 import {
   Activity,
-  BrainCircuit,
   Building2,
   ChartNoAxesCombined,
   Cloud,
+  CreditCard,
+  Factory,
+  FileText,
   GraduationCap,
   HeartPulse,
   Leaf,
@@ -25,14 +27,17 @@ export const navItems = [
 ];
 
 export const industries = [
-  { number: '۰۱', title: 'هوش مصنوعی و داده', english: 'AI & Data', icon: BrainCircuit, tone: 'mint', description: 'محصول‌ها و زیرساخت‌های مبتنی بر هوش مصنوعی و داده' },
-  { number: '۰۲', title: 'سلامت دیجیتال', english: 'HealthTech', icon: HeartPulse, tone: 'rose', description: 'فناوری برای دسترسی آسان‌تر و خدمات سلامتِ باکیفیت‌تر' },
-  { number: '۰۳', title: 'فناوری مالی', english: 'FinTech', icon: WalletCards, tone: 'violet', description: 'خدمات مالی ساده‌تر، فراگیرتر و شفاف‌تر' },
-  { number: '۰۴', title: 'نرم‌افزار و SaaS', english: 'Software', icon: Cloud, tone: 'blue', description: 'نرم‌افزارهای مقیاس‌پذیر برای کسب‌وکارها و کاربران' },
-  { number: '۰۵', title: 'آموزش و مهارت', english: 'EdTech', icon: GraduationCap, tone: 'amber', description: 'یادگیری مستمر و مهارت‌آموزی در دسترس همه' },
-  { number: '۰۶', title: 'کشاورزی و غذا', english: 'Agri & Food', icon: Leaf, tone: 'green', description: 'فناوری برای زنجیره‌ی غذایی پایدارتر' },
-  { number: '۰۷', title: 'انرژی و اقلیم', english: 'ClimateTech', icon: Zap, tone: 'lime', description: 'بهینه‌سازی مصرف انرژی و راهکارهای زیست‌محیطی' },
-  { number: '۰۸', title: 'صنعت و لجستیک', english: 'Industry', icon: Truck, tone: 'copper', description: 'تولید هوشمند، زیرساخت و حمل‌ونقل کارآمد' },
+  { number: '۰۱', title: 'انرژی', english: 'Energy', icon: Zap, tone: 'blue', description: 'راهکارها و کسب‌وکارهای حوزه‌ی انرژی' },
+  { number: '۰۲', title: 'آموزش', english: 'Education', icon: GraduationCap, tone: 'mint', description: 'محصول‌ها و خدمات حوزه‌ی آموزش' },
+  { number: '۰۳', title: 'خدمات اجتماعی', english: 'Social Services', icon: UsersRound, tone: 'violet', description: 'محصول‌ها و خدمات اجتماعی' },
+  { number: '۰۴', title: 'سلامت', english: 'Health', icon: HeartPulse, tone: 'rose', description: 'راهکارها و کسب‌وکارهای حوزه‌ی سلامت' },
+  { number: '۰۵', title: 'کشاورزی', english: 'Agriculture', icon: Leaf, tone: 'green', description: 'محصول‌ها و خدمات حوزه‌ی کشاورزی' },
+  { number: '۰۶', title: 'مالی', english: 'Finance', icon: WalletCards, tone: 'blue', description: 'راهکارها و کسب‌وکارهای حوزه‌ی مالی' },
+  { number: '۰۷', title: 'مسکن', english: 'Housing', icon: Building2, tone: 'amber', description: 'محصول‌ها و خدمات حوزه‌ی مسکن' },
+  { number: '۰۸', title: 'صنعت', english: 'Industry', icon: Factory, tone: 'copper', description: 'راهکارها و کسب‌وکارهای صنعتی' },
+  { number: '۰۹', title: 'اعتباری', english: 'Credit', icon: CreditCard, tone: 'violet', description: 'محصول‌ها و خدمات اعتباری' },
+  { number: '۱۰', title: 'لجستیک', english: 'Logistics', icon: Truck, tone: 'lime', description: 'راهکارها و خدمات حوزه‌ی لجستیک' },
+  { number: '۱۱', title: 'محتوا', english: 'Content', icon: FileText, tone: 'mint', description: 'محصول‌ها و خدمات حوزه‌ی محتوا' },
 ];
 
 export const valuePillars = [

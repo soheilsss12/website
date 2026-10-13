@@ -112,56 +112,11 @@ function HeroParsVisual() {
     return () => observer.disconnect();
   }, []);
 
-  const handlePointerMove = (event) => {
-    if (!isStageActive || event.pointerType === 'touch') return;
-    if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const stage = stageRef.current;
-    if (!stage) return;
-    const bounds = stage.getBoundingClientRect();
-    const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 14;
-    const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * -10;
-    stage.style.setProperty('--logo-tilt-x', `${x.toFixed(2)}deg`);
-    stage.style.setProperty('--logo-tilt-y', `${y.toFixed(2)}deg`);
-  };
-
-  const resetPointerTilt = () => {
-    const stage = stageRef.current;
-    if (!stage) return;
-    stage.style.setProperty('--logo-tilt-x', '0deg');
-    stage.style.setProperty('--logo-tilt-y', '0deg');
-  };
-
   return (
-    <div
-      ref={stageRef}
-      className={`hero-stage ${isStageActive ? 'is-active' : 'is-idle'}`}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={resetPointerTilt}
-    >
-      <div className="hero-stage-aura" />
-      <div className="hero-stage-grid" />
-      <div className="hero-stage-instrument" aria-hidden="true" />
-      <div className="hero-stage-orbit hero-stage-orbit-c" />
-      <div className="hero-stage-orbit hero-stage-orbit-a"><i /></div>
-      <div className="hero-stage-orbit hero-stage-orbit-b"><i /></div>
+    <div ref={stageRef} className={`hero-stage ${isStageActive ? 'is-active' : 'is-idle'}`}>
       <div className="hero-crystal-shell">
-        <ParsLogoSculpture active={isStageActive} />
+        <ParsLogoSculpture active={isStageActive} interactionRef={stageRef} />
       </div>
-      <span className="hero-stage-spark hero-stage-spark-one" />
-      <span className="hero-stage-spark hero-stage-spark-two" />
-      <span className="hero-stage-spark hero-stage-spark-three" />
-      <div className="hero-glass-panel hero-glass-panel-top">
-        <span className="hero-glass-icon"><HeartHandshake size={17} /></span>
-        <span><small>همراهی پارس</small><strong>سرمایه + تجربه + شبکه</strong></span>
-        <i className="hero-glass-pulse" />
-      </div>
-      <div className="hero-glass-panel hero-glass-panel-bottom">
-        <span className="hero-glass-number" aria-hidden="true"><ChartNoAxesCombined size={18} strokeWidth={1.7} /></span>
-        <span><small>از ایده تا بازار</small><strong>مسیر رشد، کنار شما</strong></span>
-        <ArrowUpLeft size={16} />
-      </div>
-
-      <div className="hero-stage-watermark">پارس</div>
     </div>
   );
 }

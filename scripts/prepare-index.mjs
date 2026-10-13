@@ -24,18 +24,33 @@ const pages = [
   { folder: 'admin', title: 'پنل مدیریت | پارس', description: 'پنل خصوصی مدیریت درخواست‌های پارس.' },
 ];
 
+const pageImagePreloads = {
+  approach: ['pars-journey-discovery', '(max-width: 760px) 92vw, 48vw'],
+  sectors: ['pars-industries-showcase', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
+  portfolio: ['pars-portfolio-editorial', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
+  stories: ['pars-news-editorial', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
+  about: ['pars-about-editorial', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
+  contact: ['pars-contact-editorial', '(max-width: 760px) calc(100vw - 40px), 48vw'],
+  tools: ['pars-tools-analysis', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
+};
+
+function imagePreload([stem, sizes]) {
+  return `    <link rel="preload" href="%BASE_URL%${stem}-1024.webp" imagesrcset="%BASE_URL%${stem}-640.webp 640w, %BASE_URL%${stem}-1024.webp 1024w, %BASE_URL%${stem}.webp 1536w" imagesizes="${sizes}" as="image" type="image/webp" fetchpriority="high" />`;
+}
+
 function renderPage({ title, description, folder }) {
-  const homePreloads = folder === ''
-    ? [
-      '    <link rel="preload" href="%BASE_URL%pars-home-hero.webp" as="image" type="image/webp" fetchpriority="high" />',
+  const preloads = [
+    ...(folder === '' ? [
+      '    <link rel="preload" href="%BASE_URL%pars-home-hero-1024.webp" imagesrcset="%BASE_URL%pars-home-hero-640.webp 640w, %BASE_URL%pars-home-hero-1024.webp 1024w, %BASE_URL%pars-home-hero.webp 1672w" imagesizes="100vw" as="image" type="image/webp" fetchpriority="high" />',
       '    <link rel="preload" href="%BASE_URL%pars-mark.svg" as="image" type="image/svg+xml" />',
-    ].join('\n')
-    : '';
+    ] : []),
+    ...(pageImagePreloads[folder] ? [imagePreload(pageImagePreloads[folder])] : []),
+  ].join('\n');
 
   return template
     .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${description}" />`)
     .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
-    .replace(/\n[ \t]*<\/head>/, homePreloads ? `\n${homePreloads}\n  </head>` : '\n  </head>');
+    .replace(/\n[ \t]*<\/head>/, preloads ? `\n${preloads}\n  </head>` : '\n  </head>');
 }
 
 await Promise.all(pages.map(async (page) => {

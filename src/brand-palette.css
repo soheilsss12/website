@@ -24,9 +24,7 @@ body,
 }
 
 .hero-pars::before {
-  background:
-    radial-gradient(ellipse at 72% 35%, rgba(92, 198, 217, 0.08), transparent 34%),
-    linear-gradient(112deg, #fff 0%, #fff 100%);
+  background: #fff;
 }
 
 .hero-pars::after,
@@ -146,21 +144,20 @@ body,
 .button-lime {
   background: var(--pars-spectrum);
   background-size: 180% 100%;
-  box-shadow: 0 8px 22px rgba(89, 44, 122, 0.12);
+  box-shadow: 0 3px 10px rgba(89, 44, 122, 0.08);
   transition: background-position 450ms ease, box-shadow 220ms ease, transform 220ms ease;
 }
 
 .button-lime:hover {
   background-position: 100% 50%;
-  box-shadow: 0 12px 28px rgba(97, 102, 170, 0.2);
+  box-shadow: 0 5px 14px rgba(97, 102, 170, 0.13);
 }
 
 .section-heading h2 em,
 .manifesto-copy h2 em {
-  color: var(--pars-indigo);
-  background: var(--pars-spectrum);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--pars-purple);
+  background: none;
+  -webkit-text-fill-color: currentColor;
 }
 
 .section-eyebrow > i,
@@ -170,16 +167,13 @@ body,
 
 .stats-number {
   color: var(--pars-purple);
-  background: var(--pars-spectrum);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: none;
+  -webkit-text-fill-color: currentColor;
 }
 
 .final-callout {
   color: #fff;
-  background:
-    radial-gradient(ellipse at 82% 20%, rgba(92, 198, 217, 0.16), transparent 44%),
-    linear-gradient(112deg, var(--pars-purple-deep), var(--pars-purple) 37%, var(--pars-indigo) 66%, var(--pars-blue));
+  background: linear-gradient(112deg, var(--pars-purple-deep), var(--pars-purple) 58%, var(--pars-indigo));
 }
 
 .final-callout .section-eyebrow,

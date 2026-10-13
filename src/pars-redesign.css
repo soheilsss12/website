@@ -804,14 +804,7 @@
 }
 
 .pars-apply-aside::before {
-  position: absolute;
-  z-index: -1;
-  right: -95px;
-  bottom: -82px;
-  width: 385px;
-  height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(97, 102, 170, 0.095), rgba(92, 198, 217, 0.04) 56%, transparent 73%);
+  display: none;
   content: '';
 }
 
@@ -857,7 +850,28 @@
   margin-top: 13px;
 }
 
+.pars-progress-button {
+  display: flex;
+  min-width: 0;
+  min-height: 24px;
+  align-items: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.pars-progress-button:disabled { cursor: default; }
+
+.pars-progress-button:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid var(--pars-violet);
+  outline-offset: 2px;
+}
+
 .pars-progress-segment {
+  display: block;
+  width: 100%;
   height: 3px;
   border-radius: 4px;
   background: #e9e6ec;
@@ -866,6 +880,10 @@
 
 .pars-progress-segment.is-active {
   background: linear-gradient(90deg, var(--pars-cyan), var(--pars-indigo), var(--pars-violet));
+}
+
+.pars-progress-button:not(:disabled):hover .pars-progress-segment {
+  background: var(--pars-violet);
 }
 
 .pars-form-heading {
@@ -1299,7 +1317,7 @@
   .pars-apply-aside { min-height: initial; flex-direction: row; align-items: center; justify-content: flex-start; gap: 13px; padding: 9px 0; }
   .pars-apply-aside h1 { margin: 0; font-size: 23px; line-height: 1.15; }
   .pars-apply-aside-mark { width: 56px; margin: 0 0 0 auto; }
-  .pars-apply-aside::before { right: auto; bottom: -90px; left: 0; width: 220px; height: 190px; }
+  .pars-apply-aside::before { display: none; }
   .pars-form-panel { padding: 23px 18px; }
   .pars-form-heading { margin: 23px 0 18px; }
   .pars-form-grid { gap: 15px 11px; }

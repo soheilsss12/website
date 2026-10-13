@@ -28,12 +28,12 @@ const pages = [
 const pageImagePreloads = {
   investment: ['pars-home-hero', '100vw', 1672],
   approach: ['pars-journey-discovery', '(max-width: 760px) 92vw, 48vw'],
-  sectors: ['pars-industries-showcase', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
-  portfolio: ['pars-portfolio-cinematic', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
-  stories: ['pars-news-editorial', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
-  about: ['pars-about-editorial', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
-  contact: ['pars-contact-editorial', '(max-width: 760px) calc(100vw - 40px), 48vw'],
-  tools: ['pars-tools-analysis', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
+  sectors: ['pars-industries-showcase', '100vw'],
+  portfolio: ['pars-portfolio-cinematic', '100vw'],
+  stories: ['pars-news-editorial', '100vw'],
+  about: ['pars-about-editorial', '100vw'],
+  contact: ['pars-contact-editorial', '100vw'],
+  tools: ['pars-tools-analysis', '100vw'],
 };
 
 function imagePreload([stem, sizes, fullWidth = 1536]) {

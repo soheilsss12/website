@@ -545,7 +545,7 @@ export function HomeHighlightsSection() {
               style={{ '--image-reveal-delay': `${index * 70}ms` }}
             >
               <img
-                {...responsiveImageProps(item.image, '(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 42vw')}
+                {...responsiveImageProps(item.image, item.layout === 'compact' ? '(max-width: 560px) 100vw, (max-width: 760px) 50vw, 25vw' : '(max-width: 560px) 100vw, 50vw')}
                 alt=""
                 width="1536"
                 height="1024"
@@ -726,9 +726,9 @@ export function IndustriesSection() {
   return (
     <section className="industries-section section-space" id="industries">
       <div className="site-container">
-        <div className="industries-showcase" data-reveal>
+        <div className="industries-showcase industries-showcase--bleed" data-reveal>
           <img
-            {...responsiveImageProps('pars-industries-showcase.webp', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px')}
+            {...responsiveImageProps('pars-industries-showcase.webp', '100vw')}
             alt=""
             width="1536"
             height="1024"
@@ -752,7 +752,7 @@ export function IndustriesSection() {
                 style={{ '--industry-image-delay': `${(index % 6) * 45}ms`, '--industry-accent': item.brandColor, '--industry-accent-ink': ['#592C7A', '#6166AA'].includes(item.brandColor) ? '#fff' : '#17151D', '--industry-accent-text': ['#592C7A', '#6166AA'].includes(item.brandColor) ? '#fff' : item.brandColor }}
               >
                 <img
-                  {...responsiveImageProps(item.image, '(max-width: 560px) 92vw, (max-width: 900px) 44vw, 30vw')}
+                  {...responsiveImageProps(item.image, '(max-width: 560px) 50vw, (max-width: 900px) 50vw, 34vw')}
                   className="industry-card-image"
                   alt=""
                   width="1536"
@@ -819,9 +819,9 @@ export function PortfolioSection() {
         <div className="section-heading-row portfolio-heading-row">
           <SectionHeading eyebrow="بخش سرمایه‌گذاری" title="پرتفوی" emphasis="پارس" />
         </div>
-        <figure className="editorial-visual portfolio-visual" data-reveal style={{ '--visual-delay': '70ms', '--visual-accent': '#592C7A' }}>
+        <figure className="editorial-visual editorial-visual--bleed portfolio-visual" data-reveal style={{ '--visual-delay': '70ms', '--visual-accent': '#592C7A' }}>
           <img
-            {...responsiveImageProps('pars-portfolio-cinematic.webp', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px')}
+            {...responsiveImageProps('pars-portfolio-cinematic.webp', '100vw')}
             alt=""
             width="1536"
             height="864"
@@ -926,9 +926,9 @@ export function ToolsSection({ onOpenTool }) {
     <section className="tools-section section-space" id="tools">
       <div className="site-container">
         <div className="section-heading-row"><SectionHeading eyebrow="ابزارهای استارتاپی" title="با عدد" emphasis="تصمیم بگیرید" copy="محاسبه‌گرهای ساده برای پرسش‌هایی که پیش از جذب سرمایه، رشد یا مذاکره پیش می‌آید" /><div className="tools-data-note"><ShieldCheck size={18} /><span>محاسبه‌ها در مرورگر شما انجام می‌شود و هیچ داده‌ای به سرور ارسال نمی‌شود</span></div></div>
-        <figure className="editorial-visual tools-visual" data-reveal style={{ '--visual-delay': '70ms', '--visual-accent': '#68A6D9' }}>
+        <figure className="editorial-visual editorial-visual--bleed tools-visual" data-reveal style={{ '--visual-delay': '70ms', '--visual-accent': '#68A6D9' }}>
           <img
-            {...responsiveImageProps('pars-tools-analysis.webp', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px')}
+            {...responsiveImageProps('pars-tools-analysis.webp', '100vw')}
             alt=""
             width="1536"
             height="1024"
@@ -958,9 +958,9 @@ export function NewsSection() {
           <SectionHeading eyebrow="روایت‌ها" title="نگاهی تازه" emphasis="به جهان پیرامون" copy="یادداشت‌ها و دیدگاه‌های پارس." />
           <a href={pageHref('contact')} className="text-link">با پارس گفت‌وگو کنید <ArrowUpLeft size={15} /></a>
         </div>
-        <figure className="editorial-visual news-visual" data-reveal style={{ '--visual-delay': '60ms', '--visual-accent': '#6166AA' }}>
+        <figure className="editorial-visual editorial-visual--bleed news-visual" data-reveal style={{ '--visual-delay': '60ms', '--visual-accent': '#6166AA' }}>
           <img
-            {...responsiveImageProps('pars-news-editorial.webp', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px')}
+            {...responsiveImageProps('pars-news-editorial.webp', '100vw')}
             alt=""
             width="1536"
             height="1024"
@@ -994,9 +994,9 @@ export function AboutSection() {
         <div className="about-top">
           <SectionHeading eyebrow="درباره‌ی پارس" title="پارس، رو به" emphasis="افق‌های تازه" copy="نگاهی به مسیرها و پرسش‌هایی که آینده را پیش روی ما می‌گذارند." />
         </div>
-        <figure className="editorial-visual about-visual" data-reveal style={{ '--visual-delay': '90ms', '--visual-accent': '#5CC6D9' }}>
+        <figure className="editorial-visual editorial-visual--bleed about-visual" data-reveal style={{ '--visual-delay': '90ms', '--visual-accent': '#5CC6D9' }}>
           <img
-            {...responsiveImageProps('pars-about-editorial.webp', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px')}
+            {...responsiveImageProps('pars-about-editorial.webp', '100vw')}
             alt=""
             width="1536"
             height="1024"
@@ -1053,9 +1053,9 @@ export function ContactSection() {
       <div className="site-container contact-layout">
         <div className="contact-copy">
           <SectionHeading eyebrow="تماس با پارس" title="یک گفت‌وگوی خوب" emphasis="از این‌جا شروع می‌شود" copy="برای پرسش درباره‌ی همکاری یا رسانه، پیام بگذارید" />
-          <figure className="editorial-visual contact-visual" data-reveal style={{ '--visual-delay': '80ms', '--visual-accent': '#5CC6D9' }}>
+          <figure className="editorial-visual editorial-visual--bleed contact-visual" data-reveal style={{ '--visual-delay': '80ms', '--visual-accent': '#5CC6D9' }}>
             <img
-              {...responsiveImageProps('pars-contact-editorial.webp', '(max-width: 760px) calc(100vw - 40px), 48vw')}
+              {...responsiveImageProps('pars-contact-editorial.webp', '100vw')}
               alt=""
               width="1536"
               height="1024"

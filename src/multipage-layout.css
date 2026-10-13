@@ -1415,10 +1415,7 @@
 }
 
 .brand-home-copy h1 em {
-  color: transparent;
-  background: linear-gradient(100deg, #5CC6D9 4%, #68A6D9 51%, #6166AA 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: #5CC6D9;
   font-style: normal;
   font-weight: 480;
 }
@@ -1884,9 +1881,7 @@
   position: relative;
   overflow: hidden;
   color: #f8f5fb;
-  background:
-    radial-gradient(ellipse at 12% 100%, rgba(92, 198, 217, 0.12), transparent 34%),
-    linear-gradient(128deg, #201729 0%, #2a2038 54%, #1b2030 100%);
+  background: linear-gradient(128deg, #201729 0%, #2a2038 54%, #1b2030 100%);
 }
 
 .brand-home-closing-content {
@@ -1921,10 +1916,7 @@
 }
 
 .brand-home-closing-content h2 em {
-  color: transparent;
-  background: linear-gradient(95deg, #5CC6D9, #68A6D9 52%, #6166AA);
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: #5CC6D9;
   font-style: normal;
 }
 
@@ -2402,4 +2394,35 @@
     gap: 4px;
     padding-inline: 7px;
   }
+}
+
+/* Full-bleed image bands stay edge-to-edge on desktop and mobile, inside RTL layouts. */
+.home-highlights-grid,
+.industries-section .industry-grid,
+.industries-showcase--bleed,
+.editorial-visual--bleed {
+  width: 100vw;
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+/* The contact story becomes a full-width image between its heading and usable form. */
+.contact-section .contact-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+.contact-section .contact-copy {
+  display: contents;
+}
+
+.contact-section .contact-visual {
+  margin-block: 28px 0;
+}
+
+.contact-section .contact-form {
+  width: min(100%, 760px);
+  margin: clamp(32px, 5vw, 58px) auto 0;
 }

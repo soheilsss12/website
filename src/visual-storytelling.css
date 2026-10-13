@@ -54,11 +54,9 @@
 }
 
 .hero-pars-copy .hero-dialogue-title-line > em {
-  color: transparent;
-  background: linear-gradient(100deg, #5CC6D9 4%, #68A6D9 54%, #BBA6E2 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #5CC6D9;
+  background: none;
+  -webkit-text-fill-color: currentColor;
 }
 
 .hero-dialogue-echo,
@@ -68,7 +66,7 @@
 
 .hero-type-caret {
   background: var(--pars-cyan);
-  box-shadow: 0 0 12px rgba(92, 198, 217, 0.65);
+  box-shadow: none;
 }
 
 .hero-dialogue-form {
@@ -154,7 +152,7 @@
 
 .hero-campaign-note i {
   background: var(--pars-cyan);
-  box-shadow: 0 0 12px rgba(92, 198, 217, 0.62);
+  box-shadow: none;
 }
 
 .hero-pars-bottomline {
@@ -205,9 +203,7 @@
   position: absolute;
   z-index: -1;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 83% 8%, rgba(89, 44, 122, 0.22), transparent 34%),
-    radial-gradient(ellipse at 7% 72%, rgba(92, 198, 217, 0.1), transparent 32%);
+  background: transparent;
   content: '';
   pointer-events: none;
 }
@@ -251,10 +247,7 @@
 }
 
 .journey-heading h2 em {
-  color: transparent;
-  background: linear-gradient(100deg, #5CC6D9 0%, #68A6D9 54%, #C0A6E2 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: #5CC6D9;
   font-style: normal;
   font-weight: 520;
 }
@@ -433,7 +426,6 @@
   height: 7px;
   border-radius: 50%;
   background: var(--pars-cyan);
-  box-shadow: 0 0 14px rgba(92, 198, 217, 0.7);
 }
 
 .journey-art-caption > small {
@@ -574,15 +566,12 @@
 }
 
 .industries-showcase-count strong {
-  color: transparent;
-  background: linear-gradient(145deg, #5CC6D9, #68A6D9 55%, #b7a0d0);
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: #5CC6D9;
   font-size: clamp(68px, 8vw, 104px);
   font-weight: 380;
   letter-spacing: -0.09em;
   line-height: 0.9;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: currentColor;
 }
 
 .industries-showcase-count > span {
@@ -624,9 +613,7 @@
 .benefits-section {
   overflow: hidden;
   color: #f8f4fc;
-  background:
-    radial-gradient(ellipse at 84% 0%, rgba(92, 198, 217, 0.1), transparent 34%),
-    linear-gradient(128deg, #201729 0%, #30213f 54%, #202238 100%);
+  background: linear-gradient(128deg, #201729 0%, #30213f 54%, #202238 100%);
 }
 
 .benefits-section .section-heading .section-eyebrow,

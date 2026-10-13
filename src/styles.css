@@ -6642,10 +6642,9 @@ h4,
 .hero-pars-copy h1 em {
   display: inline-block;
   padding-bottom: 0.08em;
-  color: transparent;
-  background: linear-gradient(100deg, #F6F4F9 3%, #F6F4F9 38%, #F6F4F9 75%, #F4F2F7 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
+  color: #F6F4F9;
+  background: none;
+  -webkit-text-fill-color: currentColor;
   font-weight: 790;
   font-style: normal;
 }
@@ -8231,10 +8230,8 @@ h4,
 }
 
 .logo-options-intro h1 em {
-  color: transparent;
-  background: linear-gradient(95deg, #F6F4F9, #F6F4F9 48%, #F6F4F9);
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: #F6F4F9;
+  background: none;
   font-style: normal;
 }
 

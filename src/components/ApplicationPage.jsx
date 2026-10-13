@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpLeft, Check, FileUp, LoaderCircle, LockKeyhole, Upload } from 'lucide-react';
-import { stageOptions } from '../data/siteContent.js';
+import { industries, stageOptions } from '../data/siteContent.js';
+import { validateApplicationStep } from '../lib/applicationValidation.js';
 import { apiFetch } from '../lib/api.js';
 import ParsLogoMark from './ParsLogoMark.jsx';
 
@@ -18,13 +19,6 @@ const initialForm = {
   deckName: '', links: '', agreed: false,
 };
 
-const requiredFields = [
-  ['fullName', 'role', 'mobile', 'email', 'city'],
-  ['projectName', 'stage', 'industry', 'oneLiner', 'description'],
-  ['fundingReason', 'amount', 'useOfFunds', 'teamSize'],
-  ['agreed'],
-];
-
 const MAX_DECK_BYTES = 20 * 1024 * 1024;
 
 function toPersianNumber(value) {
@@ -41,8 +35,9 @@ async function fileToBase64(file) {
   return window.btoa(binary);
 }
 
-function Field({ label, name, value, onChange, errors, type = 'text', placeholder = '', required = false, dir, rows = 3 }) {
-  const invalid = errors.includes(name);
+function Field({ label, name, value, onChange, errors, type = 'text', placeholder = '', required = false, dir, rows = 3, inputMode }) {
+  const error = errors[name];
+  const invalid = Boolean(error);
   const common = {
     id: name,
     name,
@@ -51,6 +46,7 @@ function Field({ label, name, value, onChange, errors, type = 'text', placeholde
     placeholder,
     required,
     dir: dir || 'auto',
+    inputMode,
     'aria-invalid': invalid,
     'aria-describedby': invalid ? `${name}-error` : undefined,
   };
@@ -61,13 +57,14 @@ function Field({ label, name, value, onChange, errors, type = 'text', placeholde
       {type === 'textarea'
         ? <textarea {...common} rows={rows} />
         : <input {...common} type={type} />}
-      {invalid && <small id={`${name}-error`} className="pars-field-error">این مورد را کامل کنید</small>}
+      {invalid && <small id={`${name}-error`} className="pars-field-error">{error}</small>}
     </label>
   );
 }
 
 function SelectField({ label, name, value, onChange, errors, options, required = false }) {
-  const invalid = errors.includes(name);
+  const error = errors[name];
+  const invalid = Boolean(error);
   return (
     <label className={`pars-field ${invalid ? 'is-invalid' : ''}`} htmlFor={name}>
       <span className="pars-field-label">{label}{required && <b aria-hidden="true">*</b>}</span>
@@ -83,7 +80,7 @@ function SelectField({ label, name, value, onChange, errors, options, required =
         <option value="">انتخاب کنید</option>
         {options.map((option) => <option value={option} key={option}>{option}</option>)}
       </select>
-      {invalid && <small id={`${name}-error`} className="pars-field-error">این مورد را کامل کنید</small>}
+      {invalid && <small id={`${name}-error`} className="pars-field-error">{error}</small>}
     </label>
   );
 }
@@ -106,7 +103,7 @@ export default function ApplicationPage() {
 
   const [step, setStep] = useState(0);
   const [form, setForm] = useState(initialForm);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [deckFile, setDeckFile] = useState(null);
   const [uploadError, setUploadError] = useState('');
@@ -116,21 +113,25 @@ export default function ApplicationPage() {
 
   const update = (key, value) => {
     setForm((current) => ({ ...current, [key]: value }));
-    setErrors((current) => current.filter((error) => error !== key));
+    setErrors((current) => {
+      if (!current[key]) return current;
+      const next = { ...current };
+      delete next[key];
+      return next;
+    });
     setSubmissionError('');
   };
 
   const goNext = async (event) => {
     event.preventDefault();
-    const missing = requiredFields[step].filter((key) => key === 'agreed'
-      ? !form.agreed
-      : !String(form[key] || '').trim());
-    if (missing.length) {
-      setErrors(missing);
-      document.querySelector(`[name="${missing[0]}"]`)?.focus();
+    const nextErrors = validateApplicationStep(form, step);
+    const firstError = Object.keys(nextErrors)[0];
+    if (firstError) {
+      setErrors(nextErrors);
+      document.querySelector(`[name="${firstError}"]`)?.focus();
       return;
     }
-    setErrors([]);
+    setErrors({});
     setSubmissionError('');
     if (step < steps.length - 1) {
       setStep((current) => current + 1);
@@ -178,7 +179,7 @@ export default function ApplicationPage() {
     setStep(0);
     setForm(initialForm);
     setDeckFile(null);
-    setErrors([]);
+    setErrors({});
     setUploadError('');
     setSubmissionError('');
     setSubmissionReceipt(null);
@@ -207,11 +208,21 @@ export default function ApplicationPage() {
                 <span>فرم درخواست</span>
                 <span>گام {toPersianNumber(step + 1)} از {toPersianNumber(steps.length)}</span>
               </div>
-              <div className="pars-step-progress" role="progressbar" aria-label="پیشرفت فرم" aria-valuemin="1" aria-valuemax={steps.length} aria-valuenow={step + 1}>
+              <nav className="pars-step-progress" aria-label="گام‌های درخواست سرمایه">
                 {steps.map((item, index) => (
-                  <span className={`pars-progress-segment ${index <= step ? 'is-active' : ''}`} key={item.short} />
+                  <button
+                    className="pars-progress-button"
+                    type="button"
+                    key={item.short}
+                    aria-label={`${item.title}${index < step ? '، بازگشت به این گام' : index === step ? '، گام فعلی' : '، در انتظار'}`}
+                    aria-current={index === step ? 'step' : undefined}
+                    disabled={index >= step || submissionBusy}
+                    onClick={() => { setStep(index); setErrors({}); setSubmissionError(''); }}
+                  >
+                    <span className={`pars-progress-segment ${index <= step ? 'is-active' : ''}`} />
+                  </button>
                 ))}
-              </div>
+              </nav>
               <form className="pars-application-form" onSubmit={goNext} noValidate>
                 <div className="pars-form-heading">
                   <span>{steps[step].short}</span>
@@ -233,7 +244,7 @@ export default function ApplicationPage() {
                     <Field label="نام استارتاپ یا محصول" name="projectName" value={form.projectName} onChange={update} errors={errors} placeholder="نام محصول" required />
                     <Field label="وب‌سایت محصول" name="website" value={form.website} onChange={update} errors={errors} type="url" placeholder="https://" dir="ltr" />
                     <SelectField label="مرحله‌ی کسب‌وکار" name="stage" value={form.stage} onChange={update} errors={errors} options={stageOptions} required />
-                    <Field label="حوزه‌ی فعالیت" name="industry" value={form.industry} onChange={update} errors={errors} placeholder="حوزه‌ی فعالیت" required />
+                    <SelectField label="حوزه‌ی فعالیت" name="industry" value={form.industry} onChange={update} errors={errors} options={industries.map((item) => item.title)} required />
                     <Field label="محصول در یک جمله" name="oneLiner" value={form.oneLiner} onChange={update} errors={errors} placeholder="چه مسئله‌ای را حل می‌کنید؟" required />
                     <Field label="شرح کوتاه محصول" name="description" value={form.description} onChange={update} errors={errors} type="textarea" placeholder="مسئله و راهکار" required rows={3} />
                   </div>
@@ -242,10 +253,10 @@ export default function ApplicationPage() {
                 {step === 2 && (
                   <div className="pars-form-grid">
                     <Field label="دلیل نیاز به سرمایه" name="fundingReason" value={form.fundingReason} onChange={update} errors={errors} type="textarea" placeholder="گام بعدی چیست؟" required rows={3} />
-                    <Field label="مبلغ درخواستی (تومان)" name="amount" value={form.amount} onChange={update} errors={errors} type="number" placeholder="مبلغ" dir="ltr" required />
+                    <Field label="مبلغ درخواستی (تومان)" name="amount" value={form.amount} onChange={update} errors={errors} type="text" inputMode="numeric" placeholder="مبلغ" dir="ltr" required />
                     <Field label="برنامه‌ی مصرف سرمایه" name="useOfFunds" value={form.useOfFunds} onChange={update} errors={errors} type="textarea" placeholder="برنامه‌ی استفاده از سرمایه" required rows={3} />
                     <Field label="فروش یا کاربران فعلی" name="traction" value={form.traction} onChange={update} errors={errors} type="textarea" placeholder="اختیاری" rows={2} />
-                    <Field label="تعداد اعضای تیم" name="teamSize" value={form.teamSize} onChange={update} errors={errors} type="number" placeholder="تعداد" dir="ltr" required />
+                    <Field label="تعداد اعضای تیم" name="teamSize" value={form.teamSize} onChange={update} errors={errors} type="text" inputMode="numeric" placeholder="تعداد" dir="ltr" required />
                     <Field label="سرمایه‌گذاران قبلی" name="previousInvestors" value={form.previousInvestors} onChange={update} errors={errors} placeholder="اختیاری" />
                   </div>
                 )}
@@ -262,19 +273,19 @@ export default function ApplicationPage() {
                       {uploadError && <small className="pars-field-error" role="alert">{uploadError}</small>}
                     </div>
                     <Field label="پیوندهای مرتبط" name="links" value={form.links} onChange={update} errors={errors} type="textarea" placeholder="پیوندها (اختیاری)" dir="ltr" rows={3} />
-                    <label className={`pars-consent ${errors.includes('agreed') ? 'is-invalid' : ''}`}>
+                    <label className={`pars-consent ${Boolean(errors.agreed) ? 'is-invalid' : ''}`}>
                       <input type="checkbox" name="agreed" checked={form.agreed} onChange={(event) => update('agreed', event.target.checked)} />
                       <span className="pars-consent-box"><Check size={13} /></span>
                       <span>با <a href={routeHref('terms')}>قوانین</a> و <a href={routeHref('privacy')}>حریم خصوصی</a> موافقم</span>
                     </label>
-                    {errors.includes('agreed') && <small className="pars-field-error" role="alert">برای ثبت، تأیید لازم است</small>}
+                    {errors.agreed && <small className="pars-field-error" role="alert">{errors.agreed}</small>}
                   </div>
                 )}
 
                 {submissionError && <div className="pars-submit-error" role="alert">{submissionError}</div>}
                 <div className="pars-form-actions">
                   {step > 0 ? (
-                    <button className="pars-back-step" type="button" onClick={() => { setStep((current) => current - 1); setErrors([]); }} disabled={submissionBusy}>
+                    <button className="pars-back-step" type="button" onClick={() => { setStep((current) => current - 1); setErrors({}); }} disabled={submissionBusy}>
                       <ArrowRight size={16} /> مرحله‌ی قبل
                     </button>
                   ) : <span className="pars-form-privacy"><LockKeyhole size={14} /> ثبت پس از پاسخ سامانه</span>}
@@ -284,7 +295,7 @@ export default function ApplicationPage() {
                     {!submissionBusy && <ArrowLeft size={16} />}
                   </button>
                 </div>
-                {errors.length > 0 && <p className="pars-error-summary" role="alert">موارد ستاره‌دار را کامل کنید.</p>}
+                {Object.keys(errors).length > 0 && <p className="pars-error-summary" role="alert">موارد مشخص‌شده را بررسی کنید.</p>}
               </form>
             </>
           ) : (

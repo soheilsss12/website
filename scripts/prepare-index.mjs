@@ -27,7 +27,7 @@ const pages = [
 function renderPage({ title, description, folder }) {
   const homePreloads = folder === ''
     ? [
-      '    <link rel="preload" href="%BASE_URL%pars-home-hero.jpg" as="image" fetchpriority="high" />',
+      '    <link rel="preload" href="%BASE_URL%pars-home-hero.webp" as="image" type="image/webp" fetchpriority="high" />',
       '    <link rel="preload" href="%BASE_URL%pars-mark.svg" as="image" type="image/svg+xml" />',
     ].join('\n')
     : '';

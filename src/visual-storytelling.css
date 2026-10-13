@@ -157,14 +157,6 @@
   box-shadow: 0 0 12px rgba(92, 198, 217, 0.62);
 }
 
-/* Keep the exact 3D mark as the focal point; the image supplies its atmosphere. */
-.hero-stage::before,
-.hero-stage::after,
-.pars-logo-sculpture__aura {
-  display: none;
-  content: none;
-}
-
 .hero-pars-bottomline {
   border-top-color: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.72);

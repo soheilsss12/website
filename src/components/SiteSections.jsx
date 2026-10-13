@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Activity,
   ArrowDown,
@@ -34,48 +34,28 @@ import {
 import { iranCityMarkers, iranOutlinePath, iranOutlineViewBox } from '../data/iranMap.js';
 import CrystalMark from './CrystalMark.jsx';
 
-const ParsLogoSculpture = lazy(() => import('./ParsLogoSculpture.jsx'));
 
 const faNumber = (value) => new Intl.NumberFormat('fa-IR').format(value);
-
-const HERO_TITLE_LINE_ONE = 'در کنار کسانی';
-const HERO_TITLE_LINE_TWO = 'که آینده می‌سازند';
-const HERO_TITLE_TEXT = `${HERO_TITLE_LINE_ONE} ${HERO_TITLE_LINE_TWO}`;
-const HERO_TITLE_LINE_ONE_CHARS = Array.from(HERO_TITLE_LINE_ONE);
-const HERO_TITLE_LINE_TWO_CHARS = Array.from(HERO_TITLE_LINE_TWO);
-const HERO_DIALOGUE_STEPS = [
-  { key: 'name', placeholder: 'نام و نام خانوادگی', autoComplete: 'name', required: true },
-  { key: 'company', placeholder: 'نام شرکت یا تیم', autoComplete: 'organization', required: true },
-  { key: 'focus', placeholder: 'خلاصه‌ی ایده یا مسئله‌ی محوری', autoComplete: 'off', required: false },
-];
-
-function getHeroDialoguePrompt(step, answers) {
-  if (step < 0) return HERO_TITLE_TEXT;
-  if (step === 0) return 'برای شروع، نام خود را بنویسید';
-  if (step === 1) return `${answers.name} گرامی، نام شرکت یا تیم شما چیست؟`;
-  if (step === 2) return `شرکت یا تیم ${answers.company} چه مسئله‌ای را حل می‌کند؟`;
-  return `سپاس ${answers.name}؛ حالا درباره‌ی ${answers.company} و مسیر پیش‌رو گفت‌وگو می‌کنیم`;
-}
 
 const journeyChapters = [
   {
     number: '۰۱',
     stage: 'شناخت مسئله',
-    image: 'pars-photo-learning.jpg',
+    image: 'pars-photo-learning.webp',
     title: 'از مسئله‌ای واقعی آغاز کنیم',
     description: 'گفت‌وگوی روشن کمک می‌کند نیاز واقعی را از فرضیه جدا کنیم و مسیر بررسی را بهتر بشناسیم.',
   },
   {
     number: '۰۲',
     stage: 'ساخت محصول',
-    image: 'pars-photo-industry.jpg',
+    image: 'pars-photo-industry.webp',
     title: 'راه‌حل را در عمل بسنجیم',
     description: 'شناخت محصول و توان تیم، پایه‌ی تصمیم‌های دقیق‌تر و گام‌های بعدی است.',
   },
   {
     number: '۰۳',
     stage: 'آمادگی برای رشد',
-    image: 'pars-photo-logistics.jpg',
+    image: 'pars-photo-logistics.webp',
     title: 'برای رشد، زیرساخت بسازیم',
     description: 'سرمایه، تجربه و ارتباطات زمانی اثرگذارند که با نیاز کسب‌وکار هم‌راستا باشند.',
   },
@@ -99,318 +79,41 @@ function ParsGlyph({ className = '' }) {
   return <span className={`pars-glyph ${className}`} aria-hidden="true"><CrystalMark /></span>;
 }
 
-function HeroParsVisual() {
-  const stageRef = useRef(null);
-  const [isStageActive, setIsStageActive] = useState(true);
-
-  useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage || !('IntersectionObserver' in window)) return undefined;
-    const observer = new IntersectionObserver(([entry]) => {
-      setIsStageActive(entry.isIntersecting && entry.intersectionRatio >= 0.3);
-    }, { threshold: [0, 0.3] });
-    observer.observe(stage);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div ref={stageRef} className={`hero-stage ${isStageActive ? 'is-active' : 'is-idle'}`}>
-      <div className="hero-crystal-shell">
-        <Suspense fallback={null}>
-          <ParsLogoSculpture active={isStageActive} interactionRef={stageRef} />
-        </Suspense>
-      </div>
-    </div>
-  );
-}
-
 export function HeroSection() {
-  const prefersReducedMotion = () => (
-    typeof window !== 'undefined'
-    && typeof window.matchMedia === 'function'
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  );
-  const [isMotionReduced, setIsMotionReduced] = useState(() => prefersReducedMotion());
-  const startingStep = isMotionReduced ? 0 : -1;
-  const startingAnswers = { name: '', company: '', focus: '' };
-  const startingPrompt = getHeroDialoguePrompt(startingStep, startingAnswers);
-  const [dialogueStep, setDialogueStep] = useState(startingStep);
-  const [dialoguePhase, setDialoguePhase] = useState(isMotionReduced ? 'ready' : 'typing');
-  const [typingState, setTypingState] = useState(() => ({
-    prompt: startingPrompt,
-    length: isMotionReduced ? Array.from(startingPrompt).length : 0,
-  }));
-  const [history, setHistory] = useState(() => (
-    isMotionReduced ? [{ prompt: HERO_TITLE_TEXT, answer: '' }] : []
-  ));
-  const [answers, setAnswers] = useState(startingAnswers);
-  const [inputValue, setInputValue] = useState('');
-  const [inputError, setInputError] = useState('');
-  const [nextStep, setNextStep] = useState(null);
-
-  const activePrompt = getHeroDialoguePrompt(dialogueStep, answers);
-  const activePromptCharacters = Array.from(activePrompt);
-  const typedLength = typingState.prompt === activePrompt
-    ? Math.min(typingState.length, activePromptCharacters.length)
-    : 0;
-  const visiblePrompt = activePromptCharacters.slice(0, typedLength).join('');
-  const currentField = dialogueStep >= 0 && dialogueStep < HERO_DIALOGUE_STEPS.length
-    ? HERO_DIALOGUE_STEPS[dialogueStep]
-    : null;
-  const isIntro = dialogueStep < 0;
-  const isComplete = dialogueStep >= HERO_DIALOGUE_STEPS.length;
-  const isPromptTyping = dialoguePhase === 'typing';
-  const lineOneLength = HERO_TITLE_LINE_ONE_CHARS.length;
-  const titleLineTwoStart = lineOneLength + 1;
-  const typedLineOne = HERO_TITLE_LINE_ONE_CHARS.slice(0, Math.min(typedLength, lineOneLength)).join('');
-  const typedLineTwoLength = Math.min(
-    Math.max(0, typedLength - titleLineTwoStart),
-    HERO_TITLE_LINE_TWO_CHARS.length,
-  );
-  const visibleLineTwo = HERO_TITLE_LINE_TWO_CHARS.slice(0, typedLineTwoLength).join('');
-
-  useEffect(() => {
-    const motionQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)');
-    if (!motionQuery) return undefined;
-    const updateMotionPreference = (event) => {
-      setIsMotionReduced(event.matches);
-      setDialoguePhase(event.matches ? 'ready' : 'typing');
-    };
-    motionQuery.addEventListener?.('change', updateMotionPreference);
-    return () => motionQuery.removeEventListener?.('change', updateMotionPreference);
-  }, []);
-
-  useEffect(() => {
-    const characters = Array.from(activePrompt);
-    if (isMotionReduced) {
-      if (dialogueStep < 0) {
-        setHistory((items) => (
-          items.some((turn) => turn.prompt === HERO_TITLE_TEXT)
-            ? items
-            : [...items, { prompt: HERO_TITLE_TEXT, answer: '' }]
-        ));
-        setDialogueStep(0);
-        return undefined;
-      }
-      setTypingState({ prompt: activePrompt, length: characters.length });
-      setDialoguePhase('ready');
-      return undefined;
-    }
-
-    setTypingState({ prompt: activePrompt, length: 0 });
-    const timers = [];
-    let characterInterval;
-    const clearSequence = () => {
-      timers.forEach((timer) => window.clearTimeout(timer));
-      if (characterInterval !== undefined) window.clearInterval(characterInterval);
-    };
-
-    timers.push(window.setTimeout(() => {
-      let currentLength = 0;
-      characterInterval = window.setInterval(() => {
-        currentLength = Math.min(currentLength + 1, characters.length);
-        setTypingState({ prompt: activePrompt, length: currentLength });
-        if (currentLength >= characters.length) {
-          window.clearInterval(characterInterval);
-          if (dialogueStep === -1) {
-            setDialoguePhase('holding');
-            timers.push(window.setTimeout(() => {
-              setHistory((items) => (
-                items.some((turn) => turn.prompt === HERO_TITLE_TEXT)
-                  ? items
-                  : [...items, { prompt: HERO_TITLE_TEXT, answer: '' }]
-              ));
-              setDialoguePhase('receding');
-            }, 900));
-          } else {
-            setDialoguePhase('ready');
-          }
-        }
-      }, 32);
-    }, 120));
-
-    return clearSequence;
-  }, [activePrompt, dialogueStep, isMotionReduced]);
-
-  useEffect(() => {
-    if (dialoguePhase !== 'arriving' || isMotionReduced) return undefined;
-    let firstFrame = null;
-    let secondFrame = null;
-    firstFrame = window.requestAnimationFrame(() => {
-      secondFrame = window.requestAnimationFrame(() => setDialoguePhase('typing'));
-    });
-    return () => {
-      if (firstFrame !== null) window.cancelAnimationFrame(firstFrame);
-      if (secondFrame !== null) window.cancelAnimationFrame(secondFrame);
-    };
-  }, [dialoguePhase, isMotionReduced]);
-
-  useEffect(() => {
-    if (!isMotionReduced || nextStep === null) return;
-    setDialogueStep(nextStep);
-    setNextStep(null);
-    setDialoguePhase('ready');
-  }, [isMotionReduced, nextStep]);
-
-  const handlePromptTransitionEnd = (event) => {
-    if (event.target !== event.currentTarget || event.propertyName !== 'transform' || dialoguePhase !== 'receding') return;
-    if (dialogueStep < 0) {
-      setDialoguePhase('arriving');
-      setDialogueStep(0);
-      return;
-    }
-    if (nextStep === null) return;
-    setDialoguePhase('arriving');
-    setDialogueStep(nextStep);
-    setNextStep(null);
-  };
-
-  const advanceConversation = (answer) => {
-    const cleanAnswer = answer.trim();
-    setAnswers((current) => ({ ...current, [currentField.key]: cleanAnswer }));
-    setHistory((current) => ([
-      ...current,
-      { prompt: activePrompt, answer: cleanAnswer || 'فعلاً رد شد' },
-    ]));
-    setInputValue('');
-    setInputError('');
-    if (isMotionReduced) {
-      setDialogueStep(dialogueStep + 1);
-    } else {
-      setDialoguePhase('receding');
-      setNextStep(dialogueStep + 1);
-    }
-  };
-
-  const handleDialogueSubmit = (event) => {
-    event.preventDefault();
-    if (!currentField) return;
-    const answer = inputValue.trim();
-    if (currentField.required && !answer) {
-      setInputError('برای ادامه، پاسخ این مورد را وارد کنید');
-      return;
-    }
-    advanceConversation(answer);
-  };
-
-  const handleSkipQuestion = () => {
-    if (currentField?.required) return;
-    advanceConversation('');
-  };
-
-  const restartConversation = () => {
-    setAnswers({ name: '', company: '', focus: '' });
-    setInputValue('');
-    setInputError('');
-    setNextStep(null);
-    if (isMotionReduced) {
-      const firstPrompt = getHeroDialoguePrompt(0, { name: '', company: '', focus: '' });
-      setHistory([{ prompt: HERO_TITLE_TEXT, answer: '' }]);
-      setDialogueStep(0);
-      setTypingState({ prompt: firstPrompt, length: Array.from(firstPrompt).length });
-      setDialoguePhase('ready');
-    } else {
-      setHistory([]);
-      setDialogueStep(-1);
-      setTypingState({ prompt: HERO_TITLE_TEXT, length: 0 });
-      setDialoguePhase('typing');
-    }
-  };
-
   return (
     <section className="hero hero-pars" id="home" aria-labelledby="hero-title">
-      <img
-        className="hero-backdrop"
-        src={`${import.meta.env.BASE_URL}pars-home-hero.jpg`}
-        alt=""
-        aria-hidden="true"
-        fetchPriority="high"
-        decoding="async"
-      />
-      <div className="hero-atmosphere" aria-hidden="true"><span /><span /><i /></div>
+      <picture className="hero-backdrop-picture" aria-hidden="true">
+        <source
+          srcSet={`${import.meta.env.BASE_URL}pars-home-hero.webp`}
+          type="image/webp"
+        />
+        <img
+          className="hero-backdrop"
+          src={`${import.meta.env.BASE_URL}pars-home-hero-fallback.jpg`}
+          alt=""
+          width="1672"
+          height="941"
+          fetchPriority="high"
+          decoding="async"
+        />
+      </picture>
       <div className="hero-layout hero-pars-layout site-container">
         <div className="hero-copy hero-pars-copy">
-          <div className="hero-kicker hero-kicker-pars"><span className="hero-kicker-icon"><ChartNoAxesCombined size={14} /></span> سرمایه‌گذاری</div>
-          <div className={`hero-dialogue-stage ${isIntro ? 'is-intro' : ''} ${currentField ? 'has-input' : ''} ${isComplete ? 'is-complete' : ''} phase-${dialoguePhase}`}>
-            <div className="hero-dialogue-history" aria-hidden="true">
-              {history.slice(-2).map((turn, index) => (
-                <div className="hero-dialogue-echo" key={`${turn.prompt}-${index}`}>
-                  <span>{turn.prompt}</span>
-                  {turn.answer && <strong>{turn.answer}</strong>}
-                </div>
-              ))}
-            </div>
-            <h1
-              key={dialogueStep}
-              id="hero-title"
-              className={`hero-dialogue-prompt ${isIntro ? 'is-intro' : ''}`}
-              aria-label={activePrompt}
-              onTransitionEnd={handlePromptTransitionEnd}
-            >
-              {isIntro ? (
-                <span className="hero-dialogue-prompt-visual" aria-hidden="true">
-                  <span className="hero-dialogue-title-line">
-                    {typedLineOne || '\u00a0'}
-                    {isPromptTyping && typedLength <= titleLineTwoStart && <span className="hero-type-caret" />}
-                  </span>
-                  <span className="hero-dialogue-title-line">
-                    <em>{visibleLineTwo || '\u00a0'}</em>
-                    {isPromptTyping && typedLength > titleLineTwoStart && typedLength < activePromptCharacters.length && <span className="hero-type-caret" />}
-                  </span>
-                </span>
-              ) : (
-                <span className="hero-dialogue-prompt-visual" aria-hidden="true">
-                  {visiblePrompt || '\u00a0'}
-                  {isPromptTyping && <span className="hero-type-caret" />}
-                </span>
-              )}
-            </h1>
-
-            {currentField && (
-              <form
-                className={`hero-dialogue-form ${dialoguePhase === 'ready' ? 'is-ready' : ''}`}
-                onSubmit={handleDialogueSubmit}
-                noValidate
-              >
-                <label className="sr-only" htmlFor="hero-dialogue-input">{currentField.placeholder}</label>
-                <input
-                  id="hero-dialogue-input"
-                  name={currentField.key}
-                  type="text"
-                  value={inputValue}
-                  placeholder={currentField.placeholder}
-                  autoComplete={currentField.autoComplete}
-                  maxLength={currentField.key === 'focus' ? 180 : 100}
-                  required={currentField.required}
-                  disabled={dialoguePhase !== 'ready'}
-                  dir="auto"
-                  aria-required={currentField.required}
-                  aria-label={currentField.placeholder}
-                  onChange={(event) => {
-                    setInputValue(event.target.value);
-                    if (inputError) setInputError('');
-                  }}
-                />
-                {currentField.key === 'focus' && (
-                  <button className="hero-dialogue-skip" type="button" onClick={handleSkipQuestion} disabled={dialoguePhase !== 'ready'}>
-                    بعداً پاسخ می‌دهم
-                  </button>
-                )}
-                <button className="hero-dialogue-send" type="submit" aria-label="ادامه" disabled={dialoguePhase !== 'ready'}>
-                  <ArrowUpLeft size={15} />
-                </button>
-              </form>
-            )}
-            {inputError && <p className="hero-dialogue-error" role="alert">{inputError}</p>}
-            {isComplete && dialoguePhase === 'ready' && (
-              <button className="hero-dialogue-restart" type="button" onClick={restartConversation}>
-                شروع دوباره‌ی گفت‌وگو
-              </button>
-            )}
-            <span className="sr-only" aria-live="polite" aria-atomic="true">
-              {dialoguePhase === 'ready' ? activePrompt : ''}
-            </span>
+          <div className="hero-brand-lockup">
+            <img
+              className="hero-brand-mark"
+              src={`${import.meta.env.BASE_URL}pars-mark.svg`}
+              alt="نشان پارس"
+              width="616"
+              height="466"
+              decoding="async"
+            />
           </div>
+          <div className="hero-kicker hero-kicker-pars">سرمایه‌گذاری</div>
+          <h1 id="hero-title" className="hero-static-title">
+            <span>در کنار کسانی</span>
+            <span><em>که آینده می‌سازند</em></span>
+          </h1>
           <p className="hero-description">پارس در کنار تیم‌هایی می‌ایستد که مسئله‌ای واقعی را به کسب‌وکاری پایدار تبدیل می‌کنند؛ با سرمایه، تجربه و شبکه‌ی ارتباطی</p>
           <div className="hero-actions hero-pars-actions">
             <a className="button button-lime button-large" href={pageHref('apply')}>شروع درخواست <ArrowUpLeft size={17} /></a>
@@ -423,7 +126,6 @@ export function HeroSection() {
           </div>
           <div className="hero-campaign-note"><span><i /></span> شرایط هر دوره در اطلاعیه‌ی رسمی همان دوره اعلام می‌شود</div>
         </div>
-        <HeroParsVisual />
       </div>
       <div className="hero-bottomline hero-pars-bottomline site-container">
         <a href={pageHref('industries')} className="hero-scroll-cue"><span><ArrowDown size={14} /></span> حوزه‌های سرمایه‌گذاری را ببینید</a>
@@ -459,7 +161,7 @@ export function HomeHighlightsSection() {
       label: 'حوزه‌های سرمایه‌گذاری',
       title: '۱۱ حوزه؛ یک نگاه رو به آینده',
       description: 'حوزه‌های تأییدشده‌ی پارس را با تصویرهایی مستقل مرور کنید.',
-      image: 'pars-photo-energy.jpg',
+      image: 'pars-photo-energy.webp',
       number: '۰۱',
       accent: '#5CC6D9',
       accentInk: '#17151D',
@@ -471,7 +173,7 @@ export function HomeHighlightsSection() {
       label: 'رویکرد پارس',
       title: 'همراهی از شناخت مسئله تا رشد',
       description: 'نگاه پارس به همکاری با تیم‌ها و ساختن مسیر رشد.',
-      image: 'pars-photo-social.jpg',
+      image: 'pars-photo-social.webp',
       number: '۰۲',
       accent: '#6166AA',
       accentInk: '#fff',
@@ -483,7 +185,7 @@ export function HomeHighlightsSection() {
       label: 'پرتفوی پارس',
       title: 'اطلاعات پس از تأیید رسمی',
       description: 'نام شرکت‌ها تنها پس از تأیید و اعلام رسمی منتشر می‌شود.',
-      image: 'pars-photo-housing.jpg',
+      image: 'pars-photo-housing.webp',
       number: '۰۳',
       accent: '#592C7A',
       accentInk: '#fff',
@@ -495,7 +197,7 @@ export function HomeHighlightsSection() {
       label: 'خبرها و دیدگاه‌ها',
       title: 'روایت‌ها، بدون خبرسازی',
       description: 'محتوای خبری فقط پس از تأیید رسمی منتشر خواهد شد.',
-      image: 'pars-photo-content.jpg',
+      image: 'pars-photo-content.webp',
       number: '۰۴',
       accent: '#68A6D9',
       accentInk: '#17151D',
@@ -656,7 +358,7 @@ export function IndustriesSection() {
     <section className="industries-section section-space" id="industries">
       <div className="site-container">
         <div className="industries-showcase" data-reveal>
-          <img src={`${import.meta.env.BASE_URL}pars-sector-agriculture.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
+          <img src={`${import.meta.env.BASE_URL}pars-sector-agriculture.webp`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
           <div className="industries-showcase-content">
             <SectionHeading index="۰۱" eyebrow="حوزه‌های منتخب" title="سرمایه برای" emphasis="حل مسئله‌های واقعی" copy="پارس در حوزه‌هایی سرمایه‌گذاری می‌کند که فناوری بتواند راه‌حل‌های تازه بسازد" light className="industries-showcase-heading" />
             <div className="industries-showcase-count"><strong>۱۱</strong><span>حوزه‌ی سرمایه‌گذاری<br />با یک نگاه مسئله‌محور</span></div>
@@ -742,7 +444,7 @@ export function PortfolioSection() {
       <div className="site-container">
         <div className="section-heading-row portfolio-heading-row"><SectionHeading index="۰۱" eyebrow="پرتفوی پارس" title="شرکت‌های" emphasis="پرتفوی" copy="اطلاعات پرتفوی پس از تأیید رسمی در این بخش منتشر می‌شود" /></div>
         <figure className="editorial-visual portfolio-visual" data-reveal style={{ '--visual-delay': '120ms', '--visual-accent': '#592C7A' }}>
-          <img src={`${import.meta.env.BASE_URL}pars-photo-housing.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
+          <img src={`${import.meta.env.BASE_URL}pars-photo-housing.webp`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
           <div className="editorial-visual-copy">
             <span className="eyebrow">پرتفوی پارس</span>
             <h3>در انتظار اعلام رسمی</h3>
@@ -847,7 +549,7 @@ export function ToolsSection({ onOpenTool }) {
       <div className="site-container">
         <div className="section-heading-row"><SectionHeading index="۰۱" eyebrow="ابزارهای استارتاپی" title="با عدد" emphasis="تصمیم بگیرید" copy="محاسبه‌گرهای ساده برای پرسش‌هایی که پیش از جذب سرمایه، رشد یا مذاکره پیش می‌آید" /><div className="tools-data-note"><ShieldCheck size={18} /><span>محاسبه‌ها در مرورگر شما انجام می‌شود و هیچ داده‌ای به سرور ارسال نمی‌شود</span></div></div>
         <figure className="editorial-visual tools-visual" data-reveal style={{ '--visual-delay': '120ms', '--visual-accent': '#68A6D9' }}>
-          <img src={`${import.meta.env.BASE_URL}pars-photo-finance.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
+          <img src={`${import.meta.env.BASE_URL}pars-photo-finance.webp`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
           <figcaption className="editorial-visual-copy">
             <span className="eyebrow">تصویر مفهومی</span>
             <strong>عددها را با دقت بررسی کنید</strong>
@@ -887,7 +589,7 @@ export function NewsSection() {
           <a href={pageHref('apply')} className="text-link">اطلاعیه‌ی کمپین <ArrowUpLeft size={15} /></a>
         </div>
         <figure className="editorial-visual news-visual" data-reveal style={{ '--visual-delay': '100ms', '--visual-accent': '#6166AA' }}>
-          <img src={`${import.meta.env.BASE_URL}pars-photo-content.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
+          <img src={`${import.meta.env.BASE_URL}pars-photo-content.webp`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
           <figcaption className="editorial-visual-copy">
             <span className="eyebrow">تصویر مفهومی</span>
             <strong>خبرها و دیدگاه‌ها</strong>
@@ -915,7 +617,7 @@ export function AboutSection() {
     <section className="about-section section-space" id="about">
       <div className="site-container"><div className="about-top"><SectionHeading index="۰۱" eyebrow="درباره‌ی پارس" title="سرمایه‌گذاری" emphasis="با نگاه بلندمدت" copy="پارس برای همراهی با کسب‌وکارهایی شکل گرفته که می‌خواهند مسئله‌های واقعی را حل کنند و رشدی پایدار بسازند" /><div className="about-history-card"><span className="about-history-symbol"><ParsGlyph /></span><span className="eyebrow">تاریخچه و معرفی</span><strong>اطلاعات رسمی درباره‌ی سال تأسیس و تاریخچه‌ی پارس پس از تأیید منتشر می‌شود</strong></div></div>
         <figure className="editorial-visual about-visual" data-reveal style={{ '--visual-delay': '180ms', '--visual-accent': '#5CC6D9' }}>
-          <img src={`${import.meta.env.BASE_URL}pars-photo-social.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
+          <img src={`${import.meta.env.BASE_URL}pars-photo-social.webp`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
           <figcaption className="editorial-visual-copy">
             <span className="eyebrow">تصویر مفهومی</span>
             <strong>پیوند تجربه و رشد</strong>
@@ -987,7 +689,7 @@ export function ContactSection() {
             <div><span className="contact-detail-icon"><Building2 size={17} /></span><span><small>لینکدین و رسانه‌های اجتماعی</small><strong>پس از تأیید رسمی اعلام می‌شود</strong></span></div>
           </div>
           <figure className="editorial-visual contact-visual" data-reveal style={{ '--visual-delay': '160ms', '--visual-accent': '#5CC6D9' }}>
-            <img src={`${import.meta.env.BASE_URL}pars-photo-social.jpg`} alt="" width="1536" height="1024" loading="lazy" decoding="async" />
+            <img src={`${import.meta.env.BASE_URL}pars-photo-social.webp`} alt="" width="1536" height="1024" loading="lazy" decoding="async" />
             <figcaption className="editorial-visual-copy">
               <span className="eyebrow">تصویر مفهومی</span>
               <strong>مسیر گفت‌وگو از این‌جا آغاز می‌شود</strong>

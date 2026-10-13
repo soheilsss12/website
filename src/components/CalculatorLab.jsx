@@ -15,6 +15,7 @@ import {
   X,
 } from 'lucide-react';
 import CrystalMark from './CrystalMark.jsx';
+import { pageHref } from '../lib/routes.js';
 
 const numberFormat = new Intl.NumberFormat('fa-IR', { maximumFractionDigits: 1 });
 const numberOf = (value) => Math.max(0, Number(value) || 0);
@@ -216,7 +217,7 @@ export default function CalculatorLab({ toolId, onClose }) {
             </div>
             <div className="calculator-footer-note"><ShieldCheck size={17} /><p>{result.note}</p></div>
             <div className="calculator-dialog-footer">
-              <a href="#apply" className="button button-lime" onClick={onClose}>درخواست سرمایه <ArrowUpLeft size={15} /></a>
+              <a href={pageHref('apply')} className="button button-lime" onClick={onClose}>درخواست سرمایه <ArrowUpLeft size={15} /></a>
             </div>
           </div>
         </div>

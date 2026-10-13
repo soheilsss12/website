@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Check, MousePointer2, Palette } from 'lucide-react';
 import CrystalMark from './CrystalMark.jsx';
+import { pageHref } from '../lib/routes.js';
 
 const concepts = [
   { id: 'crystal', title: 'بلور پارس', subtitle: 'هندسه‌ی دقیق، هوش شفاف', description: 'فرمی بلوری با بازتاب‌های نور؛ نشانی هندسی و روشن برای پارس' },
@@ -88,8 +89,8 @@ export default function LogoOptionsPage() {
   return (
     <main className="logo-options-page" dir="rtl">
       <header className="logo-options-header site-container">
-        <a className="logo-options-brand" href="#home"><span className="brand-symbol"><CrystalMark /></span><span><strong>پارس</strong><small>سرمایه‌گذاری خطرپذیر</small></span></a>
-        <a className="logo-options-back" href="#home"><ArrowLeft size={16} /> بازگشت به سایت</a>
+        <a className="logo-options-brand" href={pageHref('home')}><span className="brand-symbol"><CrystalMark /></span><span><strong>پارس</strong><small>سرمایه‌گذاری خطرپذیر</small></span></a>
+        <a className="logo-options-back" href={pageHref('home')}><ArrowLeft size={16} /> بازگشت به سایت</a>
       </header>
       <section className="logo-options-intro site-container">
         <span className="logo-options-kicker"><Palette size={15} /> هویت بصری · پارس</span>

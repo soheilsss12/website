@@ -2,19 +2,20 @@ import { useEffect, useState } from 'react';
 import { ArrowUpLeft, Menu, X } from 'lucide-react';
 import { industries, valuePillars } from '../data/siteContent.js';
 import ParsLogoMark from './ParsLogoMark.jsx';
+import { pageHref } from '../lib/routes.js';
 
 const asset = (name) => `${import.meta.env.BASE_URL}${name}`;
 
 const links = [
-  { label: 'تصاویر', href: '#gallery' },
-  { label: 'حوزه‌ها', href: '#industries' },
-  { label: 'استراتژی', href: '#strategy' },
-  { label: 'درباره‌ی پارس', href: '#about' },
+  { label: 'رویکرد', href: pageHref('approach') },
+  { label: 'حوزه‌ها', href: pageHref('industries') },
+  { label: 'پرتفوی', href: pageHref('portfolio') },
+  { label: 'درباره‌ی پارس', href: pageHref('about') },
 ];
 
 function ParsBrand({ footer = false }) {
   return (
-    <a className={`pars-brand ${footer ? 'pars-brand--footer' : ''}`} href="#home" aria-label="صفحه‌ی اصلی پارس">
+    <a className={`pars-brand ${footer ? 'pars-brand--footer' : ''}`} href={pageHref('home')} aria-label="صفحه‌ی اصلی پارس">
       <ParsLogoMark decorative className="pars-brand-mark" />
       <span>پارس</span>
     </a>
@@ -32,14 +33,14 @@ function SiteHeader() {
           {links.map((link) => (
             <a href={link.href} key={link.href} onClick={() => setMenuOpen(false)}>{link.label}</a>
           ))}
-          <a className="pars-nav-track" href="#track" onClick={() => setMenuOpen(false)}>پیگیری درخواست</a>
-          <a className="pars-button pars-button--mobile" href="#apply" onClick={() => setMenuOpen(false)}>
+          <a className="pars-nav-track" href={pageHref('track')} onClick={() => setMenuOpen(false)}>پیگیری درخواست</a>
+          <a className="pars-button pars-button--mobile" href={pageHref('apply')} onClick={() => setMenuOpen(false)}>
             درخواست سرمایه <ArrowUpLeft size={16} />
           </a>
         </nav>
         <div className="pars-header-actions">
-          <a className="pars-track-link" href="#track">پیگیری درخواست</a>
-          <a className="pars-button pars-button--header" href="#apply">درخواست سرمایه <ArrowUpLeft size={16} /></a>
+          <a className="pars-track-link" href={pageHref('track')}>پیگیری درخواست</a>
+          <a className="pars-button pars-button--header" href={pageHref('apply')}>درخواست سرمایه <ArrowUpLeft size={16} /></a>
           <button
             className="pars-menu-toggle"
             type="button"
@@ -121,7 +122,7 @@ function IndustryGrid() {
         {industries.map((industry) => {
           const Icon = industry.icon;
           return (
-            <a className="pars-industry-card" href="#apply" key={industry.title} data-reveal>
+            <a className="pars-industry-card" href={pageHref('apply')} key={industry.title} data-reveal>
               <span className="pars-industry-icon"><Icon size={22} strokeWidth={1.55} /></span>
               <strong>{industry.title}</strong>
               <ArrowUpLeft className="pars-industry-arrow" size={17} aria-hidden="true" />
@@ -206,8 +207,8 @@ export default function MinimalHomePage() {
             <h1 id="pars-hero-title">سرمایه برای<br /><em>ایده‌های موفق</em></h1>
             <p className="pars-hero-subtitle">از ایده‌های جسورانه تا کسب‌وکارهای رو به رشد</p>
             <div className="pars-hero-actions">
-              <a className="pars-button pars-button--large" href="#apply">درخواست سرمایه <ArrowUpLeft size={19} /></a>
-              <a className="pars-text-link" href="#track">پیگیری درخواست <ArrowUpLeft size={15} /></a>
+              <a className="pars-button pars-button--large" href={pageHref('apply')}>درخواست سرمایه <ArrowUpLeft size={19} /></a>
+              <a className="pars-text-link" href={pageHref('track')}>پیگیری درخواست <ArrowUpLeft size={15} /></a>
             </div>
             <span className="pars-hero-footnote"><i aria-hidden="true" /> همراهِ مسیرِ رشد</span>
           </div>
@@ -225,16 +226,16 @@ export default function MinimalHomePage() {
             <span className="pars-section-kicker">قدم بعدی</span>
             <h2 id="pars-final-title">آماده‌ی شروعید؟</h2>
           </div>
-          <a className="pars-button pars-button--large" href="#apply">شروع درخواست <ArrowUpLeft size={18} /></a>
+          <a className="pars-button pars-button--large" href={pageHref('apply')}>شروع درخواست <ArrowUpLeft size={18} /></a>
         </section>
       </main>
       <footer className="pars-footer">
         <div className="pars-footer-inner pars-container">
           <ParsBrand footer />
           <div className="pars-footer-links">
-            <a href="#track">پیگیری درخواست</a>
-            <a href="#privacy">حریم خصوصی</a>
-            <a href="#terms">قوانین</a>
+            <a href={pageHref('track')}>پیگیری درخواست</a>
+            <a href={pageHref('privacy')}>حریم خصوصی</a>
+            <a href={pageHref('terms')}>قوانین</a>
           </div>
         </div>
       </footer>

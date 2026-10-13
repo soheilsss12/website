@@ -19,12 +19,12 @@ import {
 } from 'lucide-react';
 
 export const navItems = [
-  { label: 'رویکرد پارس', href: '#approach' },
-  { label: 'مسیر همراهی', href: '#journey' },
-  { label: 'حوزه‌های منتخب', href: '#industries' },
-  { label: 'پشتیبانی', href: '#benefits' },
-  { label: 'مسیر درخواست', href: '#process' },
-  { label: 'درباره‌ی پارس', href: '#about' },
+  { label: 'رویکرد', route: 'approach' },
+  { label: 'حوزه‌ها', route: 'industries' },
+  { label: 'پرتفوی', route: 'portfolio' },
+  { label: 'خبرها و دیدگاه‌ها', route: 'news' },
+  { label: 'درباره‌ی ما', route: 'about' },
+  { label: 'تماس', route: 'contact' },
 ];
 
 export const industries = [
@@ -62,5 +62,5 @@ export const processSteps = [
 export const stageOptions = ['ایده', 'نمونه‌ی اولیه (MVP)', 'درآمدزا', 'رشد'];
 
 export const navSections = [
-  'home', 'approach', 'industries', 'benefits', 'process', 'portfolio', 'map', 'tools', 'partners', 'news', 'about', 'team', 'contact', 'campaign', 'track',
+  'home', 'approach', 'industries', 'portfolio', 'news', 'about', 'contact', 'tools', 'apply', 'track',
 ];

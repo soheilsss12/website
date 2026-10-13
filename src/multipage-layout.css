@@ -408,7 +408,7 @@
   margin-top: 25px;
 }
 
-/* The 11 sector cards each carry a real image; all are disclosed as conceptual. */
+/* Each approved sector gets its own dedicated image and brand-color accent. */
 .industries-section .industry-card {
   position: relative;
   min-height: 302px;
@@ -1596,24 +1596,26 @@
 
 .home-highlight-card::after {
   position: absolute;
-  z-index: 0;
-  inset: 0;
+  z-index: 1;
+  inset: -18% -58%;
   content: '';
   pointer-events: none;
   opacity: 0;
-  background: linear-gradient(120deg, rgba(92, 198, 217, 0.2), transparent 48%, rgba(89, 44, 122, 0.2));
-  transition: opacity 520ms ease;
+  background: linear-gradient(110deg, transparent 42%, rgba(255, 255, 255, 0.12) 49%, rgba(92, 198, 217, 0.22) 51%, transparent 59%);
+  transform: translateX(-40%) skewX(-14deg);
+  transition: opacity 280ms ease, transform 980ms cubic-bezier(0.18, 0.72, 0.22, 1);
 }
 
 .home-highlight-card:hover > img,
 .home-highlight-card:focus-visible > img {
-  filter: saturate(1.08) brightness(1);
+  filter: saturate(1.06) brightness(0.99);
   transform: scale(1.045);
 }
 
 .home-highlight-card:hover::after,
 .home-highlight-card:focus-visible::after {
   opacity: 1;
+  transform: translateX(40%) skewX(-14deg);
 }
 
 .home-highlight-copy {
@@ -1626,6 +1628,12 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 7px;
+  transition: transform 360ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.home-highlight-card:hover .home-highlight-copy,
+.home-highlight-card:focus-visible .home-highlight-copy {
+  transform: translateY(-4px);
 }
 
 .home-highlight-copy > small {
@@ -2252,6 +2260,7 @@
   .home-highlight-card,
   .home-highlight-card > img,
   .home-highlight-card::after,
+  .home-highlight-copy,
   .home-highlight-copy > i,
   .investment-overview-card,
   .investment-overview-icon,
@@ -2291,5 +2300,64 @@
   .iran-map-city-label {
     font-size: 1.85px;
     stroke-width: 0.64px;
+  }
+}
+
+/* Image-first sector mosaic: the photos meet edge-to-edge without card borders. */
+.industry-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+}
+
+.industries-section .industry-card {
+  grid-column: span 2;
+  border: 0;
+  border-radius: 0;
+  background: rgba(18, 14, 24, 0.22);
+}
+
+.industries-section .industry-card:nth-last-child(-n + 2) {
+  grid-column: span 3;
+}
+
+.industries-section .industry-card::before {
+  display: none;
+}
+
+.industries-section .industry-card:hover {
+  border: 0;
+  background: rgba(18, 14, 24, 0.16);
+  transform: none;
+}
+
+@media (max-width: 900px) {
+  .industries-section .industry-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .industries-section .industry-card,
+  .industries-section .industry-card:nth-last-child(-n + 2) {
+    grid-column: span 2;
+  }
+
+  .industries-section .industry-card:last-child {
+    grid-column: span 4;
+  }
+}
+
+@media (max-width: 560px) {
+  .industries-section .industry-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .industries-section .industry-card,
+  .industries-section .industry-card:nth-last-child(-n + 2) {
+    grid-column: span 1;
+  }
+
+  .industries-section .industry-card:last-child {
+    grid-column: span 2;
   }
 }

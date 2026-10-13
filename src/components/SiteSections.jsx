@@ -821,10 +821,10 @@ export function PortfolioSection() {
         </div>
         <figure className="editorial-visual portfolio-visual" data-reveal style={{ '--visual-delay': '70ms', '--visual-accent': '#592C7A' }}>
           <img
-            {...responsiveImageProps('pars-portfolio-editorial.webp', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px')}
+            {...responsiveImageProps('pars-portfolio-cinematic.webp', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px')}
             alt=""
             width="1536"
-            height="1024"
+            height="864"
             loading="eager"
             fetchPriority="high"
             decoding="async"

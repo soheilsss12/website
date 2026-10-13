@@ -29,7 +29,7 @@ const pageImagePreloads = {
   investment: ['pars-home-hero', '100vw', 1672],
   approach: ['pars-journey-discovery', '(max-width: 760px) 92vw, 48vw'],
   sectors: ['pars-industries-showcase', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
-  portfolio: ['pars-portfolio-editorial', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
+  portfolio: ['pars-portfolio-cinematic', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
   stories: ['pars-news-editorial', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
   about: ['pars-about-editorial', '(max-width: 760px) calc(100vw - 40px), (max-width: 1320px) calc(100vw - 96px), 1320px'],
   contact: ['pars-contact-editorial', '(max-width: 760px) calc(100vw - 40px), 48vw'],

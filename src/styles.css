@@ -7542,7 +7542,7 @@ h4,
 
 .iran-map-topography path {
   fill: none;
-  stroke: #FFFFFF3B;
+  stroke: #592C7A26;
   stroke-width: 0.105;
   stroke-dasharray: 0.4 0.8;
 }
@@ -7558,8 +7558,8 @@ h4,
 
 .iran-map-routes path {
   fill: none;
-  stroke: #FFFFFF85;
-  stroke-width: 0.13;
+  stroke: #6166AAB8;
+  stroke-width: 0.15;
   stroke-dasharray: 0.8 0.66;
   stroke-linecap: round;
   animation: iran-route-flow 5s linear infinite;
@@ -7571,23 +7571,24 @@ h4,
 
 .iran-map-city-pulse {
   fill: none;
-  stroke: #FFFFFFBF;
-  stroke-width: 0.15;
+  stroke: #6166AA9C;
+  stroke-width: 0.18;
   transform-box: fill-box;
   transform-origin: center;
   animation: iran-city-pulse 2.8s ease-out infinite;
 }
 
 .iran-map-city-dot {
-  fill: #F6F4F9;
-  stroke: #F6F4F9;
-  stroke-width: 0.12;
-  filter: drop-shadow(0 0 2px #231B2CE0);
+  fill: #592C7A;
+  stroke: #FFFFFF;
+  stroke-width: 0.2;
+  filter: drop-shadow(0 0 1.1px #231B2C80);
 }
 
 .iran-map-city.is-featured .iran-map-city-dot {
-  fill: #F6F4F9;
-  stroke: #F6F4F9;
+  fill: #5CC6D9;
+  stroke: #592C7A;
+  stroke-width: 0.22;
 }
 
 .iran-map-city-core {
@@ -7595,15 +7596,16 @@ h4,
 }
 
 .iran-map-city-label {
-  fill: #FFFFFF;
+  fill: #292532;
   font-family: var(--font-persian);
-  font-size: 1.42px;
-  font-weight: 670;
-  paint-order: stroke;
-  stroke: #FFFFFFF0;
-  stroke-width: 0.43px;
+  font-size: 1.7px;
+  font-weight: 720;
+  paint-order: stroke fill;
+  stroke: #FFFFFFF2;
+  stroke-width: 0.52px;
   stroke-linejoin: round;
   unicode-bidi: plaintext;
+  text-rendering: geometricPrecision;
 }
 
 .iran-map-stage-stamp,
@@ -8066,7 +8068,7 @@ h4,
   }
 
   .iran-map-city-label {
-    font-size: 1.55px;
+    font-size: 1.8px;
   }
 
   .map-art-card-accurate .map-legend {

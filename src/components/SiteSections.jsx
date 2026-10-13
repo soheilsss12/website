@@ -37,6 +37,25 @@ import CrystalMark from './CrystalMark.jsx';
 
 const faNumber = (value) => new Intl.NumberFormat('fa-IR').format(value);
 
+const HERO_TITLE_LINE_ONE = 'در کنار کسانی';
+const HERO_TITLE_LINE_TWO = 'که آینده می‌سازند';
+const HERO_TITLE_TEXT = `${HERO_TITLE_LINE_ONE} ${HERO_TITLE_LINE_TWO}`;
+const HERO_TITLE_LINE_ONE_CHARS = Array.from(HERO_TITLE_LINE_ONE);
+const HERO_TITLE_LINE_TWO_CHARS = Array.from(HERO_TITLE_LINE_TWO);
+const HERO_DIALOGUE_STEPS = [
+  { key: 'name', placeholder: 'نام و نام خانوادگی', autoComplete: 'name', required: true },
+  { key: 'company', placeholder: 'نام شرکت یا تیم', autoComplete: 'organization', required: true },
+  { key: 'focus', placeholder: 'خلاصه‌ی ایده یا مسئله‌ی محوری', autoComplete: 'off', required: false },
+];
+
+function getHeroDialoguePrompt(step, answers) {
+  if (step < 0) return HERO_TITLE_TEXT;
+  if (step === 0) return 'برای شروع، نام خود را بنویسید';
+  if (step === 1) return `${answers.name} گرامی، نام شرکت یا تیم شما چیست؟`;
+  if (step === 2) return `شرکت یا تیم ${answers.company} چه مسئله‌ای را حل می‌کند؟`;
+  return `سپاس ${answers.name}؛ حالا درباره‌ی ${answers.company} و مسیر پیش‌رو گفت‌وگو می‌کنیم`;
+}
+
 const journeyChapters = [
   {
     number: '۰۱',
@@ -80,6 +99,198 @@ function ParsGlyph({ className = '' }) {
 }
 
 export function HeroSection() {
+  const prefersReducedMotion = () => (
+    typeof window !== 'undefined'
+    && typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+  const [isMotionReduced, setIsMotionReduced] = useState(() => prefersReducedMotion());
+  const startingStep = isMotionReduced ? 0 : -1;
+  const startingAnswers = { name: '', company: '', focus: '' };
+  const startingPrompt = getHeroDialoguePrompt(startingStep, startingAnswers);
+  const [dialogueStep, setDialogueStep] = useState(startingStep);
+  const [dialoguePhase, setDialoguePhase] = useState(isMotionReduced ? 'ready' : 'typing');
+  const [typingState, setTypingState] = useState(() => ({
+    prompt: startingPrompt,
+    length: isMotionReduced ? Array.from(startingPrompt).length : 0,
+  }));
+  const [history, setHistory] = useState(() => (
+    isMotionReduced ? [{ prompt: HERO_TITLE_TEXT, answer: '' }] : []
+  ));
+  const [answers, setAnswers] = useState(startingAnswers);
+  const [inputValue, setInputValue] = useState('');
+  const [inputError, setInputError] = useState('');
+  const [nextStep, setNextStep] = useState(null);
+
+  const activePrompt = getHeroDialoguePrompt(dialogueStep, answers);
+  const activePromptCharacters = Array.from(activePrompt);
+  const typedLength = typingState.prompt === activePrompt
+    ? Math.min(typingState.length, activePromptCharacters.length)
+    : 0;
+  const visiblePrompt = activePromptCharacters.slice(0, typedLength).join('');
+  const currentField = dialogueStep >= 0 && dialogueStep < HERO_DIALOGUE_STEPS.length
+    ? HERO_DIALOGUE_STEPS[dialogueStep]
+    : null;
+  const isIntro = dialogueStep < 0;
+  const isComplete = dialogueStep >= HERO_DIALOGUE_STEPS.length;
+  const isPromptTyping = dialoguePhase === 'typing';
+  const lineOneLength = HERO_TITLE_LINE_ONE_CHARS.length;
+  const titleLineTwoStart = lineOneLength + 1;
+  const typedLineOne = HERO_TITLE_LINE_ONE_CHARS.slice(0, Math.min(typedLength, lineOneLength)).join('');
+  const typedLineTwoLength = Math.min(
+    Math.max(0, typedLength - titleLineTwoStart),
+    HERO_TITLE_LINE_TWO_CHARS.length,
+  );
+  const visibleLineTwo = HERO_TITLE_LINE_TWO_CHARS.slice(0, typedLineTwoLength).join('');
+
+  useEffect(() => {
+    const motionQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    if (!motionQuery) return undefined;
+    const updateMotionPreference = (event) => {
+      setIsMotionReduced(event.matches);
+      setDialoguePhase(event.matches ? 'ready' : 'typing');
+    };
+    motionQuery.addEventListener?.('change', updateMotionPreference);
+    return () => motionQuery.removeEventListener?.('change', updateMotionPreference);
+  }, []);
+
+  useEffect(() => {
+    const characters = Array.from(activePrompt);
+    if (isMotionReduced) {
+      if (dialogueStep < 0) {
+        setHistory((items) => (
+          items.some((turn) => turn.prompt === HERO_TITLE_TEXT)
+            ? items
+            : [...items, { prompt: HERO_TITLE_TEXT, answer: '' }]
+        ));
+        setDialogueStep(0);
+        return undefined;
+      }
+      setTypingState({ prompt: activePrompt, length: characters.length });
+      setDialoguePhase('ready');
+      return undefined;
+    }
+
+    setTypingState({ prompt: activePrompt, length: 0 });
+    const timers = [];
+    let characterInterval;
+    const clearSequence = () => {
+      timers.forEach((timer) => window.clearTimeout(timer));
+      if (characterInterval !== undefined) window.clearInterval(characterInterval);
+    };
+
+    timers.push(window.setTimeout(() => {
+      let currentLength = 0;
+      characterInterval = window.setInterval(() => {
+        currentLength = Math.min(currentLength + 1, characters.length);
+        setTypingState({ prompt: activePrompt, length: currentLength });
+        if (currentLength >= characters.length) {
+          window.clearInterval(characterInterval);
+          if (dialogueStep === -1) {
+            setDialoguePhase('holding');
+            timers.push(window.setTimeout(() => {
+              setHistory((items) => (
+                items.some((turn) => turn.prompt === HERO_TITLE_TEXT)
+                  ? items
+                  : [...items, { prompt: HERO_TITLE_TEXT, answer: '' }]
+              ));
+              setDialoguePhase('receding');
+            }, 900));
+          } else {
+            setDialoguePhase('ready');
+          }
+        }
+      }, 32);
+    }, 120));
+
+    return clearSequence;
+  }, [activePrompt, dialogueStep, isMotionReduced]);
+
+  useEffect(() => {
+    if (dialoguePhase !== 'arriving' || isMotionReduced) return undefined;
+    let firstFrame = null;
+    let secondFrame = null;
+    firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => setDialoguePhase('typing'));
+    });
+    return () => {
+      if (firstFrame !== null) window.cancelAnimationFrame(firstFrame);
+      if (secondFrame !== null) window.cancelAnimationFrame(secondFrame);
+    };
+  }, [dialoguePhase, isMotionReduced]);
+
+  useEffect(() => {
+    if (!isMotionReduced || nextStep === null) return;
+    setDialogueStep(nextStep);
+    setNextStep(null);
+    setDialoguePhase('ready');
+  }, [isMotionReduced, nextStep]);
+
+  const handlePromptTransitionEnd = (event) => {
+    if (event.target !== event.currentTarget || event.propertyName !== 'transform' || dialoguePhase !== 'receding') return;
+    if (dialogueStep < 0) {
+      setDialoguePhase('arriving');
+      setDialogueStep(0);
+      return;
+    }
+    if (nextStep === null) return;
+    setDialoguePhase('arriving');
+    setDialogueStep(nextStep);
+    setNextStep(null);
+  };
+
+  const advanceConversation = (answer) => {
+    const cleanAnswer = answer.trim();
+    setAnswers((current) => ({ ...current, [currentField.key]: cleanAnswer }));
+    setHistory((current) => ([
+      ...current,
+      { prompt: activePrompt, answer: cleanAnswer || 'فعلاً رد شد' },
+    ]));
+    setInputValue('');
+    setInputError('');
+    if (isMotionReduced) {
+      setDialogueStep(dialogueStep + 1);
+    } else {
+      setDialoguePhase('receding');
+      setNextStep(dialogueStep + 1);
+    }
+  };
+
+  const handleDialogueSubmit = (event) => {
+    event.preventDefault();
+    if (!currentField) return;
+    const answer = inputValue.trim();
+    if (currentField.required && !answer) {
+      setInputError('برای ادامه، پاسخ این مورد را وارد کنید');
+      return;
+    }
+    advanceConversation(answer);
+  };
+
+  const handleSkipQuestion = () => {
+    if (currentField?.required) return;
+    advanceConversation('');
+  };
+
+  const restartConversation = () => {
+    setAnswers({ name: '', company: '', focus: '' });
+    setInputValue('');
+    setInputError('');
+    setNextStep(null);
+    if (isMotionReduced) {
+      const firstPrompt = getHeroDialoguePrompt(0, { name: '', company: '', focus: '' });
+      setHistory([{ prompt: HERO_TITLE_TEXT, answer: '' }]);
+      setDialogueStep(0);
+      setTypingState({ prompt: firstPrompt, length: Array.from(firstPrompt).length });
+      setDialoguePhase('ready');
+    } else {
+      setHistory([]);
+      setDialogueStep(-1);
+      setTypingState({ prompt: HERO_TITLE_TEXT, length: 0 });
+      setDialoguePhase('typing');
+    }
+  };
+
   return (
     <section className="hero hero-pars" id="home" aria-labelledby="hero-title">
       <picture className="hero-backdrop-picture" aria-hidden="true">
@@ -109,11 +320,87 @@ export function HeroSection() {
               decoding="async"
             />
           </div>
-          <div className="hero-kicker hero-kicker-pars">سرمایه‌گذاری</div>
-          <h1 id="hero-title" className="hero-static-title">
-            <span>در کنار کسانی</span>
-            <span><em>که آینده می‌سازند</em></span>
-          </h1>
+          <div className="hero-kicker hero-kicker-pars"><span className="hero-kicker-icon"><ChartNoAxesCombined size={14} /></span> سرمایه‌گذاری</div>
+          <div className={`hero-dialogue-stage ${isIntro ? 'is-intro' : ''} ${currentField ? 'has-input' : ''} ${isComplete ? 'is-complete' : ''} phase-${dialoguePhase}`}>
+            <div className="hero-dialogue-history" aria-hidden="true">
+              {history.slice(-2).map((turn, index) => (
+                <div className="hero-dialogue-echo" key={`${turn.prompt}-${index}`}>
+                  <span>{turn.prompt}</span>
+                  {turn.answer && <strong>{turn.answer}</strong>}
+                </div>
+              ))}
+            </div>
+            <h1
+              key={dialogueStep}
+              id="hero-title"
+              className={`hero-dialogue-prompt ${isIntro ? 'is-intro' : ''}`}
+              aria-label={activePrompt}
+              onTransitionEnd={handlePromptTransitionEnd}
+            >
+              {isIntro ? (
+                <span className="hero-dialogue-prompt-visual" aria-hidden="true">
+                  <span className="hero-dialogue-title-line">
+                    {typedLineOne || '\u00a0'}
+                    {isPromptTyping && typedLength <= titleLineTwoStart && <span className="hero-type-caret" />}
+                  </span>
+                  <span className="hero-dialogue-title-line">
+                    <em>{visibleLineTwo || '\u00a0'}</em>
+                    {isPromptTyping && typedLength > titleLineTwoStart && typedLength < activePromptCharacters.length && <span className="hero-type-caret" />}
+                  </span>
+                </span>
+              ) : (
+                <span className="hero-dialogue-prompt-visual" aria-hidden="true">
+                  {visiblePrompt || '\u00a0'}
+                  {isPromptTyping && <span className="hero-type-caret" />}
+                </span>
+              )}
+            </h1>
+
+            {currentField && (
+              <form
+                className={`hero-dialogue-form ${dialoguePhase === 'ready' ? 'is-ready' : ''}`}
+                onSubmit={handleDialogueSubmit}
+                noValidate
+              >
+                <label className="sr-only" htmlFor="hero-dialogue-input">{currentField.placeholder}</label>
+                <input
+                  id="hero-dialogue-input"
+                  name={currentField.key}
+                  type="text"
+                  value={inputValue}
+                  placeholder={currentField.placeholder}
+                  autoComplete={currentField.autoComplete}
+                  maxLength={currentField.key === 'focus' ? 180 : 100}
+                  required={currentField.required}
+                  disabled={dialoguePhase !== 'ready'}
+                  dir="auto"
+                  aria-required={currentField.required}
+                  aria-label={currentField.placeholder}
+                  onChange={(event) => {
+                    setInputValue(event.target.value);
+                    if (inputError) setInputError('');
+                  }}
+                />
+                {currentField.key === 'focus' && (
+                  <button className="hero-dialogue-skip" type="button" onClick={handleSkipQuestion} disabled={dialoguePhase !== 'ready'}>
+                    بعداً پاسخ می‌دهم
+                  </button>
+                )}
+                <button className="hero-dialogue-send" type="submit" aria-label="ادامه" disabled={dialoguePhase !== 'ready'}>
+                  <ArrowUpLeft size={15} />
+                </button>
+              </form>
+            )}
+            {inputError && <p className="hero-dialogue-error" role="alert">{inputError}</p>}
+            {isComplete && dialoguePhase === 'ready' && (
+              <button className="hero-dialogue-restart" type="button" onClick={restartConversation}>
+                شروع دوباره‌ی گفت‌وگو
+              </button>
+            )}
+            <span className="sr-only" aria-live="polite" aria-atomic="true">
+              {dialoguePhase === 'ready' ? activePrompt : ''}
+            </span>
+          </div>
           <p className="hero-description">پارس در کنار تیم‌هایی می‌ایستد که مسئله‌ای واقعی را به کسب‌وکاری پایدار تبدیل می‌کنند؛ با سرمایه، تجربه و شبکه‌ی ارتباطی</p>
           <div className="hero-actions hero-pars-actions">
             <a className="button button-lime button-large" href={pageHref('apply')}>شروع درخواست <ArrowUpLeft size={17} /></a>
@@ -135,7 +422,6 @@ export function HeroSection() {
     </section>
   );
 }
-
 export function StatsRibbon() {
   const stats = [
     { value: '۱۱', title: 'حوزه‌ی سرمایه‌گذاری', note: 'از انرژی تا محتوا', icon: Compass },

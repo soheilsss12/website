@@ -61,21 +61,21 @@ const journeyChapters = [
   {
     number: '۰۱',
     stage: 'شناخت مسئله',
-    image: 'pars-hero-journey.jpg',
+    image: 'pars-photo-learning.jpg',
     title: 'از مسئله‌ای واقعی آغاز کنیم',
     description: 'گفت‌وگوی روشن کمک می‌کند نیاز واقعی را از فرضیه جدا کنیم و مسیر بررسی را بهتر بشناسیم.',
   },
   {
     number: '۰۲',
     stage: 'ساخت محصول',
-    image: 'pars-story-build.jpg',
+    image: 'pars-photo-industry.jpg',
     title: 'راه‌حل را در عمل بسنجیم',
     description: 'شناخت محصول و توان تیم، پایه‌ی تصمیم‌های دقیق‌تر و گام‌های بعدی است.',
   },
   {
     number: '۰۳',
     stage: 'آمادگی برای رشد',
-    image: 'pars-story-scale.jpg',
+    image: 'pars-photo-logistics.jpg',
     title: 'برای رشد، زیرساخت بسازیم',
     description: 'سرمایه، تجربه و ارتباطات زمانی اثرگذارند که با نیاز کسب‌وکار هم‌راستا باشند.',
   },
@@ -455,28 +455,52 @@ export function StatsRibbon() {
 export function HomeHighlightsSection() {
   const highlights = [
     {
-      route: 'approach',
-      label: 'رویکرد پارس',
-      title: 'از مسئله تا آمادگی برای رشد',
-      description: 'ببینید همراهی پارس چگونه از گفت‌وگوی روشن و شناخت محصول شکل می‌گیرد.',
-      image: 'pars-about-constellation.jpg',
-      number: '۰۱',
-    },
-    {
       route: 'industries',
       label: 'حوزه‌های سرمایه‌گذاری',
-      title: '۱۱ حوزه، یک نگاه مسئله‌محور',
-      description: 'حوزه‌های تأییدشده‌ی سرمایه‌گذاری پارس را مرور کنید.',
-      image: 'pars-sector-agriculture.jpg',
+      title: '۱۱ حوزه؛ یک نگاه رو به آینده',
+      description: 'حوزه‌های تأییدشده‌ی پارس را با تصویرهایی مستقل مرور کنید.',
+      image: 'pars-photo-energy.jpg',
+      number: '۰۱',
+      accent: '#5CC6D9',
+      accentInk: '#17151D',
+      accentText: '#5CC6D9',
+      layout: 'feature',
+    },
+    {
+      route: 'approach',
+      label: 'رویکرد پارس',
+      title: 'همراهی از شناخت مسئله تا رشد',
+      description: 'نگاه پارس به همکاری با تیم‌ها و ساختن مسیر رشد.',
+      image: 'pars-photo-social.jpg',
       number: '۰۲',
+      accent: '#6166AA',
+      accentInk: '#fff',
+      accentText: '#fff',
+      layout: 'compact',
     },
     {
       route: 'portfolio',
       label: 'پرتفوی پارس',
       title: 'اطلاعات پس از تأیید رسمی',
-      description: 'نام شرکت‌ها تنها پس از تأیید و اعلام رسمی منتشر خواهد شد.',
-      image: 'pars-portfolio-landscape.jpg',
+      description: 'نام شرکت‌ها تنها پس از تأیید و اعلام رسمی منتشر می‌شود.',
+      image: 'pars-photo-housing.jpg',
       number: '۰۳',
+      accent: '#592C7A',
+      accentInk: '#fff',
+      accentText: '#fff',
+      layout: 'compact',
+    },
+    {
+      route: 'news',
+      label: 'خبرها و دیدگاه‌ها',
+      title: 'روایت‌ها، بدون خبرسازی',
+      description: 'محتوای خبری فقط پس از تأیید رسمی منتشر خواهد شد.',
+      image: 'pars-photo-content.jpg',
+      number: '۰۴',
+      accent: '#68A6D9',
+      accentInk: '#17151D',
+      accentText: '#68A6D9',
+      layout: 'wide',
     },
   ];
 
@@ -486,13 +510,19 @@ export function HomeHighlightsSection() {
         <div className="home-highlights-heading" data-reveal>
           <div>
             <span className="journey-eyebrow"><i aria-hidden="true" /> پارس در یک نگاه</span>
-            <h2 id="home-highlights-title">مسیرها را <em>انتخاب کنید</em></h2>
+            <h2 id="home-highlights-title">یک مسیر، <em>چندین افق</em></h2>
           </div>
-          <p>برای هر موضوع، صفحه‌ای مستقل با اطلاعات مرتبط در نظر گرفته‌ایم.</p>
+          <p>از حوزه‌های سرمایه‌گذاری تا رویکرد پارس؛ همه‌ی تصویرها مفهومی‌اند و جای اطلاعات رسمی را نمی‌گیرند.</p>
         </div>
         <div className="home-highlights-grid">
           {highlights.map((item, index) => (
-            <a className="home-highlight-card" href={pageHref(item.route)} key={item.route} data-reveal style={{ '--image-reveal-delay': `${index * 120}ms` }}>
+            <a
+              className={`home-highlight-card home-highlight-card--${item.layout}`}
+              href={pageHref(item.route)}
+              key={item.route}
+              data-reveal
+              style={{ '--image-reveal-delay': `${index * 110}ms`, '--highlight-accent': item.accent, '--highlight-accent-ink': item.accentInk, '--highlight-accent-text': item.accentText }}
+            >
               <img src={`${import.meta.env.BASE_URL}${item.image}`} alt="" width="1536" height="1024" loading="lazy" decoding="async" />
               <span className="home-highlight-shade" aria-hidden="true" />
               <span className="home-highlight-index">{item.number}</span>
@@ -502,7 +532,7 @@ export function HomeHighlightsSection() {
                 <span>{item.description}</span>
                 <i>ورود به صفحه <ArrowUpLeft size={15} /></i>
               </span>
-              <span className="home-highlight-disclosure">تصویر مفهومی</span>
+              <span className="home-highlight-disclosure"><i aria-hidden="true" /> تصویر مفهومی</span>
             </a>
           ))}
         </div>
@@ -643,13 +673,13 @@ export function IndustriesSection() {
                 className={`industry-card tone-${item.tone}`}
                 key={item.number}
                 data-reveal
-                style={{ '--industry-image-delay': `${(index % 6) * 70}ms` }}
+                style={{ '--industry-image-delay': `${(index % 6) * 90}ms`, '--industry-accent': item.brandColor, '--industry-accent-ink': ['#592C7A', '#6166AA'].includes(item.brandColor) ? '#fff' : '#17151D', '--industry-accent-text': ['#592C7A', '#6166AA'].includes(item.brandColor) ? '#fff' : item.brandColor }}
               >
                 <img
                   className="industry-card-image"
                   src={`${import.meta.env.BASE_URL}${item.image}`}
                   alt=""
-                  width="1024"
+                  width="1536"
                   height="1024"
                   loading="lazy"
                   decoding="async"
@@ -711,14 +741,14 @@ export function PortfolioSection() {
     <section className="portfolio-section section-space" id="portfolio">
       <div className="site-container">
         <div className="section-heading-row portfolio-heading-row"><SectionHeading index="۰۱" eyebrow="پرتفوی پارس" title="شرکت‌های" emphasis="پرتفوی" copy="اطلاعات پرتفوی پس از تأیید رسمی در این بخش منتشر می‌شود" /></div>
-        <figure className="editorial-visual portfolio-visual" data-reveal style={{ '--visual-delay': '120ms' }}>
-          <img src={`${import.meta.env.BASE_URL}pars-portfolio-landscape.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
+        <figure className="editorial-visual portfolio-visual" data-reveal style={{ '--visual-delay': '120ms', '--visual-accent': '#592C7A' }}>
+          <img src={`${import.meta.env.BASE_URL}pars-photo-housing.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
           <div className="editorial-visual-copy">
             <span className="eyebrow">پرتفوی پارس</span>
             <h3>در انتظار اعلام رسمی</h3>
             <p>اطلاعات شرکت‌های پرتفوی پس از تأیید رسمی منتشر می‌شود.</p>
           </div>
-          <figcaption className="editorial-visual-disclosure">تصویر مفهومی؛ هیچ شرکت یا سرمایه‌گذاری مشخصی نمایش داده نمی‌شود.</figcaption>
+          <figcaption className="editorial-visual-disclosure">تصویر مفهومی؛ هیچ شرکت، دفتر یا سرمایه‌گذاری مشخصی را نشان نمی‌دهد.</figcaption>
         </figure>
       </div>
     </section>
@@ -816,8 +846,8 @@ export function ToolsSection({ onOpenTool }) {
     <section className="tools-section section-space" id="tools">
       <div className="site-container">
         <div className="section-heading-row"><SectionHeading index="۰۱" eyebrow="ابزارهای استارتاپی" title="با عدد" emphasis="تصمیم بگیرید" copy="محاسبه‌گرهای ساده برای پرسش‌هایی که پیش از جذب سرمایه، رشد یا مذاکره پیش می‌آید" /><div className="tools-data-note"><ShieldCheck size={18} /><span>محاسبه‌ها در مرورگر شما انجام می‌شود و هیچ داده‌ای به سرور ارسال نمی‌شود</span></div></div>
-        <figure className="editorial-visual tools-visual" data-reveal style={{ '--visual-delay': '120ms' }}>
-          <img src={`${import.meta.env.BASE_URL}pars-story-build.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
+        <figure className="editorial-visual tools-visual" data-reveal style={{ '--visual-delay': '120ms', '--visual-accent': '#68A6D9' }}>
+          <img src={`${import.meta.env.BASE_URL}pars-photo-finance.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
           <figcaption className="editorial-visual-copy">
             <span className="eyebrow">تصویر مفهومی</span>
             <strong>عددها را با دقت بررسی کنید</strong>
@@ -856,8 +886,8 @@ export function NewsSection() {
           <SectionHeading index="۰۱" eyebrow="خبر و رویداد" title="از تازه‌ترین‌ها" emphasis="باخبر باشید" copy="اخبار شرکت، بازتاب رسانه‌ای، رویدادها و فراخوان‌ها، یک‌جا" />
           <a href={pageHref('apply')} className="text-link">اطلاعیه‌ی کمپین <ArrowUpLeft size={15} /></a>
         </div>
-        <figure className="editorial-visual news-visual" data-reveal style={{ '--visual-delay': '100ms' }}>
-          <img src={`${import.meta.env.BASE_URL}pars-editorial-stories.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
+        <figure className="editorial-visual news-visual" data-reveal style={{ '--visual-delay': '100ms', '--visual-accent': '#6166AA' }}>
+          <img src={`${import.meta.env.BASE_URL}pars-photo-content.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
           <figcaption className="editorial-visual-copy">
             <span className="eyebrow">تصویر مفهومی</span>
             <strong>خبرها و دیدگاه‌ها</strong>
@@ -884,8 +914,8 @@ export function AboutSection() {
   return (
     <section className="about-section section-space" id="about">
       <div className="site-container"><div className="about-top"><SectionHeading index="۰۱" eyebrow="درباره‌ی پارس" title="سرمایه‌گذاری" emphasis="با نگاه بلندمدت" copy="پارس برای همراهی با کسب‌وکارهایی شکل گرفته که می‌خواهند مسئله‌های واقعی را حل کنند و رشدی پایدار بسازند" /><div className="about-history-card"><span className="about-history-symbol"><ParsGlyph /></span><span className="eyebrow">تاریخچه و معرفی</span><strong>اطلاعات رسمی درباره‌ی سال تأسیس و تاریخچه‌ی پارس پس از تأیید منتشر می‌شود</strong></div></div>
-        <figure className="editorial-visual about-visual" data-reveal style={{ '--visual-delay': '180ms' }}>
-          <img src={`${import.meta.env.BASE_URL}pars-about-constellation.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
+        <figure className="editorial-visual about-visual" data-reveal style={{ '--visual-delay': '180ms', '--visual-accent': '#5CC6D9' }}>
+          <img src={`${import.meta.env.BASE_URL}pars-photo-social.jpg`} alt="" width="1536" height="1024" loading="eager" decoding="async" />
           <figcaption className="editorial-visual-copy">
             <span className="eyebrow">تصویر مفهومی</span>
             <strong>پیوند تجربه و رشد</strong>
@@ -956,8 +986,8 @@ export function ContactSection() {
             <div><span className="contact-detail-icon"><MapPin size={17} /></span><span><small>نشانی و ساعت پاسخ‌گویی</small><strong>پس از تأیید رسمی اعلام می‌شود</strong></span></div>
             <div><span className="contact-detail-icon"><Building2 size={17} /></span><span><small>لینکدین و رسانه‌های اجتماعی</small><strong>پس از تأیید رسمی اعلام می‌شود</strong></span></div>
           </div>
-          <figure className="editorial-visual contact-visual" data-reveal style={{ '--visual-delay': '160ms' }}>
-            <img src={`${import.meta.env.BASE_URL}pars-home-hero.jpg`} alt="" width="1536" height="1024" loading="lazy" decoding="async" />
+          <figure className="editorial-visual contact-visual" data-reveal style={{ '--visual-delay': '160ms', '--visual-accent': '#5CC6D9' }}>
+            <img src={`${import.meta.env.BASE_URL}pars-photo-social.jpg`} alt="" width="1536" height="1024" loading="lazy" decoding="async" />
             <figcaption className="editorial-visual-copy">
               <span className="eyebrow">تصویر مفهومی</span>
               <strong>مسیر گفت‌وگو از این‌جا آغاز می‌شود</strong>

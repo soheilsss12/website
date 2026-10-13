@@ -28,17 +28,17 @@ export const navItems = [
 ];
 
 export const industries = [
-  { number: '۰۱', title: 'انرژی', english: 'Energy', icon: Zap, tone: 'blue', description: 'راهکارها و کسب‌وکارهای حوزه‌ی انرژی', image: 'pars-story-build.jpg' },
-  { number: '۰۲', title: 'آموزش', english: 'Education', icon: GraduationCap, tone: 'mint', description: 'محصول‌ها و خدمات حوزه‌ی آموزش', image: 'pars-sector-learning.jpg' },
-  { number: '۰۳', title: 'خدمات اجتماعی', english: 'Social Services', icon: UsersRound, tone: 'violet', description: 'محصول‌ها و خدمات اجتماعی', image: 'pars-about-constellation.jpg' },
-  { number: '۰۴', title: 'سلامت', english: 'Health', icon: HeartPulse, tone: 'rose', description: 'راهکارها و کسب‌وکارهای حوزه‌ی سلامت', image: 'pars-sector-health.jpg' },
-  { number: '۰۵', title: 'کشاورزی', english: 'Agriculture', icon: Leaf, tone: 'green', description: 'محصول‌ها و خدمات حوزه‌ی کشاورزی', image: 'pars-sector-agriculture.jpg' },
-  { number: '۰۶', title: 'مالی', english: 'Finance', icon: WalletCards, tone: 'blue', description: 'راهکارها و کسب‌وکارهای حوزه‌ی مالی', image: 'pars-sector-finance.jpg' },
-  { number: '۰۷', title: 'مسکن', english: 'Housing', icon: Building2, tone: 'amber', description: 'محصول‌ها و خدمات حوزه‌ی مسکن', image: 'pars-about-constellation.jpg' },
-  { number: '۰۸', title: 'صنعت', english: 'Industry', icon: Factory, tone: 'copper', description: 'راهکارها و کسب‌وکارهای صنعتی', image: 'pars-story-scale.jpg' },
-  { number: '۰۹', title: 'اعتباری', english: 'Credit', icon: CreditCard, tone: 'violet', description: 'محصول‌ها و خدمات اعتباری', image: 'pars-sector-finance.jpg' },
-  { number: '۱۰', title: 'لجستیک', english: 'Logistics', icon: Truck, tone: 'lime', description: 'راهکارها و خدمات حوزه‌ی لجستیک', image: 'pars-sector-logistics.jpg' },
-  { number: '۱۱', title: 'محتوا', english: 'Content', icon: FileText, tone: 'mint', description: 'محصول‌ها و خدمات حوزه‌ی محتوا', image: 'pars-editorial-stories.jpg' },
+  { number: '۰۱', title: 'انرژی', english: 'Energy', icon: Zap, tone: 'blue', description: 'راهکارها و کسب‌وکارهای حوزه‌ی انرژی', image: 'pars-photo-energy.jpg', brandColor: '#5CC6D9' },
+  { number: '۰۲', title: 'آموزش', english: 'Education', icon: GraduationCap, tone: 'mint', description: 'محصول‌ها و خدمات حوزه‌ی آموزش', image: 'pars-photo-learning.jpg', brandColor: '#68A6D9' },
+  { number: '۰۳', title: 'خدمات اجتماعی', english: 'Social Services', icon: UsersRound, tone: 'violet', description: 'محصول‌ها و خدمات اجتماعی', image: 'pars-photo-social.jpg', brandColor: '#6166AA' },
+  { number: '۰۴', title: 'سلامت', english: 'Health', icon: HeartPulse, tone: 'rose', description: 'راهکارها و کسب‌وکارهای حوزه‌ی سلامت', image: 'pars-photo-health.jpg', brandColor: '#592C7A' },
+  { number: '۰۵', title: 'کشاورزی', english: 'Agriculture', icon: Leaf, tone: 'green', description: 'محصول‌ها و خدمات حوزه‌ی کشاورزی', image: 'pars-sector-agriculture.jpg', brandColor: '#5CC6D9' },
+  { number: '۰۶', title: 'مالی', english: 'Finance', icon: WalletCards, tone: 'blue', description: 'راهکارها و کسب‌وکارهای حوزه‌ی مالی', image: 'pars-photo-finance.jpg', brandColor: '#68A6D9' },
+  { number: '۰۷', title: 'مسکن', english: 'Housing', icon: Building2, tone: 'amber', description: 'محصول‌ها و خدمات حوزه‌ی مسکن', image: 'pars-photo-housing.jpg', brandColor: '#6166AA' },
+  { number: '۰۸', title: 'صنعت', english: 'Industry', icon: Factory, tone: 'copper', description: 'راهکارها و کسب‌وکارهای صنعتی', image: 'pars-photo-industry.jpg', brandColor: '#592C7A' },
+  { number: '۰۹', title: 'اعتباری', english: 'Credit', icon: CreditCard, tone: 'violet', description: 'محصول‌ها و خدمات اعتباری', image: 'pars-photo-credit.jpg', brandColor: '#5CC6D9' },
+  { number: '۱۰', title: 'لجستیک', english: 'Logistics', icon: Truck, tone: 'lime', description: 'راهکارها و خدمات حوزه‌ی لجستیک', image: 'pars-photo-logistics.jpg', brandColor: '#68A6D9' },
+  { number: '۱۱', title: 'محتوا', english: 'Content', icon: FileText, tone: 'mint', description: 'محصول‌ها و خدمات حوزه‌ی محتوا', image: 'pars-photo-content.jpg', brandColor: '#6166AA' },
 ];
 
 export const valuePillars = [

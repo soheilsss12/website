@@ -59,13 +59,15 @@ function getHeroDialoguePrompt(step, answers) {
 const trustVisuals = [
   {
     number: '۰۱',
+    stage: 'شناخت مسئله',
     image: 'trust-dialogue.webp',
-    alt: 'تصویر مفهومی از اتاق گفت‌وگوی روشن و خالی',
+    alt: 'تصویر مفهومی از فضای گفت‌وگوی روشن و خالی',
     title: 'گفت‌وگوی شفاف',
     description: 'انتظارهای روشن و گام بعدیِ مشخص برای هر دو طرف',
   },
   {
     number: '۰۲',
+    stage: 'ساخت محصول',
     image: 'trust-prototype.webp',
     alt: 'تصویر مفهومی از محصولی الکترونیکی روی میز کار',
     title: 'شناخت محصول',
@@ -73,6 +75,7 @@ const trustVisuals = [
   },
   {
     number: '۰۳',
+    stage: 'آمادگی برای رشد',
     image: 'trust-growth.webp',
     alt: 'تصویر مفهومی از راهروی خالی مرکز داده با سرورهای منظم',
     title: 'رشد پایدار',
@@ -316,6 +319,14 @@ export function HeroSection() {
 
   return (
     <section className="hero hero-pars" id="home" aria-labelledby="hero-title">
+      <img
+        className="hero-backdrop"
+        src={`${import.meta.env.BASE_URL}pars-hero-atmosphere.webp`}
+        alt=""
+        aria-hidden="true"
+        fetchPriority="high"
+        decoding="async"
+      />
       <div className="hero-atmosphere" aria-hidden="true"><span /><span /><i /></div>
       <div className="hero-layout hero-pars-layout site-container">
         <div className="hero-copy hero-pars-copy">
@@ -426,8 +437,8 @@ export function HeroSection() {
 export function StatsRibbon() {
   const stats = [
     { value: '۱۱', title: 'بازوی سرمایه‌گذاری', icon: Compass },
-    { value: 'ده‌ها', title: 'شرکت زیرمجموعه', icon: Building2 },
     { value: '۰۴', title: 'گام در فرم درخواست', icon: ChartNoAxesCombined },
+    { value: '۰۳', title: 'ارزش بنیادین پارس', note: 'شفافیت · همراهی · یادگیری', icon: ShieldCheck },
   ];
   return (
     <section className="stats-ribbon site-container" aria-label="پارس در یک نگاه">
@@ -454,6 +465,49 @@ export function ManifestoSection() {
           <a href="#approach" className="text-link text-link-dark">نگاه سرمایه‌گذاری پارس <ArrowUpLeft size={16} /></a>
         </div>
         <div className="manifesto-mark" aria-hidden="true"><ParsGlyph /><span>پارس / سرمایه‌گذاری خطرپذیر</span></div>
+      </div>
+    </section>
+  );
+}
+
+export function JourneySection() {
+  return (
+    <section className="journey-section" id="journey" aria-labelledby="journey-title">
+      <div className="site-container">
+        <div className="journey-heading" data-reveal>
+          <div>
+            <span className="journey-eyebrow"><i aria-hidden="true" /> مسیر همراهی پارس</span>
+            <h2 id="journey-title">از شناخت مسئله<br /><em>تا آمادگی برای رشد</em></h2>
+          </div>
+          <p>همکاری خوب با گفت‌وگوی روشن آغاز می‌شود، به شناخت دقیق محصول می‌رسد و رشد پایدار را در نظر می‌گیرد.</p>
+        </div>
+        <div className="journey-track" data-reveal>
+          {trustVisuals.map((item) => (
+            <article className="journey-card" key={item.image} data-reveal>
+              <span className="journey-card-node" aria-hidden="true" />
+              <figure className="journey-card-media">
+                <img
+                  src={`${import.meta.env.BASE_URL}${item.image}`}
+                  alt={item.alt}
+                  width="960"
+                  height="640"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>
+                  <span>{item.stage}</span>
+                  <small>تصویر مفهومی</small>
+                </figcaption>
+              </figure>
+              <div className="journey-card-copy">
+                <span className="journey-card-index">{item.number} / ۰۳</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+        <p className="journey-disclosure"><ShieldCheck size={15} /><span>این تصاویر مفهومی‌اند و به دفتر، تیم، شریک یا شرکت مشخصی اشاره ندارند</span></p>
       </div>
     </section>
   );
@@ -677,38 +731,6 @@ export function AboutSection() {
           const Icon = item.icon;
           return <article className="about-value-card" key={item.title} data-reveal><span className="about-value-number">۰{index + 1}</span><Icon size={21} /><h3>{item.title}</h3><p>{item.description}</p></article>;
         })}</div>
-        <section className="trust-visuals" aria-labelledby="trust-visuals-title">
-          <div className="trust-visuals-heading" data-reveal>
-            <div>
-              <span className="trust-visuals-eyebrow"><i /> نگاه پارس به همکاری</span>
-              <h3 id="trust-visuals-title">اعتماد از جزئیات ساخته می‌شود</h3>
-            </div>
-            <p>همکاری خوب را باید در عمل دید؛ از گفت‌وگوی شفاف تا شناخت دقیق محصول و رشد پایدار</p>
-          </div>
-          <div className="trust-visuals-grid">
-            {trustVisuals.map((item) => (
-              <article className="trust-visuals-card" key={item.image} data-reveal>
-                <div className="trust-visuals-media">
-                  <img
-                    src={`${import.meta.env.BASE_URL}${item.image}?v=1`}
-                    alt={item.alt}
-                    width="960"
-                    height="640"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <span className="trust-visuals-image-index">{item.number}</span>
-                  <span className="trust-visuals-image-tag"><i /> تصویر مفهومی</span>
-                </div>
-                <div className="trust-visuals-card-copy">
-                  <div><span>{item.number} / پارس</span><h4>{item.title}</h4></div>
-                  <p>{item.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-          <p className="trust-visuals-disclosure"><ShieldCheck size={15} /><span>تصاویر این بخش مفهومی‌اند و به دفتر، شریک یا شرکتی خاص اشاره ندارند</span></p>
-        </section>
         <div className="team-section" id="team">
           <div className="team-heading">
             <SectionEyebrow index="۱۱">تیم همراه پارس</SectionEyebrow>

@@ -20,6 +20,7 @@ import {
 
 export const navItems = [
   { label: 'رویکرد پارس', href: '#approach' },
+  { label: 'مسیر همراهی', href: '#journey' },
   { label: 'حوزه‌های منتخب', href: '#industries' },
   { label: 'پشتیبانی', href: '#benefits' },
   { label: 'مسیر درخواست', href: '#process' },

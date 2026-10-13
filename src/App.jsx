@@ -25,6 +25,7 @@ import {
   FooterSection,
   HeroSection,
   IndustriesSection,
+  JourneySection,
   ManifestoSection,
   MapSection,
   NewsSection,
@@ -37,7 +38,7 @@ import {
 import { navItems } from './data/siteContent.js';
 
 const siteAnchors = new Set([
-  'home', 'approach', 'industries', 'benefits', 'process', 'portfolio', 'map',
+  'home', 'approach', 'journey', 'industries', 'benefits', 'process', 'portfolio', 'map',
   'tools', 'partners', 'news', 'about', 'team', 'contact', 'campaign',
 ]);
 const applyAnchors = new Set(['campaign-criteria', 'application-form', 'applicant-access']);
@@ -85,7 +86,7 @@ function SiteHeader({ menuOpen, setMenuOpen }) {
 
 function FullMenu({ open, onClose }) {
   const links = [
-    ['رویکرد ما', '#approach'], ['حوزه‌های منتخب', '#industries'], ['بیشتر از سرمایه', '#benefits'],
+    ['رویکرد ما', '#approach'], ['مسیر همراهی', '#journey'], ['حوزه‌های منتخب', '#industries'], ['بیشتر از سرمایه', '#benefits'],
     ['مسیر درخواست', '#process'], ['پرتفوی', '#portfolio'], ['گستره‌ی جغرافیایی', '#map'],
     ['ابزارهای استارتاپ', '#tools'], ['اخبار و رویدادها', '#news'], ['درباره‌ی پارس', '#about'],
     ['همکاران', '#partners'], ['تماس با ما', '#contact'], ['پیگیری درخواست', '#track'],
@@ -112,7 +113,7 @@ function MobileApplyBar() {
 
 function SiteMapPage() {
   const groups = [
-    { title: 'سرمایه‌گذاری', links: [['رویکرد ما', '#approach'], ['حوزه‌های تمرکز', '#industries'], ['حمایت‌های پارس', '#benefits'], ['مسیر سرمایه‌گذاری', '#process'], ['پرتفوی', '#portfolio'], ['محدوده‌ی جغرافیایی', '#map']] },
+    { title: 'سرمایه‌گذاری', links: [['رویکرد ما', '#approach'], ['مسیر همراهی', '#journey'], ['حوزه‌های تمرکز', '#industries'], ['حمایت‌های پارس', '#benefits'], ['مسیر سرمایه‌گذاری', '#process'], ['پرتفوی', '#portfolio'], ['محدوده‌ی جغرافیایی', '#map']] },
     { title: 'ابزار و خبرها', links: [['ابزارها', '#tools'], ['اخبار و رویدادها', '#news']] },
     { title: 'درباره و ارتباط', links: [['درباره‌ی پارس', '#about'], ['همکاران', '#partners'], ['تماس با ما', '#contact']] },
 
@@ -158,6 +159,7 @@ function HomePage({ onOpenTool, menuOpen, setMenuOpen, cookieChoice, onSaveCooki
         <HeroSection />
         <StatsRibbon />
         <ManifestoSection />
+        <JourneySection />
         <IndustriesSection />
         <BenefitsSection />
         <ProcessSection />

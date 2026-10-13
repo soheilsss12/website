@@ -166,7 +166,7 @@ function AboutPars() {
         <h2 id="pars-about-title">همراهِ ایده‌های<br /><em>موفق</em></h2>
         <div className="pars-facts" aria-label="پارس در یک نگاه">
           <div className="pars-fact"><strong>۱۱</strong><span>بازوی سرمایه‌گذاری</span></div>
-          <div className="pars-fact"><strong>ده‌ها</strong><span>شرکت زیرمجموعه</span></div>
+          <div className="pars-fact"><strong>۰۴</strong><span>گام در فرم درخواست</span></div>
         </div>
       </div>
       <div className="pars-about-mark" data-reveal>

@@ -11,7 +11,6 @@ const htmlPages = [
   'index.html',
   'investment/index.html',
   'approach/index.html',
-  'sectors/index.html',
   'portfolio/index.html',
   'stories/index.html',
   'about/index.html',

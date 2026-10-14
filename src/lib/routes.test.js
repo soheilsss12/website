@@ -9,8 +9,8 @@ test('page paths resolve to independent routes, including directory index reload
     ['/investment/', 'investment'],
     ['/investment/index.html', 'investment'],
     ['/approach/', 'approach'],
-    ['/sectors/', 'industries'],
-    ['/sectors/index.html', 'industries'],
+    ['/sectors/', 'not-found'],
+    ['/sectors/index.html', 'not-found'],
     ['/portfolio/', 'portfolio'],
     ['/stories/', 'news'],
     ['/about/', 'about'],
@@ -31,10 +31,10 @@ test('page paths resolve to independent routes, including directory index reload
   }
 });
 
-test('legacy section hashes now resolve to their corresponding standalone pages', () => {
+test('legacy section hashes resolve to their current destination pages', () => {
   assert.equal(routeFromLegacyHash('journey'), 'approach');
-  assert.equal(routeFromLegacyHash('industries'), 'industries');
-  assert.equal(routeFromLegacyHash('map'), 'industries');
+  assert.equal(routeFromLegacyHash('industries'), 'home');
+  assert.equal(routeFromLegacyHash('map'), 'home');
   assert.equal(routeFromLegacyHash('partners'), 'about');
   assert.equal(routeFromLegacyHash('campaign'), 'apply');
   assert.equal(routeFromLegacyHash('track'), 'track');

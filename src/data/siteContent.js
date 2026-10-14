@@ -23,7 +23,6 @@ import {
 export const navItems = [
   { label: 'نمای کلی', route: 'investment' },
   { label: 'مدل فعالیت', route: 'approach' },
-  { label: 'حوزه‌ها', route: 'industries' },
   { label: 'پرتفوی فناوری', route: 'portfolio' },
   { label: 'تجربه‌ها', route: 'news' },
   { label: 'درباره‌ی پارس', route: 'about' },
@@ -65,7 +64,7 @@ export const industries = [
   },
   {
     id: 'social-services', title: 'خدمات اجتماعی', english: 'Social Services', icon: UsersRound,
-    tone: 'violet', description: '',
+    tone: 'violet', description: 'پلتفرم‌های هوشمند برای خدمات رفاهی، حمایتی و عمومی',
     image: 'pars-photo-social.webp', brandColor: '#6166AA',
   },
   {
@@ -359,7 +358,7 @@ export const nationalPrograms = [
   },
   {
     number: '۰۴', title: 'خدمات مدرسه‌ی هوشمند دیجیتال', icon: GraduationCap,
-    description: 'پروفایل شرکتی، مقیاس این برنامه را بیش از ۲ میلیون دانش‌آموز ذکر می‌کند.',
+    description: 'خدمات دیجیتال آموزشی برای بیش از ۲ میلیون دانش‌آموز.',
     scale: '۲ میلیون+ دانش‌آموز',
     partners: 'وزارت آموزش‌وپرورش',
   },
@@ -390,5 +389,5 @@ export const processSteps = [
 export const stageOptions = ['ایده', 'نمونه‌ی اولیه (MVP)', 'درآمدزا', 'رشد'];
 
 export const navSections = [
-  'home', 'investment', 'approach', 'industries', 'portfolio', 'news', 'about', 'contact', 'tools', 'apply', 'track',
+  'home', 'investment', 'approach', 'portfolio', 'news', 'about', 'contact', 'tools', 'apply', 'track',
 ];

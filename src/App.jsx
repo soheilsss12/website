@@ -29,8 +29,6 @@ import {
   InvestmentOverviewSection,
   IndustriesSection,
   JourneySection,
-  ManifestoSection,
-  MapSection,
   MarketModelSection,
   NationalProgramsSection,
   NewsSection,
@@ -243,7 +241,7 @@ function HomePage({ menuOpen, setMenuOpen, cookieChoice, onSaveCookie }) {
       <HeroSection />
       <PortfolioSnapshotSection />
       <HomeHighlightsSection />
-      <MapSection />
+      <IndustriesSection />
       <BrandClosingSection />
     </SiteShell>
   );
@@ -263,10 +261,7 @@ function ContentPage({ route, onOpenTool, menuOpen, setMenuOpen, cookieChoice, o
   let content;
   switch (route) {
     case 'approach':
-      content = <><ManifestoSection /><JourneySection /><TechnologyArchitectureSection /><CorePlatformsSection /><BenefitsSection /><ProcessSection /><OperatorStatusSection /></>;
-      break;
-    case 'industries':
-      content = <><IndustriesSection /><NationalProgramsSection /></>;
+      content = <><JourneySection /><TechnologyArchitectureSection /><CorePlatformsSection /><BenefitsSection /><ProcessSection /><OperatorStatusSection /></>;
       break;
     case 'portfolio':
       content = <PortfolioSection />;
@@ -275,7 +270,7 @@ function ContentPage({ route, onOpenTool, menuOpen, setMenuOpen, cookieChoice, o
       content = <NewsSection />;
       break;
     case 'about':
-      content = <><AboutSection /><MarketModelSection /><WhyParsSection /></>;
+      content = <><AboutSection /><NationalProgramsSection /><MarketModelSection /><WhyParsSection /></>;
       break;
     case 'contact':
       content = <><PartnershipModelsSection /><ContactSection /></>;
@@ -298,7 +293,6 @@ const pageTitles = {
   home: 'پارس | فناوری، سرمایه‌گذاری و ساخت کسب‌وکار',
   investment: 'سرمایه‌گذاری فناوری | پارس',
   approach: 'مدل فناوری و تجاری‌سازی | پارس',
-  industries: '۱۱ حوزه‌ی تمرکز | پارس',
   portfolio: 'پرتفوی فناوری | پارس',
   news: 'تجربه‌های سازمانی | پارس',
   about: 'درباره‌ی پارس',
@@ -314,13 +308,12 @@ const pageTitles = {
 };
 
 const pageDescriptions = {
-  home: 'از زیرساخت تا هوشمندی و از فناوری تا کسب‌وکار؛ آشنایی با پارس، شرکت فناوری و نوآوری ایرانی در حوزه‌ی هوش مصنوعی، سرمایه‌گذاری فناوری و ساخت کسب‌وکار.',
+  home: 'پارس، گروه فناوری و نوآوری ایرانی؛ پیونددهنده‌ی زیرساخت، داده، هوش مصنوعی، سرمایه‌گذاری و ساخت کسب‌وکار.',
   investment: 'مدل سرمایه‌گذاری فناوری و مسیرهای تبدیل پژوهش و فناوری به محصول، پلتفرم و کسب‌وکار در پارس.',
-  approach: 'معماری پنج‌لایه‌ی فناوری، AI Fabric، بازوهای رشد و الگوی تجاری‌سازی معرفی‌شده در پروفایل پارس.',
-  industries: 'فهرست یازده‌گانه‌ی حوزه‌های تمرکز پارس و برنامه‌های ملی و دولتی معرفی‌شده در پروفایل شرکتی ۲۰۲۶.',
-  portfolio: 'مرور نام محصولات، راهکارها، پلتفرم‌ها و برندهای درج‌شده در پروفایل شرکتی پارس ۲۰۲۶.',
-  news: 'حوزه‌های تجربه‌ی سازمانی معرفی‌شده در پروفایل پارس؛ شرح پرونده‌های منتخب با رعایت محرمانگی و NDA ارائه می‌شود.',
-  about: 'پارس در چهار نقش فناوری، تحول سازمانی، سرمایه‌گذاری فناوری و ساخت کسب‌وکار فعالیت می‌کند.',
+  approach: 'از پژوهش و فناوری تا محصول، بازار و ساخت کسب‌وکار؛ با پارس در مسیر رشد فناوری همراه شوید.',
+  portfolio: 'آشنایی با محصولات، راهکارها و پلتفرم‌های فناوری پارس.',
+  news: 'حوزه‌های تجربه‌ی سازمانی پارس در بانکداری، بیمه، فناوری و بخش عمومی.',
+  about: 'درباره‌ی پارس؛ گروه فناوری و نوآوری برای پیوند فناوری، سرمایه و بازار.',
   contact: 'مدل‌های مشارکت راهبردی و راه ارتباط با گروه فناوری و سرمایه‌گذاری پارس.',
   tools: 'ابزارهای برآورد مالی برای بنیان‌گذاران؛ محاسبه‌ها در مرورگر انجام می‌شوند و توصیه‌ی سرمایه‌گذاری نیستند.',
   apply: 'فرم چهارمرحله‌ای معرفی تیم، محصول و نیاز سرمایه به پارس.',
@@ -369,7 +362,14 @@ export default function App() {
       } else {
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
-    } else if (route !== 'home') {
+    } else if (route === 'home') {
+      const hash = decodeURIComponent(window.location.hash.slice(1)).split('?')[0];
+      if (hash === 'industries' || hash === 'map') {
+        window.requestAnimationFrame(() => {
+          document.getElementById('industries')?.scrollIntoView({ behavior: 'instant', block: 'start' });
+        });
+      }
+    } else {
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
   }, [route]);

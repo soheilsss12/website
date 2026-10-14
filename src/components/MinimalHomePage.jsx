@@ -9,7 +9,7 @@ const asset = (name) => `${import.meta.env.BASE_URL}${name}`;
 const links = [
   { label: 'نمای کلی', href: pageHref('investment') },
   { label: 'مدل فعالیت', href: pageHref('approach') },
-  { label: 'حوزه‌ها', href: pageHref('industries') },
+  { label: 'حوزه‌ها', href: `${pageHref('home')}#industries` },
   { label: 'پرتفوی فناوری', href: pageHref('portfolio') },
   { label: 'تجربه‌ها', href: pageHref('news') },
   { label: 'درباره‌ی پارس', href: pageHref('about') },
@@ -118,7 +118,7 @@ function IndustryGrid() {
           <span className="pars-section-kicker">۱۱ حوزه‌ی تمرکز</span>
           <h2 id="pars-industries-title">فناوری در خدمت<br /><em>حوزه‌های واقعی</em></h2>
         </div>
-        <span className="pars-heading-note">فهرست به‌روز حوزه‌های سرمایه‌گذاری پارس</span>
+        <span className="pars-heading-note">فناوری برای مسائل و فرصت‌های کلیدی</span>
       </div>
       <div className="pars-industry-grid">
         {industries.map((industry) => {
@@ -211,7 +211,6 @@ export default function MinimalHomePage() {
               <a className="pars-button pars-button--large" href={pageHref('apply')}>درخواست سرمایه <ArrowUpLeft size={19} /></a>
               <a className="pars-text-link" href={pageHref('track')}>پیگیری درخواست <ArrowUpLeft size={15} /></a>
             </div>
-            <span className="pars-hero-footnote"><i aria-hidden="true" /> پروفایل شرکتی پارس · ۲۰۲۶</span>
           </div>
           <HeroPhotoStage />
         </section>

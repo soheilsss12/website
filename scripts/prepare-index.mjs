@@ -5,15 +5,14 @@ import path from 'node:path';
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const templatePath = path.join(projectRoot, 'src', 'index.template.html');
 const template = await readFile(templatePath, 'utf8');
-const defaultDescription = 'از زیرساخت تا هوشمندی و از فناوری تا کسب‌وکار؛ آشنایی با پارس، شرکت فناوری و نوآوری ایرانی در حوزه‌ی هوش مصنوعی، سرمایه‌گذاری فناوری و ساخت کسب‌وکار.';
+const defaultDescription = 'پارس، گروه فناوری و نوآوری ایرانی؛ پیونددهنده‌ی زیرساخت، داده، هوش مصنوعی، سرمایه‌گذاری فناوری و ساخت کسب‌وکار.';
 
 const pages = [
   { folder: '', title: 'پارس | فناوری، سرمایه‌گذاری و ساخت کسب‌وکار', description: defaultDescription },
   { folder: 'investment', title: 'سرمایه‌گذاری فناوری | پارس', description: 'مدل سرمایه‌گذاری فناوری و مسیرهای تبدیل پژوهش و فناوری به محصول، پلتفرم و کسب‌وکار در پارس.' },
-  { folder: 'approach', title: 'مدل فناوری و تجاری‌سازی | پارس', description: 'معماری پنج‌لایه‌ی فناوری، AI Fabric، بازوهای رشد و الگوی تجاری‌سازی معرفی‌شده در پروفایل پارس.' },
-  { folder: 'sectors', title: '۱۱ حوزه‌ی تمرکز | پارس', description: 'فهرست یازده‌گانه‌ی حوزه‌های تمرکز پارس و برنامه‌های ملی و دولتی معرفی‌شده در پروفایل شرکتی ۲۰۲۶.' },
-  { folder: 'portfolio', title: 'پرتفوی فناوری | پارس', description: 'مرور نام محصولات، راهکارها، پلتفرم‌ها و برندهای درج‌شده در پروفایل شرکتی پارس ۲۰۲۶.' },
-  { folder: 'stories', title: 'تجربه‌های سازمانی | پارس', description: 'حوزه‌های تجربه‌ی سازمانی معرفی‌شده در پروفایل پارس؛ شرح پرونده‌های منتخب با رعایت محرمانگی و NDA ارائه می‌شود.' },
+  { folder: 'approach', title: 'مدل فناوری و تجاری‌سازی | پارس', description: 'از پژوهش و فناوری تا محصول، بازار و ساخت کسب‌وکار؛ مسیر همراهی پارس را ببینید.' },
+  { folder: 'portfolio', title: 'پرتفوی فناوری | پارس', description: 'آشنایی با محصولات، راهکارها و پلتفرم‌های فناوری پارس.' },
+  { folder: 'stories', title: 'تجربه‌های سازمانی | پارس', description: 'حوزه‌های تجربه‌ی سازمانی پارس در بانکداری، بیمه، فناوری و بخش عمومی.' },
   { folder: 'about', title: 'درباره‌ی پارس', description: 'پارس در چهار نقش فناوری، تحول سازمانی، سرمایه‌گذاری فناوری و ساخت کسب‌وکار فعالیت می‌کند.' },
   { folder: 'contact', title: 'تماس و همکاری با پارس', description: 'مدل‌های مشارکت راهبردی و راه ارتباط با گروه فناوری و سرمایه‌گذاری پارس.' },
   { folder: 'tools', title: 'ابزارهای مالی و استارتاپی | پارس', description: 'ابزارهای برآورد مالی برای بنیان‌گذاران؛ محاسبه‌ها در مرورگر انجام می‌شوند و توصیه‌ی سرمایه‌گذاری نیستند.' },
@@ -28,7 +27,6 @@ const pages = [
 const pageImagePreloads = {
   investment: ['pars-home-hero', '100vw', 1672],
   approach: ['pars-journey-discovery', '(max-width: 760px) 92vw, 48vw'],
-  sectors: ['pars-industries-showcase', '100vw'],
   portfolio: ['pars-portfolio-cinematic', '100vw'],
   stories: ['pars-news-editorial', '100vw'],
   about: ['pars-about-editorial', '100vw'],

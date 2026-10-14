@@ -5,6 +5,7 @@ import {
   ecosystemEnablers,
   industries,
   navItems,
+  nationalPrograms,
   platformBrands,
   technologyLayers,
   technologyProducts,
@@ -24,13 +25,20 @@ test('the current investment taxonomy has the 11 user-approved focus areas in or
     'لجستیک',
     'محتوا و رسانه',
   ]);
+  assert.equal(industries.find(({ id }) => id === 'social-services').description, 'پلتفرم‌های هوشمند برای خدمات رفاهی، حمایتی و عمومی');
+});
+
+test('the public national-program section contains the six requested items and scales', () => {
+  assert.equal(nationalPrograms.length, 6);
+  assert.equal(nationalPrograms[3].scale, '۲ میلیون+ دانش‌آموز');
+  assert.equal(nationalPrograms[5].scale, '۳۰٬۰۰۰ رأس دام');
+  assert.doesNotMatch(nationalPrograms[3].description, /پروفایل|نمایه/);
 });
 
 test('the site uses one shared primary navigation across all main routes', () => {
   assert.deepEqual(navItems.map(({ route }) => route), [
     'investment',
     'approach',
-    'industries',
     'portfolio',
     'news',
     'about',
@@ -39,7 +47,7 @@ test('the site uses one shared primary navigation across all main routes', () =>
   assert.equal(new Set(navItems.map(({ route }) => route)).size, navItems.length);
 });
 
-test('the profile content keeps its reported architecture and portfolio list sizes', () => {
+test('site content keeps the architecture and portfolio counts accurate', () => {
   assert.equal(technologyLayers.length, 5);
   assert.equal(ecosystemEnablers.length, 5);
   assert.equal(commercializationStages.length, 6);

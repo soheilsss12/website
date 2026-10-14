@@ -2,7 +2,7 @@
   "name": "pars-investment-site",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "engines": {
     "node": ">=22.12.0"
   },

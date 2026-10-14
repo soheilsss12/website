@@ -48,6 +48,9 @@ jobs:
           rm -f trust-*.jpg trust-*.webp
           cp -R dist/. .
           touch .nojekyll
+          # Passenger watches this marker and restarts after Plesk Git auto-deploys.
+          mkdir -p tmp
+          echo "$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" > tmp/restart.txt
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # Stage the complete Plesk build output, including generated copies of public images.

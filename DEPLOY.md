@@ -54,6 +54,12 @@ docker compose --env-file .env.production ps
 
 می‌توانید به‌جای Compose+Caddy، خود `Dockerfile` را روی یک میزبان Docker اجرا کنید که دامنه و HTTPS را مدیریت می‌کند. متغیرهای زیر را در بخش امن environment آن میزبان تنظیم کنید: `NODE_ENV=production`, `HOST=0.0.0.0`, `PORT` مطابق پورت داخلی میزبان, `DATA_DIR` برابر مسیر مطلق دیسک پایدار، `PUBLIC_ORIGIN` برابر origin دقیق HTTPS مثل `https://site.example`, `ADMIN_USERNAME`, `ADMIN_PASSWORD` و `TRUST_PROXY=true`. سه متغیر ایمیل یا هر سه خالی باشند یا هر سه مقدار واقعی داشته باشند. حجم پایدار را دقیقاً روی `DATA_DIR` mount کنید، فقط یک replica اجرا کنید و مطمئن شوید proxy هدرهای `X-Forwarded-Proto` و `X-Forwarded-For` را تنظیم می‌کند. بدون دیسک پایدار، اطلاعات پس از restart ممکن است از بین بروند.
 
+## استقرار روی Plesk با Git و Passenger
+
+برای این نسخه روی Plesk، `Application Root` و `Document Root` می‌توانند هر دو روی `/httpdocs` بمانند. فایل `app.js` عمداً CommonJS است تا Passenger بتواند آن را با `require()` اجرا کند؛ ماژول‌های بک‌اند زیر `server/` همچنان ESM هستند. بنابراین در صفحه‌ی Node.js، **Application Startup File باید `app.js` بماند** و نیازی به تغییر آن به `_passenger.cjs` نیست.
+
+گردش‌کار GitHub Actions سایت را می‌سازد و در هر انتشار `tmp/restart.txt` را به‌روزرسانی می‌کند. اگر webhook موجود Plesk به همین شاخه و مسیر استقرار وصل باشد، Passenger پس از دریافت commit برنامه را خودکار restart می‌کند. هیچ فایل secret در مخزن قرار ندهید. در متغیرهای محیطی production در Plesk، `ADMIN_USERNAME` و `ADMIN_PASSWORD` باید مقدار واقعی داشته باشند؛ برنامه‌ی `app.js` پیش‌فرض‌های `DATA_DIR` و `PUBLIC_ORIGIN` را برای دامنه‌ی پارس تنظیم می‌کند. سه متغیر ایمیل یا همگی خالی باشند یا هر سه با مقدار واقعی تنظیم شوند.
+
 ## بررسی بعد از انتشار
 
 ```bash

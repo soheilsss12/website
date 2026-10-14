@@ -1,14 +1,18 @@
-// Plesk's Node.js extension (Passenger) starts this file from the application root.
-// Default persistent settings use the subscription's private/ directory, outside httpdocs.
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+'use strict';
 
-const applicationRoot = path.dirname(fileURLToPath(import.meta.url));
+// Passenger loads its startup file with require(), so keep this entrypoint
+// CommonJS-compatible while the backend modules remain ESM in server/.
+const path = require('node:path');
+const applicationRoot = __dirname;
+
 if (process.env.NODE_ENV === 'production') {
   process.env.DATA_DIR ||= path.join(path.dirname(applicationRoot), 'private', 'pars-data');
   process.env.PUBLIC_ORIGIN ||= 'https://pars-ventures.com';
   process.env.TRUST_PROXY ||= 'true';
 }
 
-// Import only after the Plesk defaults above have been set.
-await import('./server/index.js');
+// Import the ESM server asynchronously after setting Plesk production defaults.
+void import('./server/index.js').catch((error) => {
+  console.error('Plesk application startup failed:', error);
+  process.exitCode = 1;
+});

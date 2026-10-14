@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
+import { request as httpRequest } from 'node:http';
 import { createServer as createNetServer } from 'node:net';
 import { spawn, spawnSync } from 'node:child_process';
 import { mkdtemp, rm } from 'node:fs/promises';
@@ -111,6 +112,33 @@ function launchServer({ dataDir, port, username, password }) {
   return child;
 }
 
+function launchPleskEntrypoint({ dataDir, port, username, password }) {
+  // Passenger loads Application Startup File through CommonJS require().
+  const child = spawn(process.execPath, ['-e', "require('./app.js')"], {
+    cwd: root,
+    env: {
+      ...process.env,
+      NODE_ENV: 'production',
+      HOST: '127.0.0.1',
+      PORT: String(port),
+      DATA_DIR: dataDir,
+      PUBLIC_ORIGIN: 'https://site.example',
+      ADMIN_USERNAME: username,
+      ADMIN_PASSWORD: password,
+      ADMIN_NOTIFICATION_EMAIL: '',
+      EMAIL_FROM: '',
+      RESEND_API_KEY: '',
+    },
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  let logs = '';
+  child.stdout.on('data', (chunk) => { logs += chunk.toString(); });
+  child.stderr.on('data', (chunk) => { logs += chunk.toString(); });
+  child.testLogs = () => logs;
+  processes.add(child);
+  return child;
+}
+
 async function waitForApi(child, baseUrl) {
   for (let attempt = 0; attempt < 60; attempt += 1) {
     if (child.exitCode !== null) throw new Error(`API server exited early:\n${child.testLogs()}`);
@@ -124,6 +152,49 @@ async function waitForApi(child, baseUrl) {
   }
   throw new Error(`API server did not start:\n${child.testLogs()}`);
 }
+
+function requestUnixSocket(socketPath) {
+  return new Promise((resolve, reject) => {
+    const request = httpRequest({ socketPath, path: '/api/health', method: 'GET' }, (response) => {
+      let body = '';
+      response.setEncoding('utf8');
+      response.on('data', (chunk) => { body += chunk; });
+      response.on('end', () => resolve({ statusCode: response.statusCode, body }));
+    });
+    request.once('error', reject);
+    request.end();
+  });
+}
+
+async function waitForSocketApi(child, socketPath) {
+  for (let attempt = 0; attempt < 60; attempt += 1) {
+    if (child.exitCode !== null) throw new Error(`API server exited early:\n${child.testLogs()}`);
+    try {
+      const response = await requestUnixSocket(socketPath);
+      if (response.statusCode === 200) return response;
+    } catch {
+      // Passenger's socket may not be listening yet.
+    }
+    await delay(75);
+  }
+  throw new Error(`API server did not start on the Passenger socket:\n${child.testLogs()}`);
+}
+
+test('Plesk app.js entrypoint starts the production API through Passenger require() and socket', async (t) => {
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'pars-passenger-test-'));
+  temporaryDirectories.add(dataDir);
+  const socketPath = path.join(dataDir, 'passenger.sock');
+  const username = `admin-${randomBytes(4).toString('hex')}`;
+  const password = `${randomBytes(24).toString('base64url')}Aa1!`;
+  const child = launchPleskEntrypoint({ dataDir, port: socketPath, username, password });
+  t.after(() => { if (child.exitCode === null && !child.killed) child.kill('SIGTERM'); });
+
+  const health = await waitForSocketApi(child, socketPath);
+  const data = JSON.parse(health.body);
+  assert.equal(health.statusCode, 200);
+  assert.equal(data.ok, true);
+  assert.equal(data.storage, 'sqlite');
+});
 
 async function jsonRequest(url, options = {}) {
   const response = await fetch(url, options);

@@ -7,8 +7,7 @@
 .market-model-section,
 .partnership-models-section,
 .national-programs-section,
-.why-pars-section,
-.investment-models-section {
+.why-pars-section {
   color: #292532;
   background: #f8f7fa;
 }
@@ -236,53 +235,6 @@
   line-height: 1.9;
 }
 
-.investment-models-section {
-  background: #fff;
-}
-
-.investment-model-equation {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin: 30px 0 34px;
-  padding: 21px;
-  border: 1px solid rgba(89, 44, 122, 0.16);
-  color: #592c7a;
-  background: #f8f7fa;
-  font-size: 13px;
-}
-
-.investment-model-equation b {
-  color: #68a6d9;
-  font-size: 18px;
-}
-
-.investment-model-equation svg {
-  flex: none;
-  color: #6166aa;
-  transform: rotate(180deg);
-}
-
-.investment-model-equation strong {
-  color: #292532;
-  font-size: 15px;
-}
-
-.investment-model-columns {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.investment-model-card {
-  padding: 22px;
-  border: 1px solid rgba(89, 44, 122, 0.15);
-  background: #fff;
-}
-
-.investment-model-card h3,
 .market-model-lists h3 {
   margin: 0 0 15px;
   font-size: 16px;
@@ -726,7 +678,6 @@
   }
 
   .platform-feature-grid,
-  .investment-model-columns,
   .market-model-lists {
     grid-template-columns: 1fr;
   }
@@ -752,17 +703,6 @@
 
   .operator-flow li svg {
     transform: rotate(-90deg);
-  }
-
-  .investment-model-equation {
-    justify-content: flex-start;
-    gap: 8px;
-    padding: 15px 12px;
-    font-size: 11px;
-  }
-
-  .investment-model-equation strong {
-    font-size: 13px;
   }
 
   .national-program-grid,
@@ -873,14 +813,307 @@
     min-height: 300px;
   }
 
-  .investment-model-equation {
-    gap: 6px;
-    font-size: 10px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .process-timeline--six .process-timeline-line i {
     animation: none;
+  }
+}
+
+/* A factual, high-contrast portfolio snapshot on the homepage. */
+.portfolio-snapshot-section {
+  padding-block: clamp(64px, 8vw, 104px);
+  color: #292532;
+  background: linear-gradient(135deg, #f7f5fa 0%, #eff3f8 55%, #f7f4f9 100%);
+}
+
+.portfolio-snapshot-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: clamp(24px, 3.4vw, 38px);
+}
+
+.portfolio-snapshot-heading > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.portfolio-snapshot-kicker {
+  color: #592c7a;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+
+.portfolio-snapshot-source {
+  color: #77717f;
+  font-size: 12px;
+}
+
+.portfolio-snapshot-heading h2 {
+  margin: 8px 0 0;
+  color: #292532;
+  font-size: clamp(30px, 3.8vw, 48px);
+  font-weight: 560;
+  letter-spacing: -0.04em;
+  line-height: 1.35;
+}
+
+.portfolio-snapshot-heading h2 em {
+  color: #592c7a;
+  font-style: normal;
+}
+
+.portfolio-snapshot-heading > p {
+  max-width: 345px;
+  margin: 0 0 5px;
+  color: #5e5967;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.portfolio-snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.portfolio-snapshot-card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 215px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(18px, 2.1vw, 26px);
+  overflow: hidden;
+  border: 1px solid rgba(89, 44, 122, 0.14);
+  color: #292532;
+  background: #fff;
+  box-shadow: 0 14px 36px rgba(35, 27, 44, 0.045);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.portfolio-snapshot-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(89, 44, 122, 0.32);
+  box-shadow: 0 20px 42px rgba(35, 27, 44, 0.09);
+}
+
+.portfolio-snapshot-card--featured {
+  border-color: transparent;
+  color: #fff;
+  background: linear-gradient(138deg, #472164 0%, #592c7a 54%, #6166aa 100%);
+}
+
+.portfolio-snapshot-card--featured::after {
+  position: absolute;
+  inset: auto -34px -72px auto;
+  width: 190px;
+  height: 190px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  box-shadow: 0 0 0 22px rgba(255, 255, 255, 0.035), 0 0 0 46px rgba(255, 255, 255, 0.025);
+  content: '';
+  pointer-events: none;
+}
+
+.portfolio-snapshot-icon {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  flex: 0 0 39px;
+  place-items: center;
+  border: 1px solid rgba(89, 44, 122, 0.2);
+  color: #592c7a;
+  background: rgba(92, 198, 217, 0.11);
+}
+
+.portfolio-snapshot-card--featured .portfolio-snapshot-icon {
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #9ee6ef;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.portfolio-snapshot-value {
+  display: block;
+  margin-top: 18px;
+  color: #592c7a;
+  font-size: clamp(38px, 4.4vw, 54px);
+  font-weight: 570;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+
+.portfolio-snapshot-card--featured .portfolio-snapshot-value {
+  color: #fff;
+}
+
+.portfolio-snapshot-label {
+  display: block;
+  margin-top: 10px;
+  color: #292532;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.65;
+}
+
+.portfolio-snapshot-card--featured .portfolio-snapshot-label {
+  color: #fff;
+}
+
+.portfolio-snapshot-card small {
+  display: block;
+  margin-top: 5px;
+  color: #6e6876;
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.portfolio-snapshot-card--featured small {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.portfolio-snapshot-disclosure {
+  max-width: 1020px;
+  margin: 16px 0 0;
+  color: #625c6b;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+/* Explicit dark ink on light surfaces prevents white-on-white copy after theme overrides. */
+.site-header,
+.site-header .brand-lockup,
+.site-header .brand-name-stack strong {
+  color: #292532;
+}
+
+.site-header .desktop-nav a {
+  color: #655f6e;
+}
+
+.site-header .desktop-nav a:hover,
+.site-header .desktop-nav a[aria-current="page"] {
+  color: #592c7a;
+}
+
+.site-header .menu-trigger {
+  color: #592c7a;
+}
+
+.technology-architecture-section,
+.core-platforms-section,
+.market-model-section,
+.partnership-models-section,
+.national-programs-section,
+.why-pars-section,
+.investment-overview,
+.map-section {
+  color: #292532;
+}
+
+/* Keep the shared request button legible in every route and on hover/focus. */
+.button.button-lime:hover,
+.button.button-lime:focus-visible {
+  border-color: transparent;
+  color: #fff;
+  background: linear-gradient(112deg, #472164 0%, #592c7a 45%, #6166aa 100%);
+  background-position: 100% 50%;
+  box-shadow: 0 8px 22px rgba(89, 44, 122, 0.23);
+}
+
+.hero-pars-actions .button.button-lime:hover,
+.hero-pars-actions .button.button-lime:focus-visible {
+  color: #fff;
+  background: linear-gradient(112deg, #472164 0%, #592c7a 45%, #6166aa 100%);
+}
+
+@media (max-width: 1100px) {
+  .portfolio-snapshot-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .portfolio-snapshot-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .portfolio-snapshot-card {
+    min-height: 194px;
+  }
+}
+
+@media (max-width: 640px) {
+  .portfolio-snapshot-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .portfolio-snapshot-heading > p {
+    max-width: 530px;
+  }
+
+  .portfolio-snapshot-grid {
+    gap: 8px;
+  }
+
+  .portfolio-snapshot-card:last-child {
+    grid-column: 1 / -1;
+    width: calc(50% - 4px);
+    justify-self: center;
+  }
+
+  .portfolio-snapshot-card {
+    min-height: 185px;
+    padding: 15px;
+  }
+
+  .portfolio-snapshot-value {
+    margin-top: 15px;
+    font-size: 40px;
+  }
+
+  .portfolio-snapshot-label {
+    font-size: 12px;
+  }
+
+  .portfolio-snapshot-card small {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .portfolio-snapshot-card {
+    min-height: 198px;
+    padding: 12px;
+  }
+
+  .portfolio-snapshot-icon {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+
+  .portfolio-snapshot-value {
+    font-size: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-snapshot-card {
+    transition: none;
+  }
+
+  .portfolio-snapshot-card:hover {
+    transform: none;
   }
 }

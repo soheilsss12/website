@@ -36,14 +36,12 @@ import {
   experienceAreas,
   financialInfrastructureBlocks,
   industries,
-  investmentStructures,
   nationalPrograms,
   partnershipModels,
   platformBrands,
   revenueStreams,
   technologyLayers,
   technologyProducts,
-  ventureOutcomes,
   walletModels,
   whyParsFeatures,
 } from '../data/siteContent.js';
@@ -150,7 +148,7 @@ export function BrandHomeHeroSection() {
           <p>از فناوری تا کسب‌وکار، و از پروژه‌ها تا اکوسیستم‌ها؛ مدل یکپارچه‌ی پارس را بشناسید.</p>
           <div className="brand-home-actions">
             <a href={pageHref('about')} className="button button-lime button-large">درباره‌ی پارس <ArrowUpLeft size={17} /></a>
-            <a href={pageHref('investment')} className="button button-outline-light button-large">سرمایه‌گذاری خطرپذیر <ArrowUpLeft size={15} /></a>
+            <a href={pageHref('investment')} className="button button-outline-light button-large">سرمایه‌گذاری فناوری <ArrowUpLeft size={15} /></a>
           </div>
         </div>
         <a className="brand-home-scroll" href="#home-highlights-title" aria-label="رفتن به بخش‌های پارس">
@@ -386,7 +384,7 @@ export function HeroSection() {
               decoding="async"
             />
           </div>
-          <div className="hero-kicker hero-kicker-pars"><span className="hero-kicker-icon"><ChartNoAxesCombined size={14} /></span> سرمایه‌گذاری خطرپذیر در فناوری</div>
+          <div className="hero-kicker hero-kicker-pars"><span className="hero-kicker-icon"><ChartNoAxesCombined size={14} /></span> سرمایه‌گذاری و ساخت کسب‌وکار در فناوری</div>
           <div className={`hero-dialogue-stage ${isIntro ? 'is-intro' : ''} ${currentField ? 'has-input' : ''} ${isComplete ? 'is-complete' : ''} phase-${dialoguePhase}`}>
             <div className="hero-dialogue-history" aria-hidden="true">
               {history.slice(-2).map((turn, index) => (
@@ -489,25 +487,46 @@ export function HeroSection() {
     </section>
   );
 }
-export function StatsRibbon() {
+export function PortfolioSnapshotSection() {
+  const numberFormat = new Intl.NumberFormat('fa-IR');
   const stats = [
-    { value: '۲۰۰+', title: 'ابتکار هوش مصنوعی و فناوری', note: 'در نمایه‌ی شرکتی ۲۰۲۶', icon: Activity },
-    { value: '۱۰۰+', title: 'محصول و راهکار محصول‌محور', note: 'در نمایه‌ی شرکتی ۲۰۲۶', icon: Network },
-    { value: '۵', title: 'توانمندساز اکوسیستم', note: 'سرمایه‌ی انسانی، داده، پژوهش، ساخت کسب‌وکار و رشد بازار', icon: UsersRound },
-    { value: '۵', title: 'لایه‌ی معماری فناوری', note: 'از زیرساخت تا خدمات هوشمند', icon: ChartNoAxesCombined },
+    { value: '۱۰۰+', label: 'محصول و راهکار محصول‌محور', note: 'آمار گزارش‌شده در پروفایل شرکتی', icon: BarChart3, featured: true },
+    { value: '۲۰۰+', label: 'ابتکار هوش مصنوعی و فناوری', note: 'آمار گزارش‌شده در پروفایل شرکتی', icon: Activity },
+    { value: numberFormat.format(technologyProducts.length), label: 'نام محصول و راهکار', note: 'موارد مشخصاً فهرست‌شده در پروفایل', icon: Network },
+    { value: numberFormat.format(platformBrands.length), label: 'نام پلتفرم و برند', note: 'نام‌های درج‌شده در پروفایل', icon: Building2 },
+    { value: numberFormat.format(industries.length), label: 'حوزه‌ی تمرکز سایت', note: 'فهرست کنونیِ تأییدشده برای سایت', icon: Compass },
   ];
+
   return (
-    <section className="stats-ribbon site-container" aria-label="آمار معرفی‌شده در پروفایل پارس ۲۰۲۶">
-      <div className="stats-ribbon-label"><span className="signal-dot" /> نمایه‌ی شرکتی · ۲۰۲۶</div>
-      <div className="stats-ribbon-items">
-        {stats.map((item, index) => {
-          const Icon = item.icon;
-          return <div className="stats-ribbon-item" key={item.title} data-reveal><span className="stats-number">{item.value}</span><span className="stats-copy"><strong>{item.title}</strong>{item.note && <small>{item.note}</small>}</span><Icon size={20} strokeWidth={1.45} /><i className="stats-ribbon-divider" />{index < stats.length - 1 && <span className="stats-mobile-separator" />}</div>;
-        })}
+    <section className="portfolio-snapshot-section section-space" id="portfolio-snapshot" aria-labelledby="portfolio-snapshot-title">
+      <div className="site-container">
+        <div className="portfolio-snapshot-heading" data-reveal>
+          <div>
+            <span className="portfolio-snapshot-kicker" dir="ltr">PORTFOLIO SNAPSHOT · 2026</span>
+            <span className="portfolio-snapshot-source">نمای آماری پرتفوی پارس</span>
+            <h2 id="portfolio-snapshot-title">فناوری پارس، <em>در اعداد</em></h2>
+          </div>
+          <p>از آمار گزارش‌شده در پروفایل تا شمار نام‌هایی که در فهرست آن آمده‌اند.</p>
+        </div>
+        <div className="portfolio-snapshot-grid">
+          {stats.map((item) => {
+            const Icon = item.icon;
+            return (
+              <article className={`portfolio-snapshot-card ${item.featured ? 'portfolio-snapshot-card--featured' : ''}`} key={item.label} data-reveal>
+                <span className="portfolio-snapshot-icon"><Icon size={21} strokeWidth={1.5} /></span>
+                <strong className="portfolio-snapshot-value">{item.value}</strong>
+                <span className="portfolio-snapshot-label">{item.label}</span>
+                <small>{item.note}</small>
+              </article>
+            );
+          })}
+        </div>
+        <p className="portfolio-snapshot-disclosure">۲۰۰+ و ۱۰۰+ آمار گزارش‌شده در پروفایل‌اند؛ ۳۵ و ۲۰ شمار نام‌های درج‌شده در فهرست‌های پروفایل و ۱۱ شمار حوزه‌های فهرست کنونی سایت است. این اعداد به‌تنهایی وضعیت عرضه، مالکیت یا سرمایه‌گذاری را مشخص نمی‌کنند.</p>
       </div>
     </section>
   );
 }
+
 export function HomeHighlightsSection() {
   const highlights = [
     {
@@ -841,7 +860,7 @@ export function IndustriesSection() {
             decoding="async"
           />
           <div className="industries-showcase-content">
-            <SectionHeading eyebrow="سرمایه‌گذاری خطرپذیر در فناوری" title="۱۱ حوزه‌ی تمرکز" emphasis="پارس" copy="حوزه‌ها مطابق فهرست به‌روز سرمایه‌گذاری پارس نمایش داده شده‌اند." light className="industries-showcase-heading" />
+            <SectionHeading eyebrow="سرمایه‌گذاری فناوری" title="۱۱ حوزه‌ی تمرکز" emphasis="پارس" copy="حوزه‌ها مطابق فهرست به‌روز سرمایه‌گذاری پارس نمایش داده شده‌اند." light className="industries-showcase-heading" />
             <div className="industries-showcase-count"><strong>۱۱</strong><span>حوزه‌ی تمرکز<br />در فهرست جاری سایت</span></div>
           </div>
         </div>
@@ -881,45 +900,12 @@ export function IndustriesSection() {
     </section>
   );
 }
-export function InvestmentModelsSection() {
-  return (
-    <section className="investment-models-section section-space" id="investment-models">
-      <div className="site-container">
-        <SectionHeading
-          eyebrow="سرمایه‌گذاری و ساخت کسب‌وکار"
-          title="سرمایه در کنار فناوری،"
-          emphasis="استعداد، داده و بازار"
-          copy="پروفایل پارس، سرمایه‌گذاری و ساخت کسب‌وکار را در کنار فناوری، استعداد، داده و دسترسی به بازار قرار می‌دهد."
-        />
-        <div className="investment-model-equation" dir="rtl" data-reveal>
-          <span>سرمایه</span><b>+</b><span>فناوری</span><b>+</b><span>استعداد</span><b>+</b><span>داده</span><b>+</b><span>دسترسی به بازار</span><ArrowLeft size={19} /><strong>کسب‌وکارهای تازه</strong>
-        </div>
-        <div className="investment-model-columns">
-          <section className="investment-model-card" aria-labelledby="investment-structures-title">
-            <h3 id="investment-structures-title">ساختارهای معرفی‌شده</h3>
-            <ul className="content-chip-list">
-              {investmentStructures.map((item) => <li key={item}>{item}</li>)}
-            </ul>
-          </section>
-          <section className="investment-model-card" aria-labelledby="venture-outcomes-title">
-            <h3 id="venture-outcomes-title">خروجی‌های کسب‌وکار</h3>
-            <ul className="content-chip-list content-chip-list--muted">
-              {ventureOutcomes.map((item) => <li key={item}>{item}</li>)}
-            </ul>
-          </section>
-        </div>
-        <p className="section-source-note">این‌ها ساختارها و خروجی‌های کلی مندرج در پروفایل‌اند، نه فهرست شرکت‌ها یا معاملات انجام‌شده. معرفی سرمایه‌گذاری‌های منتخب تابع مجوز افشاست.</p>
-      </div>
-    </section>
-  );
-}
-
 export function BenefitsSection() {
   return (
     <section className="benefits-section section-space" id="benefits">
       <div className="site-container benefits-layout">
         <div className="benefits-intro">
-          <SectionHeading eyebrow="توانمندسازهای اکوسیستم" title="پنج سازوکار" emphasis="برای پیوند فناوری و بازار" copy="پروفایل پارس پنج توانمندساز را معرفی می‌کند که مسیر استعداد، داده و پژوهش را به محصول، کسب‌وکار و رشد بازار پیوند می‌دهند." light />
+          <SectionHeading eyebrow="بازوهای رشد" title="پنج بازو" emphasis="برای پیوند فناوری و بازار" copy="پروفایل پارس پنج بازو را معرفی می‌کند که مسیر سرمایه‌ی انسانی، داده و پژوهش را به محصول، کسب‌وکار و رشد بازار پیوند می‌دهند." light />
           <div className="benefits-statement"><ParsGlyph /><p>از پژوهش<br />تا <em>رشد بازار</em></p></div>
           <a href={pageHref('approach')} className="button button-outline-light">مرور مدل فعالیت <ArrowUpLeft size={16} /></a>
         </div>
@@ -1410,19 +1396,19 @@ export function FooterSection() {
             <span className="brand-name-stack"><strong>پارس</strong></span>
           </a>
           <p>از زیرساخت تا هوشمندی؛ از فناوری تا کسب‌وکار</p>
-          <a href={pageHref('investment')} className="button button-outline-light">سرمایه‌گذاری خطرپذیر <ArrowUpLeft size={15} /></a>
+          <a href={pageHref('investment')} className="button button-outline-light">سرمایه‌گذاری فناوری <ArrowUpLeft size={15} /></a>
         </div>
         <div className="footer-main">
           <div className="footer-sitemap">
             <div><strong>پارس</strong><a href={pageHref('about')}>درباره‌ی پارس</a><a href={pageHref('news')}>تجربه‌ها</a><a href={pageHref('contact')}>تماس و همکاری</a></div>
-            <div><strong>سرمایه‌گذاری خطرپذیر</strong><a href={pageHref('investment')}>نمای کلی</a><a href={pageHref('approach')}>مدل فعالیت</a><a href={pageHref('industries')}>حوزه‌ها</a><a href={pageHref('portfolio')}>پرتفوی فناوری</a><a href={pageHref('tools')}>ابزارها</a></div>
+            <div><strong>سرمایه‌گذاری فناوری</strong><a href={pageHref('investment')}>نمای کلی</a><a href={pageHref('approach')}>مدل فعالیت</a><a href={pageHref('industries')}>حوزه‌ها</a><a href={pageHref('portfolio')}>پرتفوی فناوری</a><a href={pageHref('tools')}>ابزارها</a></div>
             <div><strong>درخواست و راهنما</strong><a href={pageHref('apply')}>درخواست سرمایه</a><a href={pageHref('track')}>پیگیری درخواست</a><a href={pageHref('sitemap')}>نقشه‌ی سایت</a></div>
           </div>
           <div className="footer-status">
-            <span className="eyebrow">سرمایه‌گذاری خطرپذیر</span>
-            <strong><i className="status-indicator" /> در صفحه‌ای مستقل</strong>
-            <small>فناوری، حوزه‌ها و ساخت کسب‌وکار</small>
-            <a href={pageHref('investment')}>ورود به این بخش <ArrowUpLeft size={13} /></a>
+            <span className="eyebrow">سرمایه‌گذاری فناوری</span>
+            <strong><i className="status-indicator" /> فناوری و سرمایه‌گذاری، در یک مسیر</strong>
+            <small>زیرساخت، حوزه‌ها و ساخت کسب‌وکار</small>
+            <a href={pageHref('investment')}>مرور نمای کلی <ArrowUpLeft size={13} /></a>
           </div>
         </div>
         <div className="footer-bottom">

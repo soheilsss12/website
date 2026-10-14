@@ -7,10 +7,13 @@ import { pageHref } from '../lib/routes.js';
 const asset = (name) => `${import.meta.env.BASE_URL}${name}`;
 
 const links = [
+  { label: 'نمای کلی', href: pageHref('investment') },
   { label: 'مدل فعالیت', href: pageHref('approach') },
   { label: 'حوزه‌ها', href: pageHref('industries') },
   { label: 'پرتفوی فناوری', href: pageHref('portfolio') },
+  { label: 'تجربه‌ها', href: pageHref('news') },
   { label: 'درباره‌ی پارس', href: pageHref('about') },
+  { label: 'تماس و همکاری', href: pageHref('contact') },
 ];
 
 function ParsBrand({ footer = false }) {
@@ -138,7 +141,7 @@ function StrategySection() {
     <section className="pars-strategy" id="strategy" aria-labelledby="pars-strategy-title">
       <div className="pars-strategy-head" data-reveal>
         <span className="pars-section-kicker">رویکرد پارس</span>
-        <h2 id="pars-strategy-title">پنج توانمندسازِ<br /><em>اکوسیستم پارس</em></h2>
+        <h2 id="pars-strategy-title">پنج بازوی<br /><em>رشد پارس</em></h2>
         <ParsLogoMark decorative className="pars-strategy-mark" />
       </div>
       <div className="pars-strategy-grid">
@@ -201,7 +204,7 @@ export default function MinimalHomePage() {
       <main>
         <section className="pars-hero pars-container" id="home" aria-labelledby="pars-hero-title">
           <div className="pars-hero-copy" data-reveal>
-            <span className="pars-hero-kicker"><i aria-hidden="true" /> سرمایه‌گذاری خطرپذیر در فناوری</span>
+            <span className="pars-hero-kicker"><i aria-hidden="true" /> سرمایه‌گذاری و ساخت کسب‌وکار در فناوری</span>
             <h1 id="pars-hero-title">از زیرساخت تا<br /><em>فناوری و کسب‌وکار</em></h1>
             <p className="pars-hero-subtitle">از زیرساخت و داده تا هوش مصنوعی، سرمایه‌گذاری و ساخت کسب‌وکار.</p>
             <div className="pars-hero-actions">

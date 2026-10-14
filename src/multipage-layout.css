@@ -33,17 +33,6 @@
   gap: clamp(8px, 1.1vw, 15px);
 }
 
-.header-track-link {
-  color: #592C7A;
-  font-size: 12px;
-  font-weight: 560;
-  white-space: nowrap;
-}
-
-.header-track-link:hover {
-  color: #6166AA;
-}
-
 .menu-trigger {
   display: none;
   border-color: rgba(89, 44, 122, 0.24);
@@ -233,10 +222,6 @@
 
   .header-actions {
     gap: 8px;
-  }
-
-  .header-track-link {
-    font-size: 11px;
   }
 
   .menu-trigger {
@@ -1678,46 +1663,13 @@
   outline-offset: -3px;
 }
 
-/* The investment section remains a separate destination, not a Pars brand descriptor. */
-.site-section-badge {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 8px;
-  color: #592C7A;
-  font-size: 11px;
-  font-weight: 650;
-  white-space: nowrap;
+/* The same primary navigation is used on the homepage and every main content route. */
+.site-header .desktop-nav {
+  gap: clamp(8px, 1.05vw, 15px);
 }
 
-.site-section-badge > i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #5CC6D9, #592C7A);
-}
-
-.site-header--investment .desktop-nav {
-  gap: clamp(10px, 1.15vw, 18px);
-}
-
-.site-header--investment .desktop-nav a {
+.site-header .desktop-nav a {
   font-size: 12px;
-}
-
-.header-investment-link {
-  min-height: 40px;
-  padding-inline: 14px;
-  color: #592C7A;
-  border-color: rgba(89, 44, 122, 0.24);
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.header-investment-link:hover {
-  border-color: #592C7A;
-  color: #592C7A;
-  background: rgba(89, 44, 122, 0.045);
 }
 
 /* Grouped navigation, with no decorative item counters. */
@@ -2120,21 +2072,6 @@
 }
 
 @media (max-width: 560px) {
-  .header-investment-link {
-    min-height: 36px;
-    gap: 5px;
-    padding-inline: 9px;
-    font-size: 11px;
-  }
-
-  .site-section-badge {
-    display: none;
-  }
-
-  .site-header--investment .header-track-link {
-    display: none;
-  }
-
   .brand-home-hero {
     min-height: max(590px, calc(100svh - 58px));
   }
@@ -2257,7 +2194,6 @@
   .investment-overview-card,
   .investment-overview-icon,
   .full-menu,
-  .site-section-badge,
   .desktop-nav a,
   .desktop-nav a::after {
     animation: none !important;
@@ -2356,7 +2292,7 @@
 
 /* Keep the request-investment action visible beside the hero on every viewport. */
 @media (max-width: 900px) {
-  .site-header--home .header-apply {
+  .site-header .header-apply {
     display: inline-flex;
     min-height: 36px;
     gap: 5px;
@@ -2367,30 +2303,30 @@
 }
 
 @media (max-width: 400px) {
-  .site-header--home .site-header-inner {
+  .site-header .site-header-inner {
     gap: 5px;
   }
 
-  .site-header--home .header-actions {
+  .site-header .header-actions {
     gap: 5px;
   }
 
-  .site-header--home .header-apply {
+  .site-header .header-apply {
     padding-inline: 6px;
     font-size: 10px;
   }
 
-  .site-header--home .brand-lockup {
+  .site-header .brand-lockup {
     gap: 6px;
   }
 
-  .site-header--home .brand-symbol {
+  .site-header .brand-symbol {
     width: 34px;
     height: 34px;
     flex-basis: 34px;
   }
 
-  .site-header--home .menu-trigger {
+  .site-header .menu-trigger {
     gap: 4px;
     padding-inline: 7px;
   }

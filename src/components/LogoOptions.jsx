@@ -89,7 +89,7 @@ export default function LogoOptionsPage() {
   return (
     <main className="logo-options-page" dir="rtl">
       <header className="logo-options-header site-container">
-        <a className="logo-options-brand" href={pageHref('home')}><span className="brand-symbol"><CrystalMark /></span><span><strong>پارس</strong><small>سرمایه‌گذاری خطرپذیر</small></span></a>
+        <a className="logo-options-brand" href={pageHref('home')}><span className="brand-symbol"><CrystalMark /></span><span><strong>پارس</strong><small>سرمایه‌گذاری فناوری</small></span></a>
         <a className="logo-options-back" href={pageHref('home')}><ArrowLeft size={16} /> بازگشت به سایت</a>
       </header>
       <section className="logo-options-intro site-container">
@@ -106,7 +106,7 @@ export default function LogoOptionsPage() {
           <article className={`logo-option-card ${selected === concept.id ? 'is-selected' : ''}`} key={concept.id}>
             <div className="logo-option-art">
               <div className={`logo-option-mark logo-option-mark-${concept.id}`}><LogoMark concept={concept.id} /></div>
-              <div className="logo-option-wordmark"><strong>پارس</strong><span>سرمایه‌گذاری خطرپذیر</span></div>
+              <div className="logo-option-wordmark"><strong>پارس</strong><span>سرمایه‌گذاری فناوری</span></div>
             </div>
             <div className="logo-option-copy">
               <div className="logo-option-heading"><span>{new Intl.NumberFormat('fa-IR').format(index + 1)}</span><h2>{concept.title}</h2></div>

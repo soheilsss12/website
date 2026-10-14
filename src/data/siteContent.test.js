@@ -4,6 +4,7 @@ import {
   commercializationStages,
   ecosystemEnablers,
   industries,
+  navItems,
   platformBrands,
   technologyLayers,
   technologyProducts,
@@ -23,6 +24,19 @@ test('the current investment taxonomy has the 11 user-approved focus areas in or
     'لجستیک',
     'محتوا و رسانه',
   ]);
+});
+
+test('the site uses one shared primary navigation across all main routes', () => {
+  assert.deepEqual(navItems.map(({ route }) => route), [
+    'investment',
+    'approach',
+    'industries',
+    'portfolio',
+    'news',
+    'about',
+    'contact',
+  ]);
+  assert.equal(new Set(navItems.map(({ route }) => route)).size, navItems.length);
 });
 
 test('the profile content keeps its reported architecture and portfolio list sizes', () => {

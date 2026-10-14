@@ -21,17 +21,13 @@ import {
 } from 'lucide-react';
 
 export const navItems = [
-  { label: 'درباره‌ی پارس', route: 'about' },
-  { label: 'تجربه‌ها', route: 'news' },
-  { label: 'تماس و همکاری', route: 'contact' },
-];
-
-export const investmentNavItems = [
   { label: 'نمای کلی', route: 'investment' },
   { label: 'مدل فعالیت', route: 'approach' },
   { label: 'حوزه‌ها', route: 'industries' },
   { label: 'پرتفوی فناوری', route: 'portfolio' },
-  { label: 'ابزارها', route: 'tools' },
+  { label: 'تجربه‌ها', route: 'news' },
+  { label: 'درباره‌ی پارس', route: 'about' },
+  { label: 'تماس و همکاری', route: 'contact' },
 ];
 
 // The current website taxonomy follows the 11 focus areas supplied by the user.
@@ -211,24 +207,6 @@ export const whyParsFeatures = [
   { number: '۰۶', title: 'دسترسی به بازار', description: 'روابط سازمانی و توانمندی تجاری‌سازی متناسب با هر حوزه.' },
   { number: '۰۷', title: 'نگاه اکوسیستمی', description: 'قرارگرفتن استعداد، داده، پژوهش، ساخت کسب‌وکار و رشد بازار در یک مدل.' },
   { number: '۰۸', title: 'افق اپراتوری هوش مصنوعی', description: 'پیگیری مجوز موردنیاز برای فعالیت به‌عنوان AI Operator در ایران.' },
-];
-
-export const investmentStructures = [
-  'سرمایه‌گذاری اقلیت',
-  'سهام‌داری راهبردی',
-  'تملک اکثریت سهام',
-  'مشارکت در کسب‌وکار مشترک (JV)',
-  'شرکت با هدف ویژه (SPV)',
-  'سرمایه‌گذاری جسورانه‌ی شرکتی',
-  'مشارکت مبتنی بر تسهیم درآمد',
-];
-
-export const ventureOutcomes = [
-  'شرکت‌های مستقل',
-  'شرکت‌های تابعه‌ی راهبردی',
-  'کسب‌وکارهای مشترک',
-  'کسب‌وکارهای پلتفرمی',
-  'شرکت‌های هوش مصنوعیِ حوزه‌ای',
 ];
 
 export const partnershipModels = [

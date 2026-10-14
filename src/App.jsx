@@ -26,7 +26,6 @@ import {
   FooterSection,
   HeroSection,
   HomeHighlightsSection,
-  InvestmentModelsSection,
   InvestmentOverviewSection,
   IndustriesSection,
   JourneySection,
@@ -38,13 +37,13 @@ import {
   OperatorStatusSection,
   PartnershipModelsSection,
   PortfolioSection,
+  PortfolioSnapshotSection,
   ProcessSection,
-  StatsRibbon,
   TechnologyArchitectureSection,
   ToolsSection,
   WhyParsSection,
 } from './components/SiteSections.jsx';
-import { investmentNavItems, navItems } from './data/siteContent.js';
+import { navItems } from './data/siteContent.js';
 import { pageHref, routeFromLegacyHash, routeFromPath } from './lib/routes.js';
 
 function resolveRoute() {
@@ -61,12 +60,6 @@ function resolveRoute() {
   return hash ? routeFromLegacyHash(hash) : routeFromPath(relativePath);
 }
 
-const investmentRoutes = new Set(['investment', 'approach', 'industries', 'portfolio', 'tools', 'apply', 'track']);
-
-function isInvestmentRoute(route) {
-  return investmentRoutes.has(route);
-}
-
 function BrandLockup({ descriptor = '' }) {
   return (
     <a className="brand-lockup" href={pageHref('home')} aria-label="صفحه‌ی اصلی پارس">
@@ -77,17 +70,12 @@ function BrandLockup({ descriptor = '' }) {
 }
 
 function SiteHeader({ activeRoute, menuOpen, setMenuOpen }) {
-  const isInvestmentPage = isInvestmentRoute(activeRoute);
-  const isHomePage = activeRoute === 'home';
-  const showApplyCallToAction = isInvestmentPage || isHomePage;
-  const links = isInvestmentPage ? investmentNavItems : navItems;
   return (
-    <header className={`site-header ${isInvestmentPage ? 'site-header--investment' : ''} ${isHomePage ? 'site-header--home' : ''}`}>
+    <header className="site-header">
       <div className="site-header-inner site-container">
         <BrandLockup />
-        {isInvestmentPage && <span className="site-section-badge"><i aria-hidden="true" /> سرمایه‌گذاری خطرپذیر</span>}
-        <nav className="desktop-nav" aria-label={isInvestmentPage ? 'صفحه‌های سرمایه‌گذاری خطرپذیر' : 'منوی اصلی'}>
-          {links.map((item) => (
+        <nav className="desktop-nav" aria-label="منوی اصلی">
+          {navItems.map((item) => (
             <a
               href={pageHref(item.route)}
               key={item.route}
@@ -98,12 +86,8 @@ function SiteHeader({ activeRoute, menuOpen, setMenuOpen }) {
           ))}
         </nav>
         <div className="header-actions">
-          {isInvestmentPage && <a className="header-track-link" href={pageHref('track')}>پیگیری درخواست</a>}
-          <a
-            className={`button ${showApplyCallToAction ? 'button-lime header-apply' : 'button-outline header-investment-link'}`}
-            href={pageHref(showApplyCallToAction ? 'apply' : 'investment')}
-          >
-            {showApplyCallToAction ? 'درخواست سرمایه' : 'سرمایه‌گذاری خطرپذیر'} <ArrowUpLeft size={15} />
+          <a className="button button-lime header-apply" href={pageHref('apply')}>
+            درخواست سرمایه <ArrowUpLeft size={15} />
           </a>
           <button
             className="menu-trigger"
@@ -124,11 +108,11 @@ function SiteHeader({ activeRoute, menuOpen, setMenuOpen }) {
 
 function FullMenu({ open, onClose }) {
   const sections = [
-    { title: 'پارس', links: navItems },
+    { title: 'صفحه‌های پارس', links: navItems },
     {
-      title: 'سرمایه‌گذاری خطرپذیر و فناوری',
+      title: 'ابزارها و درخواست‌ها',
       links: [
-        ...investmentNavItems,
+        { label: 'ابزارهای مالی', route: 'tools' },
         { label: 'درخواست سرمایه', route: 'apply' },
         { label: 'پیگیری درخواست', route: 'track' },
       ],
@@ -160,8 +144,8 @@ function FullMenu({ open, onClose }) {
         <div className="full-menu-body">
           <div className="full-menu-label">
             <span className="eyebrow">پارس</span>
-            <p>مدل فناوری و سرمایه‌گذاری پارس را مرور کنید.</p>
-            <a href={pageHref('investment')} className="button button-lime" onClick={onClose}>ورود به سرمایه‌گذاری خطرپذیر <ArrowUpLeft size={15} /></a>
+            <p>مدل فناوری، سرمایه‌گذاری و همکاری پارس را مرور کنید.</p>
+            <a href={pageHref('investment')} className="button button-lime" onClick={onClose}>نمای کلی پارس <ArrowUpLeft size={15} /></a>
           </div>
           <nav className="full-menu-links" aria-label="همه‌ی صفحه‌های سایت">
             {sections.map((section) => (
@@ -177,30 +161,20 @@ function FullMenu({ open, onClose }) {
             ))}
           </nav>
         </div>
-        <div className="full-menu-foot"><span>پارس</span><span>فناوری، سرمایه‌گذاری خطرپذیر و ساخت کسب‌وکار</span></div>
+        <div className="full-menu-foot"><span>پارس</span><span>فناوری، سرمایه‌گذاری و ساخت کسب‌وکار</span></div>
       </div>
     </div>
   );
 }
 
-function MobileApplyBar() {
-  return (
-    <a className="mobile-apply-bar" href={pageHref('apply')}>
-      <span><small>درخواست سرمایه</small><strong>ثبت درخواست</strong></span>
-      <span className="mobile-apply-arrow"><ArrowUpLeft size={18} /></span>
-    </a>
-  );
-}
-
 function SiteMapPage() {
   const groups = [
-    { title: 'پارس', links: [['درباره‌ی پارس', 'about'], ['تجربه‌ها', 'news'], ['تماس و همکاری', 'contact']] },
-    { title: 'سرمایه‌گذاری و ساخت کسب‌وکار', links: investmentNavItems.map(({ label, route }) => [label, route]) },
-    { title: 'درخواست‌ها', links: [['درخواست سرمایه', 'apply'], ['پیگیری درخواست', 'track']] },
+    { title: 'صفحه‌های پارس', links: navItems.map(({ label, route }) => [label, route]) },
+    { title: 'ابزارها و درخواست‌ها', links: [['ابزارهای مالی', 'tools'], ['درخواست سرمایه', 'apply'], ['پیگیری درخواست', 'track']] },
     { title: 'راهنما', links: [['قوانین و مقررات', 'terms'], ['حریم خصوصی', 'privacy'], ['نقشه‌ی سایت', 'sitemap']] },
   ];
   return (
-    <SubPage title="نقشه‌ی سایت" eyebrow="دسترسی روشن" description="صفحه‌های مستقل سایت پارس در یک نگاه" icon={Network}>
+    <SubPage title="نقشه‌ی سایت" eyebrow="دسترسی روشن" description="بخش‌های اصلی سایت پارس و مسیرهای دسترسی" icon={Network}>
       <div className="sitemap-grid">
         {groups.map((group) => (
           <div className="sitemap-group" key={group.title}>
@@ -252,14 +226,12 @@ function NotFoundPage() {
 }
 
 function SiteShell({ children, activeRoute, menuOpen, setMenuOpen, cookieChoice, onSaveCookie }) {
-  const isInvestmentPage = isInvestmentRoute(activeRoute);
   return (
     <div className="home-page" dir="rtl">
       <SiteHeader activeRoute={activeRoute} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <FullMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
       <main>{children}</main>
       <FooterSection />
-      {isInvestmentPage && <MobileApplyBar />}
       <CookieNotice choice={cookieChoice} onSave={onSaveCookie} />
     </div>
   );
@@ -269,8 +241,9 @@ function HomePage({ menuOpen, setMenuOpen, cookieChoice, onSaveCookie }) {
   return (
     <SiteShell activeRoute="home" menuOpen={menuOpen} setMenuOpen={setMenuOpen} cookieChoice={cookieChoice} onSaveCookie={onSaveCookie}>
       <HeroSection />
-      <StatsRibbon />
+      <PortfolioSnapshotSection />
       <HomeHighlightsSection />
+      <MapSection />
       <BrandClosingSection />
     </SiteShell>
   );
@@ -280,9 +253,7 @@ function InvestmentPage({ menuOpen, setMenuOpen, cookieChoice, onSaveCookie }) {
   return (
     <SiteShell activeRoute="investment" menuOpen={menuOpen} setMenuOpen={setMenuOpen} cookieChoice={cookieChoice} onSaveCookie={onSaveCookie}>
       <HeroSection />
-      <StatsRibbon />
       <InvestmentOverviewSection />
-      <InvestmentModelsSection />
       <FinalCallout />
     </SiteShell>
   );
@@ -295,7 +266,7 @@ function ContentPage({ route, onOpenTool, menuOpen, setMenuOpen, cookieChoice, o
       content = <><ManifestoSection /><JourneySection /><TechnologyArchitectureSection /><CorePlatformsSection /><BenefitsSection /><ProcessSection /><OperatorStatusSection /></>;
       break;
     case 'industries':
-      content = <><IndustriesSection /><NationalProgramsSection /><MapSection /></>;
+      content = <><IndustriesSection /><NationalProgramsSection /></>;
       break;
     case 'portfolio':
       content = <PortfolioSection />;
@@ -324,8 +295,8 @@ function ContentPage({ route, onOpenTool, menuOpen, setMenuOpen, cookieChoice, o
 }
 
 const pageTitles = {
-  home: 'پارس | فناوری، سرمایه‌گذاری خطرپذیر و ساخت کسب‌وکار',
-  investment: 'سرمایه‌گذاری خطرپذیر و فناوری | پارس',
+  home: 'پارس | فناوری، سرمایه‌گذاری و ساخت کسب‌وکار',
+  investment: 'سرمایه‌گذاری فناوری | پارس',
   approach: 'مدل فناوری و تجاری‌سازی | پارس',
   industries: '۱۱ حوزه‌ی تمرکز | پارس',
   portfolio: 'پرتفوی فناوری | پارس',
@@ -333,7 +304,7 @@ const pageTitles = {
   about: 'درباره‌ی پارس',
   contact: 'تماس و همکاری با پارس',
   tools: 'ابزارهای مالی و استارتاپی | پارس',
-  apply: 'درخواست سرمایه‌گذاری خطرپذیر | پارس',
+  apply: 'درخواست سرمایه | پارس',
   track: 'پیگیری درخواست | پارس',
   terms: 'قوانین و مقررات | پارس',
   privacy: 'حریم خصوصی | پارس',
@@ -344,8 +315,8 @@ const pageTitles = {
 
 const pageDescriptions = {
   home: 'از زیرساخت تا هوشمندی و از فناوری تا کسب‌وکار؛ آشنایی با پارس، شرکت فناوری و نوآوری ایرانی در حوزه‌ی هوش مصنوعی، سرمایه‌گذاری فناوری و ساخت کسب‌وکار.',
-  investment: 'مدل سرمایه‌گذاری خطرپذیر در فناوری، ساختارهای سرمایه‌گذاری و مسیرهای تبدیل فناوری به کسب‌وکار در پارس.',
-  approach: 'معماری پنج‌لایه‌ی فناوری، AI Fabric، توانمندسازهای اکوسیستم و الگوی تجاری‌سازی معرفی‌شده در پروفایل پارس.',
+  investment: 'مدل سرمایه‌گذاری فناوری و مسیرهای تبدیل پژوهش و فناوری به محصول، پلتفرم و کسب‌وکار در پارس.',
+  approach: 'معماری پنج‌لایه‌ی فناوری، AI Fabric، بازوهای رشد و الگوی تجاری‌سازی معرفی‌شده در پروفایل پارس.',
   industries: 'فهرست یازده‌گانه‌ی حوزه‌های تمرکز پارس و برنامه‌های ملی و دولتی معرفی‌شده در پروفایل شرکتی ۲۰۲۶.',
   portfolio: 'مرور نام محصولات، راهکارها، پلتفرم‌ها و برندهای درج‌شده در پروفایل شرکتی پارس ۲۰۲۶.',
   news: 'حوزه‌های تجربه‌ی سازمانی معرفی‌شده در پروفایل پارس؛ شرح پرونده‌های منتخب با رعایت محرمانگی و NDA ارائه می‌شود.',

@@ -190,7 +190,7 @@ export default function ApplicationPage() {
     <main className="pars-apply-page" dir="rtl">
       <header className="pars-form-header pars-container">
         <SiteBrand href={homeHref} />
-        <span className="pars-form-header-title">درخواست سرمایه‌گذاری خطرپذیر</span>
+        <span className="pars-form-header-title">درخواست سرمایه</span>
         <a className="pars-form-header-link" href={routeHref('track')}>پیگیری درخواست <ArrowUpLeft size={15} /></a>
       </header>
 

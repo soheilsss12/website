@@ -13,7 +13,12 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST_DIR = path.join(ROOT, 'dist');
 const DATA_DIR = path.resolve(process.env.DATA_DIR || path.join(ROOT, 'server/data'));
 const UPLOAD_DIR = path.join(DATA_DIR, 'private-decks');
-const PORT = Number(process.env.PORT || 8787);
+// Plesk/Passenger may provide PORT as either a numeric port or a socket path.
+// Keep the Passenger-provided value intact instead of coercing it with Number().
+const configuredPort = String(process.env.PORT || '').trim();
+const PORT = configuredPort
+  ? (/^\d+$/.test(configuredPort) ? Number(configuredPort) : configuredPort)
+  : 8787;
 const HOST = process.env.HOST || '0.0.0.0';
 const MAX_BODY_BYTES = 29 * 1024 * 1024;
 const MAX_DECK_BYTES = 20 * 1024 * 1024;
@@ -719,12 +724,26 @@ server.headersTimeout = 50_000;
 server.keepAliveTimeout = 5_000;
 
 const stopEmailWorker = startEmailOutboxWorker(db);
-server.listen(PORT, HOST, () => {
-  console.log(`Pars web/API listening on http://${HOST}:${PORT}`);
+const onListening = () => {
+  const address = server.address();
+  const endpoint = typeof address === 'string'
+    ? address
+    : `http://${address?.address || HOST}:${address?.port ?? PORT}`;
+  console.log(`Pars web/API listening on ${endpoint}`);
   if (!existsSync(path.join(DIST_DIR, 'index.html'))) console.log('Static frontend is not built yet; API routes are available.');
   if (!db.prepare('SELECT 1 FROM admin_users LIMIT 1').get()) console.warn('No admin account configured; set ADMIN_USERNAME and ADMIN_PASSWORD (16+ characters) before use.');
   if (!mailConfiguration().configured) console.warn('Email notifications are not configured; submissions will still be stored and visible in the admin panel.');
-});
+};
+
+if (typeof PORT === 'string') {
+  // Passenger can pass a Unix/named-pipe socket instead of a TCP port.
+  server.listen(PORT, onListening);
+} else if (configuredPort && !process.env.HOST) {
+  // Follow Passenger's dynamically assigned listener without forcing a host.
+  server.listen(PORT, onListening);
+} else {
+  server.listen(PORT, HOST, onListening);
+}
 
 function shutdown() {
   stopEmailWorker();

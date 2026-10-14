@@ -52,6 +52,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # Stage the complete Plesk build output, including generated copies of public images.
           git add -A -- .
+          # Plesk's Node app serves the CI-built frontend from dist/; the folder is ignored locally.
+          git add -f -A -- dist
           if [ -d images ]; then
             git add -A -- images
           else

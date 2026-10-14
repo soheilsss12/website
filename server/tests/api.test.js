@@ -35,6 +35,7 @@ test('password hashing and form validation reject malformed input', () => {
   assert.equal(verifyPassword('not-the-password', hash), false);
 
   assert.throws(() => validateContact({ name: 'Test', contact: 'bad', topic: 'همکاری', message: 'Hello' }));
+  assert.equal(validateContact({ name: 'Test', contact: 'test@example.org', topic: 'شراکت فناوری', message: 'Hello' }).topic, 'شراکت فناوری');
   assert.throws(() => validateApplication({ fullName: 'Test', agreed: false }));
 });
 

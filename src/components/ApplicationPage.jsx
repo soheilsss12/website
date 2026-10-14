@@ -190,14 +190,14 @@ export default function ApplicationPage() {
     <main className="pars-apply-page" dir="rtl">
       <header className="pars-form-header pars-container">
         <SiteBrand href={homeHref} />
-        <span className="pars-form-header-title">درخواست سرمایه</span>
+        <span className="pars-form-header-title">درخواست سرمایه‌گذاری خطرپذیر</span>
         <a className="pars-form-header-link" href={routeHref('track')}>پیگیری درخواست <ArrowUpLeft size={15} /></a>
       </header>
 
       <section className="pars-apply-layout pars-container" id="application-form">
         <aside className="pars-apply-aside" aria-hidden="true">
-          <span className="pars-section-kicker">پارس</span>
-          <h1>ایده‌های<br /><em>موفق</em></h1>
+          <span className="pars-section-kicker">سرمایه‌گذاری فناوری</span>
+          <h1>از فناوری<br /><em>تا کسب‌وکار</em></h1>
           <ParsLogoMark decorative className="pars-apply-aside-mark" />
         </aside>
 

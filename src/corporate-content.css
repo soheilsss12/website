@@ -1,0 +1,886 @@
+/* Content patterns for the 2026 corporate profile, with the site's Persian RTL layout. */
+.stats-ribbon-items {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.technology-architecture-section,
+.market-model-section,
+.partnership-models-section,
+.national-programs-section,
+.why-pars-section,
+.investment-models-section {
+  color: #292532;
+  background: #f8f7fa;
+}
+
+.technology-architecture-heading {
+  margin-bottom: clamp(26px, 4vw, 42px);
+}
+
+.technology-layer-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.technology-layer-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 58px 48px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 18px;
+  min-height: 126px;
+  padding: 21px 24px;
+  border: 1px solid rgba(89, 44, 122, 0.14);
+  background: #fff;
+  box-shadow: 0 10px 35px rgba(50, 37, 67, 0.035);
+}
+
+.technology-layer-number {
+  color: #592c7a;
+  font-size: 25px;
+  font-variant-numeric: tabular-nums;
+}
+
+.technology-layer-icon,
+.platform-feature-kicker > svg {
+  display: grid;
+  place-items: center;
+  color: #592c7a;
+}
+
+.technology-layer-copy h3 {
+  margin: 0;
+  color: #292532;
+  font-size: 19px;
+  font-weight: 650;
+}
+
+.technology-layer-copy > span {
+  display: inline-block;
+  margin-top: 3px;
+  color: #747080;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.035em;
+}
+
+.technology-layer-copy p {
+  max-width: 1000px;
+  margin: 9px 0 0;
+  color: #56515f;
+  font-size: 13px;
+  line-height: 1.95;
+}
+
+.technology-layer-arrow {
+  color: #68a6d9;
+}
+
+.section-source-note {
+  margin: 20px 0 0;
+  color: #716c79;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.core-platforms-section {
+  color: #292532;
+  background: #fff;
+}
+
+.platform-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.platform-feature-card {
+  min-width: 0;
+  padding: clamp(20px, 2.4vw, 30px);
+  border: 1px solid rgba(89, 44, 122, 0.16);
+  background: linear-gradient(145deg, #fff 0%, #faf9fc 100%);
+}
+
+.platform-feature-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #592c7a;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.platform-feature-card h3 {
+  margin: 17px 0 8px;
+  color: #292532;
+  font-size: clamp(21px, 2.2vw, 29px);
+  font-weight: 620;
+  line-height: 1.5;
+}
+
+.platform-feature-card > p {
+  margin: 0;
+  color: #5c5765;
+  font-size: 13px;
+  line-height: 2;
+}
+
+.platform-feature-card h4 {
+  margin: 23px 0 11px;
+  color: #292532;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.content-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.content-chip-list li {
+  max-width: 100%;
+  padding: 7px 10px;
+  border: 1px solid rgba(89, 44, 122, 0.17);
+  color: #423c4d;
+  background: rgba(104, 166, 217, 0.09);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.content-chip-list--muted li {
+  border-color: rgba(50, 43, 62, 0.12);
+  background: #fff;
+}
+
+.platform-feature-detail {
+  margin: 0 0 10px !important;
+  color: #592c7a !important;
+  font-family: Arial, sans-serif;
+  font-size: 12px !important;
+  direction: ltr;
+  text-align: right;
+}
+
+.operator-status-section {
+  color: #fff;
+  background: #21192d;
+}
+
+.operator-status-section .section-heading h2,
+.operator-status-section .section-heading > p {
+  color: #fff;
+}
+
+.operator-status-panel {
+  padding: clamp(21px, 3vw, 36px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(125deg, rgba(97, 102, 170, 0.19), rgba(92, 198, 217, 0.07));
+}
+
+.operator-status-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #a7e7e7;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.operator-status-label .signal-dot {
+  background: #e8c874;
+}
+
+.operator-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 27px 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.operator-flow li {
+  display: flex;
+  flex: 1 1 130px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #fff;
+  font-size: 13px;
+}
+
+.operator-flow li svg {
+  flex: none;
+  color: #5cc6d9;
+  transform: rotate(180deg);
+}
+
+.operator-flow li:last-child {
+  color: #9ee6e7;
+}
+
+.operator-status-panel > p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.73);
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.investment-models-section {
+  background: #fff;
+}
+
+.investment-model-equation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 30px 0 34px;
+  padding: 21px;
+  border: 1px solid rgba(89, 44, 122, 0.16);
+  color: #592c7a;
+  background: #f8f7fa;
+  font-size: 13px;
+}
+
+.investment-model-equation b {
+  color: #68a6d9;
+  font-size: 18px;
+}
+
+.investment-model-equation svg {
+  flex: none;
+  color: #6166aa;
+  transform: rotate(180deg);
+}
+
+.investment-model-equation strong {
+  color: #292532;
+  font-size: 15px;
+}
+
+.investment-model-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.investment-model-card {
+  padding: 22px;
+  border: 1px solid rgba(89, 44, 122, 0.15);
+  background: #fff;
+}
+
+.investment-model-card h3,
+.market-model-lists h3 {
+  margin: 0 0 15px;
+  font-size: 16px;
+}
+
+.national-programs-section .section-heading,
+.partnership-models-section .section-heading,
+.market-model-section .section-heading,
+.why-pars-section .section-heading {
+  margin-bottom: 32px;
+}
+
+.national-program-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.national-program-card {
+  min-width: 0;
+  min-height: 238px;
+  padding: 19px;
+  border: 1px solid rgba(89, 44, 122, 0.15);
+  background: #fff;
+}
+
+.national-program-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #592c7a;
+}
+
+.national-program-top > span {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.national-program-scale {
+  display: block;
+  margin: 17px 0 5px;
+  color: #592c7a;
+  font-size: 21px;
+  font-weight: 650;
+}
+
+.national-program-card h3 {
+  margin: 17px 0 8px;
+  color: #292532;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.national-program-scale + h3 {
+  margin-top: 0;
+}
+
+.national-program-card p {
+  margin: 0;
+  color: #5e5967;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.national-program-card small {
+  display: block;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(89, 44, 122, 0.1);
+  color: #77717f;
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.national-program-disclosure,
+.map-disclosure {
+  margin: 18px 0 0;
+  padding: 13px 15px;
+  border-inline-start: 2px solid #6166aa;
+  color: #5f5967;
+  background: rgba(97, 102, 170, 0.06);
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.partnership-model-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.partnership-model-card {
+  position: relative;
+  min-height: 224px;
+  padding: 20px 17px;
+  border: 1px solid rgba(89, 44, 122, 0.14);
+  background: #fff;
+}
+
+.partnership-model-number {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  color: #8f8a98;
+  font-size: 11px;
+}
+
+.partnership-model-card > svg {
+  color: #592c7a;
+}
+
+.partnership-model-card h3 {
+  margin: 15px 0 2px;
+  color: #292532;
+  font-size: 15px;
+}
+
+.partnership-model-card small {
+  display: inline-block;
+  color: #77717f;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+}
+
+.partnership-model-card p {
+  margin: 9px 0 0;
+  color: #5e5967;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.market-model-section {
+  background: #fff;
+}
+
+.business-market-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.business-market-card {
+  min-height: 191px;
+  padding: 19px;
+  border: 1px solid rgba(89, 44, 122, 0.14);
+  background: #fcfbfd;
+}
+
+.business-market-card > svg {
+  color: #592c7a;
+}
+
+.business-market-card > span {
+  display: block;
+  margin-top: 15px;
+  color: #77717f;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+}
+
+.business-market-card h3 {
+  margin: 4px 0 6px;
+  color: #292532;
+  font-size: 15px;
+}
+
+.business-market-card p {
+  margin: 0;
+  color: #5e5967;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.market-model-lists {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 28px;
+  margin-top: 34px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(89, 44, 122, 0.15);
+}
+
+.market-model-lists section {
+  min-width: 0;
+}
+
+.why-pars-section {
+  background: #f8f7fa;
+}
+
+.why-pars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.why-pars-card {
+  min-height: 165px;
+  padding: 19px;
+  border: 1px solid rgba(89, 44, 122, 0.13);
+  background: #fff;
+}
+
+.why-pars-card > span {
+  color: #6166aa;
+  font-size: 11px;
+}
+
+.why-pars-card h3 {
+  margin: 15px 0 7px;
+  color: #292532;
+  font-size: 15px;
+}
+
+.why-pars-card p {
+  margin: 0;
+  color: #5e5967;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.portfolio-inventory {
+  margin-top: 46px;
+  padding-top: 25px;
+  border-top: 1px solid rgba(89, 44, 122, 0.16);
+}
+
+.portfolio-inventory-heading {
+  margin-bottom: 19px;
+}
+
+.portfolio-inventory-heading h3 {
+  margin: 9px 0 4px;
+  color: #292532;
+  font-size: 23px;
+}
+
+.portfolio-inventory-heading p {
+  margin: 0;
+  color: #686271;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.portfolio-name-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.portfolio-name-grid li {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  overflow-wrap: anywhere;
+  padding: 12px;
+  border: 1px solid rgba(89, 44, 122, 0.13);
+  color: #342e3e;
+  background: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.portfolio-name-grid--brands li {
+  background: #f8f7fa;
+}
+
+.portfolio-disclosure {
+  margin: 26px 0 0;
+  padding: 16px;
+  border: 1px solid rgba(97, 102, 170, 0.2);
+  color: #5f5967;
+  background: rgba(97, 102, 170, 0.055);
+  font-size: 12px;
+  line-height: 2;
+}
+
+.experience-area-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.experience-area-grid li {
+  display: flex;
+  align-items: center;
+  min-height: 62px;
+  padding: 12px 14px;
+  border: 1px solid rgba(89, 44, 122, 0.14);
+  color: #363140;
+  background: #fff;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.experience-disclosure {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 15px;
+  border-inline-start: 2px solid #68a6d9;
+  background: #f7f6f9;
+}
+
+.experience-disclosure > svg {
+  flex: none;
+  color: #592c7a;
+  margin-top: 2px;
+}
+
+.experience-disclosure p {
+  margin: 0;
+  color: #5e5967;
+  font-size: 12px;
+  line-height: 1.95;
+}
+
+.benefit-card-sequence {
+  display: block;
+  margin-top: 12px;
+  color: rgba(248, 244, 252, 0.62);
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.benefits-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.benefit-card {
+  min-height: 218px;
+}
+
+.benefit-card p {
+  max-width: 320px;
+}
+
+.about-values-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.about-value-english {
+  display: block;
+  margin-top: 8px;
+  color: #77717f;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.025em;
+  text-align: left;
+}
+
+.map-disclosure {
+  color: #57515f;
+}
+
+.industries-section .industry-card {
+  min-height: 260px;
+}
+
+.industries-section .industry-card-english {
+  letter-spacing: 0.055em;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.process-timeline--six {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.process-timeline--six .process-step-duration {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.process-timeline--six .process-step p {
+  min-height: 100px;
+}
+
+@media (max-width: 1120px) {
+  .partnership-model-grid,
+  .why-pars-grid,
+  .portfolio-name-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .business-market-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .process-timeline--six {
+    grid-template-columns: repeat(6, 170px);
+    gap: 12px;
+    padding-bottom: 10px;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .technology-layer-card {
+    grid-template-columns: 34px 32px minmax(0, 1fr);
+    gap: 11px;
+    padding: 16px 13px;
+  }
+
+  .technology-layer-number {
+    font-size: 18px;
+  }
+
+  .technology-layer-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .technology-layer-copy h3 {
+    font-size: 15px;
+  }
+
+  .technology-layer-copy > span {
+    font-size: 9px;
+  }
+
+  .technology-layer-copy p {
+    font-size: 11px;
+  }
+
+  .technology-layer-arrow {
+    display: none;
+  }
+
+  .platform-feature-grid,
+  .investment-model-columns,
+  .market-model-lists {
+    grid-template-columns: 1fr;
+  }
+
+  .platform-feature-grid {
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .platform-feature-card {
+    padding: 19px 15px;
+  }
+
+  .operator-flow {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .operator-flow li {
+    justify-content: flex-start;
+  }
+
+  .operator-flow li svg {
+    transform: rotate(-90deg);
+  }
+
+  .investment-model-equation {
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 15px 12px;
+    font-size: 11px;
+  }
+
+  .investment-model-equation strong {
+    font-size: 13px;
+  }
+
+  .national-program-grid,
+  .partnership-model-grid,
+  .experience-area-grid,
+  .why-pars-grid,
+  .portfolio-name-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .benefit-card {
+    min-height: 0;
+    padding: 17px 15px;
+  }
+
+  .national-program-card {
+    min-height: 0;
+    padding: 15px 12px;
+  }
+
+  .partnership-model-card {
+    min-height: 0;
+    padding: 16px 13px;
+  }
+
+  .partnership-model-card h3 {
+    font-size: 14px;
+  }
+
+  .partnership-model-card p,
+  .why-pars-card p,
+  .business-market-card p {
+    font-size: 11px;
+  }
+
+  .business-market-grid {
+    gap: 8px;
+  }
+
+  .business-market-card {
+    min-height: 0;
+    padding: 15px 12px;
+  }
+
+  .why-pars-card {
+    min-height: 0;
+    padding: 15px 12px;
+  }
+
+  .portfolio-inventory {
+    margin-top: 32px;
+  }
+
+  .portfolio-name-grid li {
+    min-height: 55px;
+    padding: 9px;
+    font-size: 10px;
+  }
+
+  .experience-area-grid li {
+    min-height: 55px;
+    padding: 9px;
+    font-size: 11px;
+  }
+
+  .experience-disclosure {
+    padding: 12px;
+  }
+
+  .benefit-card-sequence {
+    font-size: 9px;
+  }
+
+  .process-timeline--six {
+    grid-template-columns: repeat(6, 178px);
+  }
+
+  .process-timeline--six .process-step p {
+    min-height: 72px;
+  }
+
+  .industries-section .industry-card {
+    min-height: 278px;
+  }
+
+  .about-value-english {
+    max-width: calc(100% - 10px);
+    font-size: 8px;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 420px) {
+  .business-market-grid,
+  .national-program-grid,
+  .partnership-model-grid,
+  .experience-area-grid,
+  .why-pars-grid,
+  .portfolio-name-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .industry-grid .industry-card {
+    min-height: 300px;
+  }
+
+  .investment-model-equation {
+    gap: 6px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-timeline--six .process-timeline-line i {
+    animation: none;
+  }
+}

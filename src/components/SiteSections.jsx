@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   Activity,
   ArrowDown,
+  ArrowLeft,
   ArrowUpLeft,
   BarChart3,
   BookOpen,
@@ -25,9 +26,26 @@ import {
 import { apiFetch } from '../lib/api.js';
 import { pageHref } from '../lib/routes.js';
 import {
+  aiFabricComponents,
+  aiFabricConsumers,
+  businessMarkets,
+  capabilities,
+  commercializationStages,
+  customerSegments,
+  ecosystemEnablers,
+  experienceAreas,
+  financialInfrastructureBlocks,
   industries,
-  processSteps,
-  valuePillars,
+  investmentStructures,
+  nationalPrograms,
+  partnershipModels,
+  platformBrands,
+  revenueStreams,
+  technologyLayers,
+  technologyProducts,
+  ventureOutcomes,
+  walletModels,
+  whyParsFeatures,
 } from '../data/siteContent.js';
 import { iranCityMarkers, iranOutlinePath, iranOutlineViewBox } from '../data/iranMap.js';
 import CrystalMark from './CrystalMark.jsx';
@@ -47,8 +65,8 @@ function responsiveImageProps(filename, sizes = '100vw') {
   };
 }
 
-const HERO_TITLE_LINE_ONE = 'در کنار کسانی';
-const HERO_TITLE_LINE_TWO = 'که آینده می‌سازند';
+const HERO_TITLE_LINE_ONE = 'از زیرساخت تا هوشمندی';
+const HERO_TITLE_LINE_TWO = 'از فناوری تا کسب‌وکار';
 const HERO_TITLE_TEXT = `${HERO_TITLE_LINE_ONE} ${HERO_TITLE_LINE_TWO}`;
 const HERO_TITLE_LINE_ONE_CHARS = Array.from(HERO_TITLE_LINE_ONE);
 const HERO_TITLE_LINE_TWO_CHARS = Array.from(HERO_TITLE_LINE_TWO);
@@ -68,22 +86,22 @@ function getHeroDialoguePrompt(step, answers) {
 
 const journeyChapters = [
   {
-    stage: 'شناخت مسئله',
+    stage: 'پژوهش و فناوری',
     image: 'pars-journey-discovery.webp',
-    title: 'از مسئله‌ای واقعی آغاز کنیم',
-    description: 'گفت‌وگوی روشن کمک می‌کند نیاز واقعی را از فرضیه جدا کنیم و مسیر بررسی را بهتر بشناسیم.',
+    title: 'فناوری را از مسئله‌ی واقعی آغاز کنیم',
+    description: 'پژوهش کاربردی، رصد فناوری و بررسی فناوری‌های نوظهور؛ با تمرکز بر مسئله‌های سازمانی و فرصت‌های بازار.',
   },
   {
-    stage: 'ساخت محصول',
+    stage: 'محصول و پلتفرم',
     image: 'pars-journey-prototype.webp',
-    title: 'راه‌حل را در عمل بسنجیم',
-    description: 'شناخت محصول و توان تیم، پایه‌ی تصمیم‌های دقیق‌تر و گام‌های بعدی است.',
+    title: 'راهکار را به محصولی تکرارپذیر برسانیم',
+    description: 'اعتبارسنجی امکان فنی، ساخت اثبات مفهوم و تبدیل فناوریِ آزموده‌شده به محصول و زیرساختی قابل استفاده‌ی دوباره.',
   },
   {
-    stage: 'آمادگی برای رشد',
+    stage: 'بازار و اکوسیستم',
     image: 'pars-journey-growth.webp',
-    title: 'برای رشد، زیرساخت بسازیم',
-    description: 'سرمایه، تجربه و ارتباطات زمانی اثرگذارند که با نیاز کسب‌وکار هم‌راستا باشند.',
+    title: 'محصول را به کسب‌وکار پیوند دهیم',
+    description: 'مدل درآمد، فروش سازمانی و توسعه‌ی بازار؛ سپس همراهی شرکا و کسب‌وکارهایی که بر بستر پلتفرم شکل می‌گیرند.',
   },
 ];
 
@@ -128,11 +146,11 @@ export function BrandHomeHeroSection() {
       <span className="brand-home-hero-shade" aria-hidden="true" />
       <div className="brand-home-hero-content site-container">
         <div className="brand-home-copy">
-          <h1 id="brand-home-title">پارس، رو به<br /><em>افق‌های تازه</em></h1>
-          <p>هر افق تازه، از یک نگاه روشن آغاز می‌شود.</p>
+          <h1 id="brand-home-title">از زیرساخت<br /><em>تا هوشمندی</em></h1>
+          <p>از فناوری تا کسب‌وکار، و از پروژه‌ها تا اکوسیستم‌ها؛ مدل یکپارچه‌ی پارس را بشناسید.</p>
           <div className="brand-home-actions">
-            <a href={pageHref('about')} className="button button-lime button-large">آشنایی با پارس <ArrowUpLeft size={17} /></a>
-            <a href={pageHref('investment')} className="button button-outline-light button-large">بخش سرمایه‌گذاری <ArrowUpLeft size={15} /></a>
+            <a href={pageHref('about')} className="button button-lime button-large">درباره‌ی پارس <ArrowUpLeft size={17} /></a>
+            <a href={pageHref('investment')} className="button button-outline-light button-large">سرمایه‌گذاری خطرپذیر <ArrowUpLeft size={15} /></a>
           </div>
         </div>
         <a className="brand-home-scroll" href="#home-highlights-title" aria-label="رفتن به بخش‌های پارس">
@@ -368,7 +386,7 @@ export function HeroSection() {
               decoding="async"
             />
           </div>
-          <div className="hero-kicker hero-kicker-pars"><span className="hero-kicker-icon"><ChartNoAxesCombined size={14} /></span> سرمایه‌گذاری</div>
+          <div className="hero-kicker hero-kicker-pars"><span className="hero-kicker-icon"><ChartNoAxesCombined size={14} /></span> سرمایه‌گذاری خطرپذیر در فناوری</div>
           <div className={`hero-dialogue-stage ${isIntro ? 'is-intro' : ''} ${currentField ? 'has-input' : ''} ${isComplete ? 'is-complete' : ''} phase-${dialoguePhase}`}>
             <div className="hero-dialogue-history" aria-hidden="true">
               {history.slice(-2).map((turn, index) => (
@@ -450,22 +468,22 @@ export function HeroSection() {
             </span>
           </div>
           <p className="hero-dialogue-local-note">پاسخ‌های این گفت‌وگو فقط در همین صفحه می‌مانند و ارسال یا ذخیره نمی‌شوند.</p>
-          <p className="hero-description">پارس در کنار تیم‌هایی می‌ایستد که مسئله‌ای واقعی را به کسب‌وکاری پایدار تبدیل می‌کنند؛ با سرمایه، تجربه و شبکه‌ی ارتباطی</p>
+          <p className="hero-description">پارس، شرکت فناوری و نوآوری ایرانی، زیرساخت دیجیتال، داده و هوش مصنوعی را با تحول سازمانی، سرمایه‌گذاری فناوری و ساخت کسب‌وکار پیوند می‌دهد.</p>
           <div className="hero-actions hero-pars-actions">
             <a className="button button-lime button-large" href={pageHref('apply')}>شروع درخواست <ArrowUpLeft size={17} /></a>
             <a className="button button-outline-light button-large" href={pageHref('approach')}>با رویکرد ما آشنا شوید <ArrowDown size={15} /></a>
           </div>
           <div className="hero-value-strip">
-            <div><span><small>سرمایه</small><strong>برای فرصت‌های واقعی</strong></span></div>
-            <div><span><small>تجربه و شبکه</small><strong>فراتر از تأمین مالی</strong></span></div>
-            <div><span><small>همراهی بلندمدت</small><strong>از ایده تا رشد</strong></span></div>
+            <div><span><small>فناوری</small><strong>زیرساخت، داده و هوش مصنوعی</strong></span></div>
+            <div><span><small>سرمایه‌گذاری</small><strong>پیوند سرمایه با فناوری</strong></span></div>
+            <div><span><small>ساخت کسب‌وکار</small><strong>از محصول تا اکوسیستم</strong></span></div>
           </div>
-          <div className="hero-campaign-note"><span><i /></span> شرایط هر دوره در اطلاعیه‌ی رسمی همان دوره اعلام می‌شود</div>
+          <div className="hero-campaign-note"><span><i /></span> پروفایل شرکتی پارس · ۲۰۲۶</div>
         </div>
       </div>
       <div className="hero-bottomline hero-pars-bottomline site-container">
         <a href={pageHref('industries')} className="hero-scroll-cue"><span><ArrowDown size={14} /></span> حوزه‌های سرمایه‌گذاری را ببینید</a>
-        <span className="hero-bottomline-note">سرمایه وقتی ارزش دارد که به رشدی واقعی برسد</span>
+        <span className="hero-bottomline-note">از پروژه‌ی فناورانه تا محصول، بازار و کسب‌وکار</span>
         <span className="hero-bottom-index">پارس</span>
       </div>
     </section>
@@ -473,12 +491,14 @@ export function HeroSection() {
 }
 export function StatsRibbon() {
   const stats = [
-    { value: '۱۱', title: 'حوزه‌ی سرمایه‌گذاری', note: 'از انرژی تا محتوا', icon: Compass },
-    { value: '۰۴', title: 'گام در فرم درخواست', note: 'از اطلاعات تماس تا تأیید', icon: ChartNoAxesCombined },
+    { value: '۲۰۰+', title: 'ابتکار هوش مصنوعی و فناوری', note: 'در نمایه‌ی شرکتی ۲۰۲۶', icon: Activity },
+    { value: '۱۰۰+', title: 'محصول و راهکار محصول‌محور', note: 'در نمایه‌ی شرکتی ۲۰۲۶', icon: Network },
+    { value: '۵', title: 'توانمندساز اکوسیستم', note: 'سرمایه‌ی انسانی، داده، پژوهش، ساخت کسب‌وکار و رشد بازار', icon: UsersRound },
+    { value: '۵', title: 'لایه‌ی معماری فناوری', note: 'از زیرساخت تا خدمات هوشمند', icon: ChartNoAxesCombined },
   ];
   return (
-    <section className="stats-ribbon site-container" aria-label="بخش سرمایه‌گذاری در یک نگاه">
-      <div className="stats-ribbon-label"><span className="signal-dot" /> بخش سرمایه‌گذاری</div>
+    <section className="stats-ribbon site-container" aria-label="آمار معرفی‌شده در پروفایل پارس ۲۰۲۶">
+      <div className="stats-ribbon-label"><span className="signal-dot" /> نمایه‌ی شرکتی · ۲۰۲۶</div>
       <div className="stats-ribbon-items">
         {stats.map((item, index) => {
           const Icon = item.icon;
@@ -488,40 +508,27 @@ export function StatsRibbon() {
     </section>
   );
 }
-
 export function HomeHighlightsSection() {
   const highlights = [
     {
-      route: 'about',
-      label: 'پارس',
-      title: 'نگاهی به پارس',
-      description: 'با نگاه و ارزش‌های پارس آشنا شوید.',
-      image: 'pars-highlight-domains.webp',
-      layout: 'feature',
+      route: 'about', label: 'گروه پارس', title: 'چهار قابلیت، یک مدل عملیاتی',
+      description: 'فناوری، تحول دیجیتال، سرمایه‌گذاری و ساخت کسب‌وکار.',
+      image: 'pars-highlight-domains.webp', layout: 'feature',
     },
     {
-      route: 'news',
-      label: 'روایت‌ها',
-      title: 'یادداشت‌ها و دیدگاه‌ها',
-      description: 'نگاهی به روایت‌ها و دیدگاه‌های پارس.',
-      image: 'pars-highlight-approach.webp',
-      layout: 'compact',
+      route: 'approach', label: 'مدل فناوری', title: 'از زیرساخت تا خدمات هوشمند',
+      description: 'معماری پنج‌لایه و مسیر تجاری‌سازی فناوری را ببینید.',
+      image: 'pars-highlight-approach.webp', layout: 'compact',
     },
     {
-      route: 'contact',
-      label: 'ارتباط',
-      title: 'گفت‌وگو از همین‌جا',
-      description: 'راهی برای تماس با پارس.',
-      image: 'pars-highlight-portfolio.webp',
-      layout: 'compact',
+      route: 'industries', label: 'حوزه‌های تمرکز', title: '۱۱ حوزه‌ی سرمایه‌گذاری',
+      description: 'فهرست حوزه‌های به‌روز پارس و برنامه‌های معرفی‌شده.',
+      image: 'pars-highlight-portfolio.webp', layout: 'compact',
     },
     {
-      route: 'investment',
-      label: 'بخش سرمایه‌گذاری',
-      title: 'مسیر مستقل سرمایه‌گذاری',
-      description: 'رویکرد، حوزه‌ها و ابزارها را در یک بخش جداگانه ببینید.',
-      image: 'pars-highlight-stories.webp',
-      layout: 'wide',
+      route: 'portfolio', label: 'پرتفوی فناوری', title: 'محصول‌ها و پلتفرم‌ها',
+      description: 'نام‌های درج‌شده در پروفایل شرکتی پارس ۲۰۲۶.',
+      image: 'pars-highlight-stories.webp', layout: 'wide',
     },
   ];
 
@@ -530,10 +537,10 @@ export function HomeHighlightsSection() {
       <div className="site-container">
         <div className="home-highlights-heading" data-reveal>
           <div>
-            <span className="journey-eyebrow"><i aria-hidden="true" /> مسیرهای پارس</span>
-            <h2 id="home-highlights-title">یک نام، <em>چندین افق</em></h2>
+            <span className="journey-eyebrow"><i aria-hidden="true" /> گروه فناوری و سرمایه‌گذاری پارس</span>
+            <h2 id="home-highlights-title">از فناوری، <em>تا کسب‌وکار</em></h2>
           </div>
-          <p>از آشنایی با پارس تا دسترسی به بخش سرمایه‌گذاری.</p>
+          <p>مدل، حوزه‌ها و دارایی‌های فناورانه‌ی معرفی‌شده در پروفایل پارس را مرور کنید.</p>
         </div>
         <div className="home-highlights-grid">
           {highlights.map((item, index) => (
@@ -567,21 +574,20 @@ export function HomeHighlightsSection() {
     </section>
   );
 }
-
 export function InvestmentOverviewSection() {
   const paths = [
-    { route: 'approach', label: 'رویکرد', title: 'از شناخت مسئله تا رشد', description: 'نگاهی به مسیر همراهی با تیم‌ها.', icon: Compass },
-    { route: 'industries', label: 'حوزه‌ها', title: '۱۱ حوزه‌ی سرمایه‌گذاری', description: 'حوزه‌های تأییدشده را یک‌جا ببینید.', icon: Network },
-    { route: 'portfolio', label: 'پرتفوی', title: 'پرتفوی پارس', description: 'مرور بخش پرتفوی.', icon: Building2 },
-    { route: 'tools', label: 'ابزارها', title: 'برای تصمیم‌های روشن‌تر', description: 'محاسبه‌گرها و ابزارهای استارتاپی.', icon: ChartNoAxesCombined },
+    { route: 'approach', label: 'معماری فناوری', title: 'پنج لایه؛ از زیرساخت تا هوشمندی', description: 'زنجیره‌ی فناوری و مدل تجاری‌سازی پارس.', icon: Network },
+    { route: 'industries', label: 'حوزه‌های تمرکز', title: '۱۱ حوزه‌ی سرمایه‌گذاری', description: 'فهرست حوزه‌های به‌روز پارس را ببینید.', icon: Compass },
+    { route: 'portfolio', label: 'پرتفوی فناوری', title: 'محصول‌ها و پلتفرم‌ها', description: 'نام‌های درج‌شده در پروفایل شرکتی ۲۰۲۶.', icon: Building2 },
+    { route: 'contact', label: 'مشارکت راهبردی', title: 'هشت مدل همکاری', description: 'از شراکت فناوری تا توسعه‌ی منطقه‌ای.', icon: HeartHandshake },
   ];
   return (
     <section className="investment-overview section-space" aria-labelledby="investment-overview-title">
       <div className="site-container">
         <div className="investment-overview-heading" data-reveal>
-          <span className="journey-eyebrow"><i aria-hidden="true" /> بخش سرمایه‌گذاری</span>
-          <h2 id="investment-overview-title">از کجا <em>شروع کنیم؟</em></h2>
-          <p>هر مسیر را در صفحه‌ی مستقل خودش دنبال کنید.</p>
+          <span className="journey-eyebrow"><i aria-hidden="true" /> سرمایه‌گذاری فناوری و ساخت کسب‌وکار</span>
+          <h2 id="investment-overview-title">مدل پارس را <em>بشناسید</em></h2>
+          <p>از معماری و حوزه‌های تمرکز تا محصول‌ها و شیوه‌های مشارکت.</p>
         </div>
         <div className="investment-overview-grid">
           {paths.map((item) => {
@@ -601,37 +607,34 @@ export function InvestmentOverviewSection() {
     </section>
   );
 }
-
 export function BrandClosingSection() {
   return (
     <section className="brand-home-closing">
       <div className="site-container brand-home-closing-content" data-reveal>
         <span className="brand-home-closing-mark" aria-hidden="true"><ParsGlyph /></span>
-        <span className="journey-eyebrow"><i aria-hidden="true" /> پارس</span>
-        <h2>هر گفت‌وگوی خوب،<br /><em>آغازی برای افق تازه</em></h2>
-        <a href={pageHref('contact')} className="button button-lime button-large">با پارس در تماس باشید <ArrowUpLeft size={16} /></a>
+        <span className="journey-eyebrow"><i aria-hidden="true" /> پارس · فناوری و سرمایه‌گذاری</span>
+        <h2>زیرساخت، داده و هوش مصنوعی؛<br /><em>در مسیر ساخت کسب‌وکار</em></h2>
+        <a href={pageHref('approach')} className="button button-lime button-large">مرور مدل فعالیت پارس <ArrowUpLeft size={16} /></a>
       </div>
     </section>
   );
 }
-
 export function ManifestoSection() {
   return (
     <section className="manifesto-section" id="approach">
       <div className="manifesto-inner site-container">
-        <div className="manifesto-aside" data-reveal><span>نگاه پارس</span><span className="manifesto-asterisk">✳</span><small>سرمایه وقتی ارزش دارد<br />که به رشدی واقعی برسد</small></div>
+        <div className="manifesto-aside" data-reveal><span>مدل فعالیت پارس</span><span className="manifesto-asterisk">✳</span><small>از پژوهش و فناوری<br />تا بازار و اکوسیستم</small></div>
         <div className="manifesto-copy" data-reveal>
-          <SectionEyebrow>مانیفست ما</SectionEyebrow>
-          <h2>سرمایه فقط پول نیست؛<br /> <em>شتابی برای ساختن است</em></h2>
-          <p>باور داریم کسب‌وکارهای موفق با یک تصمیم ساخته نمی‌شوند. سرمایه باید در کنار تجربه، ارتباطات و پاسخ‌گویی قرار بگیرد تا تیم‌ها بتوانند مسئله‌های مهم را به محصولاتی پایدار تبدیل کنند</p>
-          <a href={pageHref('approach')} className="text-link text-link-dark">نگاه سرمایه‌گذاری پارس <ArrowUpLeft size={16} /></a>
+          <SectionEyebrow>از پروژه تا دارایی فناورانه</SectionEyebrow>
+          <h2>فناوری زمانی کسب‌وکار می‌شود؛<br /> <em>که زنجیره‌ی آن کامل باشد</em></h2>
+          <p>پارس در مدل معرفی‌شده‌ی خود، زیرساخت، داده، هوشمندی و خلق کسب‌وکار را در یک معماری به هم پیوند می‌دهد؛ مسیری از پژوهش و فناوری تا محصول، بازار، سرمایه‌گذاری و مقیاس.</p>
+          <a href={pageHref('about')} className="text-link text-link-dark">چهار قابلیت پارس <ArrowUpLeft size={16} /></a>
         </div>
-        <div className="manifesto-mark" aria-hidden="true"><ParsGlyph /><span>بخش سرمایه‌گذاری</span></div>
+        <div className="manifesto-mark" aria-hidden="true"><ParsGlyph /><span>فناوری · سرمایه‌گذاری · ساخت کسب‌وکار</span></div>
       </div>
     </section>
   );
 }
-
 export function JourneySection() {
   const chapterRefs = useRef([]);
   const [activeChapter, setActiveChapter] = useState(0);
@@ -658,9 +661,9 @@ export function JourneySection() {
         <div className="journey-heading" data-reveal>
           <div>
             <span className="journey-eyebrow"><i aria-hidden="true" /> مسیر همراهی پارس</span>
-            <h2 id="journey-title">از شناخت مسئله<br /><em>تا آمادگی برای رشد</em></h2>
+            <h2 id="journey-title">از پژوهش و فناوری<br /><em>تا بازار و اکوسیستم</em></h2>
           </div>
-          <p>روایتی سه‌مرحله‌ای از فهم مسئله تا ساختن راهی برای رشد.</p>
+          <p>نمایی فشرده از مسیر معرفی‌شده‌ی پارس: فناوری، محصول، بازار و ساخت کسب‌وکار.</p>
         </div>
         <div className="journey-layout" style={{ '--journey-progress': `${((activeChapter + 1) / journeyChapters.length) * 100}%` }}>
           <div className="journey-chapters">
@@ -722,6 +725,107 @@ export function JourneySection() {
   );
 }
 
+export function TechnologyArchitectureSection() {
+  return (
+    <section className="technology-architecture-section section-space" id="architecture" aria-label="معماری فناوری پارس در پنج لایه">
+      <div className="site-container">
+        <SectionHeading
+          eyebrow="معماری فناوری پارس"
+          title="پنج لایه؛"
+          emphasis="از زیرساخت تا خدمت هوشمند"
+          copy="این معماری، زیرساخت، داده و هوشمندی را به خدمات کسب‌وکار متصل می‌کند؛ ارزش هر لایه بر ظرفیت لایه‌ی پیش از خود تکیه دارد."
+          className="technology-architecture-heading"
+        />
+        <ol className="technology-layer-list" aria-label="پنج لایه‌ی معماری فناوری">
+          {technologyLayers.map((layer) => {
+            const Icon = layer.icon;
+            return (
+              <li className="technology-layer-card" key={layer.number} data-reveal>
+                <span className="technology-layer-number">{layer.number}</span>
+                <span className="technology-layer-icon"><Icon size={22} strokeWidth={1.45} /></span>
+                <div className="technology-layer-copy">
+                  <h3>{layer.title}</h3>
+                  <span dir="ltr">{layer.english}</span>
+                  <p>{layer.description}</p>
+                </div>
+                {layer.number !== '۰۵' && <ArrowDown className="technology-layer-arrow" size={18} aria-hidden="true" />}
+              </li>
+            );
+          })}
+        </ol>
+        <p className="section-source-note">نام لایه‌ها و نمونه‌ی قابلیت‌ها بر پایه‌ی معماری پنج‌لایه‌ی درج‌شده در پروفایل شرکتی پارس · ۲۰۲۶</p>
+      </div>
+    </section>
+  );
+}
+
+export function CorePlatformsSection() {
+  return (
+    <section className="core-platforms-section section-space" id="platforms">
+      <div className="site-container">
+        <SectionHeading
+          eyebrow="پلتفرم‌های فناوری"
+          title="زیرساخت‌های" emphasis="مشترک و ماژولار"
+          copy="پروفایل پارس دو معماری پلتفرمی را معرفی می‌کند: لایه‌ی مشترک هوش مصنوعی برای سازمان و زیرساخت مالیِ قابل ترکیب برای خدمات و کیف پول."
+        />
+        <div className="platform-feature-grid">
+          <article className="platform-feature-card" id="ai-fabric" data-reveal>
+            <div className="platform-feature-kicker"><Network size={19} /><span>لایه‌ی مشترک هوشمندی</span></div>
+            <h3>PARS AI Fabric</h3>
+            <p>معماری معرفی‌شده، اپلیکیشن‌های سازمانی، کمک‌یارها، عامل‌های خودکار و خدمات حوزه‌ای را به زیرساخت هوشمندی مشترک متصل می‌کند.</p>
+            <h4>اجزای کلیدی</h4>
+            <ul className="content-chip-list">
+              {aiFabricComponents.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+            <h4>مصرف‌کنندگان این لایه</h4>
+            <ul className="content-chip-list content-chip-list--muted">
+              {aiFabricConsumers.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </article>
+          <article className="platform-feature-card" id="financial-infrastructure" data-reveal>
+            <div className="platform-feature-kicker"><WalletCards size={19} /><span>خدمات مالی به‌مثابه زیرساخت</span></div>
+            <h3>زیرساخت مالی و کیف پول به‌عنوان خدمت</h3>
+            <p>یک معماری ماژولار برای ارائه‌ی قابلیت‌های مالیِ قابل استفاده‌ی مجدد به بانک‌ها، نهادهای مالی، سازمان‌ها و اکوسیستم‌ها.</p>
+            <h4>بلوک‌های زیرساخت مالی</h4>
+            <ul className="content-chip-list">
+              {financialInfrastructureBlocks.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+            <h4>مدل‌های کیف پول</h4>
+            <p className="platform-feature-detail">Wallet Studio / Wallet Factory</p>
+            <ul className="content-chip-list content-chip-list--muted">
+              {walletModels.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </article>
+        </div>
+        <p className="section-source-note">این بخش، اجزا و معماری‌های معرفی‌شده در پروفایل شرکتی را شرح می‌دهد؛ جزئیات فنی و تجاری تفصیلی تابع الزامات محرمانگی است.</p>
+      </div>
+    </section>
+  );
+}
+
+export function OperatorStatusSection() {
+  const steps = ['زیرساخت هوش مصنوعی', 'پلتفرم‌های هوش مصنوعی', 'خدمات هوش مصنوعی', 'اپراتور هوش مصنوعی', 'اکوسیستم‌های هوش مصنوعی'];
+  return (
+    <section className="operator-status-section section-space" id="ai-operator">
+      <div className="site-container">
+        <SectionHeading
+          eyebrow="جهت‌گیری راهبردی"
+          title="از ارائه‌ی هوش مصنوعی"
+          emphasis="تا اپراتوری هوش مصنوعی"
+          copy="پارس اعلام می‌کند که در حال پیگیری مجوز موردنیاز برای فعالیت به‌عنوان AI Operator در ایران است."
+        />
+        <div className="operator-status-panel" data-reveal>
+          <div className="operator-status-label"><span className="signal-dot" /> مجوز در دست پیگیری</div>
+          <ol className="operator-flow" aria-label="مسیر راهبردی اپراتوری هوش مصنوعی">
+            {steps.map((step, index) => <li key={step}><span>{step}</span>{index < steps.length - 1 && <ArrowUpLeft size={16} aria-hidden="true" />}</li>)}
+          </ol>
+          <p>این موضوع در پروفایل به‌عنوان مسیر راهبردی و مجوزِ در حال پیگیری مطرح شده است؛ نه مجوز اخذشده.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function IndustriesSection() {
   return (
     <section className="industries-section section-space" id="industries">
@@ -737,8 +841,8 @@ export function IndustriesSection() {
             decoding="async"
           />
           <div className="industries-showcase-content">
-            <SectionHeading eyebrow="بخش سرمایه‌گذاری" title="سرمایه برای" emphasis="حل مسئله‌های واقعی" copy="۱۱ حوزه برای ساخت راه‌حل‌های تازه" light className="industries-showcase-heading" />
-            <div className="industries-showcase-count"><strong>۱۱</strong><span>حوزه‌ی سرمایه‌گذاری<br />با یک نگاه مسئله‌محور</span></div>
+            <SectionHeading eyebrow="سرمایه‌گذاری خطرپذیر در فناوری" title="۱۱ حوزه‌ی تمرکز" emphasis="پارس" copy="حوزه‌ها مطابق فهرست به‌روز سرمایه‌گذاری پارس نمایش داده شده‌اند." light className="industries-showcase-heading" />
+            <div className="industries-showcase-count"><strong>۱۱</strong><span>حوزه‌ی تمرکز<br />در فهرست جاری سایت</span></div>
           </div>
         </div>
         <div className="industry-grid">
@@ -763,12 +867,48 @@ export function IndustriesSection() {
                 <span className="industry-card-top"><Icon size={21} strokeWidth={1.45} /></span>
                 <span className="industry-card-english" dir="ltr">{item.english}</span>
                 <strong>{item.title}</strong>
-                <p>{item.description}</p>
+                {item.description && <p>{item.description}</p>}
               </article>
             );
           })}
         </div>
-        <div className="industry-footnote"><span className="footnote-line" /><a href={pageHref('apply')}>شرایط پذیرش <ArrowUpLeft size={14} /></a></div>
+        <div className="industry-footnote">
+          <span className="footnote-line" />
+          <span>فهرست این صفحه مطابق طبقه‌بندی به‌روز حوزه‌های تمرکز پارس است.</span>
+          <a href={pageHref('apply')}>ثبت درخواست سرمایه <ArrowUpLeft size={14} /></a>
+        </div>
+      </div>
+    </section>
+  );
+}
+export function InvestmentModelsSection() {
+  return (
+    <section className="investment-models-section section-space" id="investment-models">
+      <div className="site-container">
+        <SectionHeading
+          eyebrow="سرمایه‌گذاری و ساخت کسب‌وکار"
+          title="سرمایه در کنار فناوری،"
+          emphasis="استعداد، داده و بازار"
+          copy="پروفایل پارس، سرمایه‌گذاری و ساخت کسب‌وکار را در کنار فناوری، استعداد، داده و دسترسی به بازار قرار می‌دهد."
+        />
+        <div className="investment-model-equation" dir="rtl" data-reveal>
+          <span>سرمایه</span><b>+</b><span>فناوری</span><b>+</b><span>استعداد</span><b>+</b><span>داده</span><b>+</b><span>دسترسی به بازار</span><ArrowLeft size={19} /><strong>کسب‌وکارهای تازه</strong>
+        </div>
+        <div className="investment-model-columns">
+          <section className="investment-model-card" aria-labelledby="investment-structures-title">
+            <h3 id="investment-structures-title">ساختارهای معرفی‌شده</h3>
+            <ul className="content-chip-list">
+              {investmentStructures.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </section>
+          <section className="investment-model-card" aria-labelledby="venture-outcomes-title">
+            <h3 id="venture-outcomes-title">خروجی‌های کسب‌وکار</h3>
+            <ul className="content-chip-list content-chip-list--muted">
+              {ventureOutcomes.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </section>
+        </div>
+        <p className="section-source-note">این‌ها ساختارها و خروجی‌های کلی مندرج در پروفایل‌اند، نه فهرست شرکت‌ها یا معاملات انجام‌شده. معرفی سرمایه‌گذاری‌های منتخب تابع مجوز افشاست.</p>
       </div>
     </section>
   );
@@ -779,45 +919,60 @@ export function BenefitsSection() {
     <section className="benefits-section section-space" id="benefits">
       <div className="site-container benefits-layout">
         <div className="benefits-intro">
-          <SectionHeading eyebrow="بیشتر از سرمایه" title="ارزش واقعی" emphasis="در همراهی است" copy="هر تیم نیاز متفاوتی دارد؛ مسیر همکاری را بر اساس مهم‌ترین مانع رشد همان تیم طراحی می‌کنیم" light />
-          <div className="benefits-statement"><ParsGlyph /><p>سرمایه‌ی مالی،<br />به‌همراه <em>شبکه‌ی ارتباطی</em></p></div>
-          <a href={pageHref('approach')} className="button button-outline-light">همه‌ی پشتیبانی‌ها <ArrowUpLeft size={16} /></a>
+          <SectionHeading eyebrow="توانمندسازهای اکوسیستم" title="پنج سازوکار" emphasis="برای پیوند فناوری و بازار" copy="پروفایل پارس پنج توانمندساز را معرفی می‌کند که مسیر استعداد، داده و پژوهش را به محصول، کسب‌وکار و رشد بازار پیوند می‌دهند." light />
+          <div className="benefits-statement"><ParsGlyph /><p>از پژوهش<br />تا <em>رشد بازار</em></p></div>
+          <a href={pageHref('approach')} className="button button-outline-light">مرور مدل فعالیت <ArrowUpLeft size={16} /></a>
         </div>
         <div className="benefits-grid">
-          {valuePillars.map((item) => {
+          {ecosystemEnablers.map((item) => {
             const Icon = item.icon;
-            return <article className="benefit-card" key={item.id} data-reveal><Icon size={22} strokeWidth={1.35} /><h3>{item.title}</h3><p>{item.description}</p><span className="benefit-card-line" /></article>;
+            return (
+              <article className="benefit-card" key={item.id} data-reveal>
+                <span className="benefit-number">{item.number}</span>
+                <Icon size={22} strokeWidth={1.35} />
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <span className="benefit-card-sequence">{item.sequence}</span>
+                <span className="benefit-card-line" />
+              </article>
+            );
           })}
         </div>
       </div>
     </section>
   );
 }
-
 export function ProcessSection() {
   return (
     <section className="process-section section-space" id="process">
       <div className="site-container">
         <div className="section-heading-row process-heading-row">
-          <SectionHeading eyebrow="فرم درخواست" title="در چهار گام" emphasis="اطلاعات‌تان را ثبت کنید" copy="فرم مرحله‌ای اطلاعات تماس، محصول، نیاز سرمایه و مدارک را می‌گیرد" />
-          <div className="process-time-note"><Check size={18} /><span>ارسال فرم فقط پس از پاسخ موفق سامانه تأیید می‌شود</span></div>
+          <SectionHeading eyebrow="الگوی تجاری‌سازی فناوری" title="از پژوهش" emphasis="تا اکوسیستم" copy="پروفایل پارس، تبدیل فناوری‌های دارای ظرفیت به کسب‌وکارهای مقیاس‌پذیر را در شش مرحله توضیح می‌دهد." />
+          <div className="process-time-note"><Info size={18} /><span>شش مرحله‌ی معرفی‌شده در پروفایل شرکتی پارس · ۲۰۲۶</span></div>
         </div>
-        <div className="process-timeline">
+        <div className="process-timeline process-timeline--six">
           <div className="process-timeline-line"><i /></div>
-          {processSteps.map((step) => <article className="process-step" key={step.number} data-reveal><span className="process-node"><i /></span><span className="process-step-number">{step.number} / ۰۴</span><h3>{step.title}</h3><p>{step.description}</p><span className="process-step-duration">گام {step.number} از ۰۴</span></article>)}
+          {commercializationStages.map((step) => (
+            <article className="process-step" key={step.number} data-reveal>
+              <span className="process-node"><i /></span>
+              <span className="process-step-number">مرحله‌ی {step.number}</span>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+              <span className="process-step-duration" dir="ltr">{step.english}</span>
+            </article>
+          ))}
         </div>
-        <div className="process-cta"><span>برای ثبت درخواست آماده‌اید؟</span><a href={pageHref('apply')} className="button button-dark">شروع درخواست <ArrowUpLeft size={16} /></a></div>
+        <div className="process-cta"><span>برای گفت‌وگو درباره‌ی همکاری یا سرمایه‌گذاری</span><a href={pageHref('contact')} className="button button-dark">ارتباط با پارس <ArrowUpLeft size={16} /></a></div>
       </div>
     </section>
   );
 }
-
 export function PortfolioSection() {
   return (
     <section className="portfolio-section section-space" id="portfolio">
       <div className="site-container">
         <div className="section-heading-row portfolio-heading-row">
-          <SectionHeading eyebrow="بخش سرمایه‌گذاری" title="پرتفوی" emphasis="پارس" />
+          <SectionHeading eyebrow="پرتفوی فناوری · نمایه‌ی ۲۰۲۶" title="محصول‌ها و پلتفرم‌ها" emphasis="در یک نگاه" copy="پروفایل شرکتی پارس، بیش از ۱۰۰ محصول و راهکار محصول‌محور را گزارش می‌کند و بخشی از نام‌های این سبد را فهرست کرده است." />
         </div>
         <figure className="editorial-visual editorial-visual--bleed portfolio-visual" data-reveal style={{ '--visual-delay': '70ms', '--visual-accent': '#592C7A' }}>
           <img
@@ -830,10 +985,60 @@ export function PortfolioSection() {
             decoding="async"
           />
           <figcaption className="editorial-visual-copy">
-            <span className="eyebrow">پرتفوی</span>
-            <strong>مسیرهای رشد</strong>
+            <span className="eyebrow">پرتفوی فناوری</span>
+            <strong>از محصول تا پلتفرم</strong>
           </figcaption>
         </figure>
+        <section className="portfolio-inventory" aria-labelledby="portfolio-products-title">
+          <div className="portfolio-inventory-heading">
+            <span className="journey-eyebrow"><i aria-hidden="true" /> فهرست نام‌های درج‌شده در پروفایل</span>
+            <h3 id="portfolio-products-title">محصول‌ها و راهکارها</h3>
+            <p>نام‌های زیر در نمایه‌ی شرکتی پارس به‌عنوان محصول یا راهکار آمده‌اند.</p>
+          </div>
+          <ul className="portfolio-name-grid">
+            {technologyProducts.map((name) => <li key={name} dir="ltr">{name}</li>)}
+          </ul>
+        </section>
+        <section className="portfolio-inventory portfolio-inventory--brands" aria-labelledby="portfolio-brands-title">
+          <div className="portfolio-inventory-heading">
+            <span className="journey-eyebrow"><i aria-hidden="true" /> پلتفرم و برند</span>
+            <h3 id="portfolio-brands-title">نام‌های معرفی‌شده</h3>
+            <p>پروفایل، این نام‌ها را در جایگاه پلتفرم، سیستم‌عامل یا برندهای اکوسیستم پارس معرفی می‌کند.</p>
+          </div>
+          <ul className="portfolio-name-grid portfolio-name-grid--brands">
+            {platformBrands.map((name) => <li key={name} dir="ltr">{name}</li>)}
+          </ul>
+        </section>
+        <p className="portfolio-disclosure">این فهرست، نام‌های درج‌شده در پروفایل را بازتاب می‌دهد و به‌تنهایی وضعیت عرضه، مالکیت یا عملکرد هر مورد را مشخص نمی‌کند. شرح فنی و تجاری تفصیلی، مطابق پروفایل، مشمول محرمانگی و ارائه‌ی اطلاعات تحت NDA است.</p>
+      </div>
+    </section>
+  );
+}
+export function NationalProgramsSection() {
+  return (
+    <section className="national-programs-section section-space" id="national-programs">
+      <div className="site-container">
+        <SectionHeading
+          eyebrow="برنامه‌های ملی و دولتی"
+          title="محورهای معرفی‌شده"
+          emphasis="در مقیاس ملی"
+          copy="پروفایل شرکتی پارس شش برنامه را در زیرساخت هوش مصنوعی، زنجیره‌ی تأمین، برنامه‌ریزی، آموزش و کشاورزی فهرست می‌کند."
+        />
+        <div className="national-program-grid">
+          {nationalPrograms.map((program) => {
+            const Icon = program.icon;
+            return (
+              <article className="national-program-card" key={program.number} data-reveal>
+                <div className="national-program-top"><span>{program.number}</span><Icon size={21} strokeWidth={1.45} /></div>
+                {program.scale && <strong className="national-program-scale">{program.scale}</strong>}
+                <h3>{program.title}</h3>
+                <p>{program.description}</p>
+                <small>{program.partners}</small>
+              </article>
+            );
+          })}
+        </div>
+        <p className="national-program-disclosure">پروفایل ۲۰۲۶ می‌گوید این برنامه‌ها در مراحل متفاوت توسعه، اخذ مجوز و اجرا هستند؛ بنابراین ارقام مقیاسِ درج‌شده را نباید معادل تکمیل یا پوشش نهایی برنامه‌ها دانست.</p>
       </div>
     </section>
   );
@@ -852,15 +1057,15 @@ export function MapSection() {
     <section className="map-section section-space" id="map">
       <div className="site-container map-layout map-layout-accurate">
         <div className="map-copy">
-          <SectionHeading eyebrow="گستره‌ی جغرافیایی" title="نقشه‌ی" emphasis="ایران" />
+          <SectionHeading eyebrow="نمای شماتیک" title="تصویر مفهومی" emphasis="ایران" />
         </div>
         <div className="map-art-card map-art-card-accurate" data-reveal>
-          <div className="map-card-head"><span><MapPin size={15} /> گستره‌ی ایران</span><span className="map-sample-tag"><i /> نمای شماتیک</span></div>
+          <div className="map-card-head"><span><MapPin size={15} /> نقشه‌ی شماتیک ایران</span><span className="map-sample-tag"><i /> بدون داده‌ی استقرار</span></div>
           <div className="iran-map-stage">
             <div className="iran-map-scan" />
             <div className="iran-map-crosshair iran-map-crosshair-one" />
             <div className="iran-map-crosshair iran-map-crosshair-two" />
-            <svg className="iran-map iran-map-accurate" viewBox={iranOutlineViewBox} role="img" aria-label="نقشه‌ی شماتیک ایران و نام چند شهر">
+            <svg className="iran-map iran-map-accurate" viewBox={iranOutlineViewBox} role="img" aria-label="تصویر شماتیک ایران؛ نام شهرها، نقاط و خطوط صرفاً نمایشی‌اند">
               <defs>
                 <linearGradient id="iranSurface" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0" stopColor="#592C7A" stopOpacity=".09" />
@@ -905,8 +1110,39 @@ export function MapSection() {
               </g>
             </svg>
           </div>
-          <div className="map-legend"><span><i className="legend-lime" /> شهرها</span><span><i className="legend-copper" /> مسیرها</span></div>
+          <div className="map-legend"><span><i className="legend-lime" /> نام‌های نمایشی</span><span><i className="legend-copper" /> پیوندهای مفهومی</span></div>
+          <p className="map-disclosure">این تصویر شماتیک است و محل اجرای برنامه‌ها، حضور عملیاتی یا مسیر جغرافیایی تأییدشده را نشان نمی‌دهد.</p>
         </div>
+      </div>
+    </section>
+  );
+}
+
+export function PartnershipModelsSection() {
+  return (
+    <section className="partnership-models-section section-space" id="partnership-models">
+      <div className="site-container">
+        <SectionHeading
+          eyebrow="همکاری راهبردی"
+          title="هشت راه"
+          emphasis="برای ساختن با پارس"
+          copy="پروفایل پارس، مدل‌های زیر را برای همکاری فناورانه، تجاری و سرمایه‌گذاری معرفی می‌کند؛ برخی از آن‌ها می‌توانند با هم ترکیب شوند."
+        />
+        <div className="partnership-model-grid">
+          {partnershipModels.map((model) => {
+            const Icon = model.icon;
+            return (
+              <article className="partnership-model-card" key={model.number} data-reveal>
+                <span className="partnership-model-number">{model.number}</span>
+                <Icon size={22} strokeWidth={1.4} />
+                <h3>{model.title}</h3>
+                <small dir="ltr">{model.english}</small>
+                <p>{model.description}</p>
+              </article>
+            );
+          })}
+        </div>
+        <p className="section-source-note">طبق پروفایل، همکاری‌ها می‌توانند از شراکت فناوری آغاز شوند و با توافق طرفین به توسعه‌ی مشترک، کسب‌وکار مشترک یا سرمایه‌گذاری سهامی گسترش یابند.</p>
       </div>
     </section>
   );
@@ -955,8 +1191,13 @@ export function NewsSection() {
     <section className="news-section section-space" id="news">
       <div className="site-container">
         <div className="section-heading-row">
-          <SectionHeading eyebrow="روایت‌ها" title="نگاهی تازه" emphasis="به جهان پیرامون" copy="یادداشت‌ها و دیدگاه‌های پارس." />
-          <a href={pageHref('contact')} className="text-link">با پارس گفت‌وگو کنید <ArrowUpLeft size={15} /></a>
+          <SectionHeading
+            eyebrow="تجربه‌های سازمانی"
+            title="محورهای تجربه‌ی"
+            emphasis="معرفی‌شده در پروفایل"
+            copy="پروفایل پارس، نمونه‌هایی از تجربه‌ی سازمانی را در بانکداری، بیمه، فناوری و بخش عمومی فهرست می‌کند."
+          />
+          <a href={pageHref('contact')} className="text-link">گفت‌وگو درباره‌ی همکاری <ArrowUpLeft size={15} /></a>
         </div>
         <figure className="editorial-visual editorial-visual--bleed news-visual" data-reveal style={{ '--visual-delay': '60ms', '--visual-accent': '#6166AA' }}>
           <img
@@ -968,31 +1209,30 @@ export function NewsSection() {
             fetchPriority="high"
             decoding="async"
           />
-          <figcaption className="editorial-visual-copy">
-            <strong>روایت‌ها و دیدگاه‌ها</strong>
-          </figcaption>
+          <figcaption className="editorial-visual-copy"><strong>فناوری سازمانی، از زیرساخت تا خدمات</strong></figcaption>
         </figure>
-        <div className="news-empty">
-          <div className="news-empty-icon"><BookOpen size={24} /></div>
-          <div><span className="eyebrow">روایت‌ها</span><h3>روایت تازه‌ای این‌جا نیست</h3></div>
-          <a href={pageHref('contact')} className="button button-outline">با پارس در تماس باشید <ArrowUpLeft size={14} /></a>
+        <ul className="experience-area-grid">
+          {experienceAreas.map((area) => <li key={area} data-reveal>{area}</li>)}
+        </ul>
+        <div className="experience-disclosure">
+          <BookOpen size={20} />
+          <p>پروفایل، این محورها را به‌عنوان تجربه‌ها و پروژه‌های منتخب معرفی می‌کند؛ نام مشتریان و نتایج موردی در فهرست عمومی درج نشده است. شرح فنی و تجاری پرونده‌های منتخب، با رعایت محرمانگی و NDA قابل ارائه است.</p>
         </div>
       </div>
     </section>
   );
 }
-
 export function AboutSection() {
-  const values = [
-    { title: 'نگاه بلندمدت', description: 'دیدن مسیر، نه فقط لحظه.', icon: Compass },
-    { title: 'گفت‌وگوی روشن', description: 'پرسیدن، شنیدن و دقیق‌تر دیدن.', icon: HeartHandshake },
-    { title: 'افق‌های تازه', description: 'جست‌وجوی راه‌های ممکن.', icon: BookOpen },
-  ];
   return (
     <section className="about-section section-space" id="about">
       <div className="site-container">
         <div className="about-top">
-          <SectionHeading eyebrow="درباره‌ی پارس" title="پارس، رو به" emphasis="افق‌های تازه" copy="نگاهی به مسیرها و پرسش‌هایی که آینده را پیش روی ما می‌گذارند." />
+          <SectionHeading
+            eyebrow="درباره‌ی پارس"
+            title="یک گروه فناوری"
+            emphasis="از زیرساخت تا کسب‌وکار"
+            copy="پروفایل شرکتی ۲۰۲۶، پارس را شرکت فناوری و نوآوری ایرانی معرفی می‌کند؛ با مدلی یکپارچه در هوش مصنوعی، زیرساخت دیجیتال، داده، تحول سازمانی، سرمایه‌گذاری فناوری و ساخت کسب‌وکار."
+          />
         </div>
         <figure className="editorial-visual editorial-visual--bleed about-visual" data-reveal style={{ '--visual-delay': '90ms', '--visual-accent': '#5CC6D9' }}>
           <img
@@ -1004,14 +1244,71 @@ export function AboutSection() {
             fetchPriority="high"
             decoding="async"
           />
-          <figcaption className="editorial-visual-copy">
-            <strong>هر مسیر تازه، با نگاهی روشن</strong>
-          </figcaption>
+          <figcaption className="editorial-visual-copy"><strong>چهار قابلیت در یک مدل عملیاتی یکپارچه</strong></figcaption>
         </figure>
-        <div className="about-values-grid">{values.map((item) => {
-          const Icon = item.icon;
-          return <article className="about-value-card" key={item.title} data-reveal><Icon size={21} /><h3>{item.title}</h3><p>{item.description}</p></article>;
-        })}</div>
+        <div className="about-values-grid">
+          {capabilities.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <article className="about-value-card" key={item.id} data-reveal>
+                <span className="about-value-number">۰{index + 1}</span>
+                <Icon size={21} />
+                <span className="about-value-english" dir="ltr">{item.english}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+export function MarketModelSection() {
+  return (
+    <section className="market-model-section section-space" id="market-model">
+      <div className="site-container">
+        <SectionHeading
+          eyebrow="جایگاه و مدل کسب‌وکار"
+          title="در تقاطع چهار بازار"
+          emphasis="فناوری تا سرمایه‌گذاری"
+          copy="پروفایل شرکتی پارس، فعالیت گروه را در چهار بازار و چند گروه مشتری معرفی می‌کند."
+        />
+        <div className="business-market-grid">
+          {businessMarkets.map((market) => {
+            const Icon = market.icon;
+            return <article className="business-market-card" key={market.title} data-reveal><Icon size={21} /><span dir="ltr">{market.english}</span><h3>{market.title}</h3><p>{market.description}</p></article>;
+          })}
+        </div>
+        <div className="market-model-lists">
+          <section>
+            <h3>گروه‌های مشتری و بازار</h3>
+            <ul className="content-chip-list content-chip-list--muted">{customerSegments.map((item) => <li key={item}>{item}</li>)}</ul>
+          </section>
+          <section>
+            <h3>جریان‌های درآمدی معرفی‌شده</h3>
+            <ul className="content-chip-list">{revenueStreams.map((item) => <li key={item}>{item}</li>)}</ul>
+          </section>
+        </div>
+        <p className="section-source-note">پروفایل، مدل‌های درآمدی را فهرست می‌کند اما مبلغ، سهم یا نسبت هر جریان را اعلام نمی‌کند.</p>
+      </div>
+    </section>
+  );
+}
+
+export function WhyParsSection() {
+  return (
+    <section className="why-pars-section section-space" id="why-pars">
+      <div className="site-container">
+        <SectionHeading
+          eyebrow="ویژگی‌های مدل پارس"
+          title="فناوری، سرمایه و بازار"
+          emphasis="در یک مدل یکپارچه"
+          copy="این هشت ویژگی، جمع‌بندیِ نحوه‌ی معرفی مدل پارس در پروفایل شرکتی ۲۰۲۶ است."
+        />
+        <div className="why-pars-grid">
+          {whyParsFeatures.map((feature) => <article className="why-pars-card" key={feature.number} data-reveal><span>{feature.number}</span><h3>{feature.title}</h3><p>{feature.description}</p></article>)}
+        </div>
       </div>
     </section>
   );
@@ -1052,7 +1349,7 @@ export function ContactSection() {
     <section className="contact-section section-space" id="contact">
       <div className="site-container contact-layout">
         <div className="contact-copy">
-          <SectionHeading eyebrow="تماس با پارس" title="یک گفت‌وگوی خوب" emphasis="از این‌جا شروع می‌شود" copy="برای پرسش درباره‌ی همکاری یا رسانه، پیام بگذارید" />
+          <SectionHeading eyebrow="تماس و همکاری" title="برای گفت‌وگو درباره‌ی" emphasis="فناوری و مشارکت" copy="موضوع پیام را انتخاب کنید و راه ارتباطی خود را بنویسید؛ ثبت پیام فقط پس از پاسخ موفق سامانه تأیید می‌شود." />
           <figure className="editorial-visual editorial-visual--bleed contact-visual" data-reveal style={{ '--visual-delay': '80ms', '--visual-accent': '#5CC6D9' }}>
             <img
               {...responsiveImageProps('pars-contact-editorial.webp', '100vw')}
@@ -1072,7 +1369,18 @@ export function ContactSection() {
           <div className="contact-form-top"><span className="eyebrow">فرم تماس کوتاه</span><span>ثبت پیام پس از پاسخ موفق سامانه</span></div>
           <label><span>نام شما</span><input required name="contactName" maxLength={120} placeholder="نام و نام خانوادگی" /></label>
           <label><span>ایمیل یا شماره‌ی تماس</span><input required name="contactWay" dir="auto" maxLength={254} placeholder="ایمیل یا شماره‌ای که پاسخ را دریافت کنید" /></label>
-          <label><span>موضوع پیام</span><select name="contactTopic" defaultValue="همکاری"><option>همکاری</option><option>رسانه</option><option>پرسش عمومی</option><option>پیشنهاد شراکت</option></select></label>
+          <label><span>موضوع پیام</span><select name="contactTopic" defaultValue="شراکت فناوری">
+            <option>شراکت فناوری</option>
+            <option>انتقال و بومی‌سازی فناوری</option>
+            <option>توسعه‌ی مشترک</option>
+            <option>کسب‌وکار مشترک</option>
+            <option>سرمایه‌گذاری راهبردی</option>
+            <option>مجوز فناوری</option>
+            <option>ورود به بازار ایران</option>
+            <option>توسعه‌ی منطقه‌ای</option>
+            <option>رسانه</option>
+            <option>پرسش عمومی</option>
+          </select></label>
           <label><span>پیام</span><textarea required name="contactMessage" rows="3" maxLength={5000} placeholder="پیام خود را بنویسید…" /></label>
           <input className="contact-honeypot" type="text" name="companyWebsite" tabIndex={-1} autoComplete="off" aria-hidden="true" />
           {formStatus && <div className={formStatus.type === 'success' ? 'form-inline-notice' : 'form-inline-error'} role={formStatus.type === 'success' ? 'status' : 'alert'}><Info size={15} />{formStatus.message}</div>}
@@ -1087,11 +1395,10 @@ export function FinalCallout() {
   return (
     <section className="final-callout" id="campaign">
       <div className="final-callout-orbit" aria-hidden="true"><ParsGlyph /></div>
-      <div className="site-container final-callout-content"><SectionEyebrow light>مسیر بعدی</SectionEyebrow><h2>طرح شما برای<br /><em>گام بعدی آماده است؟</em></h2><p>شرایط هر دوره را بخوانید و فرم درخواست سرمایه را گام‌به‌گام تکمیل کنید</p><div className="final-callout-actions"><a href={pageHref('apply')} className="button button-lime button-large">شروع درخواست سرمایه <ArrowUpLeft size={17} /></a><a href={pageHref('contact')} className="button button-outline-light">پرسشی دارید؟ <ArrowUpLeft size={15} /></a></div><span className="final-callout-note">شرایط هر دوره را در صفحه‌ی درخواست بخوانید</span></div>
+      <div className="site-container final-callout-content"><SectionEyebrow light>درخواست سرمایه</SectionEyebrow><h2>مسیر فناوری‌تان<br /><em>به گام بعدی رسیده است؟</em></h2><p>اطلاعات تیم، محصول و نیاز سرمایه را در فرم درخواست ثبت کنید.</p><div className="final-callout-actions"><a href={pageHref('apply')} className="button button-lime button-large">شروع درخواست سرمایه <ArrowUpLeft size={17} /></a><a href={pageHref('contact')} className="button button-outline-light">گفت‌وگو درباره‌ی همکاری <ArrowUpLeft size={15} /></a></div><span className="final-callout-note">ارسال فرم به‌تنهایی به‌معنای پذیرش یا تعهد سرمایه‌گذاری نیست.</span></div>
     </section>
   );
 }
-
 export function FooterSection() {
   const year = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { year: 'numeric' }).format(new Date());
   return (
@@ -1102,26 +1409,26 @@ export function FooterSection() {
             <span className="brand-symbol"><CrystalMark /></span>
             <span className="brand-name-stack"><strong>پارس</strong></span>
           </a>
-          <p>پارس، رو به افق‌های تازه</p>
-          <a href={pageHref('investment')} className="button button-outline-light">بخش سرمایه‌گذاری <ArrowUpLeft size={15} /></a>
+          <p>از زیرساخت تا هوشمندی؛ از فناوری تا کسب‌وکار</p>
+          <a href={pageHref('investment')} className="button button-outline-light">سرمایه‌گذاری خطرپذیر <ArrowUpLeft size={15} /></a>
         </div>
         <div className="footer-main">
           <div className="footer-sitemap">
-            <div><strong>پارس</strong><a href={pageHref('about')}>درباره‌ی پارس</a><a href={pageHref('news')}>روایت‌ها</a><a href={pageHref('contact')}>تماس</a></div>
-            <div><strong>بخش سرمایه‌گذاری</strong><a href={pageHref('investment')}>نمای کلی</a><a href={pageHref('approach')}>رویکرد</a><a href={pageHref('industries')}>حوزه‌ها</a><a href={pageHref('portfolio')}>پرتفوی</a><a href={pageHref('tools')}>ابزارها</a></div>
+            <div><strong>پارس</strong><a href={pageHref('about')}>درباره‌ی پارس</a><a href={pageHref('news')}>تجربه‌ها</a><a href={pageHref('contact')}>تماس و همکاری</a></div>
+            <div><strong>سرمایه‌گذاری خطرپذیر</strong><a href={pageHref('investment')}>نمای کلی</a><a href={pageHref('approach')}>مدل فعالیت</a><a href={pageHref('industries')}>حوزه‌ها</a><a href={pageHref('portfolio')}>پرتفوی فناوری</a><a href={pageHref('tools')}>ابزارها</a></div>
             <div><strong>درخواست و راهنما</strong><a href={pageHref('apply')}>درخواست سرمایه</a><a href={pageHref('track')}>پیگیری درخواست</a><a href={pageHref('sitemap')}>نقشه‌ی سایت</a></div>
           </div>
           <div className="footer-status">
-            <span className="eyebrow">بخش سرمایه‌گذاری</span>
+            <span className="eyebrow">سرمایه‌گذاری خطرپذیر</span>
             <strong><i className="status-indicator" /> در صفحه‌ای مستقل</strong>
-            <small>رویکرد، حوزه‌ها و ابزارها</small>
+            <small>فناوری، حوزه‌ها و ساخت کسب‌وکار</small>
             <a href={pageHref('investment')}>ورود به این بخش <ArrowUpLeft size={13} /></a>
           </div>
         </div>
         <div className="footer-bottom">
           <span>© {year} پارس · کلیه‌ی حقوق محفوظ است</span>
           <div><a href={pageHref('terms')}>قوانین و مقررات</a><a href={pageHref('privacy')}>حریم خصوصی</a><a href={pageHref('contact')}>پشتیبانی</a></div>
-          <span className="footer-made">با نگاهی رو به آینده</span>
+          <span className="footer-made">از زیرساخت تا کسب‌وکار</span>
         </div>
       </div>
       <small className="footer-attribution site-container">منبع نقشه‌ی ایران: Victor Cazanave، @svg-maps/world · مجوز CC BY 4.0</small>

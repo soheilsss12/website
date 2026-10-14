@@ -96,7 +96,20 @@ export function validateContact(body) {
     if (digits.length < 8 || digits.length > 18) throw new InputError('نشانی ایمیل یا شماره‌ی تماس معتبر نیست.');
   }
   const topic = stringField(body.topic, 'موضوع', { required: true, max: 80 });
-  const allowedTopics = new Set(['همکاری', 'رسانه', 'پرسش عمومی', 'پیشنهاد شراکت']);
+  const allowedTopics = new Set([
+    'همکاری',
+    'رسانه',
+    'پرسش عمومی',
+    'پیشنهاد شراکت',
+    'شراکت فناوری',
+    'انتقال و بومی‌سازی فناوری',
+    'توسعه‌ی مشترک',
+    'کسب‌وکار مشترک',
+    'سرمایه‌گذاری راهبردی',
+    'مجوز فناوری',
+    'ورود به بازار ایران',
+    'توسعه‌ی منطقه‌ای',
+  ]);
   if (!allowedTopics.has(topic)) throw new InputError('موضوع پیام معتبر نیست.');
   const message = stringField(body.message, 'پیام', { required: true, max: 5000, multiline: true });
   return { name, contact, topic, message };

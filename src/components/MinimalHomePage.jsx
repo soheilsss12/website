@@ -7,9 +7,9 @@ import { pageHref } from '../lib/routes.js';
 const asset = (name) => `${import.meta.env.BASE_URL}${name}`;
 
 const links = [
-  { label: 'رویکرد', href: pageHref('approach') },
+  { label: 'مدل فعالیت', href: pageHref('approach') },
   { label: 'حوزه‌ها', href: pageHref('industries') },
-  { label: 'پرتفوی', href: pageHref('portfolio') },
+  { label: 'پرتفوی فناوری', href: pageHref('portfolio') },
   { label: 'درباره‌ی پارس', href: pageHref('about') },
 ];
 
@@ -112,10 +112,10 @@ function IndustryGrid() {
     <section className="pars-section pars-industries" id="industries" aria-labelledby="pars-industries-title">
       <div className="pars-section-heading" data-reveal>
         <div>
-          <span className="pars-section-kicker">حوزه‌های منتخب</span>
-          <h2 id="pars-industries-title">جایی که فناوری<br /><em>اثر می‌گذارد</em></h2>
+          <span className="pars-section-kicker">۱۱ حوزه‌ی تمرکز</span>
+          <h2 id="pars-industries-title">فناوری در خدمت<br /><em>حوزه‌های واقعی</em></h2>
         </div>
-        <span className="pars-heading-note">سرمایه‌گذاری روی مسئله‌های واقعی</span>
+        <span className="pars-heading-note">فهرست به‌روز حوزه‌های سرمایه‌گذاری پارس</span>
       </div>
       <div className="pars-industry-grid">
         {industries.map((industry) => {
@@ -138,11 +138,11 @@ function StrategySection() {
     <section className="pars-strategy" id="strategy" aria-labelledby="pars-strategy-title">
       <div className="pars-strategy-head" data-reveal>
         <span className="pars-section-kicker">رویکرد پارس</span>
-        <h2 id="pars-strategy-title">سرمایه، همراهِ<br /><em>مسیر رشد</em></h2>
+        <h2 id="pars-strategy-title">پنج توانمندسازِ<br /><em>اکوسیستم پارس</em></h2>
         <ParsLogoMark decorative className="pars-strategy-mark" />
       </div>
       <div className="pars-strategy-grid">
-        {valuePillars.slice(0, 4).map((item) => {
+        {valuePillars.map((item) => {
           const Icon = item.icon;
           return (
             <article className="pars-strategy-card" key={item.id} data-reveal>
@@ -162,10 +162,10 @@ function AboutPars() {
     <section className="pars-about" id="about" aria-labelledby="pars-about-title">
       <div className="pars-about-copy" data-reveal>
         <span className="pars-section-kicker">درباره‌ی پارس</span>
-        <h2 id="pars-about-title">همراهِ ایده‌های<br /><em>موفق</em></h2>
+        <h2 id="pars-about-title">از فناوری<br /><em>تا کسب‌وکار</em></h2>
         <div className="pars-facts" aria-label="پارس در یک نگاه">
-          <div className="pars-fact"><strong>۱۱</strong><span>حوزه‌ی سرمایه‌گذاری</span></div>
-          <div className="pars-fact"><strong>۰۴</strong><span>گام در فرم درخواست</span></div>
+          <div className="pars-fact"><strong>۲۰۰+</strong><span>ابتکار هوش مصنوعی و فناوری</span></div>
+          <div className="pars-fact"><strong>۱۰۰+</strong><span>محصول و راهکار محصول‌محور</span></div>
         </div>
       </div>
       <div className="pars-about-mark" data-reveal>
@@ -201,14 +201,14 @@ export default function MinimalHomePage() {
       <main>
         <section className="pars-hero pars-container" id="home" aria-labelledby="pars-hero-title">
           <div className="pars-hero-copy" data-reveal>
-            <span className="pars-hero-kicker"><i aria-hidden="true" /> بخش سرمایه‌گذاری</span>
-            <h1 id="pars-hero-title">سرمایه برای<br /><em>ایده‌های موفق</em></h1>
-            <p className="pars-hero-subtitle">از ایده‌های جسورانه تا کسب‌وکارهای رو به رشد</p>
+            <span className="pars-hero-kicker"><i aria-hidden="true" /> سرمایه‌گذاری خطرپذیر در فناوری</span>
+            <h1 id="pars-hero-title">از زیرساخت تا<br /><em>فناوری و کسب‌وکار</em></h1>
+            <p className="pars-hero-subtitle">از زیرساخت و داده تا هوش مصنوعی، سرمایه‌گذاری و ساخت کسب‌وکار.</p>
             <div className="pars-hero-actions">
               <a className="pars-button pars-button--large" href={pageHref('apply')}>درخواست سرمایه <ArrowUpLeft size={19} /></a>
               <a className="pars-text-link" href={pageHref('track')}>پیگیری درخواست <ArrowUpLeft size={15} /></a>
             </div>
-            <span className="pars-hero-footnote"><i aria-hidden="true" /> همراهِ مسیرِ رشد</span>
+            <span className="pars-hero-footnote"><i aria-hidden="true" /> پروفایل شرکتی پارس · ۲۰۲۶</span>
           </div>
           <HeroPhotoStage />
         </section>
@@ -222,7 +222,7 @@ export default function MinimalHomePage() {
           <div className="pars-final-mark"><ParsLogoMark decorative className="pars-final-logo" /></div>
           <div>
             <span className="pars-section-kicker">قدم بعدی</span>
-            <h2 id="pars-final-title">آماده‌ی شروعید؟</h2>
+            <h2 id="pars-final-title">فناوری‌تان را به مسیر سرمایه‌گذاری معرفی کنید.</h2>
           </div>
           <a className="pars-button pars-button--large" href={pageHref('apply')}>شروع درخواست <ArrowUpLeft size={18} /></a>
         </section>

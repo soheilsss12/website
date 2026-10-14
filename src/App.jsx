@@ -21,20 +21,28 @@ import {
   BrandClosingSection,
   ContactSection,
   CookieNotice,
+  CorePlatformsSection,
   FinalCallout,
   FooterSection,
   HeroSection,
   HomeHighlightsSection,
+  InvestmentModelsSection,
   InvestmentOverviewSection,
   IndustriesSection,
   JourneySection,
   ManifestoSection,
   MapSection,
+  MarketModelSection,
+  NationalProgramsSection,
   NewsSection,
+  OperatorStatusSection,
+  PartnershipModelsSection,
   PortfolioSection,
   ProcessSection,
   StatsRibbon,
+  TechnologyArchitectureSection,
   ToolsSection,
+  WhyParsSection,
 } from './components/SiteSections.jsx';
 import { investmentNavItems, navItems } from './data/siteContent.js';
 import { pageHref, routeFromLegacyHash, routeFromPath } from './lib/routes.js';
@@ -77,8 +85,8 @@ function SiteHeader({ activeRoute, menuOpen, setMenuOpen }) {
     <header className={`site-header ${isInvestmentPage ? 'site-header--investment' : ''} ${isHomePage ? 'site-header--home' : ''}`}>
       <div className="site-header-inner site-container">
         <BrandLockup />
-        {isInvestmentPage && <span className="site-section-badge"><i aria-hidden="true" /> بخش سرمایه‌گذاری</span>}
-        <nav className="desktop-nav" aria-label={isInvestmentPage ? 'صفحه‌های بخش سرمایه‌گذاری' : 'منوی اصلی'}>
+        {isInvestmentPage && <span className="site-section-badge"><i aria-hidden="true" /> سرمایه‌گذاری خطرپذیر</span>}
+        <nav className="desktop-nav" aria-label={isInvestmentPage ? 'صفحه‌های سرمایه‌گذاری خطرپذیر' : 'منوی اصلی'}>
           {links.map((item) => (
             <a
               href={pageHref(item.route)}
@@ -95,7 +103,7 @@ function SiteHeader({ activeRoute, menuOpen, setMenuOpen }) {
             className={`button ${showApplyCallToAction ? 'button-lime header-apply' : 'button-outline header-investment-link'}`}
             href={pageHref(showApplyCallToAction ? 'apply' : 'investment')}
           >
-            {showApplyCallToAction ? 'درخواست سرمایه' : 'بخش سرمایه‌گذاری'} <ArrowUpLeft size={15} />
+            {showApplyCallToAction ? 'درخواست سرمایه' : 'سرمایه‌گذاری خطرپذیر'} <ArrowUpLeft size={15} />
           </a>
           <button
             className="menu-trigger"
@@ -118,7 +126,7 @@ function FullMenu({ open, onClose }) {
   const sections = [
     { title: 'پارس', links: navItems },
     {
-      title: 'بخش سرمایه‌گذاری',
+      title: 'سرمایه‌گذاری خطرپذیر و فناوری',
       links: [
         ...investmentNavItems,
         { label: 'درخواست سرمایه', route: 'apply' },
@@ -146,14 +154,14 @@ function FullMenu({ open, onClose }) {
       <div className="full-menu-inner site-container">
         <div className="full-menu-head">
           <BrandLockup />
-          <span className="full-menu-coordinate">پارس</span>
+          <span className="full-menu-coordinate">فناوری · سرمایه‌گذاری · ساخت کسب‌وکار</span>
           <button type="button" className="full-menu-close" onClick={onClose}>بستن <X size={18} /></button>
         </div>
         <div className="full-menu-body">
           <div className="full-menu-label">
             <span className="eyebrow">پارس</span>
-            <p>هر مسیر، در صفحه‌ی مستقل خودش.</p>
-            <a href={pageHref('investment')} className="button button-lime" onClick={onClose}>ورود به بخش سرمایه‌گذاری <ArrowUpLeft size={15} /></a>
+            <p>مدل فناوری و سرمایه‌گذاری پارس را مرور کنید.</p>
+            <a href={pageHref('investment')} className="button button-lime" onClick={onClose}>ورود به سرمایه‌گذاری خطرپذیر <ArrowUpLeft size={15} /></a>
           </div>
           <nav className="full-menu-links" aria-label="همه‌ی صفحه‌های سایت">
             {sections.map((section) => (
@@ -169,7 +177,7 @@ function FullMenu({ open, onClose }) {
             ))}
           </nav>
         </div>
-        <div className="full-menu-foot"><span>پارس</span><span>بخش سرمایه‌گذاری، در صفحه‌ای مستقل</span></div>
+        <div className="full-menu-foot"><span>پارس</span><span>فناوری، سرمایه‌گذاری خطرپذیر و ساخت کسب‌وکار</span></div>
       </div>
     </div>
   );
@@ -178,7 +186,7 @@ function FullMenu({ open, onClose }) {
 function MobileApplyBar() {
   return (
     <a className="mobile-apply-bar" href={pageHref('apply')}>
-      <span><small>فراخوان سرمایه‌گذاری</small><strong>شروع درخواست</strong></span>
+      <span><small>درخواست سرمایه</small><strong>ثبت درخواست</strong></span>
       <span className="mobile-apply-arrow"><ArrowUpLeft size={18} /></span>
     </a>
   );
@@ -186,8 +194,8 @@ function MobileApplyBar() {
 
 function SiteMapPage() {
   const groups = [
-    { title: 'پارس', links: [['درباره‌ی پارس', 'about'], ['روایت‌ها', 'news'], ['تماس', 'contact']] },
-    { title: 'بخش سرمایه‌گذاری', links: investmentNavItems.map(({ label, route }) => [label, route]) },
+    { title: 'پارس', links: [['درباره‌ی پارس', 'about'], ['تجربه‌ها', 'news'], ['تماس و همکاری', 'contact']] },
+    { title: 'سرمایه‌گذاری و ساخت کسب‌وکار', links: investmentNavItems.map(({ label, route }) => [label, route]) },
     { title: 'درخواست‌ها', links: [['درخواست سرمایه', 'apply'], ['پیگیری درخواست', 'track']] },
     { title: 'راهنما', links: [['قوانین و مقررات', 'terms'], ['حریم خصوصی', 'privacy'], ['نقشه‌ی سایت', 'sitemap']] },
   ];
@@ -261,6 +269,7 @@ function HomePage({ menuOpen, setMenuOpen, cookieChoice, onSaveCookie }) {
   return (
     <SiteShell activeRoute="home" menuOpen={menuOpen} setMenuOpen={setMenuOpen} cookieChoice={cookieChoice} onSaveCookie={onSaveCookie}>
       <HeroSection />
+      <StatsRibbon />
       <HomeHighlightsSection />
       <BrandClosingSection />
     </SiteShell>
@@ -273,6 +282,7 @@ function InvestmentPage({ menuOpen, setMenuOpen, cookieChoice, onSaveCookie }) {
       <HeroSection />
       <StatsRibbon />
       <InvestmentOverviewSection />
+      <InvestmentModelsSection />
       <FinalCallout />
     </SiteShell>
   );
@@ -282,10 +292,10 @@ function ContentPage({ route, onOpenTool, menuOpen, setMenuOpen, cookieChoice, o
   let content;
   switch (route) {
     case 'approach':
-      content = <><ManifestoSection /><JourneySection /><BenefitsSection /><ProcessSection /></>;
+      content = <><ManifestoSection /><JourneySection /><TechnologyArchitectureSection /><CorePlatformsSection /><BenefitsSection /><ProcessSection /><OperatorStatusSection /></>;
       break;
     case 'industries':
-      content = <><IndustriesSection /><MapSection /></>;
+      content = <><IndustriesSection /><NationalProgramsSection /><MapSection /></>;
       break;
     case 'portfolio':
       content = <PortfolioSection />;
@@ -294,10 +304,10 @@ function ContentPage({ route, onOpenTool, menuOpen, setMenuOpen, cookieChoice, o
       content = <NewsSection />;
       break;
     case 'about':
-      content = <AboutSection />;
+      content = <><AboutSection /><MarketModelSection /><WhyParsSection /></>;
       break;
     case 'contact':
-      content = <ContactSection />;
+      content = <><PartnershipModelsSection /><ContactSection /></>;
       break;
     case 'tools':
       content = <ToolsSection onOpenTool={onOpenTool} />;
@@ -314,22 +324,41 @@ function ContentPage({ route, onOpenTool, menuOpen, setMenuOpen, cookieChoice, o
 }
 
 const pageTitles = {
-  home: 'پارس',
-  investment: 'بخش سرمایه‌گذاری | پارس',
-  approach: 'رویکرد سرمایه‌گذاری | پارس',
-  industries: 'حوزه‌های سرمایه‌گذاری | پارس',
-  portfolio: 'پرتفوی | پارس',
-  news: 'خبرها و دیدگاه‌ها | پارس',
+  home: 'پارس | فناوری، سرمایه‌گذاری خطرپذیر و ساخت کسب‌وکار',
+  investment: 'سرمایه‌گذاری خطرپذیر و فناوری | پارس',
+  approach: 'مدل فناوری و تجاری‌سازی | پارس',
+  industries: '۱۱ حوزه‌ی تمرکز | پارس',
+  portfolio: 'پرتفوی فناوری | پارس',
+  news: 'تجربه‌های سازمانی | پارس',
   about: 'درباره‌ی پارس',
-  contact: 'تماس با پارس',
-  tools: 'ابزارهای استارتاپی | پارس',
-  apply: 'درخواست سرمایه | پارس',
+  contact: 'تماس و همکاری با پارس',
+  tools: 'ابزارهای مالی و استارتاپی | پارس',
+  apply: 'درخواست سرمایه‌گذاری خطرپذیر | پارس',
   track: 'پیگیری درخواست | پارس',
   terms: 'قوانین و مقررات | پارس',
   privacy: 'حریم خصوصی | پارس',
   sitemap: 'نقشه‌ی سایت | پارس',
   admin: 'پنل مدیریت | پارس',
   'not-found': 'صفحه پیدا نشد | پارس',
+};
+
+const pageDescriptions = {
+  home: 'از زیرساخت تا هوشمندی و از فناوری تا کسب‌وکار؛ آشنایی با پارس، شرکت فناوری و نوآوری ایرانی در حوزه‌ی هوش مصنوعی، سرمایه‌گذاری فناوری و ساخت کسب‌وکار.',
+  investment: 'مدل سرمایه‌گذاری خطرپذیر در فناوری، ساختارهای سرمایه‌گذاری و مسیرهای تبدیل فناوری به کسب‌وکار در پارس.',
+  approach: 'معماری پنج‌لایه‌ی فناوری، AI Fabric، توانمندسازهای اکوسیستم و الگوی تجاری‌سازی معرفی‌شده در پروفایل پارس.',
+  industries: 'فهرست یازده‌گانه‌ی حوزه‌های تمرکز پارس و برنامه‌های ملی و دولتی معرفی‌شده در پروفایل شرکتی ۲۰۲۶.',
+  portfolio: 'مرور نام محصولات، راهکارها، پلتفرم‌ها و برندهای درج‌شده در پروفایل شرکتی پارس ۲۰۲۶.',
+  news: 'حوزه‌های تجربه‌ی سازمانی معرفی‌شده در پروفایل پارس؛ شرح پرونده‌های منتخب با رعایت محرمانگی و NDA ارائه می‌شود.',
+  about: 'پارس در چهار نقش فناوری، تحول سازمانی، سرمایه‌گذاری فناوری و ساخت کسب‌وکار فعالیت می‌کند.',
+  contact: 'مدل‌های مشارکت راهبردی و راه ارتباط با گروه فناوری و سرمایه‌گذاری پارس.',
+  tools: 'ابزارهای برآورد مالی برای بنیان‌گذاران؛ محاسبه‌ها در مرورگر انجام می‌شوند و توصیه‌ی سرمایه‌گذاری نیستند.',
+  apply: 'فرم چهارمرحله‌ای معرفی تیم، محصول و نیاز سرمایه به پارس.',
+  track: 'پیگیری وضعیت درخواست ثبت‌شده در سامانه‌ی پارس.',
+  terms: 'قوانین و مقررات سایت پارس؛ متن نهایی هنوز منتشر نشده است.',
+  privacy: 'اطلاعات درباره‌ی حریم خصوصی و محرمانگی داده‌ها در سایت پارس.',
+  sitemap: 'دسترسی به صفحه‌های سایت گروه فناوری و سرمایه‌گذاری پارس.',
+  admin: 'پنل مدیریت درخواست‌ها و پیام‌های ثبت‌شده در سامانه‌ی پارس.',
+  'not-found': 'این صفحه در سایت پارس پیدا نشد.',
 };
 
 const standaloneRoutes = new Set(['apply', 'track', 'admin', 'terms', 'privacy', 'sitemap', 'not-found']);
@@ -356,6 +385,8 @@ export default function App() {
 
   useEffect(() => {
     document.title = pageTitles[route] || pageTitles.home;
+    const description = document.querySelector('meta[name="description"]');
+    if (description) description.setAttribute('content', pageDescriptions[route] || pageDescriptions.home);
     if (route === 'apply') {
       const hash = decodeURIComponent(window.location.hash.slice(1)).split('?')[0];
       if (hash && hash !== 'apply') {

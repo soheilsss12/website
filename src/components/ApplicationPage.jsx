@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, ArrowUpLeft, Check, FileUp, LoaderCircle, LockKe
 import { industries, stageOptions } from '../data/siteContent.js';
 import { validateApplicationStep } from '../lib/applicationValidation.js';
 import { apiFetch } from '../lib/api.js';
+import { pageHref } from '../lib/routes.js';
 import ParsLogoMark from './ParsLogoMark.jsx';
 
 const steps = [
@@ -98,8 +99,8 @@ export default function ApplicationPage() {
   const applyHost = window.location.hostname.toLowerCase().startsWith('apply.');
   const homeHref = applyHost
     ? `${window.location.protocol}//${window.location.hostname.replace(/^apply\./i, '')}/`
-    : '#home';
-  const routeHref = (hash) => applyHost ? `${homeHref}#${hash}` : `#${hash}`;
+    : pageHref('home');
+  const routeHref = (route) => applyHost ? `${homeHref}#${route}` : pageHref(route);
 
   const [step, setStep] = useState(0);
   const [form, setForm] = useState(initialForm);
@@ -308,7 +309,10 @@ export default function ApplicationPage() {
               {submissionReceipt?.notification === 'blocked' && <small className="pars-notice">اعلان ایمیلی برای تیم پیکربندی نشده است.</small>}
               {submissionReceipt?.notification === 'pending' && <small className="pars-notice">اعلان برای تیم در صف ارسال قرار گرفت.</small>}
               <div className="pars-success-actions">
-                <a className="pars-button" href={routeHref('track')}>پیگیری درخواست <ArrowUpLeft size={16} /></a>
+                <a
+                  className="pars-button"
+                  href={`${routeHref('track')}?reference=${encodeURIComponent(submissionReceipt?.reference || '')}`}
+                >پیگیری درخواست <ArrowUpLeft size={16} /></a>
                 <button type="button" className="pars-back-step" onClick={restart}>ثبت درخواست دیگر</button>
               </div>
             </div>

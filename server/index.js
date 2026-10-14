@@ -7,7 +7,7 @@ import { configureEnvironmentAdmin, openDatabase } from './db.js';
 import { validateRuntimeEnvironment } from './config.js';
 import { enqueueAdminNotification, mailConfiguration, startEmailOutboxWorker } from './mailer.js';
 import { newOpaqueToken, parseCookies, sha256, verifyPassword } from './security.js';
-import { InputError, validateApplication, validateContact, validateStatus } from './validation.js';
+import { InputError, validateApplication, validateContact, validateStatus, validateTrackingCredentials } from './validation.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST_DIR = path.join(ROOT, 'dist');
@@ -312,7 +312,7 @@ function submitApplication(req, res) {
       commitTransaction();
       json(res, 201, {
         id,
-        reference: `PA-${id.slice(0, 8).toUpperCase()}`,
+        reference: `PA-${id.replaceAll('-', '').slice(0, 16).toUpperCase()}`,
         status: 'new',
         stored: true,
         notification: mailStatus,
@@ -322,6 +322,40 @@ function submitApplication(req, res) {
       if (deckPath && existsSync(deckPath)) unlinkSync(deckPath);
       throw error;
     }
+  })().catch((error) => handleError(res, error));
+}
+
+function trackApplication(req, res) {
+  if (!requireOrigin(req, res)) return;
+  if (!rateLimit(req, 'application-tracking', { max: 10, windowMs: 15 * 60 * 1000 })) {
+    json(res, 429, { error: 'تعداد تلاش‌های پیگیری بیش از حد مجاز است. کمی بعد دوباره تلاش کنید.', code: 'rate_limited' });
+    return;
+  }
+  void (async () => {
+    const body = await readJson(req);
+    const { reference, email } = validateTrackingCredentials(body);
+    const referenceHex = reference.slice(3);
+    const application = db.prepare(`
+      SELECT status, created_at AS createdAt, updated_at AS updatedAt
+      FROM applications
+      WHERE lower(email) = ?
+        AND upper(substr(replace(id, '-', ''), 1, ?)) = ?
+      ORDER BY created_at DESC
+      LIMIT 1
+    `).get(email, referenceHex.length, referenceHex);
+    if (!application) {
+      json(res, 404, {
+        error: 'شناسه‌ی پیگیری یا ایمیل با درخواست ثبت‌شده مطابقت ندارد.',
+        code: 'tracking_not_found',
+      });
+      return;
+    }
+    json(res, 200, {
+      reference,
+      status: application.status,
+      createdAt: application.createdAt,
+      updatedAt: application.updatedAt,
+    });
   })().catch((error) => handleError(res, error));
 }
 
@@ -676,6 +710,7 @@ async function route(req, res) {
       return;
     }
     if (pathname === '/api/applications' && req.method === 'POST') { submitApplication(req, res); return; }
+    if (pathname === '/api/applications/track' && req.method === 'POST') { trackApplication(req, res); return; }
     if (pathname === '/api/contact' && req.method === 'POST') { submitContact(req, res); return; }
     if (pathname === '/api/admin/login' && req.method === 'POST') { login(req, res); return; }
 

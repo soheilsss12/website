@@ -85,6 +85,19 @@ export function validateApplication(body) {
   };
 }
 
+export function validateTrackingCredentials(body) {
+  if (!body || typeof body !== 'object' || Array.isArray(body)) throw new InputError('داده‌ی پیگیری معتبر نیست.');
+  const reference = stringField(body.reference, 'شناسه‌ی پیگیری', { required: true, max: 19 }).toUpperCase();
+  if (!/^PA-[A-F0-9]{8}(?:[A-F0-9]{8})?$/.test(reference)) {
+    throw new InputError('شناسه‌ی پیگیری معتبر نیست.');
+  }
+  const email = stringField(body.email, 'ایمیل', { required: true, max: 254 }).toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    throw new InputError('نشانی ایمیل معتبر نیست.');
+  }
+  return { reference, email };
+}
+
 export function validateContact(body) {
   if (!body || typeof body !== 'object' || Array.isArray(body)) throw new InputError('داده‌ی فرم معتبر نیست.');
   const name = stringField(body.name, 'نام', { required: true, max: 120 });

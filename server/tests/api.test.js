@@ -10,7 +10,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { after, test } from 'node:test';
 import { validateRuntimeEnvironment } from '../config.js';
 import { hashPassword, verifyPassword } from '../security.js';
-import { validateApplication, validateContact } from '../validation.js';
+import { validateApplication, validateContact, validateTrackingCredentials } from '../validation.js';
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../..');
 const processes = new Set();
@@ -26,6 +26,19 @@ after(async () => {
     setTimeout(() => { if (child.exitCode === null) child.kill('SIGKILL'); }, 1500).unref();
   })));
   await Promise.all([...temporaryDirectories].map((directory) => rm(directory, { recursive: true, force: true })));
+});
+
+test('application tracking credentials accept both legacy and current references', () => {
+  assert.deepEqual(validateTrackingCredentials({ reference: 'pa-a1b2c3d4', email: ' FOUNDER@example.org ' }), {
+    reference: 'PA-A1B2C3D4',
+    email: 'founder@example.org',
+  });
+  assert.deepEqual(validateTrackingCredentials({ reference: 'PA-A1B2C3D4E5F60718', email: 'founder@example.org' }), {
+    reference: 'PA-A1B2C3D4E5F60718',
+    email: 'founder@example.org',
+  });
+  assert.throws(() => validateTrackingCredentials({ reference: 'PA-1234', email: 'founder@example.org' }));
+  assert.throws(() => validateTrackingCredentials({ reference: 'PA-A1B2C3D4', email: 'not-an-email' }));
 });
 
 test('password hashing and form validation reject malformed input', () => {
@@ -387,8 +400,38 @@ test('API stores submissions, protects admin data, and persists records across r
   });
   assert.equal(application.response.status, 201);
   assert.equal(application.data.stored, true);
-  assert.match(application.data.reference, /^PA-[A-F0-9]{8}$/);
+  assert.match(application.data.reference, /^PA-[A-F0-9]{16}$/);
   assert.equal(application.data.notification, 'blocked');
+
+  const tracking = await jsonRequest(`${baseUrl}/api/applications/track`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ reference: application.data.reference, email: 'FOUNDER@example.org' }),
+  });
+  assert.equal(tracking.response.status, 200);
+  assert.equal(tracking.data.reference, application.data.reference);
+  assert.equal(tracking.data.status, 'new');
+  assert.equal(typeof tracking.data.createdAt, 'number');
+  assert.equal(typeof tracking.data.updatedAt, 'number');
+  for (const privateField of ['id', 'email', 'mobile', 'fullName', 'adminNote', 'description']) {
+    assert.equal(Object.hasOwn(tracking.data, privateField), false, `tracking must not expose ${privateField}`);
+  }
+
+  const legacyTracking = await jsonRequest(`${baseUrl}/api/applications/track`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ reference: application.data.reference.slice(0, 11), email: 'founder@example.org' }),
+  });
+  assert.equal(legacyTracking.response.status, 200);
+  assert.equal(legacyTracking.data.status, 'new');
+
+  const trackingMismatch = await jsonRequest(`${baseUrl}/api/applications/track`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ reference: application.data.reference, email: 'other@example.org' }),
+  });
+  assert.equal(trackingMismatch.response.status, 404);
+  assert.equal(trackingMismatch.data.code, 'tracking_not_found');
 
   const loginFailure = await jsonRequest(`${baseUrl}/api/admin/login`, {
     method: 'POST',

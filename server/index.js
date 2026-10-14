@@ -51,14 +51,20 @@ configureEnvironmentAdmin(db, {
   username: process.env.ADMIN_USERNAME || '',
   password: process.env.ADMIN_PASSWORD || '',
 });
-const sessionTtlHours = Number(process.env.ADMIN_SESSION_TTL_HOURS || DEFAULT_SESSION_TTL_HOURS);
-if (!Number.isFinite(sessionTtlHours) || sessionTtlHours < 1 || sessionTtlHours > 168) {
-  throw new Error('ADMIN_SESSION_TTL_HOURS must be a number from 1 to 168.');
+const requestedSessionTtl = String(process.env.ADMIN_SESSION_TTL_HOURS || '').trim();
+const parsedSessionTtl = requestedSessionTtl ? Number(requestedSessionTtl) : DEFAULT_SESSION_TTL_HOURS;
+const sessionTtlHours = Number.isFinite(parsedSessionTtl) && parsedSessionTtl >= 1 && parsedSessionTtl <= 168
+  ? parsedSessionTtl
+  : DEFAULT_SESSION_TTL_HOURS;
+if (requestedSessionTtl && sessionTtlHours !== parsedSessionTtl) {
+  console.warn(`Invalid ADMIN_SESSION_TTL_HOURS; using the secure default of ${DEFAULT_SESSION_TTL_HOURS} hours.`);
 }
 const sessionTtlMs = sessionTtlHours * 60 * 60 * 1000;
-const cookieSameSite = (process.env.ADMIN_COOKIE_SAMESITE || 'Lax').trim();
-if (!['Lax', 'Strict', 'None'].includes(cookieSameSite)) {
-  throw new Error('ADMIN_COOKIE_SAMESITE must be Lax, Strict, or None.');
+const requestedCookieSameSite = String(process.env.ADMIN_COOKIE_SAMESITE || '').trim();
+const allowedCookieSameSite = ['Lax', 'Strict', 'None'];
+const cookieSameSite = allowedCookieSameSite.includes(requestedCookieSameSite) ? requestedCookieSameSite : 'Lax';
+if (requestedCookieSameSite && cookieSameSite !== requestedCookieSameSite) {
+  console.warn('Invalid ADMIN_COOKIE_SAMESITE; using the secure default Lax.');
 }
 if (cookieSameSite === 'None' && process.env.NODE_ENV !== 'production') {
   console.warn('ADMIN_COOKIE_SAMESITE=None is intended only for HTTPS production deployments.');

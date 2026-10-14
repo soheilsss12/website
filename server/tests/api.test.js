@@ -112,7 +112,7 @@ function launchServer({ dataDir, port, username, password }) {
   return child;
 }
 
-function launchPleskEntrypoint({ dataDir, port, username, password, entrypoint = 'app.js' }) {
+function launchPleskEntrypoint({ dataDir, port, username, password, entrypoint = 'app.js', extraEnv = {} }) {
   // Passenger loads Application Startup File through CommonJS require().
   const child = spawn(process.execPath, ['-e', `require('./${entrypoint}')`], {
     cwd: root,
@@ -210,6 +210,40 @@ test('legacy Plesk _passenger.cjs startup alias delegates to app.js', async (t) 
   assert.equal(health.statusCode, 200);
   assert.equal(data.ok, true);
   assert.equal(data.storage, 'sqlite');
+});
+
+test('Plesk startup accepts a Persian email-style admin username', async (t) => {
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'pars-passenger-unicode-user-test-'));
+  temporaryDirectories.add(dataDir);
+  const socketPath = path.join(dataDir, 'passenger.sock');
+  const username = 'مدیر+پارس@example.com';
+  const password = `${randomBytes(24).toString('base64url')}Aa1!`;
+  const child = launchPleskEntrypoint({ dataDir, port: socketPath, username, password });
+  t.after(() => { if (child.exitCode === null && !child.killed) child.kill('SIGTERM'); });
+
+  const response = await waitForSocketResponse(child, socketPath);
+  assert.equal(response.statusCode, 200);
+  assert.equal(JSON.parse(response.body).ok, true);
+});
+
+test('Plesk startup falls back to secure session defaults for invalid optional settings', async (t) => {
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'pars-passenger-session-default-test-'));
+  temporaryDirectories.add(dataDir);
+  const socketPath = path.join(dataDir, 'passenger.sock');
+  const username = `admin-${randomBytes(4).toString('hex')}`;
+  const password = `${randomBytes(24).toString('base64url')}Aa1!`;
+  const child = launchPleskEntrypoint({
+    dataDir,
+    port: socketPath,
+    username,
+    password,
+    extraEnv: { ADMIN_SESSION_TTL_HOURS: 'not-a-number', ADMIN_COOKIE_SAMESITE: 'invalid' },
+  });
+  t.after(() => { if (child.exitCode === null && !child.killed) child.kill('SIGTERM'); });
+
+  const response = await waitForSocketResponse(child, socketPath);
+  assert.equal(response.statusCode, 200);
+  assert.equal(JSON.parse(response.body).ok, true);
 });
 
 test('Plesk health identifies an invalid admin username without exposing its value', async (t) => {

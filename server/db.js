@@ -118,8 +118,8 @@ export function configureEnvironmentAdmin(db, { username, password } = {}) {
   if (!username || !password) {
     throw new Error('Set both ADMIN_USERNAME and ADMIN_PASSWORD, or leave both unset.');
   }
-  if (!/^[a-zA-Z0-9._@-]{3,64}$/.test(username)) {
-    throw new Error('ADMIN_USERNAME must be 3–64 characters using letters, digits, dot, underscore, @, or hyphen.');
+  if (!/^[\p{L}\p{N}._@+-]{3,64}$/u.test(username)) {
+    throw new Error('ADMIN_USERNAME must be 3–64 Unicode letters or digits, or use dot, underscore, @, plus, or hyphen.');
   }
   if (password.length < 16 || password.length > 256) {
     throw new Error('ADMIN_PASSWORD must be 16–256 characters. No default administrator is created.');

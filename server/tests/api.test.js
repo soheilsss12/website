@@ -166,18 +166,18 @@ function requestUnixSocket(socketPath) {
   });
 }
 
-async function waitForSocketApi(child, socketPath) {
+async function waitForSocketResponse(child, socketPath) {
   for (let attempt = 0; attempt < 60; attempt += 1) {
     if (child.exitCode !== null) throw new Error(`API server exited early:\n${child.testLogs()}`);
     try {
       const response = await requestUnixSocket(socketPath);
-      if (response.statusCode === 200) return response;
+      if (Number.isInteger(response.statusCode)) return response;
     } catch {
       // Passenger's socket may not be listening yet.
     }
     await delay(75);
   }
-  throw new Error(`API server did not start on the Passenger socket:\n${child.testLogs()}`);
+  throw new Error(`API server did not respond on the Passenger socket:\n${child.testLogs()}`);
 }
 
 test('Plesk app.js entrypoint starts the production API through Passenger require() and socket', async (t) => {
@@ -189,11 +189,27 @@ test('Plesk app.js entrypoint starts the production API through Passenger requir
   const child = launchPleskEntrypoint({ dataDir, port: socketPath, username, password });
   t.after(() => { if (child.exitCode === null && !child.killed) child.kill('SIGTERM'); });
 
-  const health = await waitForSocketApi(child, socketPath);
+  const health = await waitForSocketResponse(child, socketPath);
   const data = JSON.parse(health.body);
   assert.equal(health.statusCode, 200);
   assert.equal(data.ok, true);
   assert.equal(data.storage, 'sqlite');
+});
+
+test('Plesk health safely identifies missing production environment variable names', async (t) => {
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'pars-passenger-missing-env-test-'));
+  temporaryDirectories.add(dataDir);
+  const socketPath = path.join(dataDir, 'passenger.sock');
+  const diagnosticPassword = 'diagnostic-only-password';
+  const child = launchPleskEntrypoint({ dataDir, port: socketPath, username: '', password: diagnosticPassword });
+  t.after(() => { if (child.exitCode === null && !child.killed) child.kill('SIGTERM'); });
+
+  const response = await waitForSocketResponse(child, socketPath);
+  const data = JSON.parse(response.body);
+  assert.equal(response.statusCode, 503);
+  assert.equal(data.code, 'missing_environment_variables');
+  assert.deepEqual(data.missing, ['ADMIN_USERNAME']);
+  assert.equal(JSON.stringify(data).includes(diagnosticPassword), false);
 });
 
 async function jsonRequest(url, options = {}) {

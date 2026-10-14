@@ -212,6 +212,40 @@ test('legacy Plesk _passenger.cjs startup alias delegates to app.js', async (t) 
   assert.equal(data.storage, 'sqlite');
 });
 
+test('Plesk health identifies an invalid admin username without exposing its value', async (t) => {
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'pars-passenger-invalid-user-test-'));
+  temporaryDirectories.add(dataDir);
+  const socketPath = path.join(dataDir, 'passenger.sock');
+  const username = 'invalid username';
+  const password = `${randomBytes(24).toString('base64url')}Aa1!`;
+  const child = launchPleskEntrypoint({ dataDir, port: socketPath, username, password });
+  t.after(() => { if (child.exitCode === null && !child.killed) child.kill('SIGTERM'); });
+
+  const response = await waitForSocketResponse(child, socketPath);
+  const data = JSON.parse(response.body);
+  assert.equal(response.statusCode, 503);
+  assert.equal(data.code, 'invalid_environment_variable');
+  assert.equal(data.variable, 'ADMIN_USERNAME');
+  assert.equal(JSON.stringify(data).includes(username), false);
+});
+
+test('Plesk health identifies a short admin password without exposing its value', async (t) => {
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'pars-passenger-short-password-test-'));
+  temporaryDirectories.add(dataDir);
+  const socketPath = path.join(dataDir, 'passenger.sock');
+  const username = `admin-${randomBytes(4).toString('hex')}`;
+  const password = 'short-password';
+  const child = launchPleskEntrypoint({ dataDir, port: socketPath, username, password });
+  t.after(() => { if (child.exitCode === null && !child.killed) child.kill('SIGTERM'); });
+
+  const response = await waitForSocketResponse(child, socketPath);
+  const data = JSON.parse(response.body);
+  assert.equal(response.statusCode, 503);
+  assert.equal(data.code, 'invalid_environment_variable');
+  assert.equal(data.variable, 'ADMIN_PASSWORD');
+  assert.equal(JSON.stringify(data).includes(password), false);
+});
+
 test('Plesk health safely identifies missing production environment variable names', async (t) => {
   const dataDir = await mkdtemp(path.join(os.tmpdir(), 'pars-passenger-missing-env-test-'));
   temporaryDirectories.add(dataDir);

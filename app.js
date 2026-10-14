@@ -32,9 +32,15 @@ function startupFailureStatus(error) {
   if (message.includes('DATA_DIR must') || message.includes('PUBLIC_ORIGIN must')) {
     return { ok: false, code: 'invalid_runtime_configuration' };
   }
-  if (message.includes('ADMIN_USERNAME must') || message.includes('ADMIN_PASSWORD must')
-      || message.includes('ADMIN_SESSION_TTL_HOURS must') || message.includes('ADMIN_COOKIE_SAMESITE must')) {
-    return { ok: false, code: 'invalid_admin_configuration' };
+  const invalidAdminSettings = [
+    ['ADMIN_USERNAME', 'ADMIN_USERNAME must'],
+    ['ADMIN_PASSWORD', 'ADMIN_PASSWORD must'],
+    ['ADMIN_SESSION_TTL_HOURS', 'ADMIN_SESSION_TTL_HOURS must'],
+    ['ADMIN_COOKIE_SAMESITE', 'ADMIN_COOKIE_SAMESITE must'],
+  ];
+  const invalidAdminSetting = invalidAdminSettings.find(([, messagePrefix]) => message.includes(messagePrefix));
+  if (invalidAdminSetting) {
+    return { ok: false, code: 'invalid_environment_variable', variable: invalidAdminSetting[0] };
   }
   if (message.includes('node:sqlite') || error?.code === 'ERR_UNKNOWN_BUILTIN_MODULE') {
     return { ok: false, code: 'unsupported_node_runtime' };

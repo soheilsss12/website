@@ -112,9 +112,9 @@ function launchServer({ dataDir, port, username, password }) {
   return child;
 }
 
-function launchPleskEntrypoint({ dataDir, port, username, password }) {
+function launchPleskEntrypoint({ dataDir, port, username, password, entrypoint = 'app.js' }) {
   // Passenger loads Application Startup File through CommonJS require().
-  const child = spawn(process.execPath, ['-e', "require('./app.js')"], {
+  const child = spawn(process.execPath, ['-e', `require('./${entrypoint}')`], {
     cwd: root,
     env: {
       ...process.env,
@@ -187,6 +187,22 @@ test('Plesk app.js entrypoint starts the production API through Passenger requir
   const username = `admin-${randomBytes(4).toString('hex')}`;
   const password = `${randomBytes(24).toString('base64url')}Aa1!`;
   const child = launchPleskEntrypoint({ dataDir, port: socketPath, username, password });
+  t.after(() => { if (child.exitCode === null && !child.killed) child.kill('SIGTERM'); });
+
+  const health = await waitForSocketResponse(child, socketPath);
+  const data = JSON.parse(health.body);
+  assert.equal(health.statusCode, 200);
+  assert.equal(data.ok, true);
+  assert.equal(data.storage, 'sqlite');
+});
+
+test('legacy Plesk _passenger.cjs startup alias delegates to app.js', async (t) => {
+  const dataDir = await mkdtemp(path.join(os.tmpdir(), 'pars-passenger-alias-test-'));
+  temporaryDirectories.add(dataDir);
+  const socketPath = path.join(dataDir, 'passenger.sock');
+  const username = `admin-${randomBytes(4).toString('hex')}`;
+  const password = `${randomBytes(24).toString('base64url')}Aa1!`;
+  const child = launchPleskEntrypoint({ dataDir, port: socketPath, username, password, entrypoint: '_passenger.cjs' });
   t.after(() => { if (child.exitCode === null && !child.killed) child.kill('SIGTERM'); });
 
   const health = await waitForSocketResponse(child, socketPath);

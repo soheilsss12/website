@@ -26,15 +26,12 @@ import {
 import { apiFetch } from '../lib/api.js';
 import { pageHref } from '../lib/routes.js';
 import {
-  aiFabricComponents,
-  aiFabricConsumers,
   businessMarkets,
   capabilities,
   commercializationStages,
   customerSegments,
   ecosystemEnablers,
   experienceAreas,
-  financialInfrastructureBlocks,
   industries,
   nationalPrograms,
   partnershipModels,
@@ -42,7 +39,6 @@ import {
   revenueStreams,
   technologyLayers,
   technologyProducts,
-  walletModels,
   whyParsFeatures,
 } from '../data/siteContent.js';
 import { iranCityMarkers, iranOutlinePath, iranOutlineViewBox } from '../data/iranMap.js';
@@ -148,7 +144,6 @@ export function BrandHomeHeroSection() {
           <p>از فناوری تا کسب‌وکار، و از پروژه‌ها تا اکوسیستم‌ها؛ مدل یکپارچه‌ی پارس را بشناسید.</p>
           <div className="brand-home-actions">
             <a href={pageHref('about')} className="button button-lime button-large">درباره‌ی پارس <ArrowUpLeft size={17} /></a>
-            <a href={pageHref('investment')} className="button button-outline-light button-large">سرمایه‌گذاری فناوری <ArrowUpLeft size={15} /></a>
           </div>
         </div>
         <a className="brand-home-scroll" href="#home-highlights-title" aria-label="رفتن به بخش‌های پارس">
@@ -512,7 +507,6 @@ export function PortfolioSnapshotSection() {
             );
           })}
         </div>
-        <p className="portfolio-snapshot-disclosure">۱۰۰+ و ۲۰۰+ ارقام کلان‌اند؛ ۳۵ و ۲۰ شمار نام‌های فهرست‌شده و ۱۱ تعداد حوزه‌های تمرکز است. این اعداد به‌تنهایی نشان‌دهنده‌ی عرضه یا مالکیت هر مورد نیستند.</p>
       </div>
     </section>
   );
@@ -610,22 +604,6 @@ export function InvestmentOverviewSection() {
               </a>
             );
           })}
-        </div>
-      </div>
-    </section>
-  );
-}
-export function BrandClosingSection() {
-  return (
-    <section className="brand-home-closing" aria-label="درخواست و همکاری با پارس">
-      <div className="site-container brand-home-closing-content" data-reveal>
-        <div className="brand-home-closing-main">
-          <span className="journey-eyebrow"><i aria-hidden="true" /> پارس · فناوری و سرمایه‌گذاری</span>
-          <p className="brand-home-closing-copy">برای معرفی ایده و نیاز سرمایه یا آغاز همکاری فناورانه، درخواست خود را ثبت کنید.</p>
-        </div>
-        <div className="brand-home-closing-actions">
-          <a href={pageHref('apply')} className="button button-lime button-large">درخواست سرمایه <ArrowUpLeft size={16} /></a>
-          <a href={pageHref('approach')} className="button button-outline-light button-large">مرور مدل فعالیت پارس <ArrowUpLeft size={16} /></a>
         </div>
       </div>
     </section>
@@ -754,84 +732,18 @@ export function TechnologyArchitectureSection() {
   );
 }
 
-export function CorePlatformsSection() {
-  return (
-    <section className="core-platforms-section section-space" id="platforms">
-      <div className="site-container">
-        <SectionHeading
-          eyebrow="پلتفرم‌های فناوری"
-          title="زیرساخت‌های" emphasis="مشترک و ماژولار"
-          copy="دو زیرساخت پلتفرمی، لایه‌ی مشترک هوش مصنوعی و خدمات مالیِ قابل‌ترکیب برای سازمان‌ها و اکوسیستم‌ها."
-        />
-        <div className="platform-feature-grid">
-          <article className="platform-feature-card" id="ai-fabric" data-reveal>
-            <div className="platform-feature-kicker"><Network size={19} /><span>لایه‌ی مشترک هوشمندی</span></div>
-            <h3>PARS AI Fabric</h3>
-            <p>اتصال اپلیکیشن‌های سازمانی، کمک‌یارها، عامل‌های خودکار و خدمات حوزه‌ای به زیرساخت هوشمندی مشترک.</p>
-            <h4>اجزای کلیدی</h4>
-            <ul className="content-chip-list">
-              {aiFabricComponents.map((item) => <li key={item}>{item}</li>)}
-            </ul>
-            <h4>مصرف‌کنندگان این لایه</h4>
-            <ul className="content-chip-list content-chip-list--muted">
-              {aiFabricConsumers.map((item) => <li key={item}>{item}</li>)}
-            </ul>
-          </article>
-          <article className="platform-feature-card" id="financial-infrastructure" data-reveal>
-            <div className="platform-feature-kicker"><WalletCards size={19} /><span>خدمات مالی به‌مثابه زیرساخت</span></div>
-            <h3>زیرساخت مالی و کیف پول به‌عنوان خدمت</h3>
-            <p>یک معماری ماژولار برای ارائه‌ی قابلیت‌های مالیِ قابل استفاده‌ی مجدد به بانک‌ها، نهادهای مالی، سازمان‌ها و اکوسیستم‌ها.</p>
-            <h4>بلوک‌های زیرساخت مالی</h4>
-            <ul className="content-chip-list">
-              {financialInfrastructureBlocks.map((item) => <li key={item}>{item}</li>)}
-            </ul>
-            <h4>مدل‌های کیف پول</h4>
-            <p className="platform-feature-detail">Wallet Studio / Wallet Factory</p>
-            <ul className="content-chip-list content-chip-list--muted">
-              {walletModels.map((item) => <li key={item}>{item}</li>)}
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function OperatorStatusSection() {
-  const steps = ['زیرساخت هوش مصنوعی', 'پلتفرم‌های هوش مصنوعی', 'خدمات هوش مصنوعی', 'اپراتور هوش مصنوعی', 'اکوسیستم‌های هوش مصنوعی'];
-  return (
-    <section className="operator-status-section section-space" id="ai-operator">
-      <div className="site-container">
-        <SectionHeading
-          eyebrow="جهت‌گیری راهبردی"
-          title="از ارائه‌ی هوش مصنوعی"
-          emphasis="تا اپراتوری هوش مصنوعی"
-          copy="پارس در حال پیگیری مجوز موردنیاز برای فعالیت به‌عنوان اپراتور هوش مصنوعی در ایران است."
-        />
-        <div className="operator-status-panel" data-reveal>
-          <div className="operator-status-label"><span className="signal-dot" /> مجوز در دست پیگیری</div>
-          <ol className="operator-flow" aria-label="مسیر راهبردی اپراتوری هوش مصنوعی">
-            {steps.map((step, index) => <li key={step}><span>{step}</span>{index < steps.length - 1 && <ArrowUpLeft size={16} aria-hidden="true" />}</li>)}
-          </ol>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function IndustriesSection() {
   return (
     <section className="industries-section section-space" id="industries">
       <div className="site-container">
         <div className="industry-grid">
           {industries.map((item, index) => {
-            const Icon = item.icon;
             return (
               <article
                 className={`industry-card tone-${item.tone}`}
                 key={item.id}
                 data-reveal
-                style={{ '--industry-image-delay': `${(index % 6) * 45}ms`, '--industry-accent': item.brandColor, '--industry-accent-ink': ['#592C7A', '#6166AA'].includes(item.brandColor) ? '#fff' : '#17151D', '--industry-accent-text': ['#592C7A', '#6166AA'].includes(item.brandColor) ? '#fff' : item.brandColor }}
+                style={{ '--industry-image-delay': `${(index % 6) * 45}ms`, '--industry-accent': item.brandColor }}
               >
                 <img
                   {...responsiveImageProps(item.image, '(max-width: 560px) 50vw, (max-width: 900px) 50vw, 34vw')}
@@ -842,20 +754,12 @@ export function IndustriesSection() {
                   loading="lazy"
                   decoding="async"
                 />
-                <span className="industry-card-top"><Icon size={21} strokeWidth={1.45} /></span>
                 <span className="industry-card-english" dir="ltr">{item.english}</span>
                 <strong>{item.title}</strong>
                 {item.description && <p>{item.description}</p>}
               </article>
             );
           })}
-        </div>
-        <div className="industry-footnote" data-reveal>
-          <div className="industry-footnote-copy">
-            <span>همکاری در حوزه‌های فناوری</span>
-            <strong>برای همکاری در هر یک از این حوزه‌ها، درخواست خود را ثبت کنید.</strong>
-          </div>
-          <a className="industry-footnote-action" href={pageHref('apply')}>درخواست سرمایه <ArrowUpLeft size={16} /></a>
         </div>
       </div>
     </section>
@@ -1070,7 +974,7 @@ export function PartnershipModelsSection() {
         <SectionHeading
           eyebrow="همکاری راهبردی"
           title="هشت راه"
-          emphasis="برای ساختن با پارس"
+          emphasis="برای همکاری با پارس"
           copy="از شراکت و انتقال فناوری تا توسعه‌ی مشترک، سرمایه‌گذاری و ورود به بازار."
         />
         <div className="partnership-model-grid">
@@ -1353,19 +1257,17 @@ export function FooterSection() {
             <span className="brand-name-stack"><strong>پارس</strong></span>
           </a>
           <p>از زیرساخت تا هوشمندی؛ از فناوری تا کسب‌وکار</p>
-          <a href={pageHref('investment')} className="button button-outline-light">سرمایه‌گذاری فناوری <ArrowUpLeft size={15} /></a>
         </div>
         <div className="footer-main">
           <div className="footer-sitemap">
             <div><strong>پارس</strong><a href={pageHref('about')}>درباره‌ی پارس</a><a href={pageHref('news')}>تجربه‌ها</a><a href={pageHref('contact')}>تماس و همکاری</a></div>
-            <div><strong>سرمایه‌گذاری فناوری</strong><a href={pageHref('investment')}>نمای کلی</a><a href={pageHref('approach')}>مدل فعالیت</a><a href={`${pageHref('home')}#industries`}>حوزه‌ها</a><a href={pageHref('portfolio')}>پرتفوی فناوری</a><a href={pageHref('tools')}>ابزارها</a></div>
+            <div><strong>سرمایه‌گذاری فناوری</strong><a href={pageHref('approach')}>مدل فعالیت</a><a href={`${pageHref('home')}#industries`}>حوزه‌ها</a><a href={pageHref('portfolio')}>پرتفوی فناوری</a><a href={pageHref('tools')}>ابزارها</a></div>
             <div><strong>درخواست و راهنما</strong><a href={pageHref('apply')}>درخواست سرمایه</a><a href={pageHref('track')}>پیگیری درخواست</a><a href={pageHref('sitemap')}>نقشه‌ی سایت</a></div>
           </div>
           <div className="footer-status">
             <span className="eyebrow">سرمایه‌گذاری فناوری</span>
             <strong><i className="status-indicator" /> فناوری و سرمایه‌گذاری، در یک مسیر</strong>
             <small>زیرساخت، حوزه‌ها و ساخت کسب‌وکار</small>
-            <a href={pageHref('investment')}>مرور نمای کلی <ArrowUpLeft size={13} /></a>
           </div>
         </div>
         <div className="footer-bottom">

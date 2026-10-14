@@ -21,7 +21,6 @@ import {
 } from 'lucide-react';
 
 export const navItems = [
-  { label: 'نمای کلی', route: 'investment' },
   { label: 'مدل فعالیت', route: 'approach' },
   { label: 'پرتفوی فناوری', route: 'portfolio' },
   { label: 'تجربه‌ها', route: 'news' },
@@ -219,50 +218,6 @@ export const partnershipModels = [
   { number: '۰۸', title: 'توسعه‌ی منطقه‌ای', english: 'Regional Expansion', icon: Compass, description: 'توسعه‌ی مشترک محصول‌های فناورانه برای بازارهای منطقه.' },
 ];
 
-export const aiFabricConsumers = [
-  'اپلیکیشن‌های سازمانی',
-  'کمک‌یارهای هوشمند',
-  'عامل‌های خودکار',
-  'خدمات حوزه‌ای',
-];
-
-export const aiFabricComponents = [
-  'درگاه مدل‌های زبانی (LLM Gateway)',
-  'مدیریت پرامپت',
-  'مدیریت مدل',
-  'دانش سازمانی',
-  'بازیابی افزوده (RAG)',
-  'حافظه',
-  'محیط اجرای عامل',
-  'یکپارچه‌سازی ابزارها',
-  'ارکستراسیون هوش مصنوعی',
-  'حاکمیت هوش مصنوعی',
-  'رابط‌های برنامه‌نویسی هوش مصنوعی (AI APIs)',
-  'پروتکل‌های زمینه',
-];
-
-export const financialInfrastructureBlocks = [
-  'هویت',
-  'کیف پول',
-  'دفترکل',
-  'پرداخت',
-  'رضایت و مجوز دسترسی',
-  'موتور قواعد',
-  'درگاه API',
-  'اعلان‌ها',
-  'گزارش‌گیری',
-  'خدمات هوش مصنوعی',
-];
-
-export const walletModels = [
-  'کیف پول مصرف‌کننده',
-  'کیف پول شرکتی',
-  'کیف پول پذیرنده',
-  'کیف پول کارکنان',
-  'کیف پول اکوسیستم',
-  'خدمات مالی تعبیه‌شده',
-];
-
 export const experienceAreas = [
   'تحول بانکداری',
   'تحول بیمه',
@@ -389,5 +344,5 @@ export const processSteps = [
 export const stageOptions = ['ایده', 'نمونه‌ی اولیه (MVP)', 'درآمدزا', 'رشد'];
 
 export const navSections = [
-  'home', 'investment', 'approach', 'portfolio', 'news', 'about', 'contact', 'tools', 'apply', 'track',
+  'home', 'approach', 'portfolio', 'news', 'about', 'contact', 'tools', 'apply', 'track',
 ];

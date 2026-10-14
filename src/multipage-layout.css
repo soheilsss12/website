@@ -1829,45 +1829,6 @@
   font-style: normal;
 }
 
-.brand-home-closing {
-  position: relative;
-  overflow: hidden;
-  color: #f8f5fb;
-  background: linear-gradient(128deg, #201729 0%, #2a2038 54%, #1b2030 100%);
-}
-
-.brand-home-closing-content {
-  position: relative;
-  padding-block: clamp(76px, 9vw, 126px);
-}
-
-
-.brand-home-closing-content .journey-eyebrow {
-  position: relative;
-  color: rgba(255, 255, 255, 0.78);
-}
-
-.brand-home-closing-content h2 {
-  position: relative;
-  max-width: 700px;
-  margin: 17px 0 27px;
-  color: #fff;
-  font-size: clamp(39px, 5.2vw, 68px);
-  font-weight: 440;
-  letter-spacing: -0.055em;
-  line-height: 1.42;
-}
-
-.brand-home-closing-content h2 em {
-  color: #5CC6D9;
-  font-style: normal;
-}
-
-.brand-home-closing-content .button-lime {
-  position: relative;
-  color: #201729;
-  background: #5CC6D9;
-}
 
 /* Removed card indices; real counts remain in the investment overview. */
 .hero-value-strip > div {

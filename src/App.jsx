@@ -18,10 +18,8 @@ import TrackingPage from './components/TrackingPage.jsx';
 import {
   AboutSection,
   BenefitsSection,
-  BrandClosingSection,
   ContactSection,
   CookieNotice,
-  CorePlatformsSection,
   FinalCallout,
   FooterSection,
   HeroSection,
@@ -32,7 +30,6 @@ import {
   MarketModelSection,
   NationalProgramsSection,
   NewsSection,
-  OperatorStatusSection,
   PartnershipModelsSection,
   PortfolioSection,
   PortfolioSnapshotSection,
@@ -143,7 +140,6 @@ function FullMenu({ open, onClose }) {
           <div className="full-menu-label">
             <span className="eyebrow">پارس</span>
             <p>مدل فناوری، سرمایه‌گذاری و همکاری پارس را مرور کنید.</p>
-            <a href={pageHref('investment')} className="button button-lime" onClick={onClose}>نمای کلی پارس <ArrowUpLeft size={15} /></a>
           </div>
           <nav className="full-menu-links" aria-label="همه‌ی صفحه‌های سایت">
             {sections.map((section) => (
@@ -239,10 +235,12 @@ function HomePage({ menuOpen, setMenuOpen, cookieChoice, onSaveCookie }) {
   return (
     <SiteShell activeRoute="home" menuOpen={menuOpen} setMenuOpen={setMenuOpen} cookieChoice={cookieChoice} onSaveCookie={onSaveCookie}>
       <HeroSection />
-      <PortfolioSnapshotSection />
-      <HomeHighlightsSection />
-      <IndustriesSection />
-      <BrandClosingSection />
+      <div className="home-dark-corridor">
+        <PortfolioSnapshotSection />
+        <HomeHighlightsSection />
+        <IndustriesSection />
+      </div>
+      <FinalCallout />
     </SiteShell>
   );
 }
@@ -252,7 +250,6 @@ function InvestmentPage({ menuOpen, setMenuOpen, cookieChoice, onSaveCookie }) {
     <SiteShell activeRoute="investment" menuOpen={menuOpen} setMenuOpen={setMenuOpen} cookieChoice={cookieChoice} onSaveCookie={onSaveCookie}>
       <HeroSection />
       <InvestmentOverviewSection />
-      <FinalCallout />
     </SiteShell>
   );
 }
@@ -261,7 +258,7 @@ function ContentPage({ route, onOpenTool, menuOpen, setMenuOpen, cookieChoice, o
   let content;
   switch (route) {
     case 'approach':
-      content = <><JourneySection /><TechnologyArchitectureSection /><CorePlatformsSection /><BenefitsSection /><ProcessSection /><OperatorStatusSection /></>;
+      content = <><JourneySection /><TechnologyArchitectureSection /><BenefitsSection /><ProcessSection /></>;
       break;
     case 'portfolio':
       content = <PortfolioSection />;

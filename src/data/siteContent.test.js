@@ -37,7 +37,6 @@ test('the public national-program section contains the six requested items and s
 
 test('the site uses one shared primary navigation across all main routes', () => {
   assert.deepEqual(navItems.map(({ route }) => route), [
-    'investment',
     'approach',
     'portfolio',
     'news',

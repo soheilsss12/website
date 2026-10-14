@@ -7,7 +7,6 @@ import { pageHref } from '../lib/routes.js';
 const asset = (name) => `${import.meta.env.BASE_URL}${name}`;
 
 const links = [
-  { label: 'نمای کلی', href: pageHref('investment') },
   { label: 'مدل فعالیت', href: pageHref('approach') },
   { label: 'حوزه‌ها', href: `${pageHref('home')}#industries` },
   { label: 'پرتفوی فناوری', href: pageHref('portfolio') },
@@ -121,16 +120,12 @@ function IndustryGrid() {
         <span className="pars-heading-note">فناوری برای مسائل و فرصت‌های کلیدی</span>
       </div>
       <div className="pars-industry-grid">
-        {industries.map((industry) => {
-          const Icon = industry.icon;
-          return (
-            <a className="pars-industry-card" href={pageHref('apply')} key={industry.title} data-reveal>
-              <span className="pars-industry-icon"><Icon size={22} strokeWidth={1.55} /></span>
-              <strong>{industry.title}</strong>
-              <ArrowUpLeft className="pars-industry-arrow" size={17} aria-hidden="true" />
-            </a>
-          );
-        })}
+        {industries.map((industry) => (
+          <a className="pars-industry-card" href={pageHref('apply')} key={industry.title} data-reveal>
+            <strong>{industry.title}</strong>
+            <ArrowUpLeft className="pars-industry-arrow" size={17} aria-hidden="true" />
+          </a>
+        ))}
       </div>
     </section>
   );

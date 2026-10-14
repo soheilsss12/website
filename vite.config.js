@@ -6,7 +6,8 @@ import react from '@vitejs/plugin-react';
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 const isGitHubActionsBuild = process.env.GITHUB_ACTIONS === 'true';
 const repositoryName = process.env.GITHUB_REPOSITORY?.split('/')[1];
-const siteBase = isGitHubActionsBuild && repositoryName ? `/${repositoryName}/` : '/';
+const isPleskBuild = process.env.PLESK_BUILD === 'true';
+const siteBase = !isPleskBuild && isGitHubActionsBuild && repositoryName ? `/${repositoryName}/` : '/';
 const htmlPages = [
   'index.html',
   'investment/index.html',

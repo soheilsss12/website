@@ -30,11 +30,19 @@ jobs:
         run: npm ci
       - name: Test API and persistence
         run: npm test
-      - name: Build site
+      - name: Build site for GitHub Pages
         env:
           VITE_API_BASE_URL: ${{ secrets.PARS_API_BASE_URL }}
         run: npm run build
-      - name: Publish built files for branch-based Pages
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - name: Build site for Plesk root domain
+        env:
+          PLESK_BUILD: 'true'
+        run: npm run build
+      - name: Publish Plesk-compatible files to the branch root
         run: |
           rm -rf assets images
           rm -f trust-*.jpg trust-*.webp
@@ -42,7 +50,7 @@ jobs:
           touch .nojekyll
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # Stage the complete build output, including generated copies of public images
+          # Stage the complete Plesk build output, including generated copies of public images.
           git add -A -- .
           if [ -d images ]; then
             git add -A -- images
@@ -50,15 +58,11 @@ jobs:
             git rm -r --cached --ignore-unmatch -- images
           fi
           if git diff --cached --quiet; then
-            echo "The Pages files are already current."
+            echo "The Plesk-compatible files are already current."
           else
-            git commit -m "Publish GitHub Pages build"
+            git commit -m "Publish root-domain build for Plesk"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
 
   deploy:
     environment:

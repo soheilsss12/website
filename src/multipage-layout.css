@@ -1841,15 +1841,6 @@
   padding-block: clamp(76px, 9vw, 126px);
 }
 
-.brand-home-closing-mark {
-  position: absolute;
-  inset-inline-start: -30px;
-  top: 50%;
-  color: rgba(92, 198, 217, 0.14);
-  font-size: 20rem;
-  pointer-events: none;
-  transform: translateY(-50%) scale(5);
-}
 
 .brand-home-closing-content .journey-eyebrow {
   position: relative;
@@ -2056,10 +2047,6 @@
     padding: 18px;
   }
 
-  .brand-home-closing-mark {
-    inset-inline-start: -60px;
-    font-size: 13rem;
-  }
 
   .news-empty {
     grid-template-columns: 36px minmax(0, 1fr);

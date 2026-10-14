@@ -497,16 +497,8 @@ export function PortfolioSnapshotSection() {
   ];
 
   return (
-    <section className="portfolio-snapshot-section section-space" id="portfolio-snapshot" aria-labelledby="portfolio-snapshot-title">
+    <section className="portfolio-snapshot-section section-space" id="portfolio-snapshot" aria-label="آمار محصولات، ابتکارهای فناوری و حوزه‌های فعالیت پارس">
       <div className="site-container">
-        <div className="portfolio-snapshot-heading" data-reveal>
-          <div>
-            <span className="portfolio-snapshot-kicker" dir="ltr">PARS · IN NUMBERS</span>
-            <span className="portfolio-snapshot-source">گستره‌ی فعالیت پارس</span>
-            <h2 id="portfolio-snapshot-title">فناوری پارس، <em>در اعداد</em></h2>
-          </div>
-          <p>محصول‌ها، ابتکارهای فناوری و حوزه‌های فعالیت در یک نگاه.</p>
-        </div>
         <div className="portfolio-snapshot-grid">
           {stats.map((item) => {
             const Icon = item.icon;
@@ -558,7 +550,6 @@ export function HomeHighlightsSection() {
             <span className="journey-eyebrow"><i aria-hidden="true" /> گروه فناوری و سرمایه‌گذاری پارس</span>
             <h2 id="home-highlights-title">از فناوری، <em>تا کسب‌وکار</em></h2>
           </div>
-          <p>مدل فعالیت، راهکارهای فناوری و مسیرهای همکاری با پارس را ببینید.</p>
         </div>
         <div className="home-highlights-grid">
           {highlights.map((item, index) => (
@@ -583,7 +574,6 @@ export function HomeHighlightsSection() {
                 <small>{item.label}</small>
                 <strong>{item.title}</strong>
                 <span>{item.description}</span>
-                <i>دیدن <ArrowUpLeft size={15} /></i>
               </span>
             </a>
           ))}
@@ -627,12 +617,12 @@ export function InvestmentOverviewSection() {
 }
 export function BrandClosingSection() {
   return (
-    <section className="brand-home-closing" aria-labelledby="brand-home-closing-title">
+    <section className="brand-home-closing" aria-label="درخواست و همکاری با پارس">
       <div className="site-container brand-home-closing-content" data-reveal>
-        <span className="brand-home-closing-mark" aria-hidden="true"><ParsGlyph /></span>
-        <span className="journey-eyebrow"><i aria-hidden="true" /> پارس · فناوری و سرمایه‌گذاری</span>
-        <h2 id="brand-home-closing-title">زیرساخت، داده و هوش مصنوعی؛<br /><em>در مسیر ساخت کسب‌وکار</em></h2>
-        <p className="brand-home-closing-copy">برای معرفی ایده و نیاز سرمایه یا آغاز همکاری فناورانه، درخواست خود را ثبت کنید.</p>
+        <div className="brand-home-closing-main">
+          <span className="journey-eyebrow"><i aria-hidden="true" /> پارس · فناوری و سرمایه‌گذاری</span>
+          <p className="brand-home-closing-copy">برای معرفی ایده و نیاز سرمایه یا آغاز همکاری فناورانه، درخواست خود را ثبت کنید.</p>
+        </div>
         <div className="brand-home-closing-actions">
           <a href={pageHref('apply')} className="button button-lime button-large">درخواست سرمایه <ArrowUpLeft size={16} /></a>
           <a href={pageHref('approach')} className="button button-outline-light button-large">مرور مدل فعالیت پارس <ArrowUpLeft size={16} /></a>
@@ -833,21 +823,6 @@ export function IndustriesSection() {
   return (
     <section className="industries-section section-space" id="industries">
       <div className="site-container">
-        <div className="industries-showcase industries-showcase--bleed" data-reveal>
-          <img
-            {...responsiveImageProps('pars-industries-showcase.webp', '100vw')}
-            alt=""
-            width="1536"
-            height="1024"
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-          />
-          <div className="industries-showcase-content">
-            <SectionHeading eyebrow="حوزه‌های فعالیت" title="فناوری در خدمت" emphasis="۱۱ حوزه" copy="فناوری و هوش مصنوعی، در خدمت مسائل و فرصت‌های حوزه‌های گوناگون." light className="industries-showcase-heading" />
-            <div className="industries-showcase-count"><strong>۱۱</strong><span>حوزه‌ی تمرکز<br />برای فعالیت</span></div>
-          </div>
-        </div>
         <div className="industry-grid">
           {industries.map((item, index) => {
             const Icon = item.icon;
@@ -875,10 +850,12 @@ export function IndustriesSection() {
             );
           })}
         </div>
-        <div className="industry-footnote">
-          <span className="footnote-line" />
-          <span>برای همکاری در هر یک از این حوزه‌ها، درخواست خود را ثبت کنید.</span>
-          <a href={pageHref('apply')}>درخواست سرمایه <ArrowUpLeft size={14} /></a>
+        <div className="industry-footnote" data-reveal>
+          <div className="industry-footnote-copy">
+            <span>همکاری در حوزه‌های فناوری</span>
+            <strong>برای همکاری در هر یک از این حوزه‌ها، درخواست خود را ثبت کنید.</strong>
+          </div>
+          <a className="industry-footnote-action" href={pageHref('apply')}>درخواست سرمایه <ArrowUpLeft size={16} /></a>
         </div>
       </div>
     </section>
@@ -1372,7 +1349,7 @@ export function FooterSection() {
       <div className="site-container">
         <div className="footer-top">
           <a className="brand-lockup" href={pageHref('home')}>
-            <span className="brand-symbol"><CrystalMark /></span>
+            <span className="brand-symbol"><ParsGlyph className="footer-brand-glyph" /></span>
             <span className="brand-name-stack"><strong>پارس</strong></span>
           </a>
           <p>از زیرساخت تا هوشمندی؛ از فناوری تا کسب‌وکار</p>

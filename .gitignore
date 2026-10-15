@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.vite/
+.env
+.env.*
+!.env.example
+server/data/
+server/private-decks/
+.DS_Store
+*.log
+.local-review*.png
+.review/
+image-search/
+.arena/

@@ -1,0 +1,81 @@
+name: Build and deploy Pars investment website to GitHub Pages
+
+on:
+  push:
+    branches:
+      - arena/4d1d0891-website
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Test API and persistence
+        run: npm test
+      - name: Build site for GitHub Pages
+        env:
+          VITE_API_BASE_URL: ${{ secrets.PARS_API_BASE_URL }}
+        run: npm run build
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - name: Build site for Plesk root domain
+        env:
+          PLESK_BUILD: 'true'
+        run: npm run build
+      - name: Publish Plesk-compatible files to the branch root
+        run: |
+          rm -rf assets images
+          rm -f trust-*.jpg trust-*.webp
+          cp -R dist/. .
+          touch .nojekyll
+          # Passenger watches this marker and restarts after Plesk Git auto-deploys.
+          mkdir -p tmp
+          echo "$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" > tmp/restart.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Stage the complete Plesk build output, including generated copies of public images.
+          git add -A -- .
+          # Plesk's Node app serves the CI-built frontend from dist/; the folder is ignored locally.
+          git add -f -A -- dist
+          if [ -d images ]; then
+            git add -A -- images
+          else
+            git rm -r --cached --ignore-unmatch -- images
+          fi
+          if git diff --cached --quiet; then
+            echo "The Plesk-compatible files are already current."
+          else
+            git commit -m "Publish root-domain build for Plesk"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

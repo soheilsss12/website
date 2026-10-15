@@ -1,0 +1,290 @@
+/* Pars's original four-color palette and Hero-specific presentation. */
+:root {
+  --pars-purple: #592c7a;
+  --pars-purple-deep: #472164;
+  --pars-indigo: #6166aa;
+  --pars-blue: #68a6d9;
+  --pars-cyan: #5cc6d9;
+  --pars-ink: #231b2c;
+  --pars-paper: #f5f3f8;
+  --pars-line: #e6e1eb;
+  --pars-spectrum: linear-gradient(112deg, #592c7a 0%, #6166aa 34%, #68a6d9 67%, #5cc6d9 100%);
+  --pars-spectrum-soft: linear-gradient(112deg, rgba(89, 44, 122, 0.12), rgba(97, 102, 170, 0.13) 34%, rgba(104, 166, 217, 0.14) 67%, rgba(92, 198, 217, 0.16));
+  background: #fff;
+}
+
+html,
+body,
+#root {
+  background-color: #fff;
+}
+
+.hero.hero-pars {
+  background-color: #fff;
+}
+
+.hero-pars::before {
+  background: #fff;
+}
+
+.hero-pars::after,
+.hero-atmosphere {
+  display: none;
+}
+
+.hero-stage {
+  width: min(100%, 650px);
+  margin-inline: auto;
+  background: transparent;
+}
+
+.hero-stage::before,
+.hero-stage::after {
+  display: none;
+  content: none;
+}
+
+.hero-crystal-shell {
+  width: 100%;
+  height: 100%;
+}
+
+/* A real extruded SVG mark is rendered in WebGL. This wrapper supplies a restrained studio glow. */
+.pars-logo-sculpture {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: min(96%, 570px);
+  aspect-ratio: 1;
+  place-items: center;
+  isolation: isolate;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.pars-logo-sculpture__aura {
+  position: absolute;
+  z-index: -1;
+  inset: 10%;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 38% 36%, rgba(92, 198, 217, 0.2), transparent 44%),
+    radial-gradient(ellipse at 67% 64%, rgba(89, 44, 122, 0.14), transparent 52%),
+    radial-gradient(ellipse, rgba(97, 102, 170, 0.12), transparent 72%);
+  filter: blur(17px);
+  animation: pars-logo-aura 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.pars-logo-sculpture canvas {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  pointer-events: none;
+}
+
+.pars-logo-sculpture__fallback {
+  position: absolute;
+  z-index: 2;
+  inset: 10%;
+  display: grid;
+  place-items: center;
+  opacity: 1;
+  transition: opacity 420ms ease, visibility 420ms ease;
+  pointer-events: none;
+}
+
+.pars-logo-sculpture__fallback.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.pars-logo-sculpture__fallback-mark {
+  display: block;
+  width: min(100%, 445px);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 14px 20px rgba(89, 44, 122, 0.17)) drop-shadow(0 3px 5px rgba(35, 27, 44, 0.1));
+  animation: pars-logo-fallback-float 6.5s ease-in-out infinite;
+}
+
+.pars-logo-sculpture.is-fallback canvas {
+  display: none;
+}
+
+.hero-stage.is-idle .pars-logo-sculpture__aura,
+.hero-stage.is-idle .pars-logo-sculpture__fallback-mark {
+  animation-play-state: paused;
+}
+
+.button-dark {
+  color: #fff;
+  background: var(--pars-ink);
+}
+
+.button-dark:hover {
+  color: #fff;
+  background: var(--pars-purple);
+}
+
+.button-outline-light {
+  color: var(--pars-ink);
+  border-color: rgba(89, 44, 122, 0.34);
+}
+
+.button-outline-light:hover {
+  color: var(--pars-purple);
+  border-color: var(--pars-cyan);
+}
+
+.button-lime {
+  background: var(--pars-spectrum);
+  background-size: 180% 100%;
+  box-shadow: 0 3px 10px rgba(89, 44, 122, 0.08);
+  transition: background-position 450ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+
+.button-lime:hover {
+  background-position: 100% 50%;
+  box-shadow: 0 5px 14px rgba(97, 102, 170, 0.13);
+}
+
+.section-heading h2 em,
+.manifesto-copy h2 em {
+  color: var(--pars-purple);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+.section-eyebrow > i,
+.trust-visuals-eyebrow > i {
+  background: var(--pars-spectrum);
+}
+
+.stats-number {
+  color: var(--pars-purple);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+.final-callout {
+  color: #fff;
+  background: linear-gradient(112deg, var(--pars-purple-deep), var(--pars-purple) 58%, var(--pars-indigo));
+}
+
+.final-callout .section-eyebrow,
+.final-callout .section-eyebrow > span,
+.final-callout h2,
+.final-callout h2 em,
+.final-callout-content > p,
+.final-callout-note {
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+.final-callout .section-eyebrow > i {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.final-callout .button-outline-light {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.52);
+}
+
+.final-callout .button-outline-light:hover {
+  color: #fff;
+  border-color: var(--pars-cyan);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.final-callout-orbit,
+.final-callout-orbit::before,
+.final-callout-orbit::after {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.final-callout-orbit > .pars-glyph {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.site-footer {
+  position: relative;
+  border-top: 0;
+}
+
+.site-footer::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: var(--pars-spectrum);
+  content: "";
+}
+
+.modal-scrim {
+  background: rgba(35, 27, 44, 0.56);
+}
+
+.pars-crystal-logo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.brand-symbol .pars-crystal-logo {
+  width: 34px;
+  height: auto;
+}
+
+.pars-glyph > .pars-crystal-logo {
+  width: 100%;
+  height: auto;
+}
+
+.dialog-brand-mark > .pars-crystal-logo {
+  width: 22px;
+  height: auto;
+}
+
+@keyframes pars-logo-aura {
+  0%, 100% { opacity: 0.72; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+@keyframes pars-logo-fallback-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+@media (max-width: 760px) {
+  .hero-stage {
+    width: min(100%, 470px);
+    margin-top: 0;
+  }
+
+  .pars-logo-sculpture {
+    width: min(100%, 470px);
+  }
+
+  .pars-logo-sculpture__fallback {
+    inset: 9%;
+  }
+
+  .pars-logo-sculpture__fallback-mark {
+    width: min(100%, 390px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-stage,
+  .pars-logo-sculpture__aura,
+  .pars-logo-sculpture__fallback-mark {
+    animation: none !important;
+  }
+}

@@ -19,6 +19,7 @@ import {
   UserRound,
 } from 'lucide-react';
 import { ApiError, apiFetch, apiUrl } from '../lib/api.js';
+import { corporateName } from '../data/siteContent.js';
 import { pageHref } from '../lib/routes.js';
 import CrystalMark from './CrystalMark.jsx';
 
@@ -366,13 +367,13 @@ export default function AdminPage() {
     return <main className="admin-page" dir="rtl"><div className="admin-offline-card"><span className="admin-login-mark"><CrystalMark /></span><span className="eyebrow">سامانه‌ی مدیریت</span><h1>بک‌اند در دسترس نیست</h1><p>{authError}</p><p>پنل مدیریت و فرم‌ها تنها زمانی داده‌ای دریافت می‌کنند که API روی یک میزبان فعال و پیکربندی‌شده اجرا شود.</p><a className="button button-quiet" href={pageHref('home')}>بازگشت به سایت</a></div></main>;
   }
   if (authState === 'anonymous') {
-    return <main className="admin-page" dir="rtl"><header className="admin-public-header"><a className="brand-lockup" href={pageHref('home')}><span className="brand-symbol"><CrystalMark /></span><span className="brand-name-stack"><strong>پارس</strong><small>پنل مدیریت</small></span></a><a href={pageHref('home')}>بازگشت به سایت</a></header><div className="admin-login-wrap"><LoginForm onLogin={signIn} busy={loginBusy} error={authError} /></div></main>;
+    return <main className="admin-page" dir="rtl"><header className="admin-public-header"><a className="brand-lockup" href={pageHref('home')}><span className="brand-symbol"><CrystalMark /></span><span className="brand-name-stack brand-name-stack--legal"><strong>{corporateName}</strong><small>پنل مدیریت</small></span></a><a href={pageHref('home')}>بازگشت به سایت</a></header><div className="admin-login-wrap"><LoginForm onLogin={signIn} busy={loginBusy} error={authError} /></div></main>;
   }
 
   return (
     <main className="admin-page" dir="rtl">
       <header className="admin-topbar">
-        <a className="brand-lockup" href={pageHref('admin')} aria-label="پنل مدیریت پارس"><span className="brand-symbol"><CrystalMark /></span><span className="brand-name-stack"><strong>پارس</strong><small>مدیریت درخواست‌ها</small></span></a>
+        <a className="brand-lockup" href={pageHref('admin')} aria-label="پنل مدیریت پارس"><span className="brand-symbol"><CrystalMark /></span><span className="brand-name-stack brand-name-stack--legal"><strong>{corporateName}</strong><small>مدیریت درخواست‌ها</small></span></a>
         <div className="admin-topbar-actions"><span><UserRound size={15} />{username}</span><button type="button" onClick={signOut}><LogOut size={15} />خروج</button><a href={pageHref('home')}>مشاهده‌ی سایت</a></div>
       </header>
       <section className="admin-dashboard site-container">

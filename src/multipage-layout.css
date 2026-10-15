@@ -7,6 +7,17 @@
   gap: clamp(12px, 1.5vw, 24px);
 }
 
+
+.brand-name-stack--legal {
+  max-width: 225px;
+}
+
+.brand-name-stack--legal strong {
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: normal;
+}
+
 .desktop-nav {
   gap: clamp(12px, 1.45vw, 23px);
 }
@@ -208,6 +219,17 @@
 
   .home-highlight-card {
     min-height: 350px;
+  }
+}
+
+@media (max-width: 620px) {
+  .brand-name-stack--legal {
+    max-width: 165px;
+  }
+
+  .brand-name-stack--legal strong {
+    font-size: 11px;
+    line-height: 1.35;
   }
 }
 

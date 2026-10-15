@@ -97,6 +97,14 @@
   overflow: hidden;
 }
 
+
+.pars-brand-name {
+  display: block;
+  max-width: 230px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 .pars-button {
   display: inline-flex;
   min-height: 44px;
@@ -671,7 +679,7 @@
   60%, 100% { opacity: 0; transform: translateY(205px) rotate(-18deg); }
 }
 
-/* Tracking, policy, sitemap and 404 are neutral and do not simulate a service. */
+/* Tracking, policy and 404 are neutral, focused utility pages. */
 .pars-track-page,
 .pars-simple-page {
   --pars-container: 1120px;
@@ -882,28 +890,6 @@
 .pars-track-new {
   margin-top: 14px;
 }
-
-.pars-sitemap-links {
-  display: grid;
-  width: min(620px, 100%);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin-top: 25px;
-}
-
-.pars-sitemap-links a {
-  display: flex;
-  min-height: 60px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  border-bottom: 1px solid var(--pars-line);
-  color: #504a56;
-  font-size: 13px;
-  text-decoration: none;
-}
-
-.pars-sitemap-links a:hover { color: var(--pars-violet); }
 
 /* A focused, four-step application form. */
 .pars-apply-page {
@@ -1465,7 +1451,6 @@
   .pars-simple-content { min-height: calc(100svh - 140px); padding-block: 55px; }
   .pars-track-content h1,
   .pars-simple-content h1 { font-size: 39px; }
-  .pars-sitemap-links { grid-template-columns: 1fr; }
 
   .pars-apply-layout { display: flex; min-height: initial; flex-direction: column; align-items: stretch; gap: 15px; padding-block: 25px 43px; }
   .pars-apply-aside { min-height: initial; flex-direction: row; align-items: center; justify-content: flex-start; gap: 13px; padding: 9px 0; }
@@ -1483,6 +1468,7 @@
 }
 
 @media (max-width: 440px) {
+  .pars-brand-name { max-width: 145px; font-size: 10px; }
   .pars-container,
   .pars-gallery,
   .pars-industries,

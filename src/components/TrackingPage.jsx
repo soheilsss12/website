@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AlertCircle, ArrowRight, ArrowUpLeft, CheckCircle2, Clock3, LoaderCircle, Search } from 'lucide-react';
 import { apiFetch } from '../lib/api.js';
+import { corporateName } from '../data/siteContent.js';
 import { pageHref } from '../lib/routes.js';
 import ParsLogoMark from './ParsLogoMark.jsx';
 
@@ -88,7 +89,7 @@ export default function TrackingPage() {
       <header className="pars-simple-header pars-container">
         <a className="pars-brand" href={pageHref('home')} aria-label="بازگشت به صفحه‌ی اصلی پارس">
           <ParsLogoMark decorative className="pars-brand-mark" />
-          <span>پارس</span>
+          <span className="pars-brand-name">{corporateName}</span>
         </a>
         <a className="pars-simple-back" href={pageHref('home')}><ArrowRight size={17} /> بازگشت</a>
       </header>

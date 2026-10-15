@@ -20,6 +20,8 @@ import {
   Zap,
 } from 'lucide-react';
 
+export const corporateName = 'فناوران هوش مصنوعی پارس ایرانیان';
+
 export const navItems = [
   { label: 'مدل فعالیت', route: 'approach' },
   { label: 'پرتفوی فناوری', route: 'portfolio' },

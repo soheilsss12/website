@@ -1262,12 +1262,7 @@ export function FooterSection() {
           <div className="footer-sitemap">
             <div><strong>پارس</strong><a href={pageHref('about')}>درباره‌ی پارس</a><a href={pageHref('news')}>تجربه‌ها</a><a href={pageHref('contact')}>تماس و همکاری</a></div>
             <div><strong>سرمایه‌گذاری فناوری</strong><a href={pageHref('approach')}>مدل فعالیت</a><a href={`${pageHref('home')}#industries`}>حوزه‌ها</a><a href={pageHref('portfolio')}>پرتفوی فناوری</a><a href={pageHref('tools')}>ابزارها</a></div>
-            <div><strong>درخواست و راهنما</strong><a href={pageHref('apply')}>درخواست سرمایه</a><a href={pageHref('track')}>پیگیری درخواست</a><a href={pageHref('sitemap')}>نقشه‌ی سایت</a></div>
-          </div>
-          <div className="footer-status">
-            <span className="eyebrow">سرمایه‌گذاری فناوری</span>
-            <strong><i className="status-indicator" /> فناوری و سرمایه‌گذاری، در یک مسیر</strong>
-            <small>زیرساخت، حوزه‌ها و ساخت کسب‌وکار</small>
+            <div><strong>درخواست و راهنما</strong><a href={pageHref('apply')}>درخواست سرمایه</a><a href={pageHref('track')}>پیگیری درخواست</a></div>
           </div>
         </div>
         <div className="footer-bottom">

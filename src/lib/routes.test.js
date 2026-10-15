@@ -20,7 +20,7 @@ test('page paths resolve to independent routes, including directory index reload
     ['/track/', 'track'],
     ['/terms/', 'terms'],
     ['/privacy/', 'privacy'],
-    ['/sitemap/', 'sitemap'],
+    ['/sitemap/', 'not-found'],
     ['/admin/', 'admin'],
     ['/404.html', 'not-found'],
     ['/missing-page/', 'not-found'],
@@ -38,4 +38,5 @@ test('legacy section hashes resolve to their current destination pages', () => {
   assert.equal(routeFromLegacyHash('partners'), 'about');
   assert.equal(routeFromLegacyHash('campaign'), 'apply');
   assert.equal(routeFromLegacyHash('track'), 'track');
+  assert.equal(routeFromLegacyHash('sitemap'), 'not-found');
 });

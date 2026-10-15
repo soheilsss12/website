@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpLeft, Check, FileUp, LoaderCircle, LockKeyhole, Upload } from 'lucide-react';
-import { industries, stageOptions } from '../data/siteContent.js';
+import { corporateName, industries, stageOptions } from '../data/siteContent.js';
 import { validateApplicationStep } from '../lib/applicationValidation.js';
 import { apiFetch } from '../lib/api.js';
 import { pageHref } from '../lib/routes.js';
@@ -86,11 +86,11 @@ function SelectField({ label, name, value, onChange, errors, options, required =
   );
 }
 
-function SiteBrand({ href }) {
+function SiteBrand({ href, legalName = false }) {
   return (
     <a className="pars-brand" href={href} aria-label="بازگشت به صفحه‌ی اصلی پارس">
       <ParsLogoMark decorative className="pars-brand-mark" />
-      <span>پارس</span>
+      <span className={legalName ? 'pars-brand-name' : undefined}>{legalName ? corporateName : 'پارس'}</span>
     </a>
   );
 }
@@ -190,7 +190,7 @@ export default function ApplicationPage() {
   return (
     <main className="pars-apply-page" dir="rtl">
       <header className="pars-form-header pars-container">
-        <SiteBrand href={homeHref} />
+        <SiteBrand href={homeHref} legalName />
         <span className="pars-form-header-title">درخواست سرمایه</span>
         <a className="pars-form-header-link" href={routeHref('track')}>پیگیری درخواست <ArrowUpLeft size={15} /></a>
       </header>

@@ -21,7 +21,6 @@ const htmlPages = [
   'track/index.html',
   'terms/index.html',
   'privacy/index.html',
-  'sitemap/index.html',
   'admin/index.html',
   '404.html',
 ];

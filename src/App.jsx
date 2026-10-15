@@ -6,7 +6,6 @@ import {
   FileText,
   LockKeyhole,
   Menu,
-  Network,
   ShieldCheck,
   X,
 } from 'lucide-react';
@@ -38,7 +37,7 @@ import {
   ToolsSection,
   WhyParsSection,
 } from './components/SiteSections.jsx';
-import { navItems } from './data/siteContent.js';
+import { corporateName, navItems } from './data/siteContent.js';
 import { pageHref, routeFromLegacyHash, routeFromPath } from './lib/routes.js';
 
 function resolveRoute() {
@@ -55,11 +54,11 @@ function resolveRoute() {
   return hash ? routeFromLegacyHash(hash) : routeFromPath(relativePath);
 }
 
-function BrandLockup({ descriptor = '' }) {
+function BrandLockup({ descriptor = '', legalName = false }) {
   return (
     <a className="brand-lockup" href={pageHref('home')} aria-label="صفحه‌ی اصلی پارس">
       <span className="brand-symbol"><CrystalMark /></span>
-      <span className="brand-name-stack"><strong>پارس</strong>{descriptor && <small>{descriptor}</small>}</span>
+      <span className={`brand-name-stack ${legalName ? 'brand-name-stack--legal' : ''}`}><strong>{legalName ? corporateName : 'پارس'}</strong>{descriptor && <small>{descriptor}</small>}</span>
     </a>
   );
 }
@@ -68,7 +67,7 @@ function SiteHeader({ activeRoute, menuOpen, setMenuOpen }) {
   return (
     <header className="site-header">
       <div className="site-header-inner site-container">
-        <BrandLockup />
+        <BrandLockup legalName />
         <nav className="desktop-nav" aria-label="منوی اصلی">
           {navItems.map((item) => (
             <a
@@ -117,7 +116,6 @@ function FullMenu({ open, onClose }) {
       links: [
         { label: 'قوانین و مقررات', route: 'terms' },
         { label: 'حریم خصوصی', route: 'privacy' },
-        { label: 'نقشه‌ی سایت', route: 'sitemap' },
       ],
     },
   ];
@@ -132,7 +130,7 @@ function FullMenu({ open, onClose }) {
     <div className={`full-menu ${open ? 'is-open' : ''}`} id="full-menu" aria-hidden={!open} inert={!open}>
       <div className="full-menu-inner site-container">
         <div className="full-menu-head">
-          <BrandLockup />
+          <BrandLockup legalName />
           <span className="full-menu-coordinate">فناوری · سرمایه‌گذاری · ساخت کسب‌وکار</span>
           <button type="button" className="full-menu-close" onClick={onClose}>بستن <X size={18} /></button>
         </div>
@@ -161,30 +159,10 @@ function FullMenu({ open, onClose }) {
   );
 }
 
-function SiteMapPage() {
-  const groups = [
-    { title: 'صفحه‌های پارس', links: navItems.map(({ label, route }) => [label, route]) },
-    { title: 'ابزارها و درخواست‌ها', links: [['ابزارهای مالی', 'tools'], ['درخواست سرمایه', 'apply'], ['پیگیری درخواست', 'track']] },
-    { title: 'راهنما', links: [['قوانین و مقررات', 'terms'], ['حریم خصوصی', 'privacy'], ['نقشه‌ی سایت', 'sitemap']] },
-  ];
-  return (
-    <SubPage title="نقشه‌ی سایت" eyebrow="دسترسی روشن" description="بخش‌های اصلی سایت پارس و مسیرهای دسترسی" icon={Network}>
-      <div className="sitemap-grid">
-        {groups.map((group) => (
-          <div className="sitemap-group" key={group.title}>
-            <h3>{group.title}</h3>
-            {group.links.map(([label, route]) => <a href={pageHref(route)} key={route}>{label} <ArrowUpLeft size={14} /></a>)}
-          </div>
-        ))}
-      </div>
-    </SubPage>
-  );
-}
-
 function SubPage({ title, eyebrow, description, icon: Icon = FileText, children }) {
   return (
     <main className="subpage-shell" dir="rtl">
-      <header className="subpage-header site-container"><BrandLockup /><a href={pageHref('home')} className="text-link"><ArrowLeft size={15} /> بازگشت به صفحه‌ی اصلی</a></header>
+      <header className="subpage-header site-container"><BrandLockup legalName /><a href={pageHref('home')} className="text-link"><ArrowLeft size={15} /> بازگشت به صفحه‌ی اصلی</a></header>
       <section className="subpage-hero site-container"><div className="subpage-icon"><Icon size={25} /></div><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{description}</p></section>
       <section className="subpage-content site-container">{children}</section>
       <footer className="subpage-footer site-container"><BrandLockup /><span>پارس</span><a href={pageHref('contact')}>تماس با ما</a></footer>
@@ -299,7 +277,6 @@ const pageTitles = {
   track: 'پیگیری درخواست | پارس',
   terms: 'قوانین و مقررات | پارس',
   privacy: 'حریم خصوصی | پارس',
-  sitemap: 'نقشه‌ی سایت | پارس',
   admin: 'پنل مدیریت | پارس',
   'not-found': 'صفحه پیدا نشد | پارس',
 };
@@ -317,12 +294,11 @@ const pageDescriptions = {
   track: 'پیگیری وضعیت درخواست ثبت‌شده در سامانه‌ی پارس.',
   terms: 'قوانین و مقررات سایت پارس؛ متن نهایی هنوز منتشر نشده است.',
   privacy: 'اطلاعات درباره‌ی حریم خصوصی و محرمانگی داده‌ها در سایت پارس.',
-  sitemap: 'دسترسی به صفحه‌های سایت گروه فناوری و سرمایه‌گذاری پارس.',
   admin: 'پنل مدیریت درخواست‌ها و پیام‌های ثبت‌شده در سامانه‌ی پارس.',
   'not-found': 'این صفحه در سایت پارس پیدا نشد.',
 };
 
-const standaloneRoutes = new Set(['apply', 'track', 'admin', 'terms', 'privacy', 'sitemap', 'not-found']);
+const standaloneRoutes = new Set(['apply', 'track', 'admin', 'terms', 'privacy', 'not-found']);
 
 export default function App() {
   const [route, setRoute] = useState(resolveRoute);
@@ -410,7 +386,6 @@ export default function App() {
   if (route === 'track') return <TrackingPage />;
   if (route === 'admin') return <AdminPage />;
   if (route === 'terms' || route === 'privacy') return <LegalPage type={route} />;
-  if (route === 'sitemap') return <SiteMapPage />;
   if (route === 'not-found') return <NotFoundPage />;
 
   return (

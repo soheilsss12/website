@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   commercializationStages,
+  corporateName,
   ecosystemEnablers,
   industries,
   navItems,
@@ -10,6 +11,10 @@ import {
   technologyLayers,
   technologyProducts,
 } from './siteContent.js';
+
+test('the header identifies the full company name', () => {
+  assert.equal(corporateName, 'فناوران هوش مصنوعی پارس ایرانیان');
+});
 
 test('the current investment taxonomy has the 11 user-approved focus areas in order', () => {
   assert.deepEqual(industries.map(({ title }) => title), [

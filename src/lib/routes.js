@@ -11,7 +11,6 @@ const routeSlugs = {
   track: 'track',
   terms: 'terms',
   privacy: 'privacy',
-  sitemap: 'sitemap',
   admin: 'admin',
 };
 
@@ -57,7 +56,6 @@ export function routeFromLegacyHash(hash) {
     track: 'track',
     terms: 'terms',
     privacy: 'privacy',
-    sitemap: 'sitemap',
     admin: 'admin',
     'campaign-criteria': 'apply',
     'application-form': 'apply',
